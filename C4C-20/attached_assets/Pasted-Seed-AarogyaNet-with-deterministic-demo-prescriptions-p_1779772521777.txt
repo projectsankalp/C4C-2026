@@ -1,0 +1,147 @@
+Seed AarogyaNet with deterministic demo prescriptions, prescription tokens, adherence history, and absence events.
+
+CRITICAL:
+The infrastructure exists and is real, but several important features appear empty during demo because no seeded operational data exists.
+
+We need visible longitudinal healthcare workflows immediately after startup.
+
+==================================================
+1. SEED DEMO PRESCRIPTIONS
+==================================================
+
+In:
+database/postgres.py
+
+Create:
+at least 2 realistic prescriptions.
+
+Use:
+- Meena Devi
+- Suresh Pillai
+
+Include:
+- medication names
+- dosage
+- duration
+- issued doctor
+- issue dates
+
+==================================================
+2. AUTO-GENERATE TOKENS
+==================================================
+
+For each seeded prescription:
+generate:
+- prescription token
+- token hash
+- ECDSA signature
+- outlet assignment
+- pending status
+
+Ensure:
+tokens appear immediately in:
+- patient dashboard
+- doctor dashboard
+- token APIs
+
+==================================================
+3. SEED ONE REDEEMED TOKEN
+==================================================
+
+Create:
+one already redeemed token.
+
+Include:
+- redemption method
+- redeemed_at
+- adherence blockchain block
+
+This should visibly demonstrate:
+- adherence tracking
+- token lifecycle
+- blockchain verification
+
+==================================================
+4. SEED ABSENCE EVENTS
+==================================================
+
+Create:
+at least 2 absence events.
+
+Examples:
+- missed_visit
+- unavailable
+- migrated
+- high_risk_unavailable
+
+Use:
+Suresh Pillai as overdue continuity-risk patient.
+
+==================================================
+5. TRIGGER CONTINUITY ALERTS
+==================================================
+
+Seed data such that:
+continuity engine generates:
+- LOW_CONTINUITY_SCORE
+- OVERDUE_VISIT
+- CONSECUTIVE_MISSES
+
+These should appear immediately in:
+- doctor dashboard
+- longitudinal alerts
+- continuity intelligence panel
+
+==================================================
+6. VERIFY LONGITUDINAL IMPACT
+==================================================
+
+Ensure seeded:
+- prescriptions
+- adherence events
+- absence events
+
+all appear in:
+- timelines
+- longitudinal summaries
+- clinical alerts
+- pathway history
+
+==================================================
+7. BLOCKCHAIN REQUIREMENT
+==================================================
+
+Seeded redeemed token must:
+- reference real blockchain block
+- appear in blockchain explorer
+- verify correctly
+
+==================================================
+8. IDEMPOTENCY
+==================================================
+
+Startup seeding must be:
+- safe to rerun
+- duplicate-protected
+- deterministic
+
+==================================================
+9. DEMO REQUIREMENT
+==================================================
+
+Immediately after login, judges should visibly see:
+- active prescriptions
+- pending tokens
+- redeemed tokens
+- adherence history
+- continuity alerts
+- overdue patient signals
+
+WITHOUT manual interaction.
+
+==================================================
+OUTPUT
+==================================================
+
+The system should now feel:
+"historically active, longitudinally aware, and operationally alive."

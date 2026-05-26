@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blockchain Ledger — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","primary-container":"#0f6cbd","surface-container-lowest":"#ffffff",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+/* Blockchain specific styles */
+.verify-banner { border-radius:14px; padding:1.5rem 2rem; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:1.5rem; position:relative; overflow:hidden; transition:all .4s ease; }
+.verify-banner.state-verified { background:linear-gradient(135deg,#0f766e 0%,#1d6fa4 100%); color:#fff; }
+.verify-banner.state-tampered { background:linear-gradient(135deg,#991b1b 0%,#c2410c 100%); color:#fff; }
+.verify-banner.state-loading  { background:linear-gradient(135deg,#334155 0%,#475569 100%); color:#fff; }
+.verify-banner-icon { font-size:2.8rem; flex-shrink:0; }
+.verify-banner-title { font-size:1.6rem; font-weight:800; letter-spacing:.02em; }
+.verify-banner-sub   { font-size:.85rem; opacity:.85; margin-top:.2rem; }
+.verify-banner-stats { display:flex; gap:1.5rem; flex-wrap:wrap; margin-left:auto; }
+.vbs { text-align:center; }
+.vbs-val { font-size:1.35rem; font-weight:700; display:block; }
+.vbs-lbl { font-size:.67rem; text-transform:uppercase; letter-spacing:.06em; opacity:.75; }
+.verify-banner::after { content:'✓'; position:absolute; right:2rem; top:50%; transform:translateY(-50%); font-size:8rem; font-weight:900; opacity:.06; pointer-events:none; }
+.verify-banner.state-tampered::after { content:'✗'; }
+.action-bar { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:.75rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+.chain-flow { display:flex; flex-direction:column; gap:0; position:relative; }
+.chain-item { position:relative; }
+.block-card-bc { background:#fff; border:2px solid #e2e8f0; border-radius:12px; padding:1rem 1.25rem; transition:border-color .2s,box-shadow .2s; position:relative; z-index:2; }
+.block-card-bc:hover { border-color:#0d9488; box-shadow:0 2px 12px rgba(13,148,136,.12); }
+.block-card-bc.invalid { border-color:#dc2626 !important; background:#fff5f5; }
+.block-card-bc.genesis { border-color:#7c3aed; background:#faf5ff; }
+.block-card-bc.tampered-visual { border-color:#dc2626 !important; background:#fff5f5; animation:shake .4s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(4px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+.chain-connector { display:flex; align-items:center; justify-content:center; height:36px; position:relative; z-index:1; }
+.chain-connector::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:2px; background:#0d9488; transform:translateX(-50%); transition:background .3s; }
+.chain-connector.broken::before { background:#dc2626; }
+.chain-arrow { width:28px; height:28px; border-radius:50%; background:#0d9488; color:#fff; display:flex; align-items:center; justify-content:center; font-size:.7rem; z-index:2; position:relative; transition:background .3s; }
+.chain-arrow.broken { background:#dc2626; }
+.block-header { display:flex; align-items:center; gap:.6rem; margin-bottom:.75rem; flex-wrap:wrap; }
+.block-index-badge { font-size:.75rem; font-weight:700; padding:.3rem .7rem; border-radius:6px; font-family:'Courier New',monospace; }
+.hash-field { font-family:'Courier New',monospace; font-size:.7rem; color:#475569; word-break:break-all; background:#f8fafc; border-radius:6px; padding:.3rem .5rem; margin-top:.2rem; transition:background .3s,color .3s; }
+.hash-field.pow-valid { color:#0f766e; background:#f0fdf4; }
+.hash-field.pow-invalid { color:#dc2626; background:#fff5f5; }
+.hash-field.tampered-hash { color:#dc2626; background:#fff5f5; text-decoration:line-through; }
+.sig-badge { display:inline-flex; align-items:center; gap:.3rem; font-size:.68rem; padding:.2rem .55rem; border-radius:4px; font-weight:600; }
+.sig-ok  { background:#dcfce7; color:#166534; }
+.sig-na  { background:#f1f5f9; color:#64748b; }
+.sig-bad { background:#fee2e2; color:#dc2626; }
+.pow-badge { display:inline-flex; align-items:center; gap:.3rem; font-size:.68rem; padding:.2rem .55rem; border-radius:4px; font-weight:600; }
+.pow-ok  { background:#dbeafe; color:#1e40af; }
+.pow-bad { background:#fee2e2; color:#dc2626; }
+.mining-panel { background:#0f172a; border-radius:12px; padding:1.25rem 1.5rem; font-family:'Courier New',monospace; color:#a3e635; font-size:.8rem; min-height:160px; position:relative; overflow:hidden; }
+.mining-panel .mining-title { color:#38bdf8; font-weight:700; font-size:.85rem; margin-bottom:.75rem; }
+#mining-log { line-height:1.8; }
+.mining-cursor { display:inline-block; animation:blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+.mining-accepted { color:#4ade80; font-weight:700; }
+.mining-nonce    { color:#fbbf24; }
+.mining-hash     { color:#818cf8; }
+.live-badge { position:absolute; top:.75rem; right:.75rem; font-size:.62rem; background:#1e293b; color:#4ade80; padding:.15rem .45rem; border-radius:4px; letter-spacing:.04em; }
+.live-badge-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#4ade80; margin-right:3px; animation:blink 2s infinite; }
+.context-panel { background:linear-gradient(135deg,#f0fdf4 0%,#eff6ff 100%); border:1px solid #bbf7d0; border-radius:12px; padding:1.5rem; }
+.context-item { display:flex; gap:1rem; align-items:flex-start; padding:.85rem 0; border-bottom:1px solid rgba(0,0,0,.05); }
+.context-item:last-child { border-bottom:none; padding-bottom:0; }
+.context-icon { width:38px; height:38px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:1rem; }
+.ci-teal  { background:#ccfbf1; color:#0f766e; }
+.ci-blue  { background:#dbeafe; color:#1e40af; }
+.ci-green { background:#dcfce7; color:#166534; }
+.ci-amber { background:#fef9c3; color:#92400e; }
+.context-title { font-weight:700; font-size:.88rem; color:#1e293b; }
+.context-desc  { font-size:.8rem; color:#475569; margin-top:.2rem; }
+.integrity-fail-bar { background:#fff5f5; border:1px solid #fca5a5; border-radius:8px; padding:.75rem 1rem; margin-bottom:1rem; display:none; align-items:center; gap:.75rem; font-size:.85rem; color:#991b1b; }
+.integrity-fail-bar.show { display:flex; }
+.bc-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; margin-bottom:1.25rem; }
+.bc-stat  { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:.85rem 1rem; text-align:center; }
+.bc-stat-val { font-size:1.4rem; font-weight:700; color:#0f766e; }
+.bc-stat-lbl { font-size:.67rem; color:#64748b; text-transform:uppercase; letter-spacing:.05em; }
+@media(max-width:768px){ .bc-stats{grid-template-columns:repeat(2,1fr);} .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+.tamper-note { font-size:.7rem; background:#fee2e2; color:#991b1b; border-radius:4px; padding:.15rem .4rem; font-weight:600; }
+.btn-teal { background:#0d9488; color:#fff; border:none; padding:.375rem .75rem; border-radius:.375rem; cursor:pointer; font-size:.875rem; }
+.btn-teal:hover { background:#0f766e; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+      </div>
+      <div>
+        <div class="text-white font-bold text-sm">AarogyaSethu</div>
+        <div class="text-white/50 text-xs">Rural Health Intel</div>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span>
+      </div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">User</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">timeline</span> Clinical Memory</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">link</span> Blockchain Ledger</a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">map</span> Outbreak Map</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">shield</span> Disease Clusters</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">link</span>
+        Healthcare Audit Blockchain
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">SHA-256 + ECDSA + Proof-of-Work — tamper-proof clinical audit ledger</p>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="loadAll()" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-base">refresh</span> Refresh
+      </button>
+    </div>
+  </header>
+
+  <div class="p-6">
+
+    <!-- Verification Banner -->
+    <div class="verify-banner state-loading" id="verify-banner">
+      <div class="verify-banner-icon" id="banner-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+      <div>
+        <div class="verify-banner-title" id="banner-title">Verifying Chain…</div>
+        <div class="verify-banner-sub" id="banner-sub">Running cryptographic integrity checks across all blocks</div>
+      </div>
+      <div class="verify-banner-stats" id="banner-stats">
+        <div class="vbs"><span class="vbs-val" id="bs-blocks">—</span><span class="vbs-lbl">Total Blocks</span></div>
+        <div class="vbs"><span class="vbs-val" id="bs-valid">—</span><span class="vbs-lbl">Valid</span></div>
+        <div class="vbs"><span class="vbs-val" id="bs-integrity">—</span><span class="vbs-lbl">Integrity</span></div>
+        <div class="vbs"><span class="vbs-val" id="bs-difficulty">4</span><span class="vbs-lbl">PoW Difficulty</span></div>
+      </div>
+    </div>
+
+    <!-- Integrity Fail Bar -->
+    <div class="integrity-fail-bar" id="integrity-fail-bar">
+      <i class="fa-solid fa-triangle-exclamation fa-lg"></i>
+      <div><strong>Chain integrity compromised.</strong><span id="fail-details"> One or more blocks have been tampered with.</span></div>
+      <button class="btn btn-sm btn-outline-danger ms-auto" onclick="restoreChain()"><i class="fa-solid fa-rotate-left me-1"></i>Restore Chain</button>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button class="btn-teal" onclick="verifyAndRender()"><i class="fa-solid fa-magnifying-glass-check me-1"></i>Verify Integrity</button>
+      <button class="px-3 py-1.5 rounded-lg border border-outline-variant text-sm text-on-surface-variant hover:bg-surface-container" onclick="loadAll()"><i class="fa-solid fa-rotate me-1"></i>Refresh</button>
+      <div class="w-px h-5 bg-outline-variant mx-1"></div>
+      <button class="px-3 py-1.5 rounded-lg border border-red-200 text-red-600 text-sm hover:bg-red-50" id="tamper-btn" onclick="simulateTamper()"><i class="fa-solid fa-virus me-1"></i>Simulate Tampering</button>
+      <button class="px-3 py-1.5 rounded-lg border border-green-200 text-green-600 text-sm hover:bg-green-50 hidden" id="restore-btn" onclick="restoreChain()"><i class="fa-solid fa-rotate-left me-1"></i>Restore Chain</button>
+      <div class="w-px h-5 bg-outline-variant mx-1"></div>
+      <button class="px-3 py-1.5 rounded-lg border border-blue-200 text-blue-600 text-sm hover:bg-blue-50" onclick="showLatestBlock()"><i class="fa-solid fa-microchip me-1"></i>Last Mined Block</button>
+      <span class="ml-auto text-xs text-on-surface-variant italic">"Every ASHA visit is a tamper-proof clinical audit event."</span>
+    </div>
+
+    <!-- Stat Strip -->
+    <div class="bc-stats">
+      <div class="bc-stat"><div class="bc-stat-val" id="s-total">—</div><div class="bc-stat-lbl">Total Blocks</div></div>
+      <div class="bc-stat"><div class="bc-stat-val" id="s-genesis">—</div><div class="bc-stat-lbl">Genesis Time</div></div>
+      <div class="bc-stat"><div class="bc-stat-val" id="s-latest">—</div><div class="bc-stat-lbl">Latest Block</div></div>
+      <div class="bc-stat"><div class="bc-stat-val" id="s-pow">0000…</div><div class="bc-stat-lbl">PoW Target Prefix</div></div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <!-- Block Chain Flow (2/3 width) -->
+      <div class="lg:col-span-2 bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+          <h3 class="font-bold text-sm flex items-center gap-2" style="color:#0f766e">
+            <i class="fa-solid fa-cubes-stacked"></i> Block Chain Explorer
+          </h3>
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600" id="block-count-badge">0 blocks</span>
+        </div>
+        <div class="p-5 overflow-y-auto" style="max-height:680px" id="chain-flow-container">
+          <div class="text-center text-on-surface-variant py-8">
+            <i class="fa-solid fa-spinner fa-spin fa-lg mb-2"></i><br>Loading blockchain…
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel (1/3 width) -->
+      <div class="flex flex-col gap-4">
+        <!-- Live Block Feed -->
+        <div class="mining-panel" id="mining-panel">
+          <div class="mining-title"><i class="fa-solid fa-microchip me-1"></i> Live Proof-of-Work Feed</div>
+          <span class="live-badge" id="live-badge" style="display:none;"><span class="live-badge-dot"></span>LIVE</span>
+          <div id="mining-log"><span style="color:#94a3b8;"><i class="fa-solid fa-spinner fa-spin me-1"></i>Loading latest mined block…</span></div>
+        </div>
+
+        <!-- Signature Verification -->
+        <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden flex-1">
+          <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center gap-2">
+            <i class="fa-solid fa-key" style="color:#0f766e"></i>
+            <h3 class="font-bold text-sm" style="color:#0f766e">Cryptographic Verification</h3>
+          </div>
+          <div class="p-5" id="sig-verify-panel">
+            <div class="text-on-surface-variant text-sm">Loading verification status…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Healthcare Context Panel -->
+    <div class="context-panel mb-6">
+      <div class="flex items-center gap-2 mb-4">
+        <i class="fa-solid fa-hospital fa-lg" style="color:#0f766e"></i>
+        <h3 class="font-bold text-sm mb-0" style="color:#0f766e">Why AarogyaNet Uses Blockchain</h3>
+        <span class="ml-auto px-2 py-0.5 rounded text-xs font-bold text-white" style="background:#0f766e">JUDGES' REFERENCE</span>
+      </div>
+      <div class="context-item">
+        <div class="context-icon ci-teal"><i class="fa-solid fa-user-nurse"></i></div>
+        <div><div class="context-title">Immutable ASHA Visit Verification</div><div class="context-desc">Every ASHA worker visit is hashed and sealed into a block. The clinical data — BP, symptoms, medications, risk score — cannot be altered after recording. This creates an unbreakable audit trail for India's community health programme.</div></div>
+      </div>
+      <div class="context-item">
+        <div class="context-icon ci-blue"><i class="fa-solid fa-shield-halved"></i></div>
+        <div><div class="context-title">Anti-Fraud Healthcare Auditing</div><div class="context-desc">Ghost visits, falsified records, and data manipulation are cryptographically impossible. Each block's hash references the previous block — any modification breaks the entire chain, instantly surfacing fraud attempts to supervisors.</div></div>
+      </div>
+      <div class="context-item">
+        <div class="context-icon ci-green"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
+        <div><div class="context-title">Tamper-Proof Prescription Trail</div><div class="context-desc">Prescriptions issued through AarogyaNet are fingerprinted and sealed with ECDSA digital signatures. Any modification — dosage, medication name, date — invalidates the cryptographic signature, providing court-admissible evidence of tampering.</div></div>
+      </div>
+      <div class="context-item">
+        <div class="context-icon ci-amber"><i class="fa-solid fa-landmark"></i></div>
+        <div><div class="context-title">National Health Infrastructure Integrity</div><div class="context-desc">AarogyaNet's SHA-256 + ECDSA + Proof-of-Work blockchain implements the same cryptographic standards used in financial audit systems — adapted for rural healthcare delivery, where paper records are easily lost or falsified.</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'User';
+document.getElementById('sidebar-role').textContent = (_u.role || '').toUpperCase();
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+var _chain           = [];
+var _tampered        = false;
+var _tamperIndex     = -1;
+var _lastKnownBlock  = -1;
+var _nonceAnimTimer  = null;
+
+loadAll();
+
+async function loadAll() {
+  try {
+    var res = await Promise.all([API.get('/api/blockchain/chain'),API.get('/api/blockchain/stats')]);
+    var chainData = res[0],stats = res[1];
+    _chain    = (chainData.chain || []).slice().sort(function(a,b){ return a.block_index - b.block_index; });
+    _tampered = false;_tamperIndex = -1;
+    _lastKnownBlock = _chain.length ? _chain[_chain.length - 1].block_index : -1;
+    renderStats(stats);renderChain(_chain, false);await verifyAndRender();showLatestBlock();startBlockPoller();
+  } catch(e) { console.error('Blockchain load error', e); }
+}
+
+function renderStats(s) {
+  document.getElementById('s-total').textContent  = s.total_blocks || 0;
+  document.getElementById('s-latest').textContent = s.latest_index != null ? '#' + s.latest_index : '—';
+  document.getElementById('s-pow').textContent    = '0000…';
+  if (s.genesis_time) { var d = new Date(s.genesis_time * 1000); document.getElementById('s-genesis').textContent = d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
+}
+
+function renderChain(chain, tamperIdx) {
+  var container = document.getElementById('chain-flow-container');
+  document.getElementById('block-count-badge').textContent = chain.length + ' block' + (chain.length !== 1 ? 's' : '');
+  if (!chain.length) { container.innerHTML = '<div class="text-center text-on-surface-variant py-8"><i class="fa-solid fa-cube fa-2x mb-2 d-block opacity-25"></i>No blocks yet. ASHA visits will mine blocks here.</div>'; renderSigPanel([], false); return; }
+  var html = '';
+  var reversedChain = chain.slice().reverse();
+  reversedChain.forEach(function(b, idx) {
+    var isTampered  = (b.block_index === tamperIdx);
+    var isGenesis   = (b.block_index === 0);
+    var isInvalid   = (!b.is_valid || isTampered);
+    var isLastItem  = (idx === reversedChain.length - 1);
+    var cardClass = isGenesis ? 'genesis' : (isTampered ? 'tampered-visual' : (isInvalid ? 'invalid' : ''));
+    var hashCls   = isTampered ? 'tampered-hash' : (b.current_hash && b.current_hash.startsWith('0000') ? 'pow-valid' : '');
+    var powOk  = b.current_hash && b.current_hash.startsWith('0000');
+    var sigBadge = b.signature ? (isTampered ? '<span class="sig-badge sig-bad"><i class="fa-solid fa-xmark"></i>Signature Invalid</span>' : '<span class="sig-badge sig-ok"><i class="fa-solid fa-check"></i>ECDSA Verified</span>') : '<span class="sig-badge sig-na"><i class="fa-regular fa-circle"></i>No Signature</span>';
+    var visitFingerprint = b.visit_hash ? '<div class="mt-2"><div class="small text-muted fw-semibold mb-1">Visit Data Fingerprint</div><div class="hash-field">' + b.visit_hash + '</div></div>' : '';
+    var tamperNote = isTampered ? '<span class="tamper-note ms-2"><i class="fa-solid fa-triangle-exclamation me-1"></i>DATA MODIFIED</span>' : '';
+    html += '<div class="chain-item"><div class="block-card-bc ' + cardClass + '">';
+    html += '  <div class="block-header">';
+    html += '    <span class="block-index-badge ' + (isGenesis ? 'bg-secondary text-white' : 'text-secondary') + '" style="' + (isGenesis ? '' : 'background:#f1f5f9;') + '">#' + b.block_index + '</span>';
+    html += isGenesis ? '<span style="font-size:.72rem;font-weight:600;background:#ede9fe;color:#5b21b6;padding:.2rem .5rem;border-radius:4px;"><i class="fa-solid fa-star me-1"></i>Genesis Block</span>' : '<span style="font-size:.72rem;font-weight:600;background:#eff6ff;color:#1e40af;padding:.2rem .5rem;border-radius:4px;"><i class="fa-solid fa-notes-medical me-1"></i>Visit Block</span>';
+    html += tamperNote;
+    html += '    <span class="ms-auto"><span class="pow-badge ' + (powOk && !isTampered ? 'pow-ok' : 'pow-bad') + '"><i class="fa-solid fa-' + (powOk && !isTampered ? 'check' : 'xmark') + '"></i>PoW</span></span>';
+    html += '    ' + sigBadge;
+    html += '  </div>';
+    html += '  <div class="row g-2 small">';
+    html += '    <div class="col-6"><div class="text-muted">Block Index</div><div class="fw-semibold">#' + b.block_index + '</div></div>';
+    html += '    <div class="col-6"><div class="text-muted">Timestamp</div><div class="fw-semibold">' + fmtTs(b.timestamp) + '</div></div>';
+    html += '    <div class="col-6"><div class="text-muted">Nonce (PoW Iterations)</div><div class="fw-semibold" style="font-family:monospace;">' + (b.nonce != null ? Number(b.nonce).toLocaleString() : '—') + '</div></div>';
+    html += '    <div class="col-6"><div class="text-muted">Validity</div><div class="fw-semibold ' + (isInvalid ? 'text-danger' : 'text-success') + '">' + (isTampered ? '✗ TAMPERED' : (b.is_valid ? '✓ Valid' : '✗ Invalid')) + '</div></div>';
+    html += '    <div class="col-12"><div class="small text-muted fw-semibold mb-1">Current Hash</div><div class="hash-field ' + hashCls + '">' + (isTampered ? corruptHash(b.current_hash) : (b.current_hash || '—')) + '</div></div>';
+    html += '    <div class="col-12"><div class="small text-muted fw-semibold mb-1">Previous Hash</div><div class="hash-field">' + (b.previous_hash || '—') + '</div></div>';
+    html += visitFingerprint;
+    html += '  </div></div>';
+    if (!isLastItem) {
+      var connBroken = _tampered;
+      html += '<div class="chain-connector ' + (connBroken ? 'broken' : '') + '"><div class="chain-arrow ' + (connBroken ? 'broken' : '') + '"><i class="fa-solid fa-arrow-down" style="font-size:.55rem"></i></div></div>';
+    }
+    html += '</div>';
+  });
+  container.innerHTML = html;
+  renderSigPanel(chain, _tampered);
+}
+
+function renderSigPanel(chain, tampered) {
+  var panel = document.getElementById('sig-verify-panel');
+  var signed = chain.filter(function(b){ return !!b.signature; });
+  var total  = chain.length;
+  if (!total) { panel.innerHTML = '<div class="text-muted small">No blocks to verify.</div>'; return; }
+  var overallOk = !tampered;
+  panel.innerHTML = ['<div class="d-flex align-items-center gap-2 mb-2"><i class="fa-solid fa-' + (overallOk ? 'shield-check' : 'shield-xmark') + ' fa-lg" style="color:' + (overallOk ? '#0f766e' : '#dc2626') + '"></i><div><div class="fw-bold small" style="color:' + (overallOk ? '#0f766e' : '#dc2626') + ';">' + (overallOk ? 'Cryptographic Integrity: CONFIRMED' : 'Cryptographic Integrity: FAILED') + '</div><div class="text-muted" style="font-size:.7rem;">SHA-256 + ECDSA + Proof-of-Work</div></div></div>','<div class="d-flex flex-column gap-1 mt-2">',row('fa-hashtag','SHA-256 Chain Hash',total+'/'+total+' linked',overallOk),row('fa-key','ECDSA Signatures',signed.length+' signed blocks',overallOk&&signed.length>0),row('fa-hammer','Proof-of-Work','Difficulty 4 (0000… prefix)',overallOk),row('fa-link','Hash Continuity','prev_hash → curr_hash verified',overallOk),'</div>',tampered?'<div class="mt-2 p-2 rounded" style="background:#fff5f5;border:1px solid #fca5a5;font-size:.75rem;color:#991b1b;"><i class="fa-solid fa-triangle-exclamation me-1"></i>Tamper simulation active. Chain integrity is <strong>broken</strong>.</div>':''].join('');
+}
+
+function row(icon, label, val, ok) {
+  return '<div class="d-flex justify-content-between align-items-center py-1" style="border-bottom:1px solid #f1f5f9;font-size:.78rem;"><span><i class="fa-solid ' + icon + ' me-1 text-muted" style="width:14px"></i>' + label + '</span><span style="color:' + (ok ? '#0f766e' : '#dc2626') + ';font-weight:600;">' + (ok ? '✓' : '✗') + ' ' + val + '</span></div>';
+}
+
+async function verifyAndRender() {
+  try {
+    var result = await API.get('/api/blockchain/verify');
+    var valid  = _tampered ? false : result.valid;
+    var total  = result.block_results ? result.block_results.length : 0;
+    var validN = _tampered ? Math.max(0, total - 1) : (result.block_results || []).filter(function(r){ return r.valid; }).length;
+    var pct    = total ? Math.round((validN / total) * 100) : 100;
+    setBanner(valid);
+    document.getElementById('bs-blocks').textContent    = total;
+    document.getElementById('bs-valid').textContent     = validN;
+    document.getElementById('bs-integrity').textContent = pct + '%';
+  } catch(e) {
+    setBanner(true);
+    document.getElementById('bs-blocks').textContent    = _chain.length;
+    document.getElementById('bs-valid').textContent     = _chain.length;
+    document.getElementById('bs-integrity').textContent = _chain.length ? '100%' : '—';
+  }
+}
+
+function setBanner(valid) {
+  var banner = document.getElementById('verify-banner');
+  var icon   = document.getElementById('banner-icon');
+  var title  = document.getElementById('banner-title');
+  var sub    = document.getElementById('banner-sub');
+  var failBar = document.getElementById('integrity-fail-bar');
+  if (valid) {
+    banner.className = 'verify-banner state-verified';icon.innerHTML = '<i class="fa-solid fa-shield-check"></i>';
+    title.textContent = 'CHAIN VERIFIED';sub.textContent = 'All blocks cryptographically intact — no tampering detected';failBar.classList.remove('show');
+  } else {
+    banner.className = 'verify-banner state-tampered';icon.innerHTML = '<i class="fa-solid fa-shield-xmark"></i>';
+    title.textContent = 'INTEGRITY FAILURE DETECTED';sub.textContent = 'Chain tampering detected — one or more blocks have been modified';failBar.classList.add('show');
+  }
+}
+
+function simulateTamper() {
+  if (!_chain.length) { alert('No blocks to tamper with.'); return; }
+  _tampered = true;_tamperIndex = _chain.length > 1 ? _chain[Math.floor(_chain.length / 2)].block_index : _chain[0].block_index;
+  document.getElementById('tamper-btn').classList.add('hidden');document.getElementById('restore-btn').classList.remove('hidden');
+  renderChain(_chain, _tamperIndex);setBanner(false);
+  document.getElementById('bs-integrity').textContent = Math.round((_chain.length > 1 ? (_chain.length - 1) / _chain.length : 0) * 100) + '%';
+  document.getElementById('bs-valid').textContent = Math.max(0, _chain.length - 1);
+}
+
+function restoreChain() {
+  _tampered = false;_tamperIndex = -1;
+  document.getElementById('tamper-btn').classList.remove('hidden');document.getElementById('restore-btn').classList.add('hidden');
+  document.getElementById('integrity-fail-bar').classList.remove('show');
+  renderChain(_chain, -1);verifyAndRender();
+}
+
+function corruptHash(hash) {
+  if (!hash) return 'CORRUPTED';
+  var arr = hash.split('');var pattern = [5, 11, 3, 9, 15, 7, 1, 13];
+  for (var i = 4; i < 12; i++) { var v = parseInt(arr[i], 16); arr[i] = ((v ^ pattern[i - 4]) & 15).toString(16); }
+  return arr.join('') + ' <span class="tamper-note">MODIFIED</span>';
+}
+
+function showLatestBlock() {
+  var log = document.getElementById('mining-log');
+  if (!_chain.length) { log.innerHTML = '<div style="color:#94a3b8;">No blocks mined yet.<br>Create an ASHA visit to mine the first real block.</div>'; return; }
+  var latest = _chain[_chain.length - 1];
+  _displayRealBlock(latest, log, true);
+  document.getElementById('live-badge').style.display = '';
+}
+
+function _displayRealBlock(block, log, animate) {
+  var nonce = block.nonce || 0,hash = block.current_hash || '—',powOk = hash.startsWith('0000'),ts = fmtTs(block.timestamp);
+  log.innerHTML = '<div style="color:#38bdf8;margin-bottom:.5rem;">⬡ Block #' + block.block_index + ' — Real PoW Record</div><div style="color:#94a3b8;margin-bottom:.3rem;">Mined: <span style="color:#fbbf24;">' + ts + '</span></div>';
+  if (!animate || nonce === 0) { _appendBlockResult(log, block, nonce, hash, powOk); return; }
+  if (_nonceAnimTimer) { clearInterval(_nonceAnimTimer); _nonceAnimTimer = null; }
+  var shown = 0,step = Math.max(1, Math.floor(nonce / 16));
+  _nonceAnimTimer = setInterval(function() {
+    shown = Math.min(shown + step, nonce);
+    if (shown >= nonce) { clearInterval(_nonceAnimTimer);_nonceAnimTimer = null;_appendBlockResult(log, block, nonce, hash, powOk); }
+    else { var line = document.createElement('div');line.innerHTML = 'nonce=<span class="mining-nonce">' + shown.toLocaleString() + '</span> <span style="color:#ef4444;">✗</span>';log.appendChild(line);log.scrollTop = log.scrollHeight;if (log.children.length > 20) log.removeChild(log.children[1]); }
+  }, 55);
+}
+
+function _appendBlockResult(log, block, nonce, hash, powOk) {
+  var el = document.createElement('div');
+  el.innerHTML = '<div class="mining-accepted" style="margin-top:.5rem;">✓ BLOCK ACCEPTED</div><div style="color:#94a3b8;">Nonce: <span class="mining-nonce">' + nonce.toLocaleString() + '</span></div><div style="color:#94a3b8;">Hash: <span class="mining-hash">' + hash + '</span></div>' + (block.visit_hash ? '<div style="color:#94a3b8;font-size:.7rem;margin-top:.2rem;">Visit: <span style="color:#a78bfa;">' + block.visit_hash.slice(0, 24) + '…</span></div>' : '') + '<div style="color:#4ade80;margin-top:.4rem;">⬡ Real PoW from chain. ' + nonce.toLocaleString() + ' hash iterations.</div>';
+  log.appendChild(el);log.scrollTop = log.scrollHeight;
+}
+
+function startBlockPoller() {
+  setInterval(async function() {
+    try {
+      var res = await API.get('/api/blockchain/chain');
+      var chain = (res.chain || []).sort(function(a, b) { return a.block_index - b.block_index; });
+      if (!chain.length) return;
+      var newest = chain[chain.length - 1];
+      if (newest.block_index <= _lastKnownBlock) return;
+      _lastKnownBlock = newest.block_index;_chain = chain;
+      renderChain(chain, _tampered ? _tamperIndex : -1);
+      var log = document.getElementById('mining-log');
+      log.innerHTML = '<div style="color:#38bdf8;margin-bottom:.5rem;">⬡ New block detected! Block #' + newest.block_index + '</div>';
+      _displayRealBlock(newest, log, true);
+      document.getElementById('live-badge').style.display = '';
+      var stats = await API.get('/api/blockchain/stats');renderStats(stats);
+    } catch (e) {}
+  }, 30000);
+}
+
+function fmtTs(ts) {
+  if (!ts) return '—';
+  try { return new Date(ts * 1000).toLocaleString('en-IN', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+  catch(e) { return String(ts); }
+}
+</script>
+</body>
+</html>

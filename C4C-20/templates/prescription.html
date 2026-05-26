@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Prescriptions — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+@media(max-width:768px){ .sidebar{display:none;} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span></div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <a href="/prescription" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">medication</span> Prescriptions</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">link</span> Blockchain Ledger</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold flex items-center gap-2 text-on-surface">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">medication</span>
+        Prescription Management
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">JanAushadi prescriptions with blockchain-sealed tokens</p>
+    </div>
+    <button onclick="loadPrescriptions()" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+      <span class="material-symbols-outlined text-base">refresh</span> Refresh
+    </button>
+  </header>
+
+  <div class="p-6">
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">medication</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="rx-total">—</div><div class="text-xs text-on-surface-variant">Total Prescriptions</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-green-600 text-xl" style="font-variation-settings:'FILL' 1">store</span></div>
+        <div><div class="text-2xl font-bold text-green-600" id="rx-janaushadi">—</div><div class="text-xs text-on-surface-variant">JanAushadi</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-amber-600 text-xl" style="font-variation-settings:'FILL' 1">key</span></div>
+        <div><div class="text-2xl font-bold text-amber-600" id="rx-pending-tokens">—</div><div class="text-xs text-on-surface-variant">Pending Tokens</div></div>
+      </div>
+    </div>
+
+    <!-- Prescriptions List -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20">
+        <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">medication</span>
+          All Prescriptions
+        </h3>
+      </div>
+      <div id="prescriptions-list">
+        <div class="text-center py-8 text-on-surface-variant text-sm">
+          <span class="material-symbols-outlined text-2xl block mb-2 opacity-40">hourglass_empty</span>Loading…
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+async function loadPrescriptions() {
+  var rxs = await API.get('/api/prescriptions') || [];
+  document.getElementById('rx-total').textContent          = rxs.length;
+  document.getElementById('rx-janaushadi').textContent     = rxs.filter(function(r){ return r.is_janaushadi; }).length;
+  var tokens = await API.get('/api/tokens/my') || [];
+  document.getElementById('rx-pending-tokens').textContent = tokens.filter(function(t){ return t.redemption_status === 'pending'; }).length;
+
+  var el = document.getElementById('prescriptions-list');
+  if (!rxs.length) {
+    el.innerHTML = '<div class="text-center py-12 text-on-surface-variant text-sm"><span class="material-symbols-outlined text-4xl block mb-2 opacity-40">medication</span>No prescriptions yet.</div>';
+    return;
+  }
+
+  el.innerHTML = rxs.map(function(rx) {
+    var meds = [];
+    try { meds = typeof rx.medicines === 'string' ? JSON.parse(rx.medicines) : (rx.medicines || []); } catch(e) {}
+    var dateStr = '—';
+    try { if (rx.prescribed_at) dateStr = new Date(rx.prescribed_at).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}); } catch(_) {}
+    return '<div class="px-5 py-4 border-b border-outline-variant/20 last:border-b-0 hover:bg-surface-container-low transition-colors">' +
+      '<div class="flex items-start justify-between gap-4">' +
+        '<div class="flex-1">' +
+          '<div class="flex items-center gap-2 flex-wrap mb-1">' +
+            '<span class="font-bold text-sm text-on-surface">'+(rx.patient_name||'Patient')+'</span>' +
+            '<span class="text-xs text-on-surface-variant">Dr. '+(rx.doctor_name||'—')+'</span>' +
+            '<span class="text-xs text-on-surface-variant">'+dateStr+'</span>' +
+            (rx.is_janaushadi?'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">JanAushadi</span>':'') +
+          '</div>' +
+          '<div class="flex flex-wrap gap-2 mt-1">' +
+            meds.map(function(m){ return '<span class="px-2 py-1 rounded-lg text-xs font-medium border border-outline-variant bg-white text-on-surface">'+(m.name||'')+' '+(m.dose||'')+'</span>'; }).join('') +
+          '</div>' +
+          (rx.dosage_instructions?'<div class="text-xs text-on-surface-variant mt-1">'+rx.dosage_instructions+'</div>':'') +
+        '</div>' +
+        '<div class="flex-shrink-0 text-right">' +
+          '<div class="text-xs text-on-surface-variant">Rx #'+rx.id+'</div>' +
+          (rx.outlet_name?'<div class="text-xs text-on-surface-variant mt-1">'+rx.outlet_name+'</div>':'') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+loadPrescriptions();
+</script>
+</body>
+</html>

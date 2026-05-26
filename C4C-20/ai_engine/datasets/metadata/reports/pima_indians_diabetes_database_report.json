@@ -1,0 +1,381 @@
+{
+  "dataset_key": "pima_indians_diabetes_database",
+  "filename": "Pima_Indians_Diabetes_Database.csv",
+  "profiled_at": "2026-05-26T00:15:42.108358+00:00",
+  "file_hash_md5": "f2906818eda8fcfc8f8416557ab1e6df",
+  "row_count": 768,
+  "column_count": 9,
+  "duplicate_rows": 0,
+  "duplicate_pct": 0.0,
+  "overall_null_pct": 0.0,
+  "columns_gt50pct_null": [],
+  "columns_complete": [
+    "Pregnancies",
+    "Glucose",
+    "BloodPressure",
+    "SkinThickness",
+    "Insulin",
+    "BMI",
+    "DiabetesPedigreeFunction",
+    "Age",
+    "Outcome"
+  ],
+  "columns": {
+    "Pregnancies": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 17,
+      "cardinality_ratio": 0.0221,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 3.8451,
+        "std": 3.3696,
+        "min": 0.0,
+        "p25": 1.0,
+        "median": 3.0,
+        "p75": 6.0,
+        "max": 17.0,
+        "zeros": 111,
+        "zeros_pct": 14.45
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "6",
+        "1",
+        "8"
+      ]
+    },
+    "Glucose": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 136,
+      "cardinality_ratio": 0.1771,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 120.8945,
+        "std": 31.9726,
+        "min": 0.0,
+        "p25": 99.0,
+        "median": 117.0,
+        "p75": 140.25,
+        "max": 199.0,
+        "zeros": 5,
+        "zeros_pct": 0.65
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "148",
+        "85",
+        "183"
+      ]
+    },
+    "BloodPressure": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 47,
+      "cardinality_ratio": 0.0612,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.5,
+      "usability_notes": [
+        "4.6% zero values in 'BloodPressure' \u2014 zeros are clinically impossible here; treat as missing"
+      ],
+      "stats": {
+        "mean": 69.1055,
+        "std": 19.3558,
+        "min": 0.0,
+        "p25": 62.0,
+        "median": 72.0,
+        "p75": 80.0,
+        "max": 122.0,
+        "zeros": 35,
+        "zeros_pct": 4.56
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "72",
+        "66",
+        "64"
+      ]
+    },
+    "SkinThickness": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 51,
+      "cardinality_ratio": 0.0664,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.5,
+      "usability_notes": [
+        "29.6% zero values in 'SkinThickness' \u2014 zeros are clinically impossible here; treat as missing"
+      ],
+      "stats": {
+        "mean": 20.5365,
+        "std": 15.9522,
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 23.0,
+        "p75": 32.0,
+        "max": 99.0,
+        "zeros": 227,
+        "zeros_pct": 29.56
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "35",
+        "29",
+        "0"
+      ]
+    },
+    "Insulin": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 186,
+      "cardinality_ratio": 0.2422,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 79.7995,
+        "std": 115.244,
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 30.5,
+        "p75": 127.25,
+        "max": 846.0,
+        "zeros": 374,
+        "zeros_pct": 48.7
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    "BMI": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 248,
+      "cardinality_ratio": 0.3229,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.5,
+      "usability_notes": [
+        "1.4% zero values in 'BMI' \u2014 zeros are clinically impossible here; treat as missing"
+      ],
+      "stats": {
+        "mean": 31.9926,
+        "std": 7.8842,
+        "min": 0.0,
+        "p25": 27.3,
+        "median": 32.0,
+        "p75": 36.6,
+        "max": 67.1,
+        "zeros": 11,
+        "zeros_pct": 1.43
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "33.6",
+        "26.6",
+        "23.3"
+      ]
+    },
+    "DiabetesPedigreeFunction": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 517,
+      "cardinality_ratio": 0.6732,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 0.4719,
+        "std": 0.3313,
+        "min": 0.078,
+        "p25": 0.2437,
+        "median": 0.3725,
+        "p75": 0.6262,
+        "max": 2.42,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "0.627",
+        "0.351",
+        "0.672"
+      ]
+    },
+    "Age": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 52,
+      "cardinality_ratio": 0.0677,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 33.2409,
+        "std": 11.7602,
+        "min": 21.0,
+        "p25": 24.0,
+        "median": 29.0,
+        "p75": 41.0,
+        "max": 81.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "50",
+        "31",
+        "32"
+      ]
+    },
+    "Outcome": {
+      "dtype": "int64",
+      "col_type": "binary",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 2,
+      "cardinality_ratio": 0.0026,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [
+        "Binary, fully populated \u2014 ideal target or flag feature"
+      ],
+      "stats": {
+        "mean": 0.349,
+        "std": 0.477,
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 1.0,
+        "max": 1.0,
+        "zeros": 500,
+        "zeros_pct": 65.1
+      },
+      "value_distribution": {
+        "0": 0.651,
+        "1": 0.349
+      },
+      "sample_values": [
+        "1",
+        "0",
+        "1"
+      ]
+    }
+  },
+  "target_candidates": [
+    {
+      "name": "Outcome",
+      "reason": "name matches target keyword; binary column; 2 unique values (low cardinality)",
+      "cardinality": 2,
+      "col_type": "binary",
+      "class_distribution": {
+        "0": 0.651,
+        "1": 0.349
+      },
+      "class_balance_ok": true,
+      "minority_class_pct": 34.9,
+      "null_pct": 0.0,
+      "usability_score": 10.0
+    }
+  ],
+  "high_correlation_pairs": [],
+  "leakage_risk_features": [],
+  "healthcare_issues": [
+    {
+      "column": "Glucose",
+      "issue_type": "impossible_value",
+      "detail": "Expected [20, 800]; 5 values out of range",
+      "severity": "critical",
+      "row_count": 5
+    },
+    {
+      "column": "Glucose",
+      "issue_type": "zero_as_missing",
+      "detail": "5 zeros (0.7%) \u2014 zeros are clinically impossible here; replace with NaN before training",
+      "severity": "warning",
+      "row_count": 5
+    },
+    {
+      "column": "BloodPressure",
+      "issue_type": "impossible_value",
+      "detail": "Expected [50, 300]; 51 values out of range",
+      "severity": "critical",
+      "row_count": 51
+    },
+    {
+      "column": "BloodPressure",
+      "issue_type": "zero_as_missing",
+      "detail": "35 zeros (4.6%) \u2014 zeros are clinically impossible here; replace with NaN before training",
+      "severity": "warning",
+      "row_count": 35
+    },
+    {
+      "column": "SkinThickness",
+      "issue_type": "zero_as_missing",
+      "detail": "227 zeros (29.6%) \u2014 zeros are clinically impossible here; replace with NaN before training",
+      "severity": "warning",
+      "row_count": 227
+    },
+    {
+      "column": "BMI",
+      "issue_type": "impossible_value",
+      "detail": "Expected [10.0, 70.0]; 11 values out of range",
+      "severity": "critical",
+      "row_count": 11
+    },
+    {
+      "column": "BMI",
+      "issue_type": "zero_as_missing",
+      "detail": "11 zeros (1.4%) \u2014 zeros are clinically impossible here; replace with NaN before training",
+      "severity": "warning",
+      "row_count": 11
+    }
+  ],
+  "phi_columns_detected": [],
+  "id_columns_detected": [],
+  "ml_readiness_score": 8.0,
+  "ml_readiness_verdict": "ready",
+  "preprocessing_steps": [
+    "Fix 'Glucose': impossible_value \u2014 Expected [20, 800]; 5 values out of range",
+    "Fix 'BloodPressure': impossible_value \u2014 Expected [50, 300]; 51 values out of range",
+    "Fix 'BMI': impossible_value \u2014 Expected [10.0, 70.0]; 11 values out of range",
+    "Replace zeros with NaN in 'Glucose' before imputation.",
+    "Replace zeros with NaN in 'BloodPressure' before imputation.",
+    "Replace zeros with NaN in 'SkinThickness' before imputation.",
+    "Replace zeros with NaN in 'BMI' before imputation."
+  ],
+  "warnings": [],
+  "critical_issues": []
+}

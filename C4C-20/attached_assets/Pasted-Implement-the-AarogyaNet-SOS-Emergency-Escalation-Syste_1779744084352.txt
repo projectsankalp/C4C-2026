@@ -1,0 +1,134 @@
+Implement the AarogyaNet SOS Emergency Escalation System.
+
+GOAL:
+Create a rural emergency escalation workflow connecting:
+- ASHA workers
+- doctors
+- PHCs
+- emergency response
+
+This should behave like:
+"a distributed emergency healthcare escalation network."
+
+==================================================
+1. SOS EVENT CREATION
+==================================================
+
+Implement:
+- one-tap SOS trigger
+- emergency creation endpoint
+- emergency persistence
+
+Each SOS event should include:
+- patient_id
+- asha_worker_id
+- timestamp
+- GPS coordinates
+- emergency_type
+- latest risk score
+- latest vitals summary
+
+==================================================
+2. EMERGENCY TYPES
+==================================================
+
+Support:
+- hypertensive crisis
+- unconscious patient
+- breathing difficulty
+- chest pain
+- severe dizziness
+- medication emergency
+- other
+
+==================================================
+3. EMERGENCY ESCALATION TARGETS
+==================================================
+
+Mock escalation acceptable.
+
+System should notify:
+- assigned doctor
+- PHC dashboard
+- emergency contacts
+- ASHA dashboard
+
+==================================================
+4. GUIDED TRIAGE INSTRUCTIONS
+==================================================
+
+After SOS activation:
+ASHA worker receives immediate triage instructions.
+
+Examples:
+- monitor breathing
+- keep patient seated
+- avoid exertion
+- prepare transport
+- monitor consciousness
+
+Map instructions by emergency type.
+
+==================================================
+5. LONGITUDINAL MEMORY INTEGRATION
+==================================================
+
+SOS events must become:
+- timeline events
+- longitudinal alerts
+- escalation history entries
+
+==================================================
+6. BLOCKCHAIN EMERGENCY EVENT
+==================================================
+
+OPTIONAL BUT IMPORTANT:
+Generate immutable blockchain emergency proof.
+
+Store ONLY:
+- emergency hash
+- timestamp
+- emergency type
+- token/reference
+
+NO PHI.
+
+==================================================
+7. DASHBOARD VISIBILITY
+==================================================
+
+Doctors should see:
+- active emergencies
+- emergency timeline
+- escalation severity
+
+Patients should see:
+- emergency status
+- escalation acknowledgements
+
+==================================================
+8. OFFLINE-FIRST BEHAVIOR
+==================================================
+
+If offline:
+- queue emergency locally
+- sync when connectivity resumes
+- preserve timestamps and GPS integrity
+
+==================================================
+9. PRESERVE EXISTING ARCHITECTURE
+==================================================
+
+Do NOT redesign:
+- blockchain
+- longitudinal engine
+- dashboards
+
+Extend the system cleanly.
+
+==================================================
+OUTPUT
+==================================================
+
+The system should now behave like:
+"a rural emergency escalation infrastructure layer."

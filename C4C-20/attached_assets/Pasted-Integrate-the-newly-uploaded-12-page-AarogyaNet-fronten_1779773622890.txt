@@ -1,0 +1,204 @@
+Integrate the newly uploaded 12-page AarogyaNet frontend into the EXISTING Flask backend WITHOUT rebuilding or replacing the current architecture.
+
+CRITICAL:
+This is a frontend integration task ONLY.
+
+DO NOT:
+- rebuild backend
+- regenerate routes
+- switch frameworks
+- introduce React/TypeScript/Vite
+- modify database architecture
+- replace APIs
+- rewrite auth system
+
+The existing AarogyaNet backend is already fully operational and must remain intact.
+
+==================================================
+PROJECT ARCHITECTURE RULES
+==================================================
+
+Backend:
+- Python Flask
+- Existing routes remain unchanged
+- Existing APIs remain unchanged
+- Existing blockchain, GCPE, AI, longitudinal, cluster, token, and SOS systems remain untouched
+
+Frontend:
+- Uploaded 12 HTML/CSS/JS pages become the visual layer only
+- Integrate into Flask templates system
+- Reuse current backend APIs and endpoints
+
+==================================================
+1. TEMPLATE INTEGRATION
+==================================================
+
+Move and integrate uploaded HTML pages into:
+
+templates/
+
+Map pages to existing Flask routes:
+- login
+- ASHA dashboard
+- doctor dashboard
+- patient dashboard
+- admin dashboard
+- blockchain explorer
+- heatmap/surveillance
+- longitudinal timeline
+- SOS/emergency
+- token/prescription
+- cluster dashboard
+- settings/profile
+
+Preserve:
+render_template() flow.
+
+==================================================
+2. STATIC ASSET INTEGRATION
+==================================================
+
+Move all:
+- CSS
+- JS
+- images
+- icons
+- fonts
+
+into:
+
+static/
+    css/
+    js/
+    images/
+    icons/
+
+Update paths using:
+url_for('static', filename='...')
+
+==================================================
+3. PRESERVE EXISTING FUNCTIONALITY
+==================================================
+
+The following systems MUST continue working exactly as before:
+
+- GCPE protocol engine
+- Diabetes + hypertension workflows
+- AI risk scoring
+- SHAP explainability
+- Longitudinal memory
+- Disease cluster intelligence
+- Heatmaps
+- Blockchain explorer
+- Offline sync
+- SOS escalation
+- Prescription tokens
+- Adherence tracking
+- Continuity alerts
+
+Frontend must CONNECT to existing APIs.
+
+DO NOT replace logic with hardcoded frontend data.
+
+==================================================
+4. REMOVE ANY STATIC MOCK CONTENT
+==================================================
+
+If uploaded pages contain:
+- fake stats
+- placeholder cards
+- hardcoded patient lists
+- static charts
+- dummy heatmaps
+
+Replace them with:
+real API-driven data from the existing backend.
+
+==================================================
+5. PRESERVE DASHBOARD LOGIC
+==================================================
+
+Keep all existing:
+- fetch() API calls
+- JWT/session handling
+- auth guards
+- async dashboard loaders
+- polling systems
+
+Integrate the new UI around them.
+
+==================================================
+6. RESPONSIVE SAFETY
+==================================================
+
+Ensure:
+- mobile responsive layout
+- dashboard cards stack properly
+- charts resize correctly
+- tables scroll safely
+- modals usable on phones
+
+Especially:
+ASHA workflow pages.
+
+==================================================
+7. KEEP CURRENT VISUALIZED DATA
+==================================================
+
+The new frontend MUST still display:
+- real blockchain hashes
+- real PoW nonces
+- real cluster overlays
+- real AI signals
+- real longitudinal alerts
+- real token statuses
+
+No fabricated data allowed.
+
+==================================================
+8. INTEGRATE PAGE-BY-PAGE
+==================================================
+
+Do NOT mass-replace templates blindly.
+
+For each page:
+- preserve backend bindings
+- preserve API integration
+- preserve DOM IDs used by JS
+- preserve dynamic rendering logic
+
+==================================================
+9. MAINTAIN APP STABILITY
+==================================================
+
+The integrated frontend must:
+- survive empty DB states
+- handle malformed API responses safely
+- preserve existing try/catch protections
+- never crash dashboards due to missing data
+
+==================================================
+10. FINAL RESULT
+==================================================
+
+The app should now feel:
+- visually polished
+- modern
+- production-quality
+
+while still being:
+- fully backend-driven
+- operationally real
+- blockchain-backed
+- AI-powered
+- offline-first
+
+==================================================
+IMPORTANT
+==================================================
+
+Backend intelligence infrastructure is the priority.
+
+Frontend is ONLY replacing the visual presentation layer.
+
+Do NOT break the operational systems already implemented.

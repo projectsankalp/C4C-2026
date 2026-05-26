@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Emergency Response — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+@media(max-width:768px){ .sidebar{display:none;} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span></div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <a href="/emergency" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">emergency</span> Emergency</a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">map</span> Outbreak Map</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">shield</span> Disease Clusters</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold flex items-center gap-2 text-red-600">
+        <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">emergency</span>
+        Emergency Response Centre
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Real-time SOS alerts and emergency event management</p>
+    </div>
+    <button onclick="loadEmergencies()" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+      <span class="material-symbols-outlined text-base">refresh</span> Refresh
+    </button>
+  </header>
+
+  <div class="p-6">
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="bg-white rounded-2xl border border-red-200 p-4 flex items-center gap-3" style="border-left:3px solid #dc2626">
+        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings:'FILL' 1">emergency</span></div>
+        <div><div class="text-2xl font-bold text-red-600" id="em-active">—</div><div class="text-xs text-on-surface-variant">Active Emergencies</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-amber-600 text-xl" style="font-variation-settings:'FILL' 1">priority_high</span></div>
+        <div><div class="text-2xl font-bold text-amber-600" id="em-critical">—</div><div class="text-xs text-on-surface-variant">Critical Severity</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-green-600 text-xl" style="font-variation-settings:'FILL' 1">check_circle</span></div>
+        <div><div class="text-2xl font-bold text-green-600" id="em-acknowledged">—</div><div class="text-xs text-on-surface-variant">Acknowledged</div></div>
+      </div>
+    </div>
+
+    <!-- Emergency List -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20">
+        <h3 class="font-bold text-sm flex items-center gap-2 text-red-600">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">emergency</span>
+          All Emergency Events
+        </h3>
+      </div>
+      <div id="emergency-list" class="divide-y divide-outline-variant/20">
+        <div class="text-center py-8 text-on-surface-variant text-sm">
+          <span class="material-symbols-outlined text-2xl block mb-2 opacity-40">hourglass_empty</span>Loading…
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+async function loadEmergencies() {
+  var events = await API.get('/api/emergency') || [];
+  document.getElementById('em-active').textContent       = events.filter(function(e){ return e.status === 'active'; }).length;
+  document.getElementById('em-critical').textContent     = events.filter(function(e){ return e.severity === 'CRITICAL'; }).length;
+  document.getElementById('em-acknowledged').textContent = events.filter(function(e){ return e.status === 'acknowledged'; }).length;
+
+  var el = document.getElementById('emergency-list');
+  if (!events.length) {
+    el.innerHTML = '<div class="text-center py-12 text-on-surface-variant text-sm"><span class="material-symbols-outlined text-4xl block mb-2 text-green-400" style="font-variation-settings:\'FILL\' 1">check_circle</span>No active emergencies. All clear.</div>';
+    return;
+  }
+
+  var sevColor = function(s){ return s==='CRITICAL'?'#dc2626':(s==='HIGH'?'#d97706':'#6b7280'); };
+  var statusBadge = function(s){ return ({active:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Active</span>',acknowledged:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">Acknowledged</span>',escalated:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Escalated</span>',resolved:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Resolved</span>'}[s]||('<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant">'+s+'</span>')); };
+
+  el.innerHTML = events.map(function(e) {
+    var timeStr = '—';
+    try { if (e.created_at) timeStr = new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); } catch(_) {}
+    return '<div class="px-5 py-4 flex items-start gap-4 hover:bg-surface-container-low transition-colors">' +
+      '<div class="flex-shrink-0 w-2 h-2 rounded-full mt-2" style="background:'+sevColor(e.severity)+'"></div>' +
+      '<div class="flex-1">' +
+        '<div class="flex items-center gap-2 flex-wrap">' +
+          '<span class="font-bold text-sm text-on-surface">'+(e.patient_name||'Patient')+'</span>' +
+          '<span class="text-xs text-on-surface-variant">'+e.patient_village+'</span>' +
+          statusBadge(e.status) +
+          '<span class="text-xs font-bold" style="color:'+sevColor(e.severity)+'">'+(e.severity||'HIGH')+'</span>' +
+        '</div>' +
+        '<div class="text-xs text-on-surface-variant mt-1">'+(e.emergency_type||'').replace(/_/g,' ')+' · ASHA: '+(e.asha_name||'—')+' · '+timeStr+'</div>' +
+        (e.latest_bp_systolic?'<div class="text-xs mt-0.5">BP: <strong>'+e.latest_bp_systolic+'/'+e.latest_bp_diastolic+'</strong> mmHg · Risk: '+(e.latest_risk_level||'—')+'</div>':'') +
+        (e.block_index!=null?'<div class="text-xs text-green-600 mt-0.5"><i class="fa-solid fa-cube me-1"></i>Block #'+e.block_index+' sealed</div>':'') +
+      '</div>' +
+      (e.status==='active'?'<button onclick="acknowledgeEmergency(\''+e.event_id+'\')" class="flex-shrink-0 px-3 py-1.5 rounded-lg border border-amber-300 text-amber-700 text-xs font-bold hover:bg-amber-50 transition-colors">Acknowledge</button>':'') +
+    '</div>';
+  }).join('');
+}
+
+async function acknowledgeEmergency(eventId) {
+  var res = await API.post('/api/emergency/' + eventId + '/acknowledge', {});
+  if (res && res.message) loadEmergencies();
+}
+
+loadEmergencies();
+setInterval(loadEmergencies, 30000);
+</script>
+</body>
+</html>

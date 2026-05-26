@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AarogyaSethu GCPE - Assessment Engine</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#a9fdd1",
+                      "primary-fixed-dim": "#a3c9ff",
+                      "on-secondary-fixed": "#00201d",
+                      "tertiary-fixed": "#a0f4c8",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#001c39",
+                      "background": "#f7f9fb",
+                      "surface-container-low": "#f2f4f6",
+                      "on-primary-container": "#e3ecff",
+                      "secondary-fixed": "#6ef8e7",
+                      "inverse-surface": "#2d3133",
+                      "inverse-on-surface": "#eff1f3",
+                      "primary-fixed": "#d3e3ff",
+                      "on-surface-variant": "#414751",
+                      "on-surface": "#191c1e",
+                      "secondary-container": "#6bf5e5",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005049",
+                      "surface-tint": "#0060ab",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#004883",
+                      "inverse-primary": "#a3c9ff",
+                      "tertiary-container": "#217855",
+                      "on-secondary-container": "#006f66",
+                      "on-tertiary-fixed": "#002113",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#c1c7d3",
+                      "surface-container-highest": "#e0e3e5",
+                      "surface": "#f7f9fb",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "on-error": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#d8dadc",
+                      "surface-container-high": "#e6e8ea",
+                      "secondary": "#006a61",
+                      "tertiary-fixed-dim": "#85d7ad",
+                      "surface-variant": "#e0e3e5",
+                      "on-background": "#191c1e",
+                      "surface-container": "#eceef0",
+                      "primary-container": "#0f6cbd",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#005396",
+                      "outline": "#717783",
+                      "secondary-fixed-dim": "#4cdbcb",
+                      "tertiary": "#005e3f",
+                      "surface-bright": "#f7f9fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "16px",
+                      "container-max": "1280px",
+                      "stack-lg": "32px",
+                      "margin-desktop": "32px",
+                      "gutter": "24px",
+                      "base": "8px",
+                      "margin-mobile": "16px",
+                      "stack-sm": "8px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "body-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "label-sm": ["Inter"]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .voice-pulse {
+            box-shadow: 0 0 0 0 rgba(15, 108, 189, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(15, 108, 189, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(15, 108, 189, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(15, 108, 189, 0); }
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        body {
+            background-color: #f7f9fb;
+        }
+        @media (min-width: 1024px) {
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex flex-col font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm sticky top-0 z-50 min-h-[72px]">
+<div class="flex justify-between items-center w-full px-4 lg:px-margin-desktop py-3 max-w-container-max mx-auto">
+<div class="flex items-center gap-3 lg:gap-4">
+<img alt="Logo" class="h-8 w-8 lg:h-10 lg:w-10 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ugP5XB6Da73SQCgy_z6BF6M3eM2fLwqGLGpoOOyscflb5LXfk2M-2g1y78lE3--OLmLmIvmBQOs_mnoZxfjpI4a8nDBx0uwS4LrkGPppF6WnkSwG51YpmqfuFb7aUJCm7C2JRN07rj380Eb0iSXFxWRWeaW0j7aksRbReg8OOe8QWgTNzvmPwONGR5dxrwqrsSsLcvLFx0rIMps9tr2wATZoACYKDcwVsLWorOILDl_bZDswdLS1TNrPZw"/>
+<div class="flex flex-col">
+<span class="font-headline-md text-lg lg:text-headline-md font-bold text-primary leading-tight">AarogyaSethu</span>
+<nav class="hidden sm:flex gap-2 lg:gap-4 mt-0.5">
+<span class="font-label-sm text-[10px] lg:text-label-sm text-on-surface-variant flex items-center gap-1">Dashboard <span class="material-symbols-outlined text-[10px]">chevron_right</span></span>
+<span class="font-label-sm text-[10px] lg:text-label-sm text-primary font-bold">Assessment</span>
+</nav>
+</div>
+</div>
+<!-- Mobile Action Scroll / Desktop Normal -->
+<div class="flex items-center gap-2 lg:gap-6 overflow-x-auto lg:overflow-visible no-scrollbar">
+<div class="flex items-center gap-2 bg-surface-container rounded-full px-3 py-1 lg:px-4 lg:py-1.5 border border-outline-variant/20 whitespace-nowrap">
+<span class="material-symbols-outlined text-primary text-sm lg:text-base" data-weight="fill">translate</span>
+<select class="bg-transparent border-none focus:ring-0 font-label-md text-xs lg:text-label-md text-on-surface-variant py-0 min-h-[32px]">
+<option>EN</option>
+<option>Hindi</option>
+</select>
+</div>
+<div class="flex items-center gap-2 lg:gap-4 shrink-0">
+<button class="flex items-center justify-center w-10 h-10 lg:w-auto lg:h-auto lg:bg-primary-container lg:text-on-primary-container lg:px-4 lg:py-2 rounded-full font-label-md text-label-md voice-pulse bg-primary-container text-primary">
+<span class="material-symbols-outlined" data-weight="fill">mic</span>
+<span class="hidden lg:inline ml-2">Voice Assist</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 lg:w-auto lg:h-auto border border-outline text-on-surface-variant lg:px-4 lg:py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">cloud_download</span>
+<span class="hidden lg:inline ml-2">Offline</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<main class="flex-grow flex flex-col lg:flex-row max-w-container-max mx-auto w-full gap-4 lg:gap-gutter p-4 lg:px-margin-desktop lg:py-stack-md items-start" style="min-height: 0;">
+<!-- LEFT PANEL: Patient Context -->
+<aside class="w-full lg:w-1/4 flex flex-col gap-4 lg:h-full lg:overflow-y-auto custom-scrollbar">
+<div class="glass-panel rounded-xl p-4 lg:p-stack-md shadow-sm">
+<div class="relative mb-4">
+<img alt="Patient portrait" class="w-full h-40 lg:h-48 object-cover rounded-lg mb-4 shadow-inner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAix1fJTq-oUtam7RSJLju8evCcaRoMGApLP8Ypo1knL26YbETbB_yMkNQrgir8OIY9FyubExfbRPvfFHu2FHwyOJPpz-AoY7rHaH_9RWbX1IiIXO4gbke5yoqepCClIGctJ5keFbZy0XoSWQUy12kCQXTP4J9ydJppx7nMPQjBvxiEdg6E3NFAeKjCSzoLo4hoOO2JMJOefHkB5RAPN839wD2mpxKJ60MgNGvdpDSlNMhMloW-r7pVWEnSEQIAKY5uCHxplkEE1dKX"/>
+<div class="absolute top-2 right-2 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-xs flex items-center gap-1">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span> Stable
+                </div>
+</div>
+<h2 class="font-headline-md text-xl lg:text-headline-md text-on-surface mb-1">Ramesh Gowda</h2>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="bg-surface-container-high px-2 py-0.5 rounded font-label-sm text-[11px] lg:text-label-sm text-on-surface-variant">52, Male</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded font-label-sm text-[11px] lg:text-label-sm text-on-surface-variant">KRS Cluster</span>
+</div>
+<div class="space-y-3 pt-4 border-t border-outline-variant/30">
+<div class="flex justify-between">
+<span class="font-body-sm text-xs lg:text-body-sm text-on-surface-variant">Patient ID</span>
+<span class="font-label-md text-sm lg:text-label-md font-bold">ARG-000421</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-xs lg:text-body-sm text-on-surface-variant">Risk Level</span>
+<span class="bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full font-label-sm text-[11px] lg:text-label-sm font-bold border border-amber-200">Moderate</span>
+</div>
+</div>
+<div class="mt-4">
+<h4 class="font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant mb-2">Comorbidities</h4>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded font-label-sm text-[11px]">Diabetes</span>
+<span class="bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded font-label-sm text-[11px]">Hypertension</span>
+</div>
+</div>
+</div>
+<!-- Trends - Collapsible on mobile or just scaled -->
+<div class="glass-panel rounded-xl p-4 lg:p-stack-md shadow-sm h-fit">
+<h4 class="font-label-sm text-[10px] lg:text-label-sm uppercase tracking-wider text-on-surface-variant mb-4">Previous Vitals (Trend)</h4>
+<div class="h-32 lg:h-40 w-full">
+<canvas id="miniTrendChart"></canvas>
+</div>
+</div>
+</aside>
+<!-- CENTER PANEL: Dynamic Assessment Engine -->
+<section class="w-full lg:w-1/2 flex flex-col gap-4 lg:h-full lg:overflow-y-auto custom-scrollbar lg:px-1">
+<!-- Assessment Header Card -->
+<div class="bg-primary-container text-on-primary-container p-5 lg:p-6 rounded-xl shadow-md relative overflow-hidden shrink-0">
+<div class="absolute right-[-10px] top-[-10px] opacity-10 hidden sm:block">
+<span class="material-symbols-outlined text-[100px] lg:text-[160px]">clinical_notes</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-1">
+<span class="bg-on-primary-container text-primary-container w-6 h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center font-bold text-sm lg:text-base">2</span>
+<h1 class="font-headline-md text-lg lg:text-headline-md font-bold">Step 2: Vitals Capture</h1>
+</div>
+<p class="font-body-md text-sm lg:text-body-md opacity-90 max-w-md">Ensure devices are calibrated before entry.</p>
+</div>
+</div>
+<!-- Vital Input Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+<!-- Blood Pressure -->
+<div class="bg-white p-4 lg:p-5 rounded-xl border-l-4 border-amber-500 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-md text-xs lg:text-label-md text-on-surface-variant">Blood Pressure</span>
+<span class="material-symbols-outlined text-amber-500 text-lg">warning</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full text-2xl lg:text-3xl font-bold text-primary bg-surface-container-low border-none rounded-lg p-3 lg:p-2 focus:ring-2 focus:ring-primary min-h-[48px]" type="text" value="142/95"/>
+<span class="text-on-surface-variant font-label-md text-xs whitespace-nowrap">mmHg</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-amber-700 bg-amber-50 px-2 py-1 rounded text-[11px] lg:text-xs">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                    Elevated (+8% from last)
+                </div>
+</div>
+<!-- Blood Sugar -->
+<div class="bg-white p-4 lg:p-5 rounded-xl border-l-4 border-amber-500 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-md text-xs lg:text-label-md text-on-surface-variant">Blood Sugar</span>
+<span class="material-symbols-outlined text-amber-500 text-lg">error</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full text-2xl lg:text-3xl font-bold text-primary bg-surface-container-low border-none rounded-lg p-3 lg:p-2 focus:ring-2 focus:ring-primary min-h-[48px]" type="number" value="180"/>
+<span class="text-on-surface-variant font-label-md text-xs whitespace-nowrap">mg/dL</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-amber-700 bg-amber-50 px-2 py-1 rounded text-[11px] lg:text-xs">
+                    Post-prandial alert
+                </div>
+</div>
+<!-- Heart Rate -->
+<div class="bg-white p-4 lg:p-5 rounded-xl border-l-4 border-green-500 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-md text-xs lg:text-label-md text-on-surface-variant">Heart Rate</span>
+<span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full text-2xl lg:text-3xl font-bold text-primary bg-surface-container-low border-none rounded-lg p-3 lg:p-2 focus:ring-2 focus:ring-primary min-h-[48px]" type="number" value="88"/>
+<span class="text-on-surface-variant font-label-md text-xs whitespace-nowrap">BPM</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-green-700 bg-green-50 px-2 py-1 rounded text-[11px] lg:text-xs">
+                    Normal range
+                </div>
+</div>
+<!-- Body Temp -->
+<div class="bg-white p-4 lg:p-5 rounded-xl border-l-4 border-green-500 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-md text-xs lg:text-label-md text-on-surface-variant">Body Temp</span>
+<span class="material-symbols-outlined text-green-500 text-lg">device_thermostat</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full text-2xl lg:text-3xl font-bold text-primary bg-surface-container-low border-none rounded-lg p-3 lg:p-2 focus:ring-2 focus:ring-primary min-h-[48px]" step="0.1" type="number" value="98.6"/>
+<span class="text-on-surface-variant font-label-md text-xs whitespace-nowrap">°F</span>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-green-700 bg-green-50 px-2 py-1 rounded text-[11px] lg:text-xs">
+                    Normal temp
+                </div>
+</div>
+</div>
+<!-- Clinical Observations Section -->
+<div class="glass-panel p-4 lg:p-6 rounded-xl border border-outline-variant/30">
+<h3 class="font-headline-md text-base lg:text-headline-md font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">visibility</span>
+                Clinical Insights
+            </h3>
+<div class="space-y-3">
+<div class="flex gap-3 items-start p-3 lg:p-4 bg-error-container/20 border border-error/10 rounded-lg">
+<div class="bg-error text-on-error p-1.5 lg:p-2 rounded-full shrink-0">
+<span class="material-symbols-outlined text-sm lg:text-base">priority_high</span>
+</div>
+<div>
+<h4 class="font-label-md text-sm font-bold text-error">BP Elevated</h4>
+<p class="font-body-sm text-xs lg:text-body-sm text-on-surface-variant leading-relaxed">Higher than baseline (130/85). Consider lifestyle re-assessment.</p>
+</div>
+</div>
+<div class="flex gap-3 items-start p-3 lg:p-4 bg-tertiary-container/10 border border-tertiary/10 rounded-lg">
+<div class="bg-tertiary text-on-tertiary p-1.5 lg:p-2 rounded-full shrink-0">
+<span class="material-symbols-outlined text-sm lg:text-base">lightbulb</span>
+</div>
+<div>
+<h4 class="font-label-md text-sm font-bold text-tertiary">Protocol Tip</h4>
+<p class="font-body-sm text-xs lg:text-body-sm text-on-surface-variant leading-relaxed">Correlates with reported morning non-compliance.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT PANEL: Clinical Intelligence -->
+<aside class="w-full lg:w-1/4 flex flex-col gap-4 lg:h-full lg:overflow-y-auto custom-scrollbar">
+<!-- Risk Score Widget -->
+<div class="glass-panel rounded-xl p-5 lg:p-6 shadow-md border-t-4 border-amber-500">
+<div class="flex justify-between items-center mb-4 lg:mb-6">
+<h3 class="font-label-md text-sm lg:text-label-md font-bold text-on-surface-variant uppercase tracking-tight">Risk Score</h3>
+<span class="material-symbols-outlined text-amber-500">info</span>
+</div>
+<div class="flex justify-center items-center relative h-28 lg:h-32">
+<svg class="w-20 h-20 lg:w-24 lg:h-24 transform -rotate-90">
+<circle class="text-surface-container-highest" cx="40" cy="40" fill="transparent" lg:cx="48" lg:cy="48" lg:r="40" lg:stroke-width="8" r="34" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-amber-500" cx="40" cy="40" fill="transparent" lg:cx="48" lg:cy="48" lg:r="40" lg:stroke-width="8" r="34" stroke="currentColor" stroke-dasharray="213" stroke-dashoffset="60" stroke-width="6"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl lg:text-3xl font-black text-on-surface">72</span>
+<span class="text-[9px] lg:text-[10px] text-on-surface-variant font-bold">MODERATE</span>
+</div>
+</div>
+<p class="mt-4 text-center font-body-sm text-xs lg:text-body-sm text-on-surface-variant">Increased by 5 pts since last visit.</p>
+</div>
+<!-- Protocol Progress -->
+<div class="glass-panel rounded-xl p-5 lg:p-6 shadow-sm">
+<h3 class="font-label-md text-sm lg:text-label-md font-bold mb-4">Protocol Status</h3>
+<div class="w-full bg-surface-container-highest rounded-full h-2 mb-2">
+<div class="bg-primary h-2 rounded-full" style="width: 45%"></div>
+</div>
+<div class="flex justify-between font-label-sm text-[10px] lg:text-label-sm mb-4">
+<span class="text-on-surface-variant">45% Progress</span>
+<span class="text-primary font-bold">2/5 Steps</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+<span class="font-body-sm text-xs lg:text-body-sm">Identification</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+</span>
+<span class="font-body-sm text-xs lg:text-body-sm font-bold text-primary">Vitals Capture</span>
+</div>
+</div>
+</div>
+<!-- Escalate -->
+<div class="lg:mt-auto glass-panel rounded-xl p-5 lg:p-6 bg-surface-container-lowest border-2 border-primary/20 mb-20 lg:mb-0">
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-label-sm text-[10px] lg:text-label-sm font-bold uppercase">High Confidence (98%)</span>
+</div>
+<button class="w-full min-h-[48px] bg-white border border-primary text-primary font-label-md text-sm lg:text-label-md rounded-lg flex items-center justify-center gap-2 hover:bg-primary/5 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">emergency_share</span>
+                Escalate to Doctor
+            </button>
+</div>
+</aside>
+</main>
+<!-- Footer Action Bar - Sticky -->
+<footer class="bg-surface-container dark:bg-surface-dim border-t border-outline-variant/20 fixed lg:sticky bottom-0 left-0 right-0 z-[100] min-h-[80px]">
+<div class="flex justify-between items-center px-4 lg:px-margin-desktop py-4 w-full max-w-container-max mx-auto h-full">
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center min-w-[44px] min-h-[44px] text-on-surface-variant font-label-md text-sm hover:text-primary lg:px-4">
+<span class="material-symbols-outlined">arrow_back</span>
+<span class="hidden sm:inline ml-1">Back</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant mx-1"></div>
+<button class="flex items-center justify-center min-w-[44px] min-h-[44px] text-on-surface-variant font-label-md text-sm hover:text-primary lg:px-4">
+<span class="material-symbols-outlined">save</span>
+<span class="hidden sm:inline ml-1">Draft</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="hidden md:block text-right mr-2">
+<p class="font-label-sm text-[10px] text-on-surface-variant leading-tight">Autosaved 14:22</p>
+<p class="font-label-sm text-[10px] text-secondary font-bold">GCPE v2.4</p>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-4 lg:px-8 py-3 rounded-xl font-headline-md text-sm lg:text-[18px] font-bold shadow-lg shadow-primary/20 flex items-center gap-2 transition-all transform active:scale-95 min-h-[48px]">
+<span class="inline lg:hidden">Complete</span>
+<span class="hidden lg:inline">Complete Assessment</span>
+<span class="material-symbols-outlined text-lg lg:text-xl">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+<!-- Floating Action Button: Voice Assist (Mobile only) -->
+<div class="fixed bottom-24 right-4 z-[60] lg:hidden">
+<button class="bg-primary text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center voice-pulse active:scale-90">
+<span class="material-symbols-outlined text-2xl" data-weight="fill">mic</span>
+</button>
+</div>
+<script>
+    // Trends Chart - Improved for Responsiveness
+    const ctx = document.getElementById('miniTrendChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['V1', 'V2', 'V3', 'V4', 'V5'],
+            datasets: [{
+                label: 'Systolic',
+                data: [128, 130, 125, 135, 142],
+                borderColor: '#005396',
+                backgroundColor: 'rgba(0, 83, 150, 0.1)',
+                tension: 0.4,
+                fill: true,
+                pointRadius: 2
+            }, {
+                label: 'Diastolic',
+                data: [82, 85, 80, 88, 95],
+                borderColor: '#006a61',
+                tension: 0.4,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { display: false },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#717783', font: { size: 9 } }
+                }
+            }
+        }
+    });
+
+    // Touch feedback for mobile cards
+    const interactiveElements = document.querySelectorAll('input, button, .glass-panel');
+    interactiveElements.forEach(el => {
+        el.addEventListener('touchstart', () => { el.style.opacity = '0.8'; });
+        el.addEventListener('touchend', () => { el.style.opacity = '1'; });
+    });
+</script>
+</body></html>

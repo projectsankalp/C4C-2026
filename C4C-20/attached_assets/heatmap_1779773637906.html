@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AarogyaSethu | Village Health Intelligence Map</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Leaflet CSS -->
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "outline": "#717783",
+                        "tertiary-fixed": "#a0f4c8",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#004883",
+                        "on-background": "#191c1e",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#a3c9ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#4cdbcb",
+                        "on-primary-fixed": "#001c39",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "tertiary": "#005e3f",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "secondary-fixed": "#6ef8e7",
+                        "surface-dim": "#d8dadc",
+                        "outline-variant": "#c1c7d3",
+                        "on-surface": "#191c1e",
+                        "on-secondary-container": "#006f66",
+                        "tertiary-fixed-dim": "#85d7ad",
+                        "primary-container": "#0f6cbd",
+                        "on-surface-variant": "#414751",
+                        "secondary-container": "#6bf5e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary-fixed": "#d3e3ff",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-container": "#a9fdd1",
+                        "surface-tint": "#0060ab",
+                        "tertiary-container": "#217855",
+                        "on-primary-container": "#e3ecff",
+                        "secondary": "#006a61",
+                        "primary": "#005396",
+                        "on-secondary-fixed": "#00201d",
+                        "on-secondary-fixed-variant": "#005049",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "stack-sm": "8px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #f7f9fb; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
+        .glass-panel { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .map-glow { filter: drop-shadow(0 0 15px rgba(15, 108, 189, 0.2)); }
+        #villageMap { height: 100%; width: 100%; border-radius: 12px; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    </style>
+</head>
+<body class="flex bg-background text-on-surface">
+<!-- SIDE NAV BAR (Left Rail) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl border-r border-outline-variant/20 shadow-sm shadow-primary/5 flex flex-col py-base px-4 z-50">
+<div class="mb-stack-lg px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">AarogyaSethu</h1>
+<p class="font-body-md text-label-sm text-outline opacity-80">Rural Health Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Patients</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span class="font-body-md text-body-md">Timeline</span>
+</div>
+<!-- Heatmap Active State -->
+<div class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed-dim bg-primary/5 rounded-lg font-bold active:scale-95 duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="map" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-body-md text-body-md">Heatmap</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-body-md text-body-md">Outbreak Monitor</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-body-md text-body-md">Village Intelligence</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="article">article</span>
+<span class="font-body-md text-body-md">Reports</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+<span class="font-body-md text-body-md">Blockchain</span>
+</div>
+</nav>
+<button class="mt-4 bg-primary text-on-primary py-3 px-4 rounded-xl font-label-md flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+            Add Intervention
+        </button>
+<div class="mt-auto space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/50 transition-all active:scale-95 duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md">Support</span>
+</div>
+</div>
+</aside>
+<!-- MAIN CANVAS -->
+<main class="ml-64 flex-1 h-screen flex flex-col relative">
+<!-- TOP NAV BAR -->
+<header class="h-16 flex items-center justify-between px-margin-desktop w-full bg-surface/70 dark:bg-inverse-surface/70 backdrop-blur-md border-b border-outline-variant/20 shadow-sm shadow-primary/5 z-40">
+<div class="flex items-center gap-gutter">
+<h2 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Village Health Intelligence Map</h2>
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-label-md focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search by Village, Region or disease ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-all text-on-surface-variant relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<img alt="Healthcare Worker Profile" class="w-8 h-8 rounded-full border border-primary/20 object-cover" data-alt="A professional headshot of a female medical professional in rural India wearing a white clinical coat and a stethoscope. She has a confident yet warm expression, set against a blurred background of a modern digital medical office. The lighting is bright and clean, emphasizing trust and competence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJs8CJRrenVsaZtqY3BqGlrtB0fQV6SxlatVlrP_iLAwulUu92XvweFO5g-sDH5N0JBpzYnEWNNgnkbs0mQwLaU62nDtnDw5qnhpnf6rOOHcPMCFaA2KqgzNDMe5wvMd4RN1QD1zk5PdQe9uKzeF_RQu4xmhZUkf8-q3Zv4MYsm5qGDoiVnksivU1JHgM13MKHmBwOGR1NbPcy4RszWi3zplCoumPQnKgioD1p1zsdzmV9LnBgqNLe8GeUgxJ0MwnQgoX3pkudyC69"/>
+<span class="font-label-md text-on-surface hidden xl:block">Dr. Ananya S.</span>
+</div>
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<!-- CENTER CONTENT: Blockchain & Map Workspace -->
+<div class="flex-1 flex flex-col p-6 gap-6 relative">
+<!-- Section 1: KPI CARDS -->
+<div class="grid grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border-l-4 border-primary flex items-center justify-between">
+<div>
+<p class="font-label-md text-outline">Villages Monitored</p>
+<h3 class="font-headline-md text-primary mt-1">820</h3>
+<span class="text-xs text-secondary font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> +2.4% vs last month
+                            </span>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 28px;">location_on</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border-l-4 border-[#F59E0B] flex items-center justify-between">
+<div>
+<p class="font-label-md text-outline">High Risk Villages</p>
+<h3 class="font-headline-md text-[#F59E0B] mt-1">38</h3>
+<span class="text-xs text-error font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> +5 new entries
+                            </span>
+</div>
+<div class="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined" style="font-size: 28px;">warning</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border-l-4 border-error flex items-center justify-between">
+<div>
+<p class="font-label-md text-outline">New Alerts</p>
+<h3 class="font-headline-md text-error mt-1">12</h3>
+<span class="text-xs text-outline font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-xs">history</span> Last 24 hours
+                            </span>
+</div>
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-size: 28px;">notifications_active</span>
+</div>
+</div>
+</div>
+<!-- Section 2: LEAFLET HEATMAP -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl shadow-md border border-outline-variant/10 overflow-hidden relative">
+<div class="map-glow" data-location="Madhya Pradesh Rural" id="villageMap" style=""></div>
+<!-- Map Controls Overlays -->
+<div class="absolute top-4 right-4 z-[400] flex flex-col gap-2">
+<button class="bg-white/90 backdrop-blur shadow-md p-2 rounded-lg hover:bg-white transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">layers</span>
+</button>
+<button class="bg-white/90 backdrop-blur shadow-md p-2 rounded-lg hover:bg-white transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="bg-white/90 backdrop-blur shadow-md p-2 rounded-lg hover:bg-white transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+<button class="bg-white/90 backdrop-blur shadow-md p-2 rounded-lg hover:bg-white transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">zoom_out</span>
+</button>
+</div>
+<!-- Map Legend Overlay -->
+<div class="absolute bottom-6 left-6 z-[400] bg-white/90 backdrop-blur p-4 rounded-xl shadow-xl border border-outline-variant/20 min-w-[180px]">
+<h4 class="font-label-md text-on-surface mb-3 uppercase tracking-wider text-[10px]">Risk Severity Legend</h4>
+<ul class="space-y-2">
+<li class="flex items-center gap-3 text-xs font-medium">
+<span class="legend-dot bg-error"></span> Critical Outbreak (Red)
+                            </li>
+<li class="flex items-center gap-3 text-xs font-medium">
+<span class="legend-dot bg-[#F59E0B]"></span> High Risk Area (Orange)
+                            </li>
+<li class="flex items-center gap-3 text-xs font-medium">
+<span class="legend-dot bg-[#FACC15]"></span> Observation Zone (Yellow)
+                            </li>
+<li class="flex items-center gap-3 text-xs font-medium">
+<span class="legend-dot bg-secondary"></span> Safe / Monitoring (Teal)
+                            </li>
+</ul>
+</div>
+</div>
+<!-- Section 3: FILTER CONTROL CENTER -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10 flex items-center justify-between gap-gutter">
+<div class="flex-1 grid grid-cols-4 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] font-bold text-outline uppercase">Target Disease</label>
+<select class="bg-surface border-outline-variant/30 rounded-lg text-sm font-medium py-2 focus:ring-primary focus:border-primary">
+<option>Dengue Surveillance</option>
+<option>Malaria Mapping</option>
+<option>COVID-19 Post-Wave</option>
+<option>Waterborne Diseases</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] font-bold text-outline uppercase">District/Village</label>
+<select class="bg-surface border-outline-variant/30 rounded-lg text-sm font-medium py-2 focus:ring-primary focus:border-primary">
+<option>All Districts</option>
+<option>Khargone District</option>
+<option>Dhar District</option>
+<option>Jhabua District</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] font-bold text-outline uppercase">Risk Level</label>
+<div class="flex gap-2">
+<button class="px-3 py-2 bg-error/10 text-error rounded-lg text-xs font-bold border border-error/20">Critical</button>
+<button class="px-3 py-2 bg-surface-container text-outline rounded-lg text-xs font-bold border border-transparent">All</button>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-[11px] font-bold text-outline uppercase">Date Range</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-sm text-outline">calendar_month</span>
+<input class="w-full bg-surface border-outline-variant/30 rounded-lg text-xs font-medium pl-8 py-2" type="text" value="Aug 10 - Aug 17, 2024"/>
+</div>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container h-full px-6 rounded-lg font-bold flex items-center gap-2 hover:bg-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">refresh</span>
+                        Apply Filters
+                    </button>
+</div>
+</div>
+<!-- RIGHT RAIL: Health Intelligence Rail -->
+<aside class="w-96 border-l border-outline-variant/20 bg-surface flex flex-col p-6 gap-6 overflow-y-auto">
+<!-- Map Health Status -->
+<div class="glass-panel bg-white p-5 rounded-2xl shadow-sm border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-headline-md text-body-lg font-bold text-on-surface">Region Health Index</h4>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full">STABLE</span>
+</div>
+<div class="flex items-end gap-2 mb-2">
+<span class="text-4xl font-extrabold text-primary">82</span>
+<span class="text-outline text-sm font-medium mb-1">/ 100</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full w-[82%] shadow-[0_0_8px_rgba(0,183,168,0.4)]"></div>
+</div>
+<p class="mt-3 text-xs text-outline leading-relaxed">System monitoring is optimal. Intelligence nodes reporting from 98.4% of village blockchain anchors.</p>
+</div>
+<!-- Section 4: Forecast Engine -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">auto_graph</span>
+<h4 class="font-label-md text-on-surface font-bold uppercase tracking-wide">7-Day Risk Forecast</h4>
+</div>
+<!-- Simplified Visual Chart for Forecast -->
+<div class="flex items-end justify-between h-32 gap-1 px-2">
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[40%] transition-all hover:bg-primary/30 relative group">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 text-[10px] bg-primary text-white px-1.5 py-0.5 rounded">12%</span>
+</div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[35%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[45%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[60%] transition-all hover:bg-primary/30"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[75%] transition-all hover:bg-primary/40"></div>
+<div class="flex-1 bg-error/40 rounded-t-lg h-[85%] transition-all hover:bg-error/60"></div>
+<div class="flex-1 bg-error/20 rounded-t-lg h-[65%] transition-all hover:bg-error/40"></div>
+</div>
+<div class="flex justify-between mt-2 px-2">
+<span class="text-[10px] text-outline font-bold">MON</span>
+<span class="text-[10px] text-outline font-bold">WED</span>
+<span class="text-[10px] text-error font-bold">SAT</span>
+<span class="text-[10px] text-outline font-bold">SUN</span>
+</div>
+<div class="mt-5 p-3 bg-error-container/30 border border-error/10 rounded-xl">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-error text-sm">priority_high</span>
+<span class="text-xs font-bold text-error uppercase">Outbreak Probability</span>
+</div>
+<p class="text-xl font-black text-error">78.2%</p>
+<p class="text-[10px] text-error/80 mt-1">Projected cluster in Northern Dhar sector.</p>
+</div>
+</div>
+<!-- Section 5: Government Response Panel -->
+<div class="flex-1 flex flex-col">
+<h4 class="font-label-md text-outline font-bold uppercase tracking-wide mb-4 flex items-center justify-between">
+                        Active Alerts (4)
+                        <a class="text-primary text-[10px] hover:underline" href="#">View All</a>
+</h4>
+<div class="space-y-3 overflow-y-auto pr-1">
+<div class="p-3 bg-white rounded-xl border-l-4 border-error shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold text-on-surface">Vill. Rampur (Cluster A)</span>
+<span class="text-[10px] text-outline">12m ago</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Elevated waterborne cases detected via field diagnostic sync.</p>
+<div class="flex gap-2 mt-1">
+<button class="flex-1 py-1.5 bg-primary text-white text-[10px] font-bold rounded hover:shadow-lg transition-all">Deploy ASHA Team</button>
+<button class="px-2 py-1.5 border border-outline-variant text-[10px] font-bold rounded text-on-surface-variant">Dismiss</button>
+</div>
+</div>
+<div class="p-3 bg-white rounded-xl border-l-4 border-[#F59E0B] shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold text-on-surface">Dhar District South</span>
+<span class="text-[10px] text-outline">2h ago</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Supply chain lag: Antibiotic stock levels below critical (20%).</p>
+<div class="flex gap-2 mt-1">
+<button class="flex-1 py-1.5 bg-secondary text-white text-[10px] font-bold rounded hover:shadow-lg transition-all">Schedule Camp</button>
+<button class="px-2 py-1.5 border border-outline-variant text-[10px] font-bold rounded text-on-surface-variant">Log Refill</button>
+</div>
+</div>
+<div class="p-3 bg-white rounded-xl border-l-4 border-secondary shadow-sm">
+<div class="flex justify-between items-center mb-1">
+<span class="text-xs font-bold text-on-surface">Vaccination Drive</span>
+<span class="px-1.5 py-0.5 bg-secondary/10 text-secondary text-[9px] font-bold rounded">LOGGED</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Blockchain verified: 450 doses administered in Khargone West.</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Map Script -->
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map
+            var map = L.map('villageMap', {
+                zoomControl: false,
+                attributionControl: false
+            }).setView([22.9734, 78.6569], 7); // Center on Madhya Pradesh area
+
+            // Minimalist Tile Layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CARTO'
+            }).addTo(map);
+
+            // Mock Data for Village Clusters
+            const clusters = [
+                { lat: 22.8, lng: 76.5, risk: 'critical', size: 25, name: 'Khargone North' },
+                { lat: 23.2, lng: 77.4, risk: 'safe', size: 15, name: 'Bhopal Sector 4' },
+                { lat: 22.1, lng: 75.8, risk: 'high', size: 20, name: 'Dhar District' },
+                { lat: 24.1, lng: 78.2, risk: 'watch', size: 18, name: 'Sagar West' },
+                { lat: 21.8, lng: 77.9, risk: 'safe', size: 12, name: 'Betul Zone' }
+            ];
+
+            const colors = {
+                critical: '#ba1a1a',
+                high: '#F59E0B',
+                watch: '#FACC15',
+                safe: '#00B7A8'
+            };
+
+            clusters.forEach(cluster => {
+                const circle = L.circleMarker([cluster.lat, cluster.lng], {
+                    radius: cluster.size,
+                    fillColor: colors[cluster.risk],
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.6
+                }).addTo(map);
+
+                // Simple pulsating animation for critical zones
+                if (cluster.risk === 'critical') {
+                    setInterval(() => {
+                        circle.setStyle({ fillOpacity: circle.options.fillOpacity === 0.6 ? 0.3 : 0.6 });
+                    }, 800);
+                }
+
+                circle.bindPopup(`
+                    <div class="p-2">
+                        <strong class="text-sm">${cluster.name}</strong><br/>
+                        <span class="text-xs">Risk Level: ${cluster.risk.toUpperCase()}</span>
+                    </div>
+                `);
+            });
+
+            // Smooth subtle movement to make map feel alive
+            setTimeout(() => {
+                map.panTo([22.9, 77.0], { animate: true, duration: 4.0 });
+            }, 1000);
+        });
+    </script>
+</body></html>

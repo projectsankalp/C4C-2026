@@ -1,0 +1,600 @@
+{
+  "dataset_key": "heart_disease_uci",
+  "filename": "heart_disease_uci.csv",
+  "profiled_at": "2026-05-26T00:15:42.140095+00:00",
+  "file_hash_md5": "bde77728726675cb665f948df8ade988",
+  "row_count": 920,
+  "column_count": 16,
+  "duplicate_rows": 0,
+  "duplicate_pct": 0.0,
+  "overall_null_pct": 11.95,
+  "columns_gt50pct_null": [
+    "ca",
+    "thal"
+  ],
+  "columns_complete": [
+    "id",
+    "age",
+    "sex",
+    "dataset",
+    "cp",
+    "num"
+  ],
+  "columns": {
+    "id": {
+      "dtype": "int64",
+      "col_type": "id_column",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 920,
+      "cardinality_ratio": 1.0,
+      "is_phi": true,
+      "is_id_column": true,
+      "usability_score": 0.0,
+      "usability_notes": [
+        "PHI or ID column \u2014 must be excluded from ML pipeline"
+      ],
+      "stats": {
+        "mean": 460.5,
+        "std": 265.7254,
+        "min": 1.0,
+        "p25": 230.75,
+        "median": 460.5,
+        "p75": 690.25,
+        "max": 920.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "age": {
+      "dtype": "int64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 50,
+      "cardinality_ratio": 0.0543,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 53.5109,
+        "std": 9.4247,
+        "min": 28.0,
+        "p25": 47.0,
+        "median": 54.0,
+        "p75": 60.0,
+        "max": 77.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "63",
+        "67",
+        "67"
+      ]
+    },
+    "sex": {
+      "dtype": "str",
+      "col_type": "binary",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 2,
+      "cardinality_ratio": 0.0022,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [
+        "Binary, fully populated \u2014 ideal target or flag feature"
+      ],
+      "stats": {},
+      "value_distribution": {
+        "Male": 0.7891,
+        "Female": 0.2109
+      },
+      "sample_values": [
+        "Male",
+        "Male",
+        "Male"
+      ]
+    },
+    "dataset": {
+      "dtype": "str",
+      "col_type": "categorical_low",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "cardinality_ratio": 0.0043,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {},
+      "value_distribution": {
+        "Cleveland": 0.3304,
+        "Hungary": 0.3185,
+        "VA Long Beach": 0.2174,
+        "Switzerland": 0.1337
+      },
+      "sample_values": [
+        "Cleveland",
+        "Cleveland",
+        "Cleveland"
+      ]
+    },
+    "cp": {
+      "dtype": "str",
+      "col_type": "categorical_low",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "cardinality_ratio": 0.0043,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {},
+      "value_distribution": {
+        "asymptomatic": 0.5391,
+        "non-anginal": 0.2217,
+        "atypical angina": 0.1891,
+        "typical angina": 0.05
+      },
+      "sample_values": [
+        "typical angina",
+        "asymptomatic",
+        "asymptomatic"
+      ]
+    },
+    "trestbps": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 59,
+      "null_pct": 6.41,
+      "unique_count": 61,
+      "cardinality_ratio": 0.0663,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.0,
+      "usability_notes": [
+        "6.4% missing \u2014 minor imputation needed"
+      ],
+      "stats": {
+        "mean": 132.1324,
+        "std": 19.0661,
+        "min": 0.0,
+        "p25": 120.0,
+        "median": 130.0,
+        "p75": 140.0,
+        "max": 200.0,
+        "zeros": 1,
+        "zeros_pct": 0.12
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "145.0",
+        "160.0",
+        "120.0"
+      ]
+    },
+    "chol": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 30,
+      "null_pct": 3.26,
+      "unique_count": 217,
+      "cardinality_ratio": 0.2359,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.5,
+      "usability_notes": [
+        "19.3% zero values in 'chol' \u2014 zeros are clinically impossible here; treat as missing"
+      ],
+      "stats": {
+        "mean": 199.1303,
+        "std": 110.7808,
+        "min": 0.0,
+        "p25": 175.0,
+        "median": 223.0,
+        "p75": 268.0,
+        "max": 603.0,
+        "zeros": 172,
+        "zeros_pct": 19.33
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "233.0",
+        "286.0",
+        "229.0"
+      ]
+    },
+    "fbs": {
+      "dtype": "object",
+      "col_type": "binary",
+      "null_count": 90,
+      "null_pct": 9.78,
+      "unique_count": 2,
+      "cardinality_ratio": 0.0022,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.0,
+      "usability_notes": [
+        "9.8% missing \u2014 minor imputation needed"
+      ],
+      "stats": {},
+      "value_distribution": {
+        "False": 0.7522,
+        "True": 0.15,
+        "nan": 0.0978
+      },
+      "sample_values": [
+        "True",
+        "False",
+        "False"
+      ]
+    },
+    "restecg": {
+      "dtype": "str",
+      "col_type": "categorical_low",
+      "null_count": 2,
+      "null_pct": 0.22,
+      "unique_count": 3,
+      "cardinality_ratio": 0.0033,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {},
+      "value_distribution": {
+        "normal": 0.5989,
+        "lv hypertrophy": 0.2043,
+        "st-t abnormality": 0.1946,
+        "nan": 0.0022
+      },
+      "sample_values": [
+        "lv hypertrophy",
+        "lv hypertrophy",
+        "lv hypertrophy"
+      ]
+    },
+    "thalch": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 55,
+      "null_pct": 5.98,
+      "unique_count": 119,
+      "cardinality_ratio": 0.1293,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.0,
+      "usability_notes": [
+        "6.0% missing \u2014 minor imputation needed"
+      ],
+      "stats": {
+        "mean": 137.5457,
+        "std": 25.9263,
+        "min": 60.0,
+        "p25": 120.0,
+        "median": 140.0,
+        "p75": 157.0,
+        "max": 202.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "150.0",
+        "108.0",
+        "129.0"
+      ]
+    },
+    "exang": {
+      "dtype": "object",
+      "col_type": "binary",
+      "null_count": 55,
+      "null_pct": 5.98,
+      "unique_count": 2,
+      "cardinality_ratio": 0.0022,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.0,
+      "usability_notes": [
+        "6.0% missing \u2014 minor imputation needed"
+      ],
+      "stats": {},
+      "value_distribution": {
+        "False": 0.5739,
+        "True": 0.3663,
+        "nan": 0.0598
+      },
+      "sample_values": [
+        "False",
+        "True",
+        "True"
+      ]
+    },
+    "oldpeak": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 62,
+      "null_pct": 6.74,
+      "unique_count": 53,
+      "cardinality_ratio": 0.0576,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 9.0,
+      "usability_notes": [
+        "6.7% missing \u2014 minor imputation needed"
+      ],
+      "stats": {
+        "mean": 0.8788,
+        "std": 1.0912,
+        "min": -2.6,
+        "p25": 0.0,
+        "median": 0.5,
+        "p75": 1.5,
+        "max": 6.2,
+        "zeros": 370,
+        "zeros_pct": 43.12
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "2.3",
+        "1.5",
+        "2.6"
+      ]
+    },
+    "slope": {
+      "dtype": "str",
+      "col_type": "categorical_low",
+      "null_count": 309,
+      "null_pct": 33.59,
+      "unique_count": 3,
+      "cardinality_ratio": 0.0033,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 8.0,
+      "usability_notes": [
+        "33.6% missing \u2014 moderate imputation needed"
+      ],
+      "stats": {},
+      "value_distribution": {
+        "flat": 0.375,
+        "nan": 0.3359,
+        "upsloping": 0.2207,
+        "downsloping": 0.0685
+      },
+      "sample_values": [
+        "downsloping",
+        "flat",
+        "flat"
+      ]
+    },
+    "ca": {
+      "dtype": "float64",
+      "col_type": "categorical_low",
+      "null_count": 611,
+      "null_pct": 66.41,
+      "unique_count": 4,
+      "cardinality_ratio": 0.0043,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 5.0,
+      "usability_notes": [
+        "66.4% missing \u2014 severely incomplete"
+      ],
+      "stats": {
+        "mean": 0.6764,
+        "std": 0.9357,
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 1.0,
+        "max": 3.0,
+        "zeros": 181,
+        "zeros_pct": 58.58
+      },
+      "value_distribution": {
+        "nan": 0.6641,
+        "0.0": 0.1967,
+        "1.0": 0.0728,
+        "2.0": 0.0446,
+        "3.0": 0.0217
+      },
+      "sample_values": [
+        "0.0",
+        "3.0",
+        "2.0"
+      ]
+    },
+    "thal": {
+      "dtype": "str",
+      "col_type": "categorical_low",
+      "null_count": 486,
+      "null_pct": 52.83,
+      "unique_count": 3,
+      "cardinality_ratio": 0.0033,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 5.0,
+      "usability_notes": [
+        "52.8% missing \u2014 severely incomplete"
+      ],
+      "stats": {},
+      "value_distribution": {
+        "nan": 0.5283,
+        "normal": 0.213,
+        "reversable defect": 0.2087,
+        "fixed defect": 0.05
+      },
+      "sample_values": [
+        "fixed defect",
+        "normal",
+        "reversable defect"
+      ]
+    },
+    "num": {
+      "dtype": "int64",
+      "col_type": "categorical_low",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 5,
+      "cardinality_ratio": 0.0054,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 0.9957,
+        "std": 1.1427,
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 1.0,
+        "p75": 2.0,
+        "max": 4.0,
+        "zeros": 411,
+        "zeros_pct": 44.67
+      },
+      "value_distribution": {
+        "0": 0.4467,
+        "1": 0.288,
+        "2": 0.1185,
+        "3": 0.1163,
+        "4": 0.0304
+      },
+      "sample_values": [
+        "0",
+        "2",
+        "1"
+      ]
+    }
+  },
+  "target_candidates": [
+    {
+      "name": "num",
+      "reason": "name matches target keyword; 5 unique values (low cardinality)",
+      "cardinality": 5,
+      "col_type": "categorical_low",
+      "class_distribution": {
+        "0": 0.4467,
+        "1": 0.288,
+        "2": 0.1185,
+        "3": 0.1163,
+        "4": 0.0304
+      },
+      "class_balance_ok": false,
+      "minority_class_pct": 3.0,
+      "null_pct": 0.0,
+      "usability_score": 10.0
+    },
+    {
+      "name": "sex",
+      "reason": "binary column; 2 unique values (low cardinality)",
+      "cardinality": 2,
+      "col_type": "binary",
+      "class_distribution": {
+        "Male": 0.7891,
+        "Female": 0.2109
+      },
+      "class_balance_ok": true,
+      "minority_class_pct": 21.1,
+      "null_pct": 0.0,
+      "usability_score": 10.0
+    },
+    {
+      "name": "exang",
+      "reason": "binary column; 2 unique values (low cardinality)",
+      "cardinality": 2,
+      "col_type": "binary",
+      "class_distribution": {
+        "False": 0.6104,
+        "True": 0.3896
+      },
+      "class_balance_ok": true,
+      "minority_class_pct": 39.0,
+      "null_pct": 5.98,
+      "usability_score": 9.0
+    },
+    {
+      "name": "fbs",
+      "reason": "binary column; 2 unique values (low cardinality)",
+      "cardinality": 2,
+      "col_type": "binary",
+      "class_distribution": {
+        "False": 0.8337,
+        "True": 0.1663
+      },
+      "class_balance_ok": true,
+      "minority_class_pct": 16.6,
+      "null_pct": 9.78,
+      "usability_score": 9.0
+    }
+  ],
+  "high_correlation_pairs": [],
+  "leakage_risk_features": [],
+  "healthcare_issues": [
+    {
+      "column": "trestbps",
+      "issue_type": "impossible_value",
+      "detail": "Expected [50, 300]; 1 values out of range",
+      "severity": "critical",
+      "row_count": 1
+    },
+    {
+      "column": "trestbps",
+      "issue_type": "zero_as_missing",
+      "detail": "1 zeros (0.1%) \u2014 zeros are clinically impossible here; replace with NaN before training",
+      "severity": "warning",
+      "row_count": 1
+    },
+    {
+      "column": "chol",
+      "issue_type": "impossible_value",
+      "detail": "Expected [50, 700]; 172 values out of range",
+      "severity": "critical",
+      "row_count": 172
+    },
+    {
+      "column": "chol",
+      "issue_type": "zero_as_missing",
+      "detail": "172 zeros (19.3%) \u2014 zeros are clinically impossible here; replace with NaN before training",
+      "severity": "warning",
+      "row_count": 172
+    },
+    {
+      "column": "age, trestbps, chol, thalch",
+      "issue_type": "duplicate_clinical_fingerprint",
+      "detail": "6 rows share identical values across 4 clinical columns \u2014 possible duplicate patients",
+      "severity": "warning",
+      "row_count": 6
+    }
+  ],
+  "phi_columns_detected": [
+    "id"
+  ],
+  "id_columns_detected": [
+    "id"
+  ],
+  "ml_readiness_score": 5.5,
+  "ml_readiness_verdict": "needs_cleaning",
+  "preprocessing_steps": [
+    "Strip PHI columns: id",
+    "Drop or impute high-missingness columns: ca, thal",
+    "Fix 'trestbps': impossible_value \u2014 Expected [50, 300]; 1 values out of range",
+    "Fix 'chol': impossible_value \u2014 Expected [50, 700]; 172 values out of range",
+    "Replace zeros with NaN in 'trestbps' before imputation.",
+    "Replace zeros with NaN in 'chol' before imputation.",
+    "Drop ID columns: id"
+  ],
+  "warnings": [],
+  "critical_issues": [
+    "PHI present: ['id']"
+  ]
+}

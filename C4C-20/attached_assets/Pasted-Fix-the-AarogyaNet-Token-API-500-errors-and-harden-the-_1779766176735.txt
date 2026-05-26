@@ -1,0 +1,126 @@
+Fix the AarogyaNet Token API 500 errors and harden the prescription-token workflow.
+
+CRITICAL:
+The token system is a core demo feature and must never fail during presentation.
+
+==================================================
+1. FIX TOKEN OWNERSHIP QUERY
+==================================================
+
+Current issue:
+GET /api/tokens/my assumes:
+patients.doctor_id
+
+But patients table has no doctor_id column.
+
+Fix by deriving doctor ownership through:
+- prescriptions
+OR
+- visits
+OR
+- assigned relationships already present in the schema
+
+Use the correct relational path.
+
+==================================================
+2. HARDEN TOKEN QUERIES
+==================================================
+
+Ensure:
+- empty result sets return []
+- invalid joins never crash
+- missing patients/prescriptions handled gracefully
+
+NO unhandled SQL exceptions.
+
+==================================================
+3. SAFE SERIALIZATION
+==================================================
+
+Guard:
+- datetime formatting
+- null redeemed_at
+- missing blockchain references
+- missing outlet assignments
+
+==================================================
+4. ADD QUERY FALLBACKS
+==================================================
+
+If:
+- no tokens exist
+- no prescriptions exist
+- no doctor relationship exists
+
+Return:
+{
+  success: true,
+  tokens: []
+}
+
+NOT HTTP 500.
+
+==================================================
+5. VERIFY ALL TOKEN ENDPOINTS
+==================================================
+
+Audit:
+- GET /api/tokens/my
+- GET /api/tokens/patient/<id>
+- GET /api/tokens/prescription/<id>
+- GET /api/tokens/<id>
+- POST /api/tokens/redeem
+
+Ensure:
+- consistent response schema
+- no raw exceptions
+- no missing fields
+
+==================================================
+6. ADD TOKEN STATUS NORMALIZATION
+==================================================
+
+Normalize:
+- pending
+- redeemed
+- expired
+- invalid
+
+Prevent casing mismatches or undefined states.
+
+==================================================
+7. FRONTEND HARDENING
+==================================================
+
+Ensure token dashboard:
+- survives empty token arrays
+- survives malformed timestamps
+- shows proper empty-state messaging
+- never whitescreens
+
+==================================================
+8. DEMO REQUIREMENT
+==================================================
+
+The full flow must work end-to-end:
+
+Doctor prescribes
+    ↓
+Token generated
+    ↓
+Patient sees token
+    ↓
+ASHA pickup/redeem
+    ↓
+Blockchain adherence block created
+    ↓
+Duplicate redemption rejected
+
+WITHOUT any crashes.
+
+==================================================
+OUTPUT
+==================================================
+
+The token infrastructure should now feel:
+"stable, auditable, and production-safe."

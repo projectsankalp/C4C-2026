@@ -1,0 +1,199 @@
+Build the AarogyaNet Longitudinal Intelligence Timeline UI.
+
+This is now one of the most important visual and conceptual pages in the entire platform.
+
+GOAL:
+Visually demonstrate that AarogyaNet understands healthcare progression across time, not just isolated visits.
+
+Use:
+- Bootstrap 5
+- Chart.js
+- Font Awesome
+- Vanilla JavaScript
+
+DO NOT use:
+- React
+- TypeScript
+- Tailwind
+
+Requirements:
+
+==================================================
+PAGE PURPOSE
+==================================================
+
+The page should feel like:
+"a healthcare memory system."
+
+NOT:
+- a table
+- a CRUD dashboard
+- a simple history page
+
+The UI must communicate:
+- continuity
+- deterioration
+- progression
+- escalation
+- longitudinal intelligence
+
+==================================================
+BUILD THESE SECTIONS
+==================================================
+
+1. PATIENT HEADER CARD
+Show:
+- patient name
+- age
+- chronic conditions
+- current risk level
+- latest BP
+- adherence %
+- last visit date
+
+Include:
+- risk badge
+- GCPE-driven badge
+- trend arrows
+
+==================================================
+
+2. LONGITUDINAL TIMELINE
+Build a vertical timeline showing visits chronologically.
+
+Each timeline card should show:
+- visit date
+- BP reading
+- risk score
+- triggered pathways
+- symptoms
+- alerts/escalations
+
+Highlight:
+- crisis events
+- first deviations
+- emergency escalations
+
+Use:
+- colored timeline nodes
+- icons
+- alert badges
+
+==================================================
+
+3. BP TRAJECTORY CHART
+Use Chart.js.
+
+Show:
+- systolic BP trend over time
+- crisis threshold zone
+- stage zones
+
+Include:
+- event markers
+- smooth animations
+
+==================================================
+
+4. RISK TRAJECTORY CHART
+Visualize:
+- risk progression
+Example:
+34 → 48 → 71
+
+Use:
+- animated line graph
+- colored severity zones
+
+==================================================
+
+5. FIRST-DEVIATION PANEL
+Show cards for:
+- first abnormal BP
+- first missed medication
+- first crisis event
+- first chest pain episode
+
+These should feel:
+IMPORTANT and clinically significant.
+
+==================================================
+
+6. ADHERENCE ANALYTICS
+Show:
+- adherence %
+- consecutive miss streak
+- reasons for missed doses
+- adherence trend
+
+Use:
+- progress bars
+- warning badges
+
+==================================================
+
+7. GCPE PATHWAY HISTORY
+Display:
+- pathway badges
+- trigger frequency
+- escalation count
+
+Example:
+- hypertensive_urgency ×2
+- adherence_assessment ×1
+
+==================================================
+
+8. CLINICAL ALERTS PANEL
+Display synthesized longitudinal alerts.
+
+Examples:
+- Risk escalated 41 points in 14 days
+- BP worsening over 6 visits
+- Repeated medication non-compliance
+- Hypertensive crisis event detected
+
+Use:
+- alert cards
+- severity coloring
+
+==================================================
+DESIGN REQUIREMENTS
+==================================================
+
+Theme:
+- healthcare infrastructure
+- modern clinical UI
+- clean
+- high information density
+- visually intelligent
+
+Use:
+- teal
+- blue
+- white
+- soft red for alerts
+- amber for warnings
+
+Avoid:
+- clutter
+- crypto aesthetics
+- excessive gradients
+
+==================================================
+DATA
+==================================================
+
+Use the real longitudinal APIs already implemented:
+- /api/patients/<id>/longitudinal
+- /api/patients/<id>/snapshot
+
+==================================================
+IMPORTANT
+==================================================
+
+This page is intended to become:
+# the strongest demo screen in AarogyaNet.
+
+It should visually communicate:
+"We made the healthcare system remember."

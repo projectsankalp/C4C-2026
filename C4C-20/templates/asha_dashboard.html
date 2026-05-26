@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ASHA Dashboard — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: {
+    extend: {
+      colors: {
+        "error":"#ba1a1a","outline":"#717783","background":"#f7f9fb","secondary":"#006a61",
+        "tertiary":"#005e3f","error-container":"#ffdad6","surface-container-highest":"#e0e3e5",
+        "secondary-container":"#6bf5e5","on-surface-variant":"#414751","on-background":"#191c1e",
+        "outline-variant":"#c1c7d3","on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb",
+        "on-primary-container":"#e3ecff","surface-variant":"#e0e3e5","on-primary":"#ffffff",
+        "surface-container-low":"#f2f4f6","surface-container":"#eceef0","primary-container":"#0f6cbd",
+        "on-error":"#ffffff","surface-container-lowest":"#ffffff","on-secondary-container":"#006f66",
+        "primary-fixed":"#d3e3ff","on-error-container":"#93000a","on-secondary":"#ffffff",
+        "tertiary-container":"#217855","on-tertiary":"#ffffff","inverse-surface":"#2d3133",
+        "inverse-on-surface":"#eff1f3","surface-container-high":"#e6e8ea","surface-bright":"#f7f9fb"
+      },
+      spacing: {"stack-md":"16px","stack-lg":"32px","margin-desktop":"32px","gutter":"24px"}
+    }
+  }
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; overflow-x: hidden; margin: 0; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+/* Sidebar */
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+/* GCPE/risk styles */
+.gcpe-bool-btn { font-size:1rem; padding:.6rem 1.5rem; border-radius:8px; border:2px solid #0d9488; background:#fff; color:#0d9488; cursor:pointer; transition:all .15s; font-weight:600; }
+.gcpe-bool-btn:hover,.gcpe-bool-btn.active { background:#0d9488; color:#fff; }
+.gcpe-bool-btn.no-btn { border-color:#6b7280; color:#6b7280; }
+.gcpe-bool-btn.no-btn:hover,.gcpe-bool-btn.no-btn.active { background:#6b7280; color:#fff; }
+.gcpe-choice-btn { display:block; width:100%; text-align:left; padding:.55rem 1rem; border-radius:8px; margin-bottom:.4rem; border:2px solid #d1d5db; background:#fff; color:#374151; cursor:pointer; transition:all .15s; font-size:.9rem; }
+.gcpe-choice-btn:hover { border-color:#0d9488; background:#f0fdfa; color:#0f766e; }
+.gcpe-choice-btn.active { border-color:#0d9488; background:#0d9488; color:#fff; }
+.gcpe-number-wrap input { font-size:1.2rem; font-weight:600; }
+#gcpe-alert-banner.alert-critical { background:#fef2f2; border-color:#fca5a5; color:#991b1b; }
+#gcpe-alert-banner.alert-high { background:#fff7ed; border-color:#fdba74; color:#9a3412; }
+#gcpe-alert-banner.alert-info { background:#eff6ff; border-color:#93c5fd; color:#1e40af; }
+.pathway-badge { background:#e0f2fe; color:#0369a1; padding:2px 10px; border-radius:999px; font-size:.78rem; font-weight:600; }
+.risk-high { color:#dc2626; font-weight:600; } .risk-medium { color:#d97706; font-weight:600; } .risk-low { color:#16a34a; font-weight:600; }
+.nav-item-active { background: rgba(255,255,255,0.15) !important; }
+.stat-card-new { background:#fff; border-radius:16px; border:1px solid #e2e8f0; padding:1.25rem; display:flex; align-items:center; gap:1rem; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.btn-teal { background:#0d9488; color:#fff; border:none; } .btn-teal:hover { background:#0f766e; color:#fff; }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+      </div>
+      <div>
+        <div class="text-white font-bold text-sm">AarogyaSethu</div>
+        <div class="text-white/50 text-xs">Rural Health Intel</div>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span>
+      </div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">ASHA</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">dashboard</span> Overview
+    </a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">ASHA Workflow</div>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white nav-item-active text-sm mb-1">
+      <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">medical_services</span> ASHA Dashboard
+    </a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">timeline</span> Clinical Memory
+    </a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">link</span> Blockchain Ledger
+    </a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">map</span> Outbreak Map
+    </a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">shield</span> Disease Clusters
+    </a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors">
+      <span class="material-symbols-outlined text-sm">logout</span> Sign Out
+    </a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Topbar -->
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">medical_services</span>
+        ASHA Worker Dashboard
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Manage patients, assessments and emergencies</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button class="flex items-center gap-2 px-4 py-2 bg-error text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-all active:scale-95 shadow-sm"
+        data-bs-toggle="modal" data-bs-target="#sosModal">
+        <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">emergency</span>
+        SOS Emergency
+      </button>
+    </div>
+  </header>
+
+  <div class="p-6">
+
+    <!-- SOS Triage Panel -->
+    <div id="sos-triage-panel" class="d-none mb-4">
+      <div class="card border-danger shadow">
+        <div class="card-header text-white d-flex justify-content-between align-items-center" style="background:#dc2626">
+          <span><i class="fa-solid fa-siren-on me-2"></i><strong>SOS ACTIVE — Triage Instructions</strong></span>
+          <span id="triage-type-label" class="badge bg-light text-danger fw-bold"></span>
+        </div>
+        <div class="card-body">
+          <div id="triage-steps" class="mb-3"></div>
+          <div id="triage-escalation" class="alert alert-warning py-2 mb-2"></div>
+          <div class="d-flex gap-2">
+            <span id="triage-block-badge" class="badge bg-success d-none"><i class="fa-solid fa-cube me-1"></i>Blockchain Proof Mined</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">group</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-on-surface" id="my-patients-count">—</div>
+          <div class="text-xs text-on-surface-variant">My Patients</div>
+        </div>
+      </div>
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">calendar_month</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-on-surface" id="my-visits-count">—</div>
+          <div class="text-xs text-on-surface-variant">My Visits</div>
+        </div>
+      </div>
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings:'FILL' 1">warning</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-red-600" id="my-highrisk">—</div>
+          <div class="text-xs text-on-surface-variant">High Risk</div>
+        </div>
+      </div>
+      <div class="stat-card-new" style="border-left:3px solid #dc2626">
+        <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings:'FILL' 1">emergency</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-red-600" id="my-active-emergencies">—</div>
+          <div class="text-xs text-on-surface-variant">Active Emergencies</div>
+        </div>
+      </div>
+      <div class="stat-card-new" style="border-left:3px solid #9333ea">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#f3e8ff">
+          <span class="material-symbols-outlined text-purple-600 text-xl" style="font-variation-settings:'FILL' 1">person_off</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-purple-600" id="my-absences-count">—</div>
+          <div class="text-xs text-on-surface-variant">Absence Events</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button class="flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-xl text-sm font-bold hover:bg-primary-container transition-all active:scale-95 shadow-sm"
+        data-bs-toggle="modal" data-bs-target="#newVisitModal" onclick="initGCPE()">
+        <span class="material-symbols-outlined text-base">assignment_add</span>
+        New Assessment (GCPE)
+      </button>
+      <button class="flex items-center gap-2 px-4 py-2.5 border border-primary text-primary rounded-xl text-sm font-bold hover:bg-primary/5 transition-all"
+        data-bs-toggle="modal" data-bs-target="#addPatientModal">
+        <span class="material-symbols-outlined text-base">person_add</span>
+        Register Patient
+      </button>
+      <button class="flex items-center gap-2 px-4 py-2.5 border border-outline-variant text-on-surface-variant rounded-xl text-sm font-bold hover:bg-surface-container transition-all"
+        data-bs-toggle="modal" data-bs-target="#absenceModal">
+        <span class="material-symbols-outlined text-base">person_off</span>
+        Patient Unavailable
+      </button>
+    </div>
+
+    <!-- Patient Table -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+        <h3 class="font-bold text-on-surface flex items-center gap-2 text-sm">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">list_alt</span>
+          My Assigned Patients
+        </h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-surface-container-low">
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Patient</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">ID</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Village</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Last Visit</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Risk</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Action</th>
+            </tr>
+          </thead>
+          <tbody id="patient-table" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="6" class="text-center text-on-surface-variant py-8 text-sm">
+              <span class="material-symbols-outlined text-2xl mb-2 block opacity-40">hourglass_empty</span>Loading patients…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Visits Table -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20">
+        <h3 class="font-bold text-on-surface flex items-center gap-2 text-sm">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">history</span>
+          Recent Visit History
+        </h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-surface-container-low">
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Patient</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Date</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">BP</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Risk</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Blockchain</th>
+            </tr>
+          </thead>
+          <tbody id="visits-table" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="5" class="text-center text-on-surface-variant py-6 text-sm">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Emergency History -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+        <h3 class="font-bold text-red-600 flex items-center gap-2 text-sm">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">emergency</span>
+          Emergency History
+        </h3>
+        <button onclick="loadEmergencies()" class="text-xs text-primary font-bold hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+        </button>
+      </div>
+      <div id="emergency-history-panel" class="text-center text-on-surface-variant py-6 text-sm">Loading…</div>
+    </div>
+
+  </div><!-- /p-6 -->
+</div><!-- /main-content -->
+
+<!-- ═══════════════════════════════════════════════
+     EXISTING BOOTSTRAP MODALS — GCPE, Add Patient, SOS, Absence
+     All DOM IDs preserved exactly as the backend JS requires
+     ═══════════════════════════════════════════════ -->
+
+<!-- GCPE Assessment Modal -->
+<div class="modal fade" id="newVisitModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#0f766e; color:#fff;">
+        <div class="w-100">
+          <h5 class="modal-title mb-1">
+            <i class="fa-solid fa-notes-medical me-2"></i>
+            <span id="gcpe-protocol-name">Hypertension Assessment (GCPE)</span>
+          </h5>
+          <div class="d-flex align-items-center gap-2 mt-1">
+            <div class="progress flex-grow-1" style="height:6px;background:rgba(255,255,255,0.3)">
+              <div id="gcpe-progress-bar" class="progress-bar bg-white" style="width:0%"></div>
+            </div>
+            <small id="gcpe-progress-text" style="opacity:.85;white-space:nowrap">Step 0</small>
+          </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="modal" onclick="resetGCPE()"></button>
+      </div>
+      <div class="modal-body" style="min-height:340px">
+        <!-- Phase 0: Patient selection -->
+        <div id="gcpe-phase-patient">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Assessment Protocol</label>
+            <div class="d-flex gap-2" id="protocol-selector">
+              <button type="button" class="btn flex-fill protocol-btn active"
+                      style="border:2px solid #0d9488;background:#f0fdfa;color:#0f766e;font-weight:600"
+                      data-protocol="hypertension_protocol"
+                      onclick="selectProtocol('hypertension_protocol',this)">
+                <i class="fa-solid fa-heart-pulse me-1"></i>Hypertension
+              </button>
+              <button type="button" class="btn flex-fill protocol-btn"
+                      style="border:2px solid #d1d5db;background:#fff;color:#6b7280;font-weight:600"
+                      data-protocol="diabetes_protocol"
+                      onclick="selectProtocol('diabetes_protocol',this)">
+                <i class="fa-solid fa-droplet me-1"></i>Diabetes Screening
+              </button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Select Patient</label>
+            <select id="visit-patient" class="form-select form-select-lg" required>
+              <option value="">— Select a patient to assess —</option>
+            </select>
+          </div>
+          <div class="alert alert-info d-flex gap-2 align-items-start" style="font-size:.9rem">
+            <i class="fa-solid fa-circle-info mt-1"></i>
+            <div id="gcpe-protocol-desc">This will guide you through the <strong>Hypertension Assessment Protocol</strong>.
+            Questions adapt based on each answer — the engine branches automatically.</div>
+          </div>
+          <button class="btn btn-teal btn-lg w-100" onclick="startProtocolWithGPS()">
+            <i class="fa-solid fa-play me-2"></i>Begin Triage Assessment
+          </button>
+          <div id="gps-status-badge" class="mt-2 text-center" style="min-height:1.4rem;font-size:.8rem;"></div>
+        </div>
+        <!-- Phase 1: Active GCPE steps -->
+        <div id="gcpe-phase-steps" class="d-none">
+          <div id="gcpe-breadcrumb" class="mb-3 d-none">
+            <small class="text-muted">
+              <i class="fa-solid fa-code-branch me-1"></i>
+              <span id="gcpe-pathway-label"></span>
+            </small>
+          </div>
+          <div id="gcpe-alert-banner" class="alert d-none mb-3" role="alert">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+            <span id="gcpe-alert-text"></span>
+          </div>
+          <div class="mb-1">
+            <span id="gcpe-step-label" class="badge rounded-pill mb-2"
+                  style="background:#ccfbf1;color:#0f766e;font-size:.75rem;font-weight:600"></span>
+          </div>
+          <h5 id="gcpe-question" class="fw-semibold mb-3" style="line-height:1.5"></h5>
+          <p id="gcpe-unit-hint" class="text-muted small mb-2 d-none"></p>
+          <div id="gcpe-answer-area"></div>
+          <div class="d-flex gap-2 mt-4">
+            <button id="gcpe-back-btn" class="btn btn-outline-secondary btn-sm" onclick="goBack()" style="display:none!important">
+              <i class="fa-solid fa-arrow-left me-1"></i>Back
+            </button>
+            <button id="gcpe-skip-btn" class="btn btn-link btn-sm text-muted d-none" onclick="skipOptional()">
+              Skip (optional)
+            </button>
+          </div>
+        </div>
+        <!-- Phase 2: Summary + submit -->
+        <div id="gcpe-phase-summary" class="d-none">
+          <div id="gcpe-risk-banner" class="alert mb-3" role="alert"></div>
+          <div id="gps-status-badge" class="mb-2" style="font-size:.82rem;"></div>
+          <div class="card border-0 bg-light mb-3">
+            <div class="card-header bg-transparent fw-semibold" style="font-size:.9rem">
+              <i class="fa-solid fa-clipboard-list me-1" style="color:#0f766e"></i>
+              Assessment Summary
+            </div>
+            <div class="card-body py-2">
+              <div id="gcpe-summary-vitals" class="row g-2 mb-2"></div>
+              <div id="gcpe-summary-symptoms" class="mb-2"></div>
+              <div id="gcpe-summary-pathways" class="d-none mb-2"></div>
+              <div id="gcpe-summary-alerts" class="d-none"></div>
+            </div>
+          </div>
+          <div id="submit-result" class="d-none"></div>
+        </div>
+      </div>
+      <div class="modal-footer" id="gcpe-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetGCPE()">Cancel</button>
+        <button id="gcpe-submit-btn" class="btn btn-teal d-none" onclick="submitVisit()">
+          <i class="fa-solid fa-paper-plane me-1"></i>Save &amp; Mine Block
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Patient Modal -->
+<div class="modal fade" id="addPatientModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#0f766e; color:#fff;">
+        <h5 class="modal-title"><i class="fa-solid fa-user-plus me-2"></i>Register New Patient</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="add-patient-form">
+          <div class="mb-2">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="p-name" class="form-control" required />
+          </div>
+          <div class="row g-2 mb-2">
+            <div class="col-6">
+              <label class="form-label">Age</label>
+              <input type="number" id="p-age" class="form-control" min="1" max="120" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Gender</label>
+              <select id="p-gender" class="form-select">
+                <option value="">--</option>
+                <option>Male</option><option>Female</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Village</label>
+            <input type="text" id="p-village" class="form-control" />
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Phone</label>
+            <input type="tel" id="p-phone" class="form-control" />
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Medical History</label>
+            <textarea id="p-history" class="form-control" rows="2"></textarea>
+          </div>
+        </form>
+        <div id="add-patient-result"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-teal" onclick="addPatient()">
+          <i class="fa-solid fa-save me-1"></i>Register
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOS Emergency Modal -->
+<div class="modal fade" id="sosModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background:#dc2626">
+        <h5 class="modal-title">
+          <i class="fa-solid fa-bell-concierge me-2"></i>SOS Emergency Escalation
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger py-2 mb-3" style="font-size:.88rem">
+          <i class="fa-solid fa-triangle-exclamation me-2"></i>
+          This will immediately alert the assigned doctor, PHC, and emergency contacts.
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Patient *</label>
+          <select id="sos-patient" class="form-select" required>
+            <option value="">— Select patient —</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Emergency Type *</label>
+          <div id="sos-type-grid" class="row g-2">
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-danger sos-type-btn" data-type="hypertensive_crisis"><i class="fa-solid fa-heart-pulse d-block mb-1 fs-4"></i>Hypertensive Crisis</button></div>
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-danger sos-type-btn" data-type="unconscious"><i class="fa-solid fa-person-falling d-block mb-1 fs-4"></i>Unconscious</button></div>
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-danger sos-type-btn" data-type="breathing_difficulty"><i class="fa-solid fa-lungs d-block mb-1 fs-4"></i>Breathing Difficulty</button></div>
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-danger sos-type-btn" data-type="chest_pain"><i class="fa-solid fa-heart-crack d-block mb-1 fs-4"></i>Chest Pain</button></div>
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-warning sos-type-btn" data-type="severe_dizziness"><i class="fa-solid fa-dizzy d-block mb-1 fs-4"></i>Severe Dizziness</button></div>
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-warning sos-type-btn" data-type="medication_emergency"><i class="fa-solid fa-pills d-block mb-1 fs-4"></i>Medication Emergency</button></div>
+            <div class="col-6 col-md-4"><button type="button" class="btn w-100 btn-outline-secondary sos-type-btn" data-type="other"><i class="fa-solid fa-circle-exclamation d-block mb-1 fs-4"></i>Other</button></div>
+          </div>
+          <input type="hidden" id="sos-type-value" />
+        </div>
+        <div class="mb-3">
+          <div id="sos-gps-status" class="small text-muted">
+            <i class="fa-solid fa-location-dot me-1"></i>GPS: not yet captured
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Additional Notes <span class="text-muted fw-normal">(optional)</span></label>
+          <textarea id="sos-notes" class="form-control" rows="2" placeholder="Describe what you observe..."></textarea>
+        </div>
+        <div id="sos-modal-result"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-danger px-4" id="sos-submit-btn" onclick="submitSOS()">
+          <i class="fa-solid fa-bell-concierge me-2"></i>Send SOS Alert
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Absence Modal -->
+<div class="modal fade" id="absenceModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#f3e8ff;border-bottom:2px solid #9333ea">
+        <h5 class="modal-title" style="color:#7c3aed">
+          <i class="fa-solid fa-person-circle-question me-2"></i>Log Patient Unavailability
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Select Patient</label>
+          <select id="absence-patient-id" class="form-select">
+            <option value="">— Select patient —</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Reason for Absence</label>
+          <div class="row g-2" id="absence-type-grid"></div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Expected Visit Date <span class="text-muted fw-normal">(optional)</span></label>
+          <input type="date" id="absence-expected-date" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Notes <span class="text-muted fw-normal">(optional)</span></label>
+          <textarea id="absence-notes" class="form-control" rows="2" placeholder="Describe what happened..."></textarea>
+        </div>
+        <div id="absence-modal-result"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn px-4" style="background:#7c3aed;color:#fff" id="absence-submit-btn" onclick="submitAbsence()">
+          <i class="fa-solid fa-person-circle-question me-2"></i>Log Unavailability
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Font Awesome for modal icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// ── Auth guard ─────────────────────────────────────────────────────────────────
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'ASHA Worker';
+document.getElementById('sidebar-role').textContent = (_u.role || 'asha').toUpperCase();
+
+// ── API helper ────────────────────────────────────────────────────────────────
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API.token() }; },
+  get: function(url) {
+    return fetch(url, { headers: API.headers() })
+      .then(function(r) { if (!r.ok) { console.warn('[API] GET ' + url + ' → ' + r.status); return null; } return r.json(); })
+      .catch(function(e) { console.warn('[API] GET failed:', url, e); return null; });
+  },
+  post: function(url, body) {
+    return fetch(url, { method: 'POST', headers: API.headers(), body: JSON.stringify(body) })
+      .then(function(r) { if (!r.ok) { console.warn('[API] POST ' + url + ' → ' + r.status); return null; } return r.json(); })
+      .catch(function(e) { console.warn('[API] POST failed:', url, e); return null; });
+  }
+};
+
+// ── Dashboard data load ───────────────────────────────────────────────────────
+async function loadAsha() {
+  const [patients, visits] = await Promise.all([
+    API.get('/api/patients'),
+    API.get('/api/visits'),
+  ]);
+  const pArr = Array.isArray(patients) ? patients : [];
+  const vArr = Array.isArray(visits) ? visits : [];
+
+  document.getElementById('my-patients-count').textContent = pArr.length;
+  document.getElementById('my-visits-count').textContent = vArr.length;
+  document.getElementById('my-highrisk').textContent = pArr.filter(p => p.risk_level === 'HIGH').length;
+
+  const sel = document.getElementById('visit-patient');
+  sel.innerHTML = '<option value="">— Select a patient to assess —</option>';
+  pArr.forEach(p => {
+    const opt = new Option(`${p.full_name} (${p.patient_id || p.id})`, p.id);
+    sel.add(opt);
+  });
+
+  const ptable = document.getElementById('patient-table');
+  if (!pArr.length) {
+    ptable.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-sm text-on-surface-variant">No patients assigned yet.</td></tr>';
+  } else {
+    ptable.innerHTML = pArr.map(p => {
+      const risk = p.risk_level || 'LOW';
+      const riskCls = {HIGH:'text-red-600 font-bold',MEDIUM:'text-amber-600 font-bold',LOW:'text-green-600 font-semibold'}[risk] || '';
+      return `<tr class="hover:bg-surface-container-low transition-colors">
+        <td class="px-5 py-3"><div class="font-semibold text-on-surface text-sm">${p.full_name}</div><div class="text-xs text-on-surface-variant">${p.age ? p.age+'y' : ''} ${p.gender||''}</div></td>
+        <td class="px-5 py-3 font-mono text-xs text-on-surface-variant">${p.patient_id || p.id}</td>
+        <td class="px-5 py-3 text-sm">${p.village || '—'}</td>
+        <td class="px-5 py-3 text-sm text-on-surface-variant">${p.last_visit ? new Date(p.last_visit).toLocaleDateString('en-IN') : 'No visits'}</td>
+        <td class="px-5 py-3"><span class="${riskCls} text-sm">${risk}</span>${p.risk_score != null ? ' <span class="text-xs text-on-surface-variant">('+p.risk_score+')</span>' : ''}</td>
+        <td class="px-5 py-3"><button class="text-xs text-primary font-bold hover:underline" onclick="showPatient(${p.id})">View</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  const vtable = document.getElementById('visits-table');
+  if (!vArr.length) {
+    vtable.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-sm text-on-surface-variant">No visits recorded yet.</td></tr>';
+  } else {
+    vtable.innerHTML = vArr.slice(0, 15).map(v => {
+      const rCls = {HIGH:'text-red-600 font-bold',MEDIUM:'text-amber-600 font-bold',LOW:'text-green-600 font-semibold'}[v.risk_level] || '';
+      return `<tr class="hover:bg-surface-container-low transition-colors">
+        <td class="px-5 py-2.5 text-sm font-medium">${v.patient_name || '—'}</td>
+        <td class="px-5 py-2.5 text-sm text-on-surface-variant">${new Date(v.visit_date).toLocaleDateString('en-IN')}</td>
+        <td class="px-5 py-2.5 text-sm font-mono">${v.bp_systolic || '—'}/${v.bp_diastolic || '—'}</td>
+        <td class="px-5 py-2.5"><span class="${rCls} text-sm">${v.risk_level || '—'}</span></td>
+        <td class="px-5 py-2.5">${v.synced_to_blockchain
+          ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-bold">✓ Block #${v.block_index}</span>`
+          : '<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-xs">Pending</span>'}</td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+// ── GCPE Engine ───────────────────────────────────────────────────────────────
+let gcpeProtocol  = null;
+let gcpeSession   = null;
+let gcpeStepStack = [];
+let selectedProtocolId = 'hypertension_protocol';
+const gcpeProtocolCache = {};
+
+const PROTOCOL_META = {
+  hypertension_protocol: {
+    name: 'Hypertension Assessment (GCPE)',
+    desc: 'This will guide you through the <strong>Hypertension Assessment Protocol</strong>. Questions adapt based on each answer — the engine branches automatically.',
+  },
+  diabetes_protocol: {
+    name: 'Diabetes Risk Screening (GCPE)',
+    desc: 'This will guide you through the <strong>Diabetes Risk Screening Protocol</strong>. Screens for symptoms, family history, glucose readings, and BP comorbidities.',
+  },
+};
+
+function selectProtocol(protocolId, _btn) {
+  selectedProtocolId = protocolId;
+  document.querySelectorAll('.protocol-btn').forEach(b => {
+    const active = b.dataset.protocol === protocolId;
+    b.style.border     = active ? '2px solid #0d9488' : '2px solid #d1d5db';
+    b.style.background = active ? '#f0fdfa'           : '#fff';
+    b.style.color      = active ? '#0f766e'           : '#6b7280';
+  });
+  const meta   = PROTOCOL_META[protocolId] || {};
+  const descEl = document.getElementById('gcpe-protocol-desc');
+  if (descEl && meta.desc) descEl.innerHTML = meta.desc;
+  const nameEl = document.getElementById('gcpe-protocol-name');
+  if (nameEl && meta.name) nameEl.textContent = meta.name;
+}
+
+function gcpeEvaluateConditions(conditions, answers) {
+  for (const cond of conditions) {
+    if (!cond.field) return cond.next;
+    const actual = answers[cond.field];
+    if (actual === undefined || actual === null) continue;
+    let match = false;
+    const target = cond.value;
+    switch (cond.op) {
+      case '==':  match = (actual == target);  break;
+      case '!=':  match = (actual != target);  break;
+      case '>':   match = (parseFloat(actual) >  parseFloat(target)); break;
+      case '>=':  match = (parseFloat(actual) >= parseFloat(target)); break;
+      case '<':   match = (parseFloat(actual) <  parseFloat(target)); break;
+      case '<=':  match = (parseFloat(actual) <= parseFloat(target)); break;
+      case 'in':  match = Array.isArray(target) && target.includes(actual); break;
+    }
+    if (match) return cond.next;
+  }
+  return null;
+}
+
+function gcpeGetNextStepId(step, answer, answers) {
+  const merged = {...answers, ...(step.field ? {[step.field]: answer} : {})};
+  if (step.conditions && step.conditions.length) {
+    const next = gcpeEvaluateConditions(step.conditions, merged);
+    if (next) return next;
+  }
+  if (step.type === 'boolean') return answer ? step.yes_next : step.no_next;
+  return step.next || 'complete';
+}
+
+function gcpeGetStep(stepId) {
+  return gcpeProtocol.steps.find(s => s.id === stepId) || null;
+}
+
+function gcpeTotalStepsVisible() { return gcpeSession.branchPath.length + 1; }
+
+async function initGCPE() {
+  selectProtocol('hypertension_protocol', null);
+  if (!gcpeProtocolCache['hypertension_protocol']) {
+    try {
+      gcpeProtocolCache['hypertension_protocol'] = await API.get('/api/gcpe/protocol/hypertension_protocol');
+    } catch(e) { console.error('GCPE protocol load failed', e); }
+  }
+  gcpeProtocol = gcpeProtocolCache['hypertension_protocol'];
+  showPhase('patient');
+  resetGCPE();
+}
+
+function resetGCPE() {
+  gcpeSession   = { currentStepId: null, answers: {}, branchPath: [], pathways: [], riskFlags: [], alerts: [], gpsCoords: null, visitTimestamp: null };
+  gcpeStepStack = [];
+  showPhase('patient');
+  const pb = document.getElementById('gcpe-progress-bar');
+  if (pb) pb.style.width = '0%';
+  const pt = document.getElementById('gcpe-progress-text');
+  if (pt) pt.textContent = 'Step 0';
+  const sr = document.getElementById('submit-result');
+  if (sr) sr.classList.add('d-none');
+  const sb = document.getElementById('gcpe-submit-btn');
+  if (sb) sb.classList.add('d-none');
+  const ab = document.getElementById('gcpe-alert-banner');
+  if (ab) ab.classList.add('d-none');
+}
+
+function showPhase(phase) {
+  ['patient','steps','summary'].forEach(p => {
+    const el = document.getElementById('gcpe-phase-' + p);
+    if (el) el.classList.toggle('d-none', p !== phase);
+  });
+  const footer = document.getElementById('gcpe-footer');
+  if (footer) footer.style.display = phase === 'summary' ? '' : (phase === 'steps' ? 'none' : '');
+}
+
+function renderCurrentStep() {
+  if (!gcpeProtocol || !gcpeSession) return;
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  if (!step || step.id === 'complete' || gcpeSession.currentStepId === 'complete') {
+    renderSummary();
+    return;
+  }
+  const total = gcpeProtocol.steps.length;
+  const done  = gcpeSession.branchPath.length;
+  const pct   = Math.min(100, Math.round(done / Math.max(total, 1) * 100));
+  const pb = document.getElementById('gcpe-progress-bar');
+  if (pb) pb.style.width = pct + '%';
+  const pt = document.getElementById('gcpe-progress-text');
+  if (pt) pt.textContent = 'Step ' + (done + 1);
+
+  const stepLabel = document.getElementById('gcpe-step-label');
+  if (stepLabel) stepLabel.textContent = (step.category || 'Assessment').toUpperCase();
+  const qEl = document.getElementById('gcpe-question');
+  if (qEl) qEl.textContent = step.question || '';
+  const hintEl = document.getElementById('gcpe-unit-hint');
+  if (hintEl) {
+    if (step.unit) { hintEl.textContent = 'Enter in: ' + step.unit; hintEl.classList.remove('d-none'); }
+    else hintEl.classList.add('d-none');
+  }
+  const alertEl = document.getElementById('gcpe-alert-banner');
+  if (alertEl) { alertEl.classList.add('d-none'); alertEl.className = 'alert d-none mb-3'; }
+
+  renderAnswerArea(step);
+
+  const backBtn = document.getElementById('gcpe-back-btn');
+  if (backBtn) backBtn.style.cssText = gcpeStepStack.length > 0 ? 'display:inline-block!important' : 'display:none!important';
+  const skipBtn = document.getElementById('gcpe-skip-btn');
+  if (skipBtn) skipBtn.classList.toggle('d-none', !step.optional);
+
+  if (gcpeSession.branchPath.length > 0) {
+    const bc = document.getElementById('gcpe-breadcrumb');
+    const pl = document.getElementById('gcpe-pathway-label');
+    if (bc && pl) {
+      pl.textContent = gcpeSession.branchPath.slice(-3).join(' → ');
+      bc.classList.remove('d-none');
+    }
+  }
+}
+
+function renderAnswerArea(step) {
+  const area = document.getElementById('gcpe-answer-area');
+  if (!area) return;
+  if (step.type === 'boolean') {
+    area.innerHTML = `<div class="d-flex gap-3"><button class="gcpe-bool-btn" onclick="answerBool(true)"><i class="fa-solid fa-check me-1"></i>Yes</button><button class="gcpe-bool-btn no-btn" onclick="answerBool(false)"><i class="fa-solid fa-xmark me-1"></i>No</button></div>`;
+  } else if (step.type === 'number') {
+    area.innerHTML = `<div class="gcpe-number-wrap"><input type="number" id="gcpe-num-input" class="form-control form-control-lg" placeholder="${step.placeholder||''}" min="${step.min||0}" max="${step.max||999}" style="max-width:200px"><button class="btn btn-teal mt-2" onclick="answerNumber()">Next <i class="fa-solid fa-arrow-right ms-1"></i></button></div>`;
+    setTimeout(() => { const i = document.getElementById('gcpe-num-input'); if (i) i.focus(); }, 50);
+  } else if (step.type === 'choice') {
+    area.innerHTML = (step.options || []).map(opt => `<button class="gcpe-choice-btn" onclick="answerChoice('${opt.value||opt}')">${opt.label || opt}</button>`).join('');
+  } else if (step.type === 'text') {
+    area.innerHTML = `<textarea id="gcpe-text-input" class="form-control" rows="3" placeholder="${step.placeholder||'Enter notes...'}"></textarea><button class="btn btn-teal mt-2" onclick="answerText()">Next <i class="fa-solid fa-arrow-right ms-1"></i></button>`;
+  } else if (step.type === 'multi_select') {
+    area.innerHTML = (step.options || []).map((opt, i) => `<div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ms${i}" value="${opt.value||opt}"><label class="form-check-label" for="ms${i}">${opt.label||opt}</label></div>`).join('') +
+      `<button class="btn btn-teal mt-2" onclick="answerMulti()">Next <i class="fa-solid fa-arrow-right ms-1"></i></button>`;
+  }
+}
+
+function answerBool(val) {
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  if (!step) return;
+  if (step.field) gcpeSession.answers[step.field] = val;
+  checkAlerts(step, val);
+  gcpeStepStack.push(gcpeSession.currentStepId);
+  gcpeSession.branchPath.push(step.id);
+  const nextId = gcpeGetNextStepId(step, val, gcpeSession.answers);
+  gcpeSession.currentStepId = nextId || 'complete';
+  renderCurrentStep();
+}
+
+function answerNumber() {
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  const inp  = document.getElementById('gcpe-num-input');
+  if (!step || !inp) return;
+  const val = parseFloat(inp.value);
+  if (isNaN(val)) { inp.classList.add('is-invalid'); return; }
+  if (step.field) gcpeSession.answers[step.field] = val;
+  checkAlerts(step, val);
+  gcpeStepStack.push(gcpeSession.currentStepId);
+  gcpeSession.branchPath.push(step.id);
+  const nextId = gcpeGetNextStepId(step, val, gcpeSession.answers);
+  gcpeSession.currentStepId = nextId || 'complete';
+  renderCurrentStep();
+}
+
+function answerChoice(val) {
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  if (!step) return;
+  if (step.field) gcpeSession.answers[step.field] = val;
+  checkAlerts(step, val);
+  gcpeStepStack.push(gcpeSession.currentStepId);
+  gcpeSession.branchPath.push(step.id);
+  const nextId = gcpeGetNextStepId(step, val, gcpeSession.answers);
+  gcpeSession.currentStepId = nextId || 'complete';
+  renderCurrentStep();
+}
+
+function answerText() {
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  const inp  = document.getElementById('gcpe-text-input');
+  if (!step || !inp) return;
+  const val = inp.value.trim();
+  if (step.field) gcpeSession.answers[step.field] = val;
+  gcpeStepStack.push(gcpeSession.currentStepId);
+  gcpeSession.branchPath.push(step.id);
+  const nextId = gcpeGetNextStepId(step, val, gcpeSession.answers);
+  gcpeSession.currentStepId = nextId || 'complete';
+  renderCurrentStep();
+}
+
+function answerMulti() {
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  if (!step) return;
+  const vals = Array.from(document.querySelectorAll('#gcpe-answer-area input[type=checkbox]:checked')).map(c => c.value);
+  if (step.field) gcpeSession.answers[step.field] = vals;
+  gcpeStepStack.push(gcpeSession.currentStepId);
+  gcpeSession.branchPath.push(step.id);
+  const nextId = gcpeGetNextStepId(step, vals, gcpeSession.answers);
+  gcpeSession.currentStepId = nextId || 'complete';
+  renderCurrentStep();
+}
+
+function skipOptional() {
+  const step = gcpeGetStep(gcpeSession.currentStepId);
+  if (!step) return;
+  gcpeStepStack.push(gcpeSession.currentStepId);
+  gcpeSession.branchPath.push(step.id);
+  gcpeSession.currentStepId = step.next || 'complete';
+  renderCurrentStep();
+}
+
+function goBack() {
+  if (!gcpeStepStack.length) return;
+  const prev = gcpeStepStack.pop();
+  gcpeSession.branchPath.pop();
+  const step = gcpeGetStep(prev);
+  if (step && step.field) delete gcpeSession.answers[step.field];
+  gcpeSession.currentStepId = prev;
+  showPhase('steps');
+  renderCurrentStep();
+}
+
+function checkAlerts(step, val) {
+  if (!step.alerts) return;
+  for (const a of step.alerts) {
+    let triggered = false;
+    switch (a.condition) {
+      case '>':  triggered = parseFloat(val) > parseFloat(a.threshold); break;
+      case '>=': triggered = parseFloat(val) >= parseFloat(a.threshold); break;
+      case '<':  triggered = parseFloat(val) < parseFloat(a.threshold); break;
+      case '<=': triggered = parseFloat(val) <= parseFloat(a.threshold); break;
+      case '==': triggered = (val == a.threshold); break;
+    }
+    if (triggered) {
+      gcpeSession.riskFlags.push(a.flag || step.id);
+      gcpeSession.alerts.push(a.message || '');
+      if (a.pathway) gcpeSession.pathways.push(a.pathway);
+      const alertEl = document.getElementById('gcpe-alert-banner');
+      const alertTxt = document.getElementById('gcpe-alert-text');
+      if (alertEl && alertTxt) {
+        alertTxt.textContent = a.message || '';
+        alertEl.className = 'alert mb-3 alert-' + (a.level || 'high');
+        alertEl.classList.remove('d-none');
+      }
+    }
+  }
+  if (step.pathway_if) {
+    const cond = step.pathway_if;
+    let triggered = false;
+    switch (cond.op) {
+      case '>':  triggered = parseFloat(val) > parseFloat(cond.value); break;
+      case '>=': triggered = parseFloat(val) >= parseFloat(cond.value); break;
+      case '<':  triggered = parseFloat(val) < parseFloat(cond.value); break;
+      case '<=': triggered = parseFloat(val) <= parseFloat(cond.value); break;
+      case '==': triggered = (val == cond.value); break;
+    }
+    if (triggered && cond.pathway) gcpeSession.pathways.push(cond.pathway);
+  }
+}
+
+function renderSummary() {
+  showPhase('summary');
+  const a = gcpeSession.answers;
+  const risk = computeLocalRisk(a);
+  const banner = document.getElementById('gcpe-risk-banner');
+  if (banner) {
+    const colors = {HIGH:'alert-danger',MEDIUM:'alert-warning',LOW:'alert-success'};
+    banner.className = 'alert mb-3 ' + (colors[risk.level] || 'alert-secondary');
+    banner.innerHTML = `<strong>Preliminary Risk: ${risk.level}</strong> (Score: ${risk.score}) — final risk will be computed on submission.`;
+  }
+  const vitals = document.getElementById('gcpe-summary-vitals');
+  if (vitals) {
+    const vItems = [];
+    if (a.bp_systolic)  vItems.push(['Systolic BP', a.bp_systolic + ' mmHg']);
+    if (a.bp_diastolic) vItems.push(['Diastolic BP', a.bp_diastolic + ' mmHg']);
+    if (a.pulse)        vItems.push(['Pulse', a.pulse + ' bpm']);
+    if (a.temperature)  vItems.push(['Temp', a.temperature + '°C']);
+    vitals.innerHTML = vItems.map(([l,v]) =>
+      `<div class="col-6"><div class="p-2 rounded text-center" style="background:#f0fdfa"><div class="small text-muted">${l}</div><div class="fw-bold">${v}</div></div></div>`
+    ).join('');
+  }
+  const sympEl = document.getElementById('gcpe-summary-symptoms');
+  if (sympEl) {
+    const sympKeys = ['dizziness','chest_pain','medicine_missed','blurred_vision','worsening_symptoms'];
+    const sympPresent = sympKeys.filter(k => a[k] === true);
+    sympEl.innerHTML = sympPresent.length
+      ? sympPresent.map(s => `<span class="badge bg-warning text-dark me-1">${s.replace(/_/g,' ')}</span>`).join('')
+      : '<span class="text-muted small">No symptoms flagged</span>';
+  }
+  if (gcpeSession.pathways.length) {
+    const pwDiv = document.getElementById('gcpe-summary-pathways');
+    if (pwDiv) {
+      pwDiv.innerHTML = `<div class="mb-1" style="font-size:.82rem;color:#6b7280;font-weight:600">PATHWAYS TRIGGERED</div>
+        ${gcpeSession.pathways.map(p => `<span class="pathway-badge me-1">${p.replace(/_/g,' ')}</span>`).join('')}`;
+      pwDiv.classList.remove('d-none');
+    }
+  }
+  if (gcpeSession.alerts.length) {
+    const alDiv = document.getElementById('gcpe-summary-alerts');
+    if (alDiv) {
+      alDiv.classList.remove('d-none');
+      alDiv.innerHTML = `<div class="mb-1 mt-2" style="font-size:.82rem;color:#6b7280;font-weight:600">CLINICAL ALERTS RAISED</div>` +
+        gcpeSession.alerts.map(al => `<div class="alert alert-warning py-1 px-2 mb-1" style="font-size:.82rem"><i class="fa-solid fa-triangle-exclamation me-1"></i>${al}</div>`).join('');
+    }
+  }
+  if (a.notes) {
+    const noteEl = document.getElementById('gcpe-summary-pathways');
+    if (noteEl) {
+      noteEl.innerHTML += `<div class="mt-2 text-muted small"><strong>Notes:</strong> ${a.notes}</div>`;
+      noteEl.classList.remove('d-none');
+    }
+  }
+  const sb = document.getElementById('gcpe-submit-btn');
+  if (sb) sb.classList.remove('d-none');
+}
+
+function computeLocalRisk(a) {
+  let score = 0;
+  const sys = parseFloat(a.bp_systolic) || 0;
+  const dia = parseFloat(a.bp_diastolic) || 0;
+  if (sys > 180 || dia > 110) score += 40;
+  else if (sys > 160 || dia > 100) score += 25;
+  else if (sys > 140 || dia > 90) score += 15;
+  if (a.chest_pain) score += 20;
+  if (a.dizziness || a.blurred_vision) score += 10;
+  if (a.medicine_missed) score += 10;
+  if (gcpeSession.riskFlags.length > 1) score += 10;
+  score = Math.min(100, score);
+  const level = score >= 60 ? 'HIGH' : score >= 30 ? 'MEDIUM' : 'LOW';
+  return { score, level };
+}
+
+function captureGPS() {
+  return new Promise(function(resolve) {
+    if (!navigator || !navigator.geolocation) {
+      resolve({ latitude: null, longitude: null, accuracy: null, error: 'unsupported' });
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        resolve({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, accuracy: Math.round(pos.coords.accuracy), error: null });
+      },
+      function(err) {
+        var reason = err.code === 1 ? 'permission_denied' : err.code === 2 ? 'position_unavailable' : 'timeout';
+        resolve({ latitude: null, longitude: null, accuracy: null, error: reason });
+      },
+      { timeout: 8000, maximumAge: 30000, enableHighAccuracy: false }
+    );
+  });
+}
+
+function renderGPSBadge(gps) {
+  var els = document.querySelectorAll('#gps-status-badge');
+  els.forEach(function(el) {
+    if (!gps || gps.error) {
+      var label = gps ? gps.error.replace(/_/g,' ') : 'unavailable';
+      el.innerHTML = '<i class="fa-solid fa-location-dot me-1" style="color:#d97706"></i><span class="text-warning small">GPS: ' + label + '</span>';
+    } else {
+      el.innerHTML = '<i class="fa-solid fa-location-dot me-1" style="color:#16a34a"></i><span class="text-success small">GPS: ' + gps.latitude.toFixed(4) + '°, ' + gps.longitude.toFixed(4) + '° ±' + (gps.accuracy||'?') + 'm</span>';
+    }
+  });
+}
+
+async function startProtocolWithGPS() {
+  var pid = document.getElementById('visit-patient').value;
+  if (!pid) { alert('Please select a patient first.'); return; }
+
+  if (!gcpeProtocolCache[selectedProtocolId]) {
+    try {
+      gcpeProtocolCache[selectedProtocolId] = await API.get('/api/gcpe/protocol/' + selectedProtocolId);
+    } catch(e) {
+      console.error('Failed to load GCPE protocol', e);
+      alert('Failed to load assessment protocol. Please try again.');
+      return;
+    }
+  }
+  gcpeProtocol = gcpeProtocolCache[selectedProtocolId];
+  const nameEl = document.getElementById('gcpe-protocol-name');
+  if (nameEl) nameEl.textContent = gcpeProtocol.name || 'Clinical Assessment (GCPE)';
+
+  gcpeSession.gpsCoords   = null;
+  gcpeSession.visitTimestamp = Date.now() / 1000;
+
+  captureGPS().then(function(gps) {
+    gcpeSession.gpsCoords = gps;
+    renderGPSBadge(gps);
+  });
+
+  var badges = document.querySelectorAll('#gps-status-badge');
+  badges.forEach(function(badge) {
+    badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1" style="color:#0d9488"></i><span class="text-muted small">GPS: acquiring…</span>';
+  });
+
+  gcpeSession.currentStepId = gcpeProtocol.entry_step || gcpeProtocol.steps[0].id;
+  showPhase('steps');
+  renderCurrentStep();
+}
+
+async function submitVisit() {
+  const pid = document.getElementById('visit-patient').value;
+  if (!pid) return;
+  const btn = document.getElementById('gcpe-submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i>Mining block...';
+  const a   = gcpeSession.answers;
+  const gps = gcpeSession.gpsCoords || {};
+  const isDiabetes = gcpeProtocol && gcpeProtocol.protocol_id === 'DM-001';
+  const payload = {
+    patient_id:      parseInt(pid),
+    bp_systolic:     a.bp_systolic     ? parseInt(a.bp_systolic)    : null,
+    bp_diastolic:    a.bp_diastolic    ? parseInt(a.bp_diastolic)   : null,
+    pulse:           a.pulse           ? parseInt(a.pulse)          : null,
+    temperature:     a.temperature     ? parseFloat(a.temperature)  : null,
+    dizziness:       isDiabetes ? !!a.blurred_vision   : !!a.dizziness,
+    chest_pain:      isDiabetes ? !!a.worsening_symptoms : !!a.chest_pain,
+    medicine_missed: isDiabetes ? !!a.diabetes_med_missed : !!a.medicine_missed,
+    notes:           a.notes || '',
+    latitude:        gps.latitude  != null ? gps.latitude  : null,
+    longitude:       gps.longitude != null ? gps.longitude : null,
+    visit_timestamp: gcpeSession.visitTimestamp || (Date.now() / 1000),
+    gcpe_data: {
+      protocol_id:      gcpeProtocol.protocol_id,
+      protocol_version: gcpeProtocol.version,
+      answers:          gcpeSession.answers,
+      branch_path:      gcpeSession.branchPath,
+      pathways:         gcpeSession.pathways,
+      risk_flags:       gcpeSession.riskFlags,
+      alerts:           gcpeSession.alerts,
+      steps_taken:      gcpeSession.branchPath.length,
+      gps_accuracy:     gps.accuracy || null,
+      gps_error:        gps.error    || null,
+    },
+  };
+  const res = await API.post('/api/visits', payload);
+  const box = document.getElementById('submit-result');
+  box.classList.remove('d-none');
+  if (res && res.id) {
+    const gpsSeal = payload.latitude != null
+      ? `<br><i class="fa-solid fa-location-dot me-1 text-success"></i>GPS sealed: ${payload.latitude.toFixed(4)}°, ${payload.longitude.toFixed(4)}°`
+      : `<br><i class="fa-solid fa-location-dot me-1 text-secondary"></i>GPS: not available`;
+    const bcStatus = res.blockchain_mined ? `Block: <strong>#${res.block_index}</strong>` : `<span class="text-warning">Blockchain mining pending</span>`;
+    box.className = 'alert alert-success mt-2';
+    box.innerHTML = `<strong>Visit saved &amp; blockchain record created!</strong><br>Risk: <strong>${res.risk?.level || '—'} (score: ${res.risk?.score ?? '—'})</strong> — ${bcStatus}${gpsSeal}`;
+    loadAsha();
+    btn.innerHTML = '<i class="fa-solid fa-check me-1"></i>Saved';
+  } else {
+    box.className = 'alert alert-danger mt-2';
+    box.innerHTML = (res && res.error) ? res.error : 'Failed to save visit';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane me-1"></i>Save &amp; Mine Block';
+  }
+}
+
+async function addPatient() {
+  const body = {
+    full_name:       document.getElementById('p-name').value,
+    age:             parseInt(document.getElementById('p-age').value) || null,
+    gender:          document.getElementById('p-gender').value,
+    village:         document.getElementById('p-village').value,
+    phone:           document.getElementById('p-phone').value,
+    medical_history: document.getElementById('p-history').value,
+  };
+  const res = await API.post('/api/patients', body);
+  const box = document.getElementById('add-patient-result');
+  if (res && res.id) {
+    box.className = 'alert alert-success mt-2';
+    box.innerHTML = `Patient registered! ID: <strong>${res.patient_id}</strong>`;
+    loadAsha();
+  } else {
+    box.className = 'alert alert-danger mt-2';
+    box.innerHTML = (res && res.error) ? res.error : 'Failed to register';
+  }
+}
+
+function showPatient(id) { window.location.href = `/patient/${id}`; }
+
+// ── SOS Emergency System ──────────────────────────────────────────────────────
+let sosGPSCoords = null;
+let sosSelectedType = null;
+
+document.getElementById('sosModal').addEventListener('show.bs.modal', function () {
+  sosGPSCoords = null;
+  sosSelectedType = null;
+  document.getElementById('sos-type-value').value = '';
+  document.getElementById('sos-notes').value = '';
+  document.getElementById('sos-modal-result').innerHTML = '';
+  document.getElementById('sos-submit-btn').disabled = false;
+  document.querySelectorAll('.sos-type-btn').forEach(b => b.classList.remove('active', 'btn-danger', 'btn-warning', 'btn-secondary'));
+
+  const gpsEl = document.getElementById('sos-gps-status');
+  gpsEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i>Acquiring GPS...';
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        sosGPSCoords = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+        gpsEl.innerHTML = '<i class="fa-solid fa-location-dot me-1 text-success"></i>GPS: ' + pos.coords.latitude.toFixed(4) + '°, ' + pos.coords.longitude.toFixed(4) + '°';
+      },
+      err => { gpsEl.innerHTML = '<i class="fa-solid fa-location-dot me-1 text-warning"></i>GPS unavailable — event will still be sent'; },
+      { timeout: 8000 }
+    );
+  }
+
+  const sel = document.getElementById('sos-patient');
+  const mainSel = document.getElementById('visit-patient');
+  sel.innerHTML = '<option value="">— Select patient —</option>';
+  Array.from(mainSel.options).forEach(o => { if (o.value) sel.appendChild(o.cloneNode(true)); });
+});
+
+document.querySelectorAll('.sos-type-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.sos-type-btn').forEach(b => {
+      b.classList.remove('active', 'btn-danger', 'btn-warning', 'btn-secondary');
+      const t = b.dataset.type;
+      const base = ['hypertensive_crisis','unconscious','breathing_difficulty','chest_pain'].includes(t)
+        ? 'btn-outline-danger' : (t === 'other' ? 'btn-outline-secondary' : 'btn-outline-warning');
+      b.className = b.className.replace(/btn-outline-\w+/g, base);
+    });
+    this.classList.add('active');
+    if (['hypertensive_crisis','unconscious','breathing_difficulty','chest_pain'].includes(this.dataset.type)) {
+      this.classList.replace('btn-outline-danger', 'btn-danger');
+    } else if (this.dataset.type === 'other') {
+      this.classList.replace('btn-outline-secondary', 'btn-secondary');
+    } else {
+      this.classList.replace('btn-outline-warning', 'btn-warning');
+    }
+    sosSelectedType = this.dataset.type;
+    document.getElementById('sos-type-value').value = sosSelectedType;
+  });
+});
+
+async function submitSOS() {
+  const patientId = document.getElementById('sos-patient').value;
+  const emergType = document.getElementById('sos-type-value').value;
+  const notes     = document.getElementById('sos-notes').value;
+  const resultEl  = document.getElementById('sos-modal-result');
+  if (!patientId) { alert('Please select a patient.'); return; }
+  if (!emergType) { alert('Please select the emergency type.'); return; }
+  const btn = document.getElementById('sos-submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending SOS...';
+  const payload = {
+    patient_id: parseInt(patientId),
+    emergency_type: emergType,
+    notes,
+    client_timestamp: Date.now() / 1000,
+    latitude:  sosGPSCoords ? sosGPSCoords.latitude  : null,
+    longitude: sosGPSCoords ? sosGPSCoords.longitude : null,
+  };
+  const res = await API.post('/api/emergency', payload);
+  if (res && res.event && res.event.event_id) {
+    btn.innerHTML = '<i class="fa-solid fa-check me-2"></i>SOS Sent';
+    resultEl.className = 'alert alert-success mt-2 py-2';
+    resultEl.innerHTML = 'Emergency escalated. Triage instructions are now shown below.';
+    setTimeout(() => {
+      const modal = bootstrap.Modal.getInstance(document.getElementById('sosModal'));
+      if (modal) modal.hide();
+    }, 1200);
+    showTriagePanel(res);
+    loadEmergencies();
+    document.getElementById('my-active-emergencies').textContent =
+      parseInt(document.getElementById('my-active-emergencies').textContent || '0') + 1;
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-bell-concierge me-2"></i>Send SOS Alert';
+    resultEl.className = 'alert alert-danger mt-2 py-2';
+    resultEl.innerHTML = (res && res.error) ? res.error : 'Failed to send SOS. Event saved offline.';
+    try {
+      const pending = JSON.parse(localStorage.getItem('sos_offline_queue') || '[]');
+      pending.push({ ...payload, event_id: 'offline_' + Date.now(), queued_at: new Date().toISOString() });
+      localStorage.setItem('sos_offline_queue', JSON.stringify(pending));
+      resultEl.innerHTML += '<br><small><i class="fa-solid fa-clock me-1"></i>Saved offline — will sync when connectivity returns.</small>';
+    } catch (e) {}
+  }
+}
+
+function showTriagePanel(res) {
+  const event    = res.event || {};
+  const triage   = res.triage_instructions || [];
+  const targets  = res.escalation_targets || {};
+  const typeLabel = event.emergency_type_label || event.emergency_type || 'Emergency';
+  document.getElementById('triage-type-label').textContent = typeLabel;
+  document.getElementById('triage-steps').innerHTML = triage.map((step, i) =>
+    '<div class="d-flex align-items-start gap-2 mb-2 p-2 rounded" style="background:#fff5f5">' +
+    '<span class="badge bg-danger" style="min-width:24px">' + (i + 1) + '</span>' +
+    '<span style="font-size:.9rem">' + step + '</span></div>'
+  ).join('');
+  const doc    = targets.doctor  || {};
+  const phc    = targets.phc     || '—';
+  const line   = targets.helpline || '—';
+  document.getElementById('triage-escalation').innerHTML =
+    '<strong><i class="fa-solid fa-phone-volume me-2"></i>Escalation Contacts:</strong><br>' +
+    '<span class="me-3"><i class="fa-solid fa-user-doctor me-1"></i>' + (doc.name || 'Doctor') + ' — ' + (doc.phone || 'on file') + '</span>' +
+    '<span class="me-3"><i class="fa-solid fa-hospital me-1"></i>' + phc + '</span>' +
+    '<span><i class="fa-solid fa-phone-emergency me-1"></i>' + line + '</span>';
+  if (res.block_index != null) {
+    const badge = document.getElementById('triage-block-badge');
+    badge.textContent = 'Blockchain Block #' + res.block_index + ' mined';
+    badge.classList.remove('d-none');
+  }
+  document.getElementById('sos-triage-panel').classList.remove('d-none');
+  document.getElementById('sos-triage-panel').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function loadEmergencies() {
+  const events = await API.get('/api/emergency') || [];
+  const panel  = document.getElementById('emergency-history-panel');
+  const activeCount = Array.isArray(events) ? events.filter(e => e.status === 'active' || e.status === 'acknowledged').length : 0;
+  document.getElementById('my-active-emergencies').textContent = activeCount;
+  if (!Array.isArray(events) || !events.length) {
+    panel.innerHTML = '<div class="text-center text-on-surface-variant py-6 text-sm">No emergency events on record.</div>';
+    return;
+  }
+  const statusBadge = s => ({
+    active: '<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold">Active</span>',
+    acknowledged: '<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">Acknowledged</span>',
+    resolved: '<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-bold">Resolved</span>',
+    escalated: '<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold">Escalated</span>'
+  }[s] || `<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-xs">${s}</span>`);
+  const sevColor = s => s === 'CRITICAL' ? '#dc2626' : (s === 'HIGH' ? '#d97706' : '#6b7280');
+  panel.innerHTML = '<div class="divide-y divide-outline-variant/20">' + events.map(e =>
+    `<div class="flex items-center gap-3 px-5 py-3 text-sm">
+      <div class="w-2 h-2 rounded-full flex-shrink-0" style="background:${sevColor(e.severity)}"></div>
+      <div class="flex-1 min-w-0">
+        <span class="font-semibold text-on-surface">${e.patient_name || 'Patient'}</span>
+        <span class="text-on-surface-variant ml-2">${(e.emergency_type || '').replace(/_/g,' ')}</span>
+      </div>
+      ${statusBadge(e.status)}
+      <span class="text-xs text-on-surface-variant">${new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span>
+      ${e.block_index != null ? `<span class="text-xs text-green-600 font-medium">Block #${e.block_index}</span>` : ''}
+    </div>`
+  ).join('') + '</div>';
+
+  const offline = JSON.parse(localStorage.getItem('sos_offline_queue') || '[]');
+  if (offline.length) {
+    API.post('/api/emergency/offline/sync', {}).then(() => {
+      localStorage.removeItem('sos_offline_queue');
+      loadEmergencies();
+    }).catch(() => {});
+  }
+}
+
+// ── Absence System ────────────────────────────────────────────────────────────
+const ABSENCE_TYPES = {
+  missed_visit:'📅 Missed Visit', patient_unavailable:'🚪 Patient Unavailable',
+  patient_refused:'🚫 Patient Refused', adherence_interruption:'💊 Adherence Break',
+  contact_lost:'📵 Contact Lost', family_reported_away:'🏡 Family: Away',
+};
+let selectedAbsenceType = 'patient_unavailable';
+
+document.getElementById('absenceModal').addEventListener('show.bs.modal', async function () {
+  const patients = await API.get('/api/patients') || [];
+  const sel = document.getElementById('absence-patient-id');
+  const pArr = Array.isArray(patients) ? patients : [];
+  sel.innerHTML = '<option value="">— Select patient —</option>' +
+    pArr.map(p => `<option value="${p.id}">${p.full_name} (${p.patient_id || 'P' + p.id})</option>`).join('');
+  const grid = document.getElementById('absence-type-grid');
+  selectedAbsenceType = 'patient_unavailable';
+  grid.innerHTML = Object.entries(ABSENCE_TYPES).map(([k, label]) =>
+    `<div class="col-6"><button type="button" class="btn btn-sm w-100 absence-type-btn ${k === selectedAbsenceType ? 'btn-primary' : 'btn-outline-secondary'}"
+      data-type="${k}" onclick="selectAbsenceType('${k}')">${label}</button></div>`
+  ).join('');
+  document.getElementById('absence-modal-result').innerHTML = '';
+  document.getElementById('absence-notes').value = '';
+  document.getElementById('absence-expected-date').value = '';
+});
+
+function selectAbsenceType(type) {
+  selectedAbsenceType = type;
+  document.querySelectorAll('.absence-type-btn').forEach(btn => {
+    btn.className = 'btn btn-sm w-100 absence-type-btn ' + (btn.dataset.type === type ? 'btn-primary' : 'btn-outline-secondary');
+  });
+}
+
+async function submitAbsence() {
+  const patientId = document.getElementById('absence-patient-id').value;
+  const notes     = document.getElementById('absence-notes').value;
+  const expected  = document.getElementById('absence-expected-date').value;
+  const resultEl  = document.getElementById('absence-modal-result');
+  const btn       = document.getElementById('absence-submit-btn');
+  if (!patientId) { resultEl.innerHTML = '<div class="alert alert-warning py-2 small">Please select a patient.</div>'; return; }
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i>Logging...';
+  try {
+    const result = await API.post('/api/absence', {
+      patient_id:    parseInt(patientId),
+      absence_type:  selectedAbsenceType,
+      notes:         notes,
+      expected_date: expected || null,
+    });
+    if (result && result.id) {
+      resultEl.innerHTML = `<div class="alert alert-success py-2 small"><i class="fa-solid fa-check me-1"></i>Absence logged for <strong>${result.patient_name}</strong> — ${result.absence_label}.${result.risk_level === 'HIGH' ? '<br><strong class="text-danger">⚠ HIGH-risk patient — doctor notified.</strong>' : ''}</div>`;
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-person-circle-question me-2"></i>Log Unavailability';
+      loadAsha();
+    } else {
+      resultEl.innerHTML = `<div class="alert alert-danger py-2 small">${(result||{}).error || 'Failed to log absence.'}</div>`;
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-person-circle-question me-2"></i>Log Unavailability';
+    }
+  } catch (e) {
+    resultEl.innerHTML = '<div class="alert alert-danger py-2 small">Network error — saved offline.</div>';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-person-circle-question me-2"></i>Log Unavailability';
+  }
+}
+
+// Boot
+loadAsha();
+loadEmergencies();
+
+setTimeout(async () => {
+  try {
+    const overview = await API.get('/api/absence/continuity');
+    const total = Array.isArray(overview) ? overview.reduce((s, p) => s + (p.absence_count || 0), 0) : 0;
+    const el = document.getElementById('my-absences-count');
+    if (el) el.textContent = total;
+  } catch (e) {}
+}, 1500);
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+[AarogyaNet] Database initialized successfully.
+[AarogyaNet] Starting on http://0.0.0.0:5000
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [26/May/2026 04:15:23] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:24] "GET /api/risk/stats HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:24] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:15:41] "POST /api/auth/login HTTP/1.1" 200 -
+[PimaPreprocessor] Loaded: ai_engine/models/artifacts/diabetes_preprocessor_v1.joblib
+[DiabetesRiskModel] Loaded from: ai_engine/models/artifacts/diabetes_risk_v1.joblib
+127.0.0.1 - - [26/May/2026 04:15:42] "POST /api/ai/diabetes-risk HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:42] "POST /api/ai/diabetes-risk HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:42] "POST /api/ai/diabetes-risk HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:52] "GET /doctor HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:52] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:15:52] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:15:52] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:21:53] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:21:53] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:21:53] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:21:53] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:05] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:05] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:05] "GET /api/patients HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:05] "GET /api/visits HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:06] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:22:06] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:06] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:07] "[31m[1mGET /api/absence/continuity HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:22:15] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:15] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:16] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:22:16] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:29] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:29] "GET /doctor HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:29] "GET /api/risk/queue HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:29] "GET /api/tokens/my HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:30] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:30] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:22:30] "GET /api/absence/continuity HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:30] "GET /api/absence/alerts HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:30] "GET /api/prescriptions HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:30] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:38] "GET /api/visits/patient/2 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:38] "GET /api/patients/2 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:38] "GET /api/visits/4 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:38] "POST /api/ai/diabetes-risk HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:54] "[32mGET /patient/1 HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:22:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:54] "GET /api/risk/stats HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:54] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:22:54] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:22:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:59] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:59] "GET /api/patients HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:59] "GET /api/visits HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:59] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:22:59] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:22:59] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:01] "[31m[1mGET /api/absence/continuity HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:23:06] "GET /api/visits/patient/1 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:06] "GET /api/patients/1 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:06] "GET /api/visits/1 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:06] "POST /api/ai/diabetes-risk HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:44] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:45] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:46] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:23:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:58] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:58] "GET /patient HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:23:58] "GET /api/patients/my HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:24:09] "GET /longitudinal HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:24:09] "GET /api/patients HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:24:13] "[32mGET /logout HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:24:13] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:28:29] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:28:29] "GET /api/patients HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:28:29] "GET /api/visits HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:28:30] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:28:31] "[31m[1mGET /api/absence/continuity HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:41] "[32mGET /patient/1 HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:29:41] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:41] "GET /api/risk/stats HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:41] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:44] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:45] "GET /api/patients HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:45] "GET /api/visits HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:45] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:46] "[31m[1mGET /api/absence/continuity HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:46] "[32mGET /patient/1 HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:29:46] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:47] "GET /api/risk/stats HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:47] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:55] "GET /doctor HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:55] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:55] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:56] "GET /api/tokens/my HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:29:56] "[31m[1mGET /api/absence/continuity HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:56] "[31m[1mGET /api/absence/alerts HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:29:56] "GET /api/prescriptions HTTP/1.1" 200 -

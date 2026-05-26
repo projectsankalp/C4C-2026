@@ -1,0 +1,39 @@
+[AarogyaNet] Database initialized successfully.
+[AarogyaNet] Starting on http://0.0.0.0:5000
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [26/May/2026 05:07:37] "POST /api/auth/login HTTP/1.1" 200 -
+[sync] Failed to replay offline visit id=1: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/home/runner/workspace/routes/visit_routes.py", line 368, in sync_offline_visits
+    risk_score, risk_level = calculate_risk_score(visit_data)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/ai_engine/risk_engine.py", line 239, in calculate_risk_score
+    ctx      = extract_gcpe_context(visit_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/ai_engine/risk_engine.py", line 215, in extract_gcpe_context
+    'pathways':   gcpe_data.get('pathways', []),
+                  ^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+127.0.0.1 - - [26/May/2026 05:07:38] "[35m[1mPOST /api/visits/sync HTTP/1.1[0m" 207 -
+127.0.0.1 - - [26/May/2026 05:07:38] "GET /api/blockchain/verify HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:07:38] "GET /api/patients/1/longitudinal HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:07:50] "POST /api/auth/login HTTP/1.1" 200 -
+[sync] Failed to replay offline visit id=1: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/home/runner/workspace/routes/visit_routes.py", line 368, in sync_offline_visits
+    risk_score, risk_level = calculate_risk_score(visit_data)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/ai_engine/risk_engine.py", line 239, in calculate_risk_score
+    ctx      = extract_gcpe_context(visit_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/ai_engine/risk_engine.py", line 215, in extract_gcpe_context
+    'pathways':   gcpe_data.get('pathways', []),
+                  ^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+127.0.0.1 - - [26/May/2026 05:07:50] "[35m[1mPOST /api/visits/sync HTTP/1.1[0m" 207 -

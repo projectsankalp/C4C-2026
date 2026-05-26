@@ -1,0 +1,47 @@
+╔══════════════════════════════════════════════════════════════╗
+  AarogyaNet Dataset Profile — nhfs_5__all_india
+╚══════════════════════════════════════════════════════════════╝
+  Profiled : 2026-05-26T00:15:42.085656+00:00
+  File     : NHFS_5 _All_India.csv
+
+── SHAPE ──────────────────────────────────────────────────────
+  Rows    : 131
+  Columns : 7
+  Dupes   : 0 (0.0%)
+
+── MISSINGNESS ────────────────────────────────────────────────
+  Overall missing : 20.3%
+  ⚠ > 50% missing : Footnotes, Footnote description
+  ✓ Complete cols  : 5
+
+── TARGET LABELS ──────────────────────────────────────────────
+  None detected automatically — check column list.
+
+── HEALTHCARE VALIDATION ──────────────────────────────────────
+  ✓ No healthcare validation issues found.
+
+── PHI AUDIT ──────────────────────────────────────────────────
+  ✓ No PHI columns detected.
+
+── CORRELATION & LEAKAGE ──────────────────────────────────────
+  ⚠ High-correlation pairs (>0.85):
+     Rural ↔ Total (2019-21)  r=1.000
+     Urban ↔ Total (2019-21)  r=0.998
+     Urban ↔ Rural  r=0.996
+
+── ML READINESS ───────────────────────────────────────────────
+  Score   : 6.0 / 10
+  Verdict : NEEDS_CLEANING
+  Required preprocessing:
+    • Drop or impute high-missingness columns: Footnotes, Footnote description
+  Critical issues:
+    🔴 No supervised learning target detected — dataset may be aggregate/summary data.
+
+── FEATURE USABILITY SCORES ───────────────────────────────────
+  ██████████ 10.0  Indicators
+  ██████████ 10.0  Urban
+  ██████████ 10.0  Rural
+  ██████████ 10.0  Total (2019-21)
+  ██████████ 10.0  Total (2015-16)
+  █████░░░░░  5.0  Footnotes
+  █████░░░░░  5.0  Footnote description

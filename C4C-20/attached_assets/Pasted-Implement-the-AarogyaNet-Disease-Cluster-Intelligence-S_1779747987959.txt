@@ -1,0 +1,115 @@
+Implement the AarogyaNet Disease Cluster Intelligence System.
+
+GOAL:
+Transform ASHA visit data into an early-warning rural disease surveillance layer.
+
+IMPORTANT:
+Do NOT use AI.
+Do NOT build predictive epidemiology.
+Use deterministic spatiotemporal clustering only.
+
+==================================================
+1. CLUSTER DETECTION ENGINE
+==================================================
+
+Analyze:
+- GPS coordinates
+- symptom categories
+- timestamps
+- visit history
+
+Detect:
+- unusual symptom concentration
+- repeated symptom patterns
+- localized escalation events
+
+==================================================
+2. SPATIOTEMPORAL RULES
+==================================================
+
+Implement deterministic rules.
+
+Examples:
+- 3+ fever cases within 200m over 10 days
+- repeated respiratory symptoms in one locality
+- multiple dizziness/chest-pain events clustered geographically
+
+==================================================
+3. CLUSTER TYPES
+==================================================
+
+Support:
+- fever cluster
+- respiratory cluster
+- hypertension crisis cluster
+- medication shortage pattern
+- gastrointestinal cluster
+- unknown anomaly cluster
+
+==================================================
+4. HEATMAP INTEGRATION
+==================================================
+
+Integrate cluster intelligence into the existing heatmap.
+
+Add:
+- cluster overlays
+- severity coloring
+- cluster cards
+- cluster timelines
+
+==================================================
+5. HEALTH OFFICER VIEW
+==================================================
+
+Build:
+- district surveillance summary
+- active cluster list
+- cluster severity
+- affected patient count
+- first detection timestamp
+
+==================================================
+6. LONGITUDINAL INTEGRATION
+==================================================
+
+Clusters should influence:
+- clinical alerts
+- doctor awareness
+- population-health summaries
+
+==================================================
+7. OFFLINE-FIRST COMPATIBILITY
+==================================================
+
+Ensure:
+- delayed sync still preserves temporal ordering
+- cluster detection recalculates correctly after sync
+
+==================================================
+8. PRIVACY
+==================================================
+
+Do NOT expose:
+- patient names publicly
+- exact coordinates unnecessarily
+
+Use aggregated cluster intelligence.
+
+==================================================
+9. PRESERVE ARCHITECTURE
+==================================================
+
+Do NOT redesign:
+- heatmap
+- longitudinal engine
+- visit system
+
+Extend existing infrastructure cleanly.
+
+==================================================
+OUTPUT
+==================================================
+
+The platform should now behave like:
+"a rural early-warning public health intelligence layer."

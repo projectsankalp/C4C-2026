@@ -1,0 +1,348 @@
+{
+  "protocol_id": "DM-001",
+  "name": "Diabetes Risk Screening Protocol",
+  "version": "1.0",
+  "description": "Guided branching diabetes triage and early-risk detection protocol for ASHA workers. Screens for symptoms, family history, prior diagnosis, medication adherence, and glucose readings. Integrates with the AI diabetes risk model.",
+  "entry_step": "q_thirst",
+  "steps": [
+
+    {
+      "id": "q_thirst",
+      "label": "Symptom Check",
+      "question": "Does the patient report excessive thirst — drinking much more water than usual?",
+      "field": "excessive_thirst",
+      "type": "boolean",
+      "yes_next": "q_thirst_polyuria",
+      "no_next": "q_urination"
+    },
+
+    {
+      "id": "q_thirst_polyuria",
+      "label": "Symptom Cluster",
+      "question": "Excessive thirst noted. Does the patient also report frequent urination — waking at night to urinate, or urinating more than 6–8 times per day?",
+      "field": "polyuria",
+      "type": "boolean",
+      "pathway": "symptom_cluster_alert",
+      "risk_flag": "HIGH",
+      "alert": "Polydipsia (excessive thirst) + polyuria (frequent urination) — classic early diabetes indicators. Fasting glucose assessment strongly recommended.",
+      "yes_next": "q_fatigue",
+      "no_next": "q_fatigue"
+    },
+
+    {
+      "id": "q_urination",
+      "label": "Urination Pattern",
+      "question": "Does the patient report frequent urination — waking at night to urinate, or urinating more than 6–8 times per day?",
+      "field": "polyuria",
+      "type": "boolean",
+      "yes_next": "q_fatigue",
+      "no_next": "q_fatigue"
+    },
+
+    {
+      "id": "q_fatigue",
+      "label": "Energy / Fatigue",
+      "question": "Does the patient report persistent fatigue, weakness, or feeling tired even after rest?",
+      "field": "fatigue",
+      "type": "boolean",
+      "yes_next": "q_blurred_vision",
+      "no_next": "q_blurred_vision"
+    },
+
+    {
+      "id": "q_blurred_vision",
+      "label": "Vision Check",
+      "question": "Has the patient noticed blurred or hazy vision recently — not explained by glasses prescription change?",
+      "field": "blurred_vision",
+      "type": "boolean",
+      "yes_next": "q_wound_healing",
+      "no_next": "q_wound_healing"
+    },
+
+    {
+      "id": "q_wound_healing",
+      "label": "Wound Healing",
+      "question": "Does the patient have cuts, wounds, or skin infections that are healing very slowly, or recurring skin boils?",
+      "field": "slow_wound_healing",
+      "type": "boolean",
+      "yes_next": "q_weight_loss",
+      "no_next": "q_weight_loss"
+    },
+
+    {
+      "id": "q_weight_loss",
+      "label": "Weight Change",
+      "question": "Has the patient experienced unexplained weight loss in the past 3 months — without intentional dieting or change in activity?",
+      "field": "weight_loss",
+      "type": "boolean",
+      "yes_next": "q_family_history",
+      "no_next": "q_family_history"
+    },
+
+    {
+      "id": "q_family_history",
+      "label": "Family History",
+      "question": "Does the patient have a parent, sibling, or close family member who has been diagnosed with diabetes?",
+      "field": "family_history_diabetes",
+      "type": "boolean",
+      "yes_next": "q_family_risk_note",
+      "no_next": "q_prior_diagnosis"
+    },
+
+    {
+      "id": "q_family_risk_note",
+      "label": "Family Risk Factor",
+      "question": "Family history of diabetes significantly increases risk. Has this patient had a fasting blood glucose test in the past year?",
+      "field": "recent_glucose_test",
+      "type": "boolean",
+      "pathway": "high_risk_diabetes",
+      "risk_flag": "HIGH",
+      "alert": "Family history of diabetes is a significant risk factor. Annual fasting glucose screening is recommended for this patient.",
+      "yes_next": "q_prior_diagnosis",
+      "no_next": "q_prior_diagnosis"
+    },
+
+    {
+      "id": "q_prior_diagnosis",
+      "label": "Clinical History",
+      "question": "Has the patient previously been diagnosed with diabetes, pre-diabetes, or told their blood sugar was high by a doctor?",
+      "field": "prior_diabetes_diagnosis",
+      "type": "boolean",
+      "yes_next": "q_current_medication",
+      "no_next": "q_glucose_available"
+    },
+
+    {
+      "id": "q_current_medication",
+      "label": "Current Medication",
+      "question": "Is the patient currently prescribed medication to manage blood sugar (e.g., Metformin, Glipizide, insulin)?",
+      "field": "on_diabetes_medication",
+      "type": "boolean",
+      "yes_next": "q_med_adherence",
+      "no_next": "q_worsening_check"
+    },
+
+    {
+      "id": "q_med_adherence",
+      "label": "Medication Adherence",
+      "question": "Has the patient missed any diabetes medication doses in the last 7 days?",
+      "field": "diabetes_med_missed",
+      "type": "boolean",
+      "yes_next": "q_adherence_duration",
+      "no_next": "q_worsening_check"
+    },
+
+    {
+      "id": "q_adherence_duration",
+      "label": "Adherence — Duration",
+      "question": "How many days was the diabetes medication missed?",
+      "field": "diabetes_missed_days",
+      "type": "choice",
+      "options": [
+        "1 day",
+        "2–3 days",
+        "4–7 days",
+        "More than 1 week"
+      ],
+      "conditions": [
+        { "field": "diabetes_missed_days", "op": "in", "value": ["4–7 days", "More than 1 week"], "next": "q_adherence_reason" },
+        { "next": "q_worsening_check" }
+      ]
+    },
+
+    {
+      "id": "q_adherence_reason",
+      "label": "Adherence — Reason",
+      "question": "What was the primary reason the patient missed their diabetes medication?",
+      "field": "diabetes_missed_reason",
+      "type": "choice",
+      "options": [
+        "Forgot",
+        "Side effects (nausea, stomach pain)",
+        "Medicine unavailable at PHC",
+        "Too costly",
+        "Felt better — self-discontinued",
+        "Family advised to stop"
+      ],
+      "next": "q_adherence_alert"
+    },
+
+    {
+      "id": "q_adherence_alert",
+      "label": "⚠ Adherence Concern",
+      "question": "Significant medication gap detected. Has the patient been counselled to restart medication immediately and schedule a clinical review with the doctor?",
+      "field": "adherence_counselled",
+      "type": "boolean",
+      "pathway": "medication_nonadherence",
+      "risk_flag": "HIGH",
+      "alert": "Diabetes medication missed for 4+ days. Poor adherence can lead to rapid blood sugar deterioration. Immediate restart and PHC review recommended.",
+      "yes_next": "q_worsening_check",
+      "no_next": "q_worsening_check"
+    },
+
+    {
+      "id": "q_worsening_check",
+      "label": "Symptom Trajectory",
+      "question": "Has the patient experienced worsening symptoms in the past 2 weeks — increased thirst, more fatigue, or vision changes?",
+      "field": "worsening_symptoms",
+      "type": "boolean",
+      "yes_next": "q_uncontrolled_alert",
+      "no_next": "q_glucose_available"
+    },
+
+    {
+      "id": "q_uncontrolled_alert",
+      "label": "⚠ Deterioration Signal",
+      "question": "Worsening symptoms in a diagnosed patient may indicate uncontrolled blood sugar. Has the patient been referred to PHC for HbA1c testing and management review?",
+      "field": "uncontrolled_referred",
+      "type": "boolean",
+      "pathway": "uncontrolled_diabetes",
+      "risk_flag": "HIGH",
+      "alert": "Symptom deterioration in a known diabetic patient — possible uncontrolled diabetes. PHC referral for HbA1c and comprehensive review is strongly recommended.",
+      "yes_next": "q_glucose_available",
+      "no_next": "q_glucose_available"
+    },
+
+    {
+      "id": "q_glucose_available",
+      "label": "Glucose Reading",
+      "question": "Does the patient have a recent fasting blood glucose reading available today (from glucometer or lab)?",
+      "field": "glucose_reading_available",
+      "type": "boolean",
+      "yes_next": "q_fasting_glucose",
+      "no_next": "q_bp_systolic"
+    },
+
+    {
+      "id": "q_fasting_glucose",
+      "label": "Fasting Glucose",
+      "question": "Record the patient's fasting blood glucose reading:",
+      "field": "fasting_glucose",
+      "type": "number",
+      "unit": "mg/dL",
+      "range": { "min": 40, "max": 600 },
+      "conditions": [
+        { "field": "fasting_glucose", "op": ">=", "value": 200, "next": "q_critical_glucose" },
+        { "field": "fasting_glucose", "op": ">=", "value": 126, "next": "q_high_glucose" },
+        { "field": "fasting_glucose", "op": ">=", "value": 100, "next": "q_prediabetes_note" },
+        { "next": "q_bp_systolic" }
+      ]
+    },
+
+    {
+      "id": "q_critical_glucose",
+      "label": "⚠ Critical Glucose",
+      "question": "Fasting glucose ≥ 200 mg/dL — this is in the range for uncontrolled diabetes. Has the patient been referred to PHC or district hospital for immediate clinical evaluation and management?",
+      "field": "critical_glucose_referred",
+      "type": "boolean",
+      "pathway": "urgent_screening_required",
+      "risk_flag": "CRITICAL",
+      "alert": "CRITICAL — Fasting glucose ≥ 200 mg/dL indicates possible uncontrolled diabetes. Immediate clinical referral required. Do not send home without medical review.",
+      "yes_next": "q_bp_systolic",
+      "no_next": "q_bp_systolic"
+    },
+
+    {
+      "id": "q_high_glucose",
+      "label": "High Glucose",
+      "question": "Fasting glucose 126–199 mg/dL — this is in the diagnostic range for diabetes. Has the patient been advised to schedule a confirmatory fasting glucose retest at PHC?",
+      "field": "high_glucose_referred",
+      "type": "boolean",
+      "pathway": "possible_diabetes",
+      "risk_flag": "HIGH",
+      "alert": "Fasting glucose 126–199 mg/dL — diagnostic range for diabetes. Confirmatory fasting glucose retest and clinical assessment at PHC is strongly recommended.",
+      "yes_next": "q_bp_systolic",
+      "no_next": "q_bp_systolic"
+    },
+
+    {
+      "id": "q_prediabetes_note",
+      "label": "Pre-Diabetes Range",
+      "question": "Fasting glucose 100–125 mg/dL — this is in the pre-diabetes range. Has the patient been counselled on diet, physical activity, and weight management to delay progression?",
+      "field": "prediabetes_counselled",
+      "type": "boolean",
+      "pathway": "prediabetes_risk",
+      "risk_flag": "HIGH",
+      "alert": "Fasting glucose 100–125 mg/dL — pre-diabetes range. Lifestyle intervention (diet, exercise, weight management) can significantly reduce progression to diabetes.",
+      "yes_next": "q_bp_systolic",
+      "no_next": "q_bp_systolic"
+    },
+
+    {
+      "id": "q_bp_systolic",
+      "label": "Blood Pressure",
+      "question": "Record the patient's systolic blood pressure (upper number):",
+      "field": "bp_systolic",
+      "type": "number",
+      "unit": "mmHg",
+      "range": { "min": 60, "max": 300 },
+      "optional": true,
+      "next": "q_bp_diastolic"
+    },
+
+    {
+      "id": "q_bp_diastolic",
+      "label": "Blood Pressure",
+      "question": "Record the patient's diastolic blood pressure (lower number):",
+      "field": "bp_diastolic",
+      "type": "number",
+      "unit": "mmHg",
+      "range": { "min": 40, "max": 200 },
+      "optional": true,
+      "conditions": [
+        { "field": "bp_systolic", "op": ">=", "value": 180, "next": "q_bp_urgent_comorbidity" },
+        { "field": "bp_diastolic", "op": ">=", "value": 110, "next": "q_bp_urgent_comorbidity" },
+        { "field": "bp_systolic", "op": ">=", "value": 140, "next": "q_bp_comorbidity_alert" },
+        { "field": "bp_diastolic", "op": ">=", "value": 90, "next": "q_bp_comorbidity_alert" },
+        { "next": "q_overweight" }
+      ]
+    },
+
+    {
+      "id": "q_bp_urgent_comorbidity",
+      "label": "⚠ HTN + Diabetes Urgency",
+      "question": "Severe hypertension alongside diabetes risk factors creates urgent cardiovascular risk. Has the patient been referred to PHC for immediate blood pressure and glucose management?",
+      "field": "bp_diabetes_urgent_referred",
+      "type": "boolean",
+      "pathway": "hypertension_diabetes_urgency",
+      "risk_flag": "CRITICAL",
+      "alert": "CRITICAL — Severe hypertension (BP ≥ 180/110) combined with diabetes risk factors. Immediate PHC referral required. High cardiovascular and renal risk.",
+      "yes_next": "q_overweight",
+      "no_next": "q_overweight"
+    },
+
+    {
+      "id": "q_bp_comorbidity_alert",
+      "label": "HTN + Diabetes Risk",
+      "question": "Elevated blood pressure combined with diabetes risk significantly increases cardiovascular risk. Has the patient been advised about combined HTN + diabetes management and scheduled for PHC review?",
+      "field": "bp_diabetes_comorbidity_advised",
+      "type": "boolean",
+      "pathway": "hypertension_comorbidity",
+      "risk_flag": "HIGH",
+      "alert": "Hypertension + diabetes risk factors detected. Combined management is essential. PHC review recommended to assess cardiovascular and renal risk.",
+      "yes_next": "q_overweight",
+      "no_next": "q_overweight"
+    },
+
+    {
+      "id": "q_overweight",
+      "label": "Body Weight",
+      "question": "Does the patient appear visually overweight, or have they been told by a health worker that their weight is above the healthy range?",
+      "field": "overweight_indicator",
+      "type": "boolean",
+      "yes_next": "q_notes",
+      "no_next": "q_notes"
+    },
+
+    {
+      "id": "q_notes",
+      "label": "Clinical Notes",
+      "question": "Any additional clinical observations, concerns, or follow-up actions to note?",
+      "field": "notes",
+      "type": "text",
+      "optional": true,
+      "next": "complete"
+    }
+
+  ]
+}

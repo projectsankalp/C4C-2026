@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Disease Outbreak Map — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","primary-container":"#0f6cbd","surface-container-lowest":"#ffffff",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+#map { height: 520px; width: 100%; border-radius: 12px; overflow: hidden; }
+#no-geo-map { height: 520px; width: 100%; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #0369a1; border-radius: 12px; }
+.stat-chip { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: .75rem 1rem; display: flex; align-items: center; gap: .75rem; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.risk-dot-high   { width:10px; height:10px; background:#dc2626; border-radius:50%; display:inline-block; }
+.risk-dot-medium { width:10px; height:10px; background:#d97706; border-radius:50%; display:inline-block; }
+.risk-dot-low    { width:10px; height:10px; background:#16a34a; border-radius:50%; display:inline-block; }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+      </div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span>
+      </div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">User</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">timeline</span> Clinical Memory</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">link</span> Blockchain Ledger</a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">map</span> Outbreak Map</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">shield</span> Disease Clusters</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">map</span>
+        Disease Outbreak Risk Heatmap
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Geospatial patient risk distribution across villages</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="data-source-badge" class="px-2 py-1 rounded-lg text-xs font-bold border border-outline-variant text-on-surface-variant">Loading…</span>
+      <button onclick="loadHeatmap()" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-base">refresh</span> Refresh
+      </button>
+    </div>
+  </header>
+
+  <div class="p-6">
+    <!-- Stat Strip -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="stat-chip" style="border-left:3px solid #dc2626">
+        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings:'FILL' 1">warning</span></div>
+        <div><div class="text-2xl font-bold text-red-600" id="hm-high">—</div><div class="text-xs text-on-surface-variant">High Risk Patients</div></div>
+      </div>
+      <div class="stat-chip">
+        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">location_city</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="hm-villages">—</div><div class="text-xs text-on-surface-variant">Villages Tracked</div></div>
+      </div>
+      <div class="stat-chip">
+        <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-green-600 text-xl" style="font-variation-settings:'FILL' 1">group</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="hm-total">—</div><div class="text-xs text-on-surface-variant">Total Patients</div></div>
+      </div>
+      <div class="stat-chip" style="border-left:3px solid #7c3aed">
+        <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-purple-600 text-xl" style="font-variation-settings:'FILL' 1">bubble_chart</span></div>
+        <div><div class="text-2xl font-bold text-purple-600" id="hm-clusters">—</div><div class="text-xs text-on-surface-variant">Risk Clusters</div></div>
+      </div>
+    </div>
+
+    <!-- Map + Side Panel -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+      <div class="lg:col-span-3 bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between flex-wrap gap-3">
+          <h3 class="font-bold text-sm flex items-center gap-2" style="color:#0f766e"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">map</span> Risk Distribution Map</h3>
+          <div class="flex items-center gap-3 text-xs">
+            <span class="flex items-center gap-1.5"><span class="risk-dot-high"></span>HIGH</span>
+            <span class="flex items-center gap-1.5"><span class="risk-dot-medium"></span>MEDIUM</span>
+            <span class="flex items-center gap-1.5"><span class="risk-dot-low"></span>LOW</span>
+            <button id="toggle-clusters" onclick="toggleClusters()" class="px-3 py-1 rounded-lg bg-purple-50 text-purple-600 border border-purple-200 text-xs font-bold hover:bg-purple-100 transition-colors">
+              <i class="fa-solid fa-circle-nodes me-1"></i>Clusters
+            </button>
+          </div>
+        </div>
+        <div class="p-4">
+          <div id="map"></div>
+          <div id="no-geo-map" style="display:none">
+            <i class="fa-solid fa-map-location-dot fa-3x mb-3" style="color:#7dd3fc"></i>
+            <div class="text-lg font-bold mb-1">No Geographic Data Available</div>
+            <div class="text-sm text-center px-8" style="color:#0369a1">Patient records don't have GPS coordinates yet. Add location data to ASHA visits to enable the outbreak map.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden flex-1">
+          <div class="px-4 py-3 border-b border-outline-variant/20">
+            <h3 class="font-bold text-sm flex items-center gap-2" style="color:#7c3aed"><i class="fa-solid fa-circle-nodes"></i> Active Clusters</h3>
+          </div>
+          <div class="p-4" id="mini-cluster-list">
+            <div class="text-center text-on-surface-variant py-4 text-sm">Loading…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Village Table -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20">
+        <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">table_chart</span>
+          Village-Level Risk Summary
+        </h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-surface-container-low">
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Village</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Total Patients</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">High Risk</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Risk Distribution</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Avg Risk Score</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Status</th>
+            </tr>
+          </thead>
+          <tbody id="village-table" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="6" class="text-center py-8 text-on-surface-variant text-sm">
+              <span class="material-symbols-outlined text-2xl block mb-2 opacity-40">hourglass_empty</span>Loading village data…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'User';
+document.getElementById('sidebar-role').textContent = (_u.role || '').toUpperCase();
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+var leafletMap = null;
+var patientLayerGroup = null;
+var clusterLayerGroup = null;
+var clustersVisible = true;
+var DEFAULT_CENTER = [26.9124, 75.7873];
+var DEFAULT_ZOOM = 10;
+
+function initMap() {
+  if (leafletMap) return;
+  leafletMap = L.map('map').setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(leafletMap);
+  patientLayerGroup = L.layerGroup().addTo(leafletMap);
+  clusterLayerGroup = L.layerGroup().addTo(leafletMap);
+}
+
+async function loadHeatmap() {
+  initMap();
+  try {
+    var data = await API.get('/api/heatmap');
+    if (!data) { document.getElementById('data-source-badge').textContent = 'Error'; return; }
+    var patients  = data.patients  || [];
+    var clusters  = data.clusters  || [];
+    var villages  = data.villages  || [];
+    var hasGeo    = patients.some(function(p){ return p.lat && p.lng; });
+
+    document.getElementById('data-source-badge').textContent = hasGeo ? 'Live GPS Data' : 'Demonstration Mode';
+    document.getElementById('data-source-badge').className   = 'px-2 py-1 rounded-lg text-xs font-bold border ' + (hasGeo ? 'border-green-200 bg-green-50 text-green-700' : 'border-amber-200 bg-amber-50 text-amber-700');
+    document.getElementById('hm-high').textContent     = patients.filter(function(p){ return p.risk_level === 'HIGH'; }).length;
+    document.getElementById('hm-total').textContent    = patients.length;
+    document.getElementById('hm-villages').textContent = villages.length || new Set(patients.map(function(p){ return p.village; }).filter(Boolean)).size;
+    document.getElementById('hm-clusters').textContent = clusters.length;
+
+    document.getElementById('map').style.display      = 'block';
+    document.getElementById('no-geo-map').style.display = 'none';
+
+    renderPatientMarkers(patients);
+    renderClusterOverlays(clusters);
+    renderVillageTable(villages, patients);
+    renderMiniClusterList(clusters);
+
+    if (hasGeo) {
+      var bounds = patients.filter(function(p){ return p.lat && p.lng; }).map(function(p){ return [p.lat, p.lng]; });
+      if (bounds.length > 1) { try { leafletMap.fitBounds(bounds, {padding:[30,30]}); } catch(e) {} }
+    }
+  } catch(e) { console.error('Heatmap load error', e); }
+}
+
+function renderPatientMarkers(patients) {
+  patientLayerGroup.clearLayers();
+  patients.forEach(function(p) {
+    var lat = parseFloat(p.lat), lng = parseFloat(p.lng);
+    if (!lat || !lng) {
+      lat = DEFAULT_CENTER[0] + (Math.random() - 0.5) * 0.12;
+      lng = DEFAULT_CENTER[1] + (Math.random() - 0.5) * 0.12;
+    }
+    var color = p.risk_level === 'HIGH' ? '#dc2626' : (p.risk_level === 'MEDIUM' ? '#d97706' : '#16a34a');
+    var marker = L.circleMarker([lat, lng], {
+      radius: p.risk_level === 'HIGH' ? 9 : 7,
+      fillColor: color, color: '#fff', weight: 2, opacity: 1, fillOpacity: .85
+    });
+    marker.bindPopup(
+      '<div style="font-family:Inter,sans-serif;min-width:180px">' +
+      '<div style="font-weight:700;font-size:.9rem;margin-bottom:.3rem">' + (p.full_name||'—') + '</div>' +
+      '<div style="font-size:.78rem;color:#475569;">' + (p.village||'—') + '</div>' +
+      '<div style="margin-top:.4rem;display:flex;gap:.3rem;align-items:center">' +
+      '<span style="padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;background:'+color+';color:#fff">' + (p.risk_level||'LOW') + ' RISK</span>' +
+      '<span style="font-size:.75rem;color:#6b7280">Score: ' + (p.risk_score||0) + '</span>' +
+      '</div><div style="font-size:.72rem;color:#94a3b8;margin-top:.3rem">BP: ' + (p.bp_systolic||'—') + '/' + (p.bp_diastolic||'—') + ' mmHg</div></div>'
+    );
+    patientLayerGroup.addLayer(marker);
+  });
+}
+
+function renderClusterOverlays(clusters) {
+  clusterLayerGroup.clearLayers();
+  clusters.forEach(function(c) {
+    var lat = parseFloat(c.center_lat) || DEFAULT_CENTER[0];
+    var lng = parseFloat(c.center_lng) || DEFAULT_CENTER[1];
+    var color = c.severity === 'HIGH' ? '#dc2626' : (c.severity === 'MEDIUM' ? '#d97706' : '#7c3aed');
+    var circle = L.circle([lat, lng], {
+      radius: (c.radius_km || c.radius_m/1000 || 5) * 1000,
+      color: color, fillColor: color, fillOpacity: .1, weight: 2, dashArray: '8 4'
+    });
+    circle.bindPopup(
+      '<div style="font-family:Inter,sans-serif;min-width:180px"><div style="font-weight:700;font-size:.88rem;color:'+color+';margin-bottom:.3rem">' +
+      '<i class="fa-solid fa-circle-nodes me-1"></i>' + (c.cluster_name||c.label||'Risk Cluster') + '</div>' +
+      '<div style="font-size:.78rem">Patients: <strong>' + (c.patient_count||c.case_count||0) + '</strong></div>' +
+      '<div style="font-size:.78rem">Villages: ' + ((c.villages||[]).join?c.villages.join(', '):(c.village||'')) + '</div>' +
+      '<div style="font-size:.78rem;margin-top:.2rem;color:'+color+';font-weight:600">' + (c.description||c.severity||'') + '</div></div>'
+    );
+    clusterLayerGroup.addLayer(circle);
+  });
+}
+
+function toggleClusters() {
+  clustersVisible = !clustersVisible;
+  if (clustersVisible) leafletMap.addLayer(clusterLayerGroup);
+  else leafletMap.removeLayer(clusterLayerGroup);
+}
+
+function renderVillageTable(villages, patients) {
+  var tbody = document.getElementById('village-table');
+  var data  = villages;
+  if (!data.length) {
+    var vmap = {};
+    patients.forEach(function(p) {
+      var v = p.village || 'Unknown';
+      if (!vmap[v]) vmap[v] = {village:v,total:0,high:0,medium:0,low:0,scores:[]};
+      vmap[v].total++;
+      if (p.risk_level==='HIGH') vmap[v].high++;
+      else if (p.risk_level==='MEDIUM') vmap[v].medium++;
+      else vmap[v].low++;
+      if (p.risk_score != null) vmap[v].scores.push(p.risk_score);
+    });
+    data = Object.values(vmap);
+  }
+  if (!data.length) { tbody.innerHTML='<tr><td colspan="6" class="text-center py-8 text-on-surface-variant text-sm">No village data available.</td></tr>'; return; }
+  tbody.innerHTML = data.map(function(v) {
+    var total = v.total || v.patient_count || 0;
+    var high  = v.high  || v.high_risk_count || 0;
+    var med   = v.medium || v.medium_risk_count || 0;
+    var low   = v.low   || v.low_risk_count || 0;
+    var scores = v.scores || [];
+    var avgScore = scores.length ? Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length) : (v.avg_risk_score || 0);
+    var highPct = total ? Math.round((high/total)*100) : 0;
+    var medPct  = total ? Math.round((med/total)*100)  : 0;
+    var lowPct  = total ? Math.round((low/total)*100)  : 0;
+    var status  = high > 2 ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Alert</span>' : (high > 0 ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">Monitor</span>' : '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Normal</span>');
+    return '<tr class="hover:bg-surface-container-low transition-colors">' +
+      '<td class="px-5 py-3 font-semibold text-sm text-on-surface">' + (v.village||v.name||'—') + '</td>' +
+      '<td class="px-5 py-3 text-sm">' + total + '</td>' +
+      '<td class="px-5 py-3 text-sm font-bold ' + (high>0?'text-red-600':'text-on-surface-variant') + '">' + high + '</td>' +
+      '<td class="px-5 py-3"><div class="flex items-center gap-0.5" style="width:120px">' +
+        (highPct ? '<div style="flex:'+highPct+';height:8px;background:#dc2626;border-radius:2px"></div>' : '') +
+        (medPct  ? '<div style="flex:'+medPct +';height:8px;background:#d97706;border-radius:2px"></div>' : '') +
+        (lowPct  ? '<div style="flex:'+lowPct +';height:8px;background:#16a34a;border-radius:2px"></div>' : '') +
+      '</div></td>' +
+      '<td class="px-5 py-3 text-sm">' + (avgScore||'—') + '</td>' +
+      '<td class="px-5 py-3">' + status + '</td></tr>';
+  }).join('');
+}
+
+function renderMiniClusterList(clusters) {
+  var el = document.getElementById('mini-cluster-list');
+  if (!clusters.length) { el.innerHTML='<div class="text-center text-on-surface-variant text-sm py-4">No active clusters detected.</div>'; return; }
+  el.innerHTML = clusters.map(function(c) {
+    var color = c.severity==='HIGH'||c.severity==='CRITICAL'?'#dc2626':(c.severity==='MEDIUM'?'#d97706':'#7c3aed');
+    var name  = c.cluster_name || c.label || 'Cluster';
+    var count = c.patient_count || c.case_count || 0;
+    var vills = (c.villages||[]).join?c.villages.join(', '):(c.village||'');
+    return '<div class="p-3 rounded-xl mb-2 border" style="border-color:'+color+'33;background:'+color+'0a"><div class="font-semibold text-xs mb-1" style="color:'+color+'">'+name+'</div><div class="text-xs text-on-surface-variant">'+count+' patients</div><div class="text-xs text-on-surface-variant">'+vills+'</div></div>';
+  }).join('');
+}
+
+loadHeatmap();
+</script>
+</body>
+</html>

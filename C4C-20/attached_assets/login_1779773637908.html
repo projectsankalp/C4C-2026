@@ -1,0 +1,325 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AarogyaNet | Secure Login</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "surface-dim": "#d8dadc",
+                      "secondary": "#006a61",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#191c1e",
+                      "on-secondary-fixed": "#00201d",
+                      "on-tertiary-container": "#a9fdd1",
+                      "on-background": "#191c1e",
+                      "secondary-fixed-dim": "#4cdbcb",
+                      "on-surface-variant": "#414751",
+                      "inverse-primary": "#a3c9ff",
+                      "primary-fixed-dim": "#a3c9ff",
+                      "outline-variant": "#c1c7d3",
+                      "tertiary": "#005e3f",
+                      "on-error": "#ffffff",
+                      "primary-fixed": "#d3e3ff",
+                      "surface-container-highest": "#e0e3e5",
+                      "outline": "#717783",
+                      "tertiary-fixed-dim": "#85d7ad",
+                      "tertiary-fixed": "#a0f4c8",
+                      "primary": "#005396",
+                      "surface-container-low": "#f2f4f6",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "surface-bright": "#f7f9fb",
+                      "inverse-surface": "#2d3133",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#eceef0",
+                      "secondary-container": "#6bf5e5",
+                      "tertiary-container": "#217855",
+                      "secondary-fixed": "#6ef8e7",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-primary-fixed-variant": "#004883",
+                      "on-primary-fixed": "#001c39",
+                      "on-primary-container": "#e3ecff",
+                      "surface-container-high": "#e6e8ea",
+                      "error-container": "#ffdad6",
+                      "surface-tint": "#0060ab",
+                      "on-tertiary-fixed": "#002113",
+                      "background": "#f7f9fb",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#e0e3e5",
+                      "on-secondary-container": "#006f66",
+                      "surface": "#f7f9fb",
+                      "primary-container": "#0f6cbd",
+                      "on-secondary-fixed-variant": "#005049"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "32px",
+                      "margin-mobile": "16px",
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "margin-desktop": "32px",
+                      "gutter": "24px",
+                      "base": "8px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "label-md": ["Inter"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(15, 108, 189, 0.08);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .transition-all-custom {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Lock view for desktop experience */
+        @media (min-width: 768px) {
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden min-h-screen">
+<main class="flex flex-col md:flex-row h-screen overflow-hidden">
+<!-- Left Side: Brand Experience -->
+<section class="hidden md:flex flex-col w-1/2 bg-gradient-to-br from-primary/5 to-secondary/5 p-margin-desktop relative overflow-hidden h-full">
+<!-- Header/Logo Area -->
+<header class="z-20 shrink-0">
+<img alt="AarogyaNet Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0ugP5XB6Da73SQCgy_z6BF6M3eM2fLwqGLGpoOOyscflb5LXfk2M-2g1y78lE3--OLmLmIvmBQOs_mnoZxfjpI4a8nDBx0uwS4LrkGPppF6WnkSwG51YpmqfuFb7aUJCm7C2JRN07rj380Eb0iSXFxWRWeaW0j7aksRbReg8OOe8QWgTNzvmPwONGR5dxrwqrsSsLcvLFx0rIMps9tr2wATZoACYKDcwVsLWorOILDl_bZDswdLS1TNrPZw">
+</header>
+<!-- Brand Content - Vertically centered and scaled -->
+<div class="relative z-20 flex flex-col justify-center flex-grow max-w-lg mx-auto">
+<h1 class="font-display-lg text-[40px] text-primary mb-stack-sm leading-tight">Healthcare That Remembers.</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md leading-relaxed">
+                    AarogyaSethu is the secure, national-scale intelligence platform bringing specialized medical insight to India's rural heartlands.
+                </p>
+<!-- Metric Cards (Bento Style) -->
+<div class="grid grid-cols-2 gap-stack-md mb-stack-md">
+<div class="glass-panel p-stack-sm rounded-xl animate-float" style="animation-delay: 0s">
+<div class="text-primary font-headline-md text-[20px]">120K+</div>
+<div class="text-on-surface-variant font-label-sm text-[11px] uppercase tracking-wider">Assessments Monthly</div>
+</div>
+<div class="glass-panel p-stack-sm rounded-xl animate-float" style="animation-delay: 1s">
+<div class="text-secondary font-headline-md text-[20px]">94%</div>
+<div class="text-on-surface-variant font-label-sm text-[11px] uppercase tracking-wider">Early Detection</div>
+</div>
+</div>
+<!-- Floating Illustration Wrapper - Scaled for 800px height -->
+<div class="relative">
+<img alt="Rural Healthcare Illustration" class="w-full h-auto rounded-2xl shadow-xl max-h-[320px] object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uiYSTKdFFXsfIO_TNLZyl68H-xNfoNmk914bFJTE9KZ4SkVaCQ3chNu-LPsiQvyXQ9BaDnSC6YkcoV338YGAykjljZ4-ovOFQs8k6nL-H4BDIocDwTdEu2Y2CL90C1l8Ze8cxf5xPzMcqkeDsMFmNyFVX5PhoSelvoRbBMmpUgAMUkJOk3uLW_8PJKbdEHcd2PgvPIbbaaWAEr2muK3jfAAIbltqYey1nXblwnyoEPDa-w681BpAMDCJmuI">
+<!-- Workflow Indicator Overlays -->
+<div class="absolute top-4 right-4 glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 animate-pulse">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-[10px] font-label-md text-on-surface uppercase tracking-widest">System Live</span>
+</div>
+</div>
+</div>
+<!-- Background Decorations -->
+<div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+<div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/20 rounded-full blur-[100px]"></div>
+</div>
+</section>
+<!-- Right Side: Login Panel -->
+<section class="flex flex-col w-full md:w-1/2 p-margin-mobile md:px-margin-desktop md:py-8 justify-between items-center bg-surface h-full">
+<!-- Utility Actions Bar (Mobile Header/Controls) -->
+<div class="w-full max-w-[440px] flex justify-between items-center shrink-0">
+<div class="md:hidden">
+<img alt="Logo" class="h-8" src="https://lh3.googleusercontent.com/aida/ADBb0ugP5XB6Da73SQCgy_z6BF6M3eM2fLwqGLGpoOOyscflb5LXfk2M-2g1y78lE3--OLmLmIvmBQOs_mnoZxfjpI4a8nDBx0uwS4LrkGPppF6WnkSwG51YpmqfuFb7aUJCm7C2JRN07rj380Eb0iSXFxWRWeaW0j7aksRbReg8OOe8QWgTNzvmPwONGR5dxrwqrsSsLcvLFx0rIMps9tr2wATZoACYKDcwVsLWorOILDl_bZDswdLS1TNrPZw">
+</div>
+<div class="flex items-center gap-4 ml-auto">
+<button class="flex items-center gap-1 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all-custom">
+<span class="material-symbols-outlined text-base">language</span>
+<span class="">English</span>
+<span class="material-symbols-outlined text-xs">expand_more</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-all-custom" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-all-custom" title="Accessibility Mode">
+<span class="material-symbols-outlined">accessibility_new</span>
+</button>
+</div>
+</div>
+<!-- Main Login Card - Perfectly Centered -->
+<div class="w-full max-w-[440px] glass-panel rounded-2xl p-6 md:p-8 border border-outline-variant/30 my-auto flex flex-col">
+<div class="mb-stack-md text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Secure Portal Access</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Welcome back. Please sign in to your account.</p>
+</div>
+<!-- Role Selector -->
+
+<!-- Login Form -->
+<form class="space-y-stack-sm" onsubmit="return false">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface" for="identity">Phone or ABHA ID</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-base">alternate_email</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent transition-all-custom text-body-sm" id="identity" placeholder="e.g. 14-digit ABHA ID" type="text" data-ddg-inputtype="identities.phone" data-ddg-autofill="true">
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface" for="password">Security Password</label>
+<a class="text-primary font-label-md text-label-md hover:underline" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-base">lock</span>
+<input class="w-full pl-10 pr-10 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent transition-all-custom text-body-sm" id="password" placeholder="••••••••" type="password" data-ddg-inputtype="credentials.password.current" data-ddg-autofill="true">
+<button class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline hover:text-primary text-base" onclick="togglePassword()" type="button">visibility</button>
+</div>
+</div>
+<div class="flex items-center gap-3 py-1">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" id="remember" type="checkbox">
+<label class="font-body-sm text-label-sm text-on-surface-variant" for="remember">Remember me for 30 days</label>
+</div>
+<button class="w-full bg-primary hover:bg-primary-container text-white py-3.5 rounded-xl font-headline-md text-[16px] shadow-lg shadow-primary/20 active:scale-95 transition-all-custom flex items-center justify-center gap-2" type="submit">
+                        Sign In Securely
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-stack-md">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-outline-variant/30"></div></div>
+<div class="relative flex justify-center text-[10px]"><span class="bg-white/80 px-4 text-outline uppercase tracking-widest font-semibold">Other Methods</span></div>
+</div>
+<!-- Secondary Actions -->
+<div class="grid grid-cols-2 gap-3 mb-stack-md">
+<button class="flex items-center justify-center gap-2 py-2.5 border border-outline-variant rounded-xl font-label-md text-label-md hover:bg-surface-container-high transition-all-custom">
+<span class="material-symbols-outlined text-secondary text-base">sms</span>
+                        OTP Login
+                    </button>
+<button class="flex items-center justify-center gap-2 py-2.5 border border-outline-variant rounded-xl font-label-md text-label-md hover:bg-surface-container-high transition-all-custom">
+<span class="material-symbols-outlined text-primary text-base">account_balance</span>
+                        Jan Parichay
+                    </button>
+</div>
+<!-- Security Badges Strip -->
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[10px] font-label-md text-on-surface-variant uppercase">Encrypted</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="text-[10px] font-label-md text-on-surface-variant uppercase">Blockchain</span>
+</div>
+</div>
+</div>
+<!-- Footer Links - Pinned to bottom -->
+<footer class="shrink-0 text-center w-full max-w-[440px] pb-4">
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-1 mb-2">
+<a class="font-body-sm text-[13px] text-on-surface-variant hover:text-primary transition-colors" href="#">About AarogyaNet</a>
+<a class="font-body-sm text-[13px] text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-[13px] text-on-surface-variant hover:text-primary transition-colors" href="#">Support Portal</a>
+</div>
+<p class="font-label-sm text-[11px] text-outline leading-tight">
+                    A National Rural Health Mission Initiative.<br>Digital Infrastructure for a Healthy India.
+                </p>
+</footer>
+</section>
+</main>
+<script>
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const icon = event.currentTarget;
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                pwd.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        }
+
+        function selectRole(role) {
+            // Reset all
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('border-primary', 'bg-primary/5');
+                btn.classList.add('border-outline-variant', 'bg-surface');
+            });
+            
+            // Activate selected
+            const activeBtn = document.getElementById('role-' + role);
+            if(activeBtn) {
+                activeBtn.classList.add('border-primary', 'bg-primary/5');
+                activeBtn.classList.remove('border-outline-variant', 'bg-surface');
+            }
+
+            // Visual feedback/Context update
+            const existingFeedback = document.querySelector('.role-toast');
+            if(existingFeedback) existingFeedback.remove();
+
+            const feedback = document.createElement('div');
+            feedback.className = 'role-toast fixed bottom-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface px-6 py-3 rounded-full shadow-xl z-50 text-label-md pointer-events-none opacity-0 transition-opacity duration-300';
+            feedback.innerText = `Switched to ${role.toUpperCase()} Context`;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => feedback.classList.add('opacity-100'), 10);
+            setTimeout(() => {
+                feedback.classList.remove('opacity-100');
+                setTimeout(() => feedback.remove(), 300);
+            }, 2000);
+        }
+
+        // Initialize with Doctor role selected
+        window.onload = () => selectRole('doctor');
+    </script>
+
+
+</body></html>

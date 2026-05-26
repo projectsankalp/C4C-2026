@@ -1,0 +1,37 @@
+Analyze the entire codebase of this project thoroughly and generate a complete technical report covering the following:
+
+1. **Project Overview** — What is this application? What is its purpose and core functionality?
+
+2. **Tech Stack** — Every language, framework, library, and dependency used (include version numbers where available). Separate frontend, backend, and dev dependencies.
+
+3. **Project Structure** — Full directory and file tree with a one-line description of what each file/folder does.
+
+4. **All Features Implemented** — List every feature that is fully or partially built. For each feature:
+   - Feature name
+   - What it does
+   - Which files/components implement it
+   - Current status (complete / partial / placeholder)
+
+5. **All Functions & Methods** — List every significant function, method, or API handler across the codebase. For each:
+   - Function name
+   - File it lives in
+   - What it does
+   - Parameters and return value (if relevant)
+
+6. **Database / Data Models** — Every schema, model, table, or data structure defined. Field names and types.
+
+7. **API Endpoints** — Every route defined (GET, POST, PUT, DELETE etc.), what it does, and what data it expects/returns.
+
+8. **UI Components** — Every component or page in the frontend. What it renders, what state it manages, what props it accepts.
+
+9. **State Management** — How application state is handled. What is stored, where, and how it flows.
+
+10. **Integrations** — Any third-party APIs, services, or external tools connected or configured (even if not fully working).
+
+11. **Authentication & Security** — Any auth logic, role-based access, or security measures implemented.
+
+12. **What Is NOT Yet Built** — Based on what you can infer from the code, list features that appear to be planned or stubbed but not yet implemented.
+
+13. **Known Issues or Incomplete Areas** — Any TODOs, console.logs, hardcoded values, or obviously incomplete logic you find.
+
+Be exhaustive. Do not summarize or skip files. Read every file in the project before generating this report.

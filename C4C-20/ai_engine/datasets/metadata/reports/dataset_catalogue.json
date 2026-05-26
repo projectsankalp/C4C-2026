@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-05-26T00:15:42.180435+00:00",
+  "total_datasets": 3,
+  "ready": [
+    "pima_indians_diabetes_database"
+  ],
+  "needs_cleaning": [
+    "nhfs_5__all_india",
+    "heart_disease_uci"
+  ],
+  "not_recommended": [],
+  "datasets": [
+    {
+      "key": "nhfs_5__all_india",
+      "filename": "NHFS_5 _All_India.csv",
+      "rows": 131,
+      "columns": 7,
+      "overall_null_pct": 20.28,
+      "ml_readiness_score": 6.0,
+      "ml_readiness_verdict": "needs_cleaning",
+      "target_candidates": [],
+      "phi_detected": false,
+      "critical_issues": 1,
+      "healthcare_issues": 0
+    },
+    {
+      "key": "pima_indians_diabetes_database",
+      "filename": "Pima_Indians_Diabetes_Database.csv",
+      "rows": 768,
+      "columns": 9,
+      "overall_null_pct": 0.0,
+      "ml_readiness_score": 8.0,
+      "ml_readiness_verdict": "ready",
+      "target_candidates": [
+        "Outcome"
+      ],
+      "phi_detected": false,
+      "critical_issues": 0,
+      "healthcare_issues": 7
+    },
+    {
+      "key": "heart_disease_uci",
+      "filename": "heart_disease_uci.csv",
+      "rows": 920,
+      "columns": 16,
+      "overall_null_pct": 11.95,
+      "ml_readiness_score": 5.5,
+      "ml_readiness_verdict": "needs_cleaning",
+      "target_candidates": [
+        "num",
+        "sex",
+        "exang",
+        "fbs"
+      ],
+      "phi_detected": true,
+      "critical_issues": 1,
+      "healthcare_issues": 5
+    }
+  ]
+}

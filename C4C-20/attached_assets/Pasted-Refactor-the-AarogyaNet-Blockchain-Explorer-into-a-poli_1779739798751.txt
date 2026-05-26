@@ -1,0 +1,139 @@
+Refactor the AarogyaNet Blockchain Explorer into a polished healthcare integrity visualization system.
+
+GOAL:
+The blockchain page should feel like:
+"a national healthcare audit infrastructure"
+
+NOT:
+- a crypto dashboard
+- a generic blockchain demo
+- a hacker-themed page
+
+Use:
+- Bootstrap 5
+- Vanilla JavaScript
+- Font Awesome
+
+DO NOT use:
+- React
+- TypeScript
+- Tailwind
+
+==================================================
+BUILD THESE FEATURES
+==================================================
+
+1. CHAIN STATUS HEADER
+
+Large verification banner:
+- VERIFIED
+- TAMPER DETECTED
+- INVALID CHAIN
+
+Include:
+- total blocks
+- latest mined block
+- chain integrity %
+- mining difficulty
+
+==================================================
+
+2. BLOCKCHAIN FLOW VISUALIZATION
+
+Display blocks as connected cards:
+Block N → Block N+1
+
+Show:
+- visual chain links
+- arrows/connectors
+- previous hash continuity
+
+Each block card should show:
+- block index
+- timestamp
+- nonce
+- proof-of-work status
+- current hash
+- previous hash
+- visit fingerprint
+- signature verification badge
+
+==================================================
+
+3. LIVE MINING SIMULATION
+
+Create a visual mining animation.
+
+Show:
+- nonce iteration
+- mining progress
+- "Searching for valid hash..."
+- proof accepted animation
+
+This can be simulated visually in the frontend.
+
+==================================================
+
+4. TAMPER SIMULATION
+
+Add:
+"Simulate Tampering" button.
+
+When triggered:
+- modify a block value visually
+- break chain validation
+- propagate integrity failure visually
+
+Show:
+- broken chain links
+- invalid hash indicators
+- red integrity alerts
+
+Add:
+"Restore Chain" button.
+
+==================================================
+
+5. HEALTHCARE CONTEXT PANEL
+
+Explain clearly:
+- why blockchain exists in AarogyaNet
+- immutable ASHA visit verification
+- anti-fraud healthcare auditing
+- tamper-proof prescription trail
+
+This is CRITICAL for judges.
+
+==================================================
+
+6. SIGNATURE VERIFICATION UI
+
+Display:
+- ECDSA verified
+- signature valid
+- cryptographic integrity confirmed
+
+==================================================
+
+7. POLISH
+
+Theme:
+- healthcare infrastructure
+- clean enterprise UI
+- NOT crypto aesthetics
+
+Use:
+- teal
+- blue
+- white
+- red only for integrity failure
+
+==================================================
+IMPORTANT
+==================================================
+
+This page should become:
+# the strongest technical demo screen in AarogyaNet.
+
+The user should immediately understand:
+"Every ASHA visit becomes a tamper-proof clinical audit event."

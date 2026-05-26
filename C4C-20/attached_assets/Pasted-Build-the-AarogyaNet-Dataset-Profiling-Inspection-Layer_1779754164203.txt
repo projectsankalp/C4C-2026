@@ -1,0 +1,117 @@
+Build the AarogyaNet Dataset Profiling & Inspection Layer.
+
+IMPORTANT:
+Do NOT train models yet.
+Do NOT implement inference yet.
+
+GOAL:
+Create a professional healthcare dataset audit system before model training begins.
+
+==================================================
+1. DATASET PROFILER
+==================================================
+
+Create:
+ai_engine/datasets/profiler.py
+
+Implement:
+- schema inspection
+- column typing
+- missing-value analysis
+- class distribution analysis
+- label detection
+- numeric/categorical separation
+- feature cardinality analysis
+- duplicate detection
+
+==================================================
+2. DATASET REPORTS
+==================================================
+
+Generate structured dataset reports for every dataset.
+
+Include:
+- row count
+- column count
+- missingness %
+- target label candidates
+- high-correlation warnings
+- leakage risk indicators
+- feature usability score
+
+==================================================
+3. HEALTHCARE VALIDATION
+==================================================
+
+Add healthcare-specific checks:
+
+Examples:
+- impossible BP values
+- impossible glucose values
+- invalid age ranges
+- suspicious all-zero columns
+- duplicate patient rows
+
+==================================================
+4. TARGET LABEL DISCOVERY
+==================================================
+
+Automatically identify likely supervised learning targets.
+
+Examples:
+- Outcome
+- Diabetes
+- HeartDisease
+- RiskCategory
+
+==================================================
+5. DATASET METADATA EXPORT
+==================================================
+
+Save reports to:
+ai_engine/datasets/metadata/reports/
+
+Use:
+- JSON
+- human-readable summaries
+
+==================================================
+6. PRIVACY SAFETY
+==================================================
+
+Verify:
+- PHI columns detected
+- identifiers flagged
+- raw identifiers excluded from ML pipeline
+
+==================================================
+7. CLI ENTRYPOINT
+==================================================
+
+Create:
+python -m ai_engine.datasets.profiler
+
+Should scan all datasets in:
+datasets/raw/
+
+and generate reports automatically.
+
+==================================================
+8. OUTPUT
+==================================================
+
+The profiler should help answer:
+- Which datasets are usable?
+- Which labels exist?
+- Which features are clinically valuable?
+- Which datasets are dangerous/noisy?
+- What preprocessing is needed before training?
+
+==================================================
+IMPORTANT
+==================================================
+
+This should feel like:
+"a professional healthcare ML dataset governance layer."
+
+Do NOT train any models yet.

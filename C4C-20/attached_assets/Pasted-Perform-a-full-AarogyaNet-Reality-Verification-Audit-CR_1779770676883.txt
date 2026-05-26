@@ -1,0 +1,152 @@
+Perform a full AarogyaNet Reality Verification Audit.
+
+CRITICAL:
+This is NOT a code-style audit.
+This is an operational verification audit.
+
+GOAL:
+Determine whether every major feature is:
+- actually implemented,
+- operational end-to-end,
+- backed by real logic/data,
+- and demo-trustworthy.
+
+We need to identify:
+- fake/demo-only features
+- placeholder UI
+- broken backend logic
+- partially implemented systems
+- non-functional visualizations
+- disconnected workflows
+
+==================================================
+VERIFY THESE FEATURES END-TO-END
+==================================================
+
+1. Heatmap / Disease Cluster Intelligence
+2. Longitudinal Timeline
+3. Blockchain Explorer
+4. SOS Emergency Flow
+5. AI Risk Signal + SHAP
+6. Prescription Token Flow
+7. Offline Sync
+8. GCPE Protocol Engine
+9. Population Surveillance Dashboard
+10. Adherence Tracking
+11. Continuity / Absence Detection
+
+==================================================
+FOR EACH FEATURE CHECK:
+==================================================
+
+A. Real backend logic exists
+B. Real DB persistence exists
+C. Frontend connected to real APIs
+D. No fake/mock/random data
+E. Visualizations reflect real stored data
+F. Feature survives empty DB states
+G. Feature survives malformed data safely
+H. Feature is actually demo-usable
+
+==================================================
+HEATMAP / CLUSTER VERIFICATION
+==================================================
+
+Specifically verify:
+- real GPS coordinates used
+- real cluster engine execution
+- no fake overlays
+- no DEMO_POINTS
+- no Math.random()
+- no fabricated cluster counts
+- severity coloring actually tied to cluster severity
+- real aggregation from DB rows
+- cluster circles correspond to actual patient groups
+
+Test:
+- create 3 fever patients within cluster radius
+- verify cluster forms
+- verify distant patient excluded
+
+==================================================
+LONGITUDINAL TIMELINE VERIFICATION
+==================================================
+
+Verify:
+- visits persist correctly
+- timelines render chronologically
+- alerts derive from real longitudinal logic
+- no fabricated trends
+- BP/risk trajectories use real visit data
+
+==================================================
+BLOCKCHAIN VERIFICATION
+==================================================
+
+Verify:
+- blocks actually mined
+- PoW hashes valid
+- signatures verified
+- tampering detection real
+- adherence/emergency blocks actually stored
+
+==================================================
+AI VERIFICATION
+==================================================
+
+Verify:
+- real model inference happening
+- SHAP explanations real
+- confidence gating functional
+- AI only appears for valid patients
+- no hardcoded AI outputs
+
+==================================================
+OFFLINE MODE VERIFICATION
+==================================================
+
+Verify:
+- visits queue offline
+- sync restores correctly
+- timestamps preserved
+- blockchain still valid after sync
+
+==================================================
+OUTPUT FORMAT
+==================================================
+
+For EACH feature output:
+
+Feature:
+Status:
+- FULLY REAL
+- PARTIALLY IMPLEMENTED
+- UI ONLY
+- BROKEN
+
+Evidence:
+- backend proof
+- DB proof
+- UI proof
+- missing pieces
+
+Criticality:
+- DEMO SAFE
+- NEEDS FIX
+- HIGH RISK
+
+==================================================
+FINAL OUTPUT
+==================================================
+
+Produce:
+1. Full system truth audit
+2. List of fake/partial systems
+3. List of demo-breaking risks
+4. Exact fixes required before demo
+5. Final "demo readiness" verdict
+
+IMPORTANT:
+Be brutally honest.
+Do NOT assume features work because code exists.
+Verify operational reality.

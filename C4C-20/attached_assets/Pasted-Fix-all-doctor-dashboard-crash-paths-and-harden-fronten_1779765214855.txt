@@ -1,0 +1,97 @@
+Fix all doctor dashboard crash paths and harden frontend data handling.
+
+CRITICAL:
+The dashboard must NEVER crash due to undefined/null/non-array API responses during demo.
+
+==================================================
+1. FIX FILTER CRASHES
+==================================================
+
+Guard every .filter(), .map(), .forEach(), and .length access.
+
+Specifically inspect:
+- doctor_dashboard.html
+- longitudinal panels
+- emergency panels
+- alerts
+- token sections
+- AI sections
+
+Add:
+- Array.isArray() checks
+- null guards
+- default [] fallbacks
+
+==================================================
+2. SAFE FETCH HELPERS
+==================================================
+
+Create reusable frontend helpers:
+
+safeArray(data)
+safeObject(data)
+
+Requirements:
+- never throw
+- preserve UI stability
+- fallback gracefully
+
+==================================================
+3. EMPTY STATE UI
+==================================================
+
+Replace blank sections with:
+- “No active emergencies”
+- “No longitudinal alerts”
+- “No prescriptions”
+- “No AI signals yet”
+
+NO silent failures.
+
+==================================================
+4. API RESPONSE VALIDATION
+==================================================
+
+Before rendering:
+validate:
+- arrays
+- objects
+- nested properties
+
+Log warnings without breaking rendering.
+
+==================================================
+5. HARDEN ALL ASYNC LOADERS
+==================================================
+
+Ensure:
+- failed fetches do not crash dashboard
+- partial API failures degrade gracefully
+- one broken widget does not kill entire page
+
+==================================================
+6. ADD DEMO-SAFE LOGGING
+==================================================
+
+Frontend console errors should become:
+console.warn()
+NOT fatal exceptions.
+
+==================================================
+7. FINAL REQUIREMENT
+==================================================
+
+The doctor dashboard must:
+- always render
+- survive malformed responses
+- survive empty databases
+- survive partial backend failures
+
+The demo must NEVER white-screen.
+
+==================================================
+OUTPUT
+==================================================
+
+Result should feel like:
+"a hardened production dashboard that fails gracefully."

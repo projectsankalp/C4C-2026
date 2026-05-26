@@ -1,0 +1,532 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AarogyaSethu Doctor Dashboard - Clinical Command Center</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Scripts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(193, 199, 211, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .clinical-status-red { border-left: 4px solid #ba1a1a; }
+        .clinical-status-yellow { border-left: 4px solid #f59e0b; }
+        .clinical-status-green { border-left: 4px solid #00b7a8; }
+
+        @media (max-width: 1023px) {
+            .mobile-hidden { display: none; }
+            .sidebar-open { transform: translateX(0); }
+            .sidebar-closed { transform: translateX(-100%); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-container": "#217855",
+                        "on-secondary-container": "#006f66",
+                        "on-primary-fixed-variant": "#004883",
+                        "surface-tint": "#0060ab",
+                        "on-tertiary-fixed": "#002113",
+                        "on-primary-container": "#e3ecff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#005e3f",
+                        "secondary": "#006a61",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "primary-fixed": "#d3e3ff",
+                        "on-secondary-fixed": "#00201d",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-background": "#191c1e",
+                        "primary-container": "#0f6cbd",
+                        "tertiary-fixed-dim": "#85d7ad",
+                        "surface-container": "#eceef0",
+                        "outline": "#717783",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c1c7d3",
+                        "secondary-fixed-dim": "#4cdbcb",
+                        "on-surface-variant": "#414751",
+                        "on-secondary-fixed-variant": "#005049",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-container": "#a9fdd1",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#a3c9ff",
+                        "primary": "#005396",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#a0f4c8",
+                        "surface": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#001c39",
+                        "secondary-fixed": "#6ef8e7",
+                        "background": "#f7f9fb",
+                        "secondary-container": "#6bf5e5",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "gutter": "24px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md lg:overflow-hidden lg:h-screen flex flex-col lg:flex-row">
+<!-- Sidebar overlay for mobile -->
+<div class="fixed inset-0 bg-black/50 z-[55] hidden lg:hidden" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<!-- 1. SideNavBar (Collapsible on mobile) -->
+<aside class="flex flex-col h-full py-6 bg-surface-container-low backdrop-blur-xl border-r border-outline-variant/20 shadow-sm w-72 fixed left-0 top-0 z-[60] transition-transform duration-300 lg:translate-x-0 sidebar-closed" id="sideNavbar">
+<div class="px-6 mb-8 flex justify-between items-center">
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AarogyaSethu</h1>
+<p class="text-on-surface-variant font-label-md text-sm">Mysuru Health Network</p>
+</div>
+<button class="lg:hidden p-2 text-on-surface-variant" onclick="toggleSidebar()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="px-4 mb-6">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-primary/5 border border-primary/10">
+<img alt="Dr. Priya Nair" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYO0qV2VPdrv72ZcMfB5Tia_pvVPGeCzJT7VMQPockgKR-qRLeAYNWB4SY1mZhutRtghxJ8U3tOm5hqcWPXdmEdswHHTnLRvL2TXw9jcEcFbcoOa_eqSDWfxZjDOjG6M4JQ26Ixhf_KgfN1Q44R91it49D8KanR0h6OxXI2JTfBZmNgMfPEg1kZNSljy86tObgokS9fE3Ls9BUILcwAHoZYYTlWRhLGaj-GMD083vEHhzp5RFNpRZ_XohT5EjvxFpubArH6bhZPjRm">
+<div>
+<p class="font-label-md text-on-surface leading-tight">Dr. Priya Nair</p>
+<p class="text-xs text-on-surface-variant">District Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 overflow-y-auto custom-scrollbar space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-4 border-primary bg-primary/5 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Patient Queue</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Clinical Summaries</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="medication">medication</span>
+<span class="font-label-md text-label-md">Prescriptions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-label-md text-label-md">Village Intelligence</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span class="font-label-md text-label-md">Timeline Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-label-md text-label-md">Blockchain Verification</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+<span class="font-label-md text-label-md">Escalations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto pt-6 border-t border-outline-variant/20 space-y-1">
+<button class="flex items-center w-full gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+<span class="font-label-md text-sm">Theme</span>
+</button>
+<button class="flex items-center w-full gap-3 px-4 py-2 text-error hover:bg-error/5 rounded-lg transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-sm">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Content Area Container -->
+<div class="flex-1 lg:ml-72 flex flex-col min-h-screen lg:h-screen lg:overflow-hidden relative">
+<!-- 2. TopNavBar (Sticky) -->
+<header class="flex justify-between items-center h-16 lg:h-20 px-4 lg:px-gutter bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 sticky top-0 z-40">
+<div class="flex items-center gap-3">
+<button class="lg:hidden p-2 -ml-2 rounded-full hover:bg-surface-variant/50" onclick="toggleSidebar()">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="overflow-hidden">
+<h2 class="font-headline-md text-lg lg:text-xl font-bold text-primary truncate">Good Morning, Dr. Priya</h2>
+<p class="text-[10px] lg:text-xs text-on-surface-variant hidden sm:block">18 patient summaries require review today.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 lg:gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-2 rounded-full bg-surface-container-low border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm w-48 lg:w-64 transition-all" placeholder="Search patients..." type="text">
+</div>
+<div class="flex items-center gap-1 lg:gap-2">
+<button class="p-2.5 min-w-[44px] min-h-[44px] rounded-full hover:bg-surface-variant/50 relative transition-all">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<button class="p-2.5 min-w-[44px] min-h-[44px] rounded-full hover:bg-surface-variant/50 transition-all mobile-hidden">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="mic">mic</span>
+</button>
+<button class="flex items-center gap-2 px-3 lg:px-4 py-2.5 min-h-[44px] rounded-full bg-primary text-on-primary font-label-md text-sm hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg" data-icon="videocam">videocam</span>
+<span class="hidden sm:inline">Teleconsult</span>
+</button>
+</div>
+</div>
+</header>
+<!-- 3. Main Content Scrollable Area -->
+<main class="flex flex-col lg:flex-row flex-1 lg:overflow-hidden">
+<!-- Center Canvas -->
+<div class="flex-1 lg:overflow-y-auto custom-scrollbar p-4 lg:p-gutter space-y-6 lg:space-y-stack-lg">
+<!-- Mobile Search Bar (Visible only on mobile) -->
+<div class="md:hidden relative mb-4 sticky top-20 z-30">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-11 pr-4 py-3 rounded-xl bg-surface shadow-sm border border-outline-variant/50 focus:ring-2 focus:ring-primary/20 outline-none text-sm" placeholder="Search patients or VILL-ID..." type="text">
+</div>
+<!-- SECTION 1: Intelligence Cards -->
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+<div class="glass-panel p-3 lg:p-4 rounded-xl bg-white shadow-sm border-l-4 border-primary">
+<div class="flex justify-between items-start mb-1 lg:mb-2">
+<span class="text-on-surface-variant text-[10px] lg:text-xs font-bold uppercase tracking-wider">Reviewed</span>
+<span class="material-symbols-outlined text-primary text-lg lg:text-xl">group</span>
+</div>
+<p class="text-2xl lg:text-3xl font-bold text-on-surface">128</p>
+<div class="flex items-center gap-1 text-tertiary mt-1">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span class="text-[10px] lg:text-xs font-semibold">+12%</span>
+</div>
+</div>
+<div class="glass-panel p-3 lg:p-4 rounded-xl bg-white shadow-sm border-l-4 border-error">
+<div class="flex justify-between items-start mb-1 lg:mb-2">
+<span class="text-on-surface-variant text-[10px] lg:text-xs font-bold uppercase tracking-wider">High Risk</span>
+<span class="material-symbols-outlined text-error text-lg lg:text-xl">warning</span>
+</div>
+<p class="text-2xl lg:text-3xl font-bold text-on-surface">11</p>
+<div class="flex items-center gap-1 text-error mt-1">
+<span class="material-symbols-outlined text-xs">arrow_upward</span>
+<span class="text-[10px] lg:text-xs font-semibold">Critical</span>
+</div>
+</div>
+<div class="glass-panel p-3 lg:p-4 rounded-xl bg-white shadow-sm border-l-4 border-yellow-500">
+<div class="flex justify-between items-start mb-1 lg:mb-2">
+<span class="text-on-surface-variant text-[10px] lg:text-xs font-bold uppercase tracking-wider">Escalated</span>
+<span class="material-symbols-outlined text-yellow-600 text-lg lg:text-xl">priority_high</span>
+</div>
+<p class="text-2xl lg:text-3xl font-bold text-on-surface">4</p>
+<div class="px-1.5 py-0.5 rounded bg-yellow-100 text-yellow-800 text-[8px] lg:text-[10px] font-bold w-fit mt-1">PENDING</div>
+</div>
+<div class="glass-panel p-3 lg:p-4 rounded-xl bg-white shadow-sm border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-1 lg:mb-2">
+<span class="text-on-surface-variant text-[10px] lg:text-xs font-bold uppercase tracking-wider">Rx Rate</span>
+<span class="material-symbols-outlined text-secondary text-lg lg:text-xl">check_circle</span>
+</div>
+<p class="text-2xl lg:text-3xl font-bold text-on-surface">92%</p>
+<div class="w-full bg-secondary-container h-1 rounded-full mt-2 overflow-hidden">
+<div class="bg-secondary h-full" style="width: 92%"></div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Risk-Ranked Patient Queue -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-base lg:text-lg text-on-surface">Patient Queue</h3>
+<div class="flex gap-1 lg:gap-2">
+<button class="px-2 lg:px-3 py-1 lg:py-1.5 rounded-full text-[10px] lg:text-xs font-bold bg-primary/10 text-primary border border-primary/20">All</button>
+<button class="px-2 lg:px-3 py-1 lg:py-1.5 rounded-full text-[10px] lg:text-xs font-bold text-on-surface-variant border border-outline-variant hover:bg-surface-variant/20 transition-all">Today</button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<!-- Patient Card 1 -->
+<div class="glass-panel p-3 lg:p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3 lg:gap-4 hover:shadow-md transition-all clinical-status-red">
+<div class="flex items-center gap-3 w-full sm:w-auto flex-1">
+<div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary/10 flex-shrink-0 flex items-center justify-center text-primary font-bold text-base lg:text-lg">RG</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-on-surface truncate">Ramesh Gowda</h4>
+<div class="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] lg:text-xs text-on-surface-variant mt-0.5">
+<span class="">Age: 54</span>
+<span class="">•</span>
+<span class="">VILL-ID: MY-8821</span>
+</div>
+<span class="text-error font-bold flex items-center gap-1 text-[10px] lg:text-xs mt-1">
+<span class="material-symbols-outlined text-xs">blood_pressure</span> Hypertension (Chronic)
+                                    </span>
+</div>
+<div class="text-center px-3 border-l border-outline-variant/30 flex flex-col justify-center">
+<p class="text-[8px] lg:text-[10px] text-on-surface-variant font-bold uppercase leading-none mb-1">Risk</p>
+<p class="text-lg lg:text-xl font-extrabold text-error">86</p>
+</div>
+</div>
+<div class="flex gap-2 w-full sm:w-auto justify-end sm:justify-start">
+<button class="flex-1 sm:flex-none p-2.5 lg:p-2 min-h-[44px] min-w-[44px] rounded-lg bg-surface-container hover:bg-surface-variant transition-all flex items-center justify-center" title="Open Summary">
+<span class="material-symbols-outlined text-on-surface-variant">visibility</span>
+</button>
+<button class="flex-1 sm:flex-none p-2.5 lg:p-2 min-h-[44px] min-w-[44px] rounded-lg bg-surface-container hover:bg-surface-variant transition-all text-secondary flex items-center justify-center" title="Prescribe">
+<span class="material-symbols-outlined">medication</span>
+</button>
+<button class="flex-1 sm:flex-none p-2.5 lg:p-2 min-h-[44px] min-w-[44px] rounded-lg bg-primary text-on-primary hover:shadow-md transition-all active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+</div>
+</div>
+<!-- Patient Card 2 -->
+<div class="glass-panel p-3 lg:p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3 lg:gap-4 hover:shadow-md transition-all clinical-status-yellow">
+<div class="flex items-center gap-3 w-full sm:w-auto flex-1">
+<div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-secondary/10 flex-shrink-0 flex items-center justify-center text-secondary font-bold text-base lg:text-lg">SK</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-on-surface truncate">Sumathi K.</h4>
+<div class="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] lg:text-xs text-on-surface-variant mt-0.5">
+<span class="">Age: 32</span>
+<span class="">•</span>
+<span class="">VILL-ID: MY-9012</span>
+</div>
+<span class="text-yellow-600 font-bold flex items-center gap-1 text-[10px] lg:text-xs mt-1">
+<span class="material-symbols-outlined text-xs">pregnant_woman</span> Antenatal Care
+                                    </span>
+</div>
+<div class="text-center px-3 border-l border-outline-variant/30 flex flex-col justify-center">
+<p class="text-[8px] lg:text-[10px] text-on-surface-variant font-bold uppercase leading-none mb-1">Risk</p>
+<p class="text-lg lg:text-xl font-extrabold text-yellow-600">64</p>
+</div>
+</div>
+<div class="flex gap-2 w-full sm:w-auto justify-end sm:justify-start">
+<button class="flex-1 sm:flex-none p-2.5 lg:p-2 min-h-[44px] min-w-[44px] rounded-lg bg-surface-container hover:bg-surface-variant flex items-center justify-center"><span class="material-symbols-outlined text-on-surface-variant">visibility</span></button>
+<button class="flex-1 sm:flex-none p-2.5 lg:p-2 min-h-[44px] min-w-[44px] rounded-lg bg-surface-container hover:bg-surface-variant text-secondary flex items-center justify-center"><span class="material-symbols-outlined">medication</span></button>
+<button class="flex-1 sm:flex-none p-2.5 lg:p-2 min-h-[44px] min-w-[44px] rounded-lg bg-primary text-on-primary flex items-center justify-center"><span class="material-symbols-outlined">videocam</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Analytics Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-gutter">
+<!-- Village Heatmap Preview -->
+<section class="glass-panel rounded-2xl overflow-hidden shadow-sm flex flex-col min-h-[320px]">
+<div class="p-4 bg-white/50 border-b border-outline-variant/20 flex justify-between items-center">
+<h3 class="font-label-md text-on-surface">Village Heatmap</h3>
+<span class="px-2 py-0.5 rounded-full bg-error/10 text-error text-[10px] font-bold">2 Outbreaks</span>
+</div>
+<div class="flex-1 relative bg-slate-200">
+<img alt="Village Heatmap" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqnObCm9iNjPS2EOowC36pVQ3EBZg3euTUO0ygwTOoZT5zEWZJ441NGURc1HRa1WThg3-HCdq5pSRNpCVAyz1f5S74zl3W-ibme1bz2Gzt_mxVvBUKbMIR1bzgUA_yIG0XBTB78EfY3X_GFOZHcRPYo4EWQal3jqTr3fV_xflVAFdZx8Ik2DYgUw6SkdTVWgrOw4RKQjWePL3YErfM1a_qVuAwhzBUXWNxrljbLYdVdymr5ktVmSkzQGKZdAC5qpyinV84DbCVzz-P">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+<div class="absolute bottom-4 left-4 flex flex-col gap-2">
+<div class="bg-white p-2 rounded-lg shadow-lg flex flex-col gap-1">
+<div class="flex items-center gap-2 text-xs font-bold text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-error"></span> Fever Cluster
+                                    </div>
+<div class="flex items-center gap-2 text-xs font-bold text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-yellow-500"></span> Water Alert
+                                    </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Analytics: Risk Distribution -->
+<section class="glass-panel p-4 rounded-2xl bg-white shadow-sm min-h-[320px] flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-on-surface">Village Health Trends</h3>
+<select class="text-xs border-none bg-surface-container rounded-lg p-1.5 font-bold text-on-surface-variant focus:ring-0">
+<option>Last 30 Days</option>
+<option>Last 7 Days</option>
+</select>
+</div>
+<div class="flex-1 relative h-60">
+<canvas id="healthTrendsChart" width="333" height="349" style="display: block; box-sizing: border-box; height: 279.2px; width: 266.4px;"></canvas>
+</div>
+</section>
+</div>
+</div>
+<!-- 4. Intelligence Rail (Right) -->
+<aside class="w-full lg:w-80 h-auto lg:h-full border-t lg:border-t-0 lg:border-l border-outline-variant/20 bg-surface-container-lowest/50 backdrop-blur-md lg:overflow-y-auto custom-scrollbar flex flex-col gap-6 lg:gap-gutter p-6">
+<!-- SECTION 5: Population Risk Panel -->
+<section>
+<h3 class="font-label-md text-on-surface mb-6">Population Risk Index</h3>
+
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant">Endemic Stability</span>
+<span class="font-bold text-tertiary">Good</span>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[82%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant">Medication Adherence</span>
+<span class="font-bold text-yellow-600">Moderate</span>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full overflow-hidden">
+<div class="bg-yellow-600 h-full w-[64%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 6: Smart Notification Rail -->
+<section class="flex-1">
+<h3 class="font-label-md text-on-surface mb-4 flex items-center gap-2">
+                        Urgent Alerts
+                        <span class="px-2 py-0.5 rounded-full bg-error text-white text-[10px] font-bold">2</span>
+</h3>
+<div class="space-y-4">
+<div class="p-3 lg:p-4 rounded-xl bg-error/5 border border-error/10 relative overflow-hidden">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-error" data-icon="water_drop">water_drop</span>
+<div>
+<p class="text-sm font-bold text-on-surface leading-tight">Potable Water Alert</p>
+<p class="text-[11px] text-on-surface-variant mt-1">Village Hunsur reported contamination spikes in Cluster 4.</p>
+<p class="text-[10px] font-bold text-error mt-2 uppercase tracking-wide">14 min ago</p>
+</div>
+</div>
+</div>
+<div class="p-3 lg:p-4 rounded-xl bg-primary/5 border border-primary/10 relative">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="assignment_late">assignment_late</span>
+<div>
+<p class="text-sm font-bold text-on-surface leading-tight">Pending Signature</p>
+<p class="text-[11px] text-on-surface-variant mt-1">Patient #8812 Lab Report ready for validation.</p>
+<button class="text-[10px] font-bold text-primary underline mt-2 uppercase tracking-wide min-h-[32px]">Review Now</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 7: Blockchain Verification -->
+<section class="mt-auto border-t border-outline-variant/20 pt-6">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Clinical Security</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
+<span class="text-[10px] font-bold">VERIFIED</span>
+</div>
+</div>
+<div class="p-3 rounded bg-surface-container-high font-mono text-[9px] text-on-surface-variant break-all leading-tight">
+                        Hash: 0x8a2f...b3c921-prod-mys-eth-77
+                    </div>
+</section>
+</aside>
+</main>
+</div>
+<!-- 5. Floating Action Button (Enhanced touch target) -->
+<button class="fixed bottom-6 right-6 lg:bottom-8 lg:right-8 w-16 h-16 rounded-full bg-primary text-on-primary shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+<!-- Tooltip (Hidden on small touch devices) -->
+<span class="hidden lg:block absolute right-full mr-4 px-3 py-1 bg-inverse-surface text-inverse-on-surface text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">New Prescription</span>
+</button>
+<!-- Navigation Toggle Script -->
+<script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sideNavbar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('sidebar-closed');
+            sidebar.classList.toggle('sidebar-open');
+            overlay.classList.toggle('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('healthTrendsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    datasets: [{
+                        label: 'Infection Rate',
+                        data: [12, 19, 15, 25, 22],
+                        borderColor: '#0f6cbd',
+                        backgroundColor: 'rgba(15, 108, 189, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#0f6cbd'
+                    }, {
+                        label: 'Recovery rate',
+                        data: [45, 52, 63, 58, 70],
+                        borderColor: '#00b7a8',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: 'bold'
+                                },
+                                color: '#717783'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

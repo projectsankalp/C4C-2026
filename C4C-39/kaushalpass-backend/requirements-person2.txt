@@ -1,0 +1,12 @@
+# Merge these into Person 1's root requirements.txt
+fastapi>=0.111.0
+python-multipart>=0.0.9
+supabase>=2.5.1
+python-jose[cryptography]>=3.3.0
+httpx>=0.27.0
+reportlab>=4.2.2
+qrcode[pil]>=7.4.2
+opencv-python-headless>=4.10.0.84
+Pillow>=10.4.0
+imagehash>=4.3.1
+python-Levenshtein>=0.25.1

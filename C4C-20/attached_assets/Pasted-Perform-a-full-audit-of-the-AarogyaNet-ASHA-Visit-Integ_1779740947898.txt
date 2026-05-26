@@ -1,0 +1,98 @@
+Perform a full audit of the AarogyaNet ASHA Visit Integrity system.
+
+GOAL:
+Ensure every ASHA visit is:
+- location-aware
+- timestamped
+- cryptographically verifiable
+- offline-compatible
+
+Audit ALL of the following:
+
+==================================================
+1. GPS CAPTURE
+==================================================
+
+Verify:
+- GPS coordinates are actually captured during visits
+- coordinates persist correctly in database
+- browser/device geolocation works correctly
+
+Check:
+- permission handling
+- timeout handling
+- unsupported-device fallback
+
+==================================================
+2. TIMESTAMP INTEGRITY
+==================================================
+
+Verify:
+- visit timestamps are persisted correctly
+- timezone consistency
+- blockchain timestamps match visit timestamps
+
+==================================================
+3. VISIT HASHING
+==================================================
+
+Verify:
+- visit fingerprint includes:
+  - GPS coordinates
+  - timestamp
+  - visit identifier
+
+Ensure:
+- modified coordinates change hash deterministically
+
+==================================================
+4. BLOCKCHAIN LINKAGE
+==================================================
+
+Verify:
+- visit integrity hashes are correctly written into blockchain blocks
+- tampering with GPS data invalidates blockchain verification
+
+==================================================
+5. OFFLINE-FIRST COMPATIBILITY
+==================================================
+
+Verify:
+- offline visits store location correctly
+- sync preserves timestamps
+- sync preserves GPS integrity
+
+==================================================
+6. FAILURE HANDLING
+==================================================
+
+Audit:
+- no GPS available
+- denied permissions
+- stale coordinates
+- invalid coordinates
+
+Ensure graceful fallback behavior.
+
+==================================================
+7. PRIVACY
+==================================================
+
+Verify:
+- GPS data stored only where necessary
+- blockchain stores hashes/fingerprints only
+- raw coordinates are not unnecessarily exposed
+
+==================================================
+OUTPUT
+==================================================
+
+Return:
+- what is correct
+- missing infrastructure
+- edge-case failures
+- integrity risks
+- exact fixes needed
+
+Do NOT redesign architecture.
+Focus ONLY on visit integrity reliability.

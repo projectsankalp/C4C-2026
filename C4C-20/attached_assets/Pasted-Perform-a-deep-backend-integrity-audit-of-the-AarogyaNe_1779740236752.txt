@@ -1,0 +1,119 @@
+Perform a deep backend integrity audit of the AarogyaNet blockchain implementation.
+
+DO NOT redesign the blockchain.
+DO NOT add new features.
+ONLY validate correctness, integrity, and reliability.
+
+Audit ALL of the following:
+
+==================================================
+1. ECDSA KEY PERSISTENCE
+==================================================
+
+Verify:
+- keys persist across restarts
+- signatures remain verifiable after restart
+- no runtime-generated transient keys remain
+
+Check:
+- PEM storage
+- load-on-start logic
+- failure handling
+
+==================================================
+2. SIGNATURE VERIFICATION
+==================================================
+
+Verify:
+- every block signature is actually verified
+- verification failures are detectable
+- invalid signatures break integrity status
+
+==================================================
+3. HASH DETERMINISM
+==================================================
+
+Verify:
+- hash_block() produces identical output consistently
+- JSON serialization order is deterministic
+- no timestamp formatting inconsistencies exist
+
+==================================================
+4. PROOF-OF-WORK
+==================================================
+
+Verify:
+- nonce validation works correctly
+- difficulty enforcement is real
+- blocks cannot bypass mining validation
+
+==================================================
+5. CHAIN VALIDATION
+==================================================
+
+Verify:
+- previous_hash continuity
+- tamper propagation
+- broken hashes invalidate downstream blocks
+
+==================================================
+6. PRIVACY ARCHITECTURE
+==================================================
+
+CRITICAL:
+Verify blockchain stores ONLY:
+- hashes
+- metadata
+- signatures
+- timestamps
+
+Ensure:
+- NO raw PHI
+- NO symptoms
+- NO prescriptions
+- NO medical notes
+exist in blockchain payloads.
+
+==================================================
+7. DATABASE CONSISTENCY
+==================================================
+
+Verify:
+- mined blocks persist correctly
+- no duplicate blocks
+- no orphaned records
+- visit linkage integrity
+
+==================================================
+8. FAILURE MODES
+==================================================
+
+Test:
+- corrupted hash
+- invalid signature
+- wrong nonce
+- modified timestamp
+
+Verify chain validation fails correctly.
+
+==================================================
+9. CODE QUALITY
+==================================================
+
+Audit:
+- duplicated blockchain logic
+- unsafe assumptions
+- hidden edge-case failures
+
+==================================================
+OUTPUT
+==================================================
+
+Return:
+- issues found
+- severity
+- exact fixes needed
+- confirmation of what is already correct
+
+Do NOT generate unnecessary improvements.
+Focus ONLY on reliability and integrity.

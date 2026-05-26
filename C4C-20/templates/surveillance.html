@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Disease Cluster Surveillance — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","primary-container":"#0f6cbd","surface-container-lowest":"#ffffff",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+#cluster-map { height: 460px; border-radius: 12px; }
+.cluster-card { border-left: 4px solid #e2e8f0; border-radius: 10px; background: #fff; padding: 1rem 1.25rem; margin-bottom: .75rem; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .15s; }
+.cluster-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,.1); }
+.cluster-card.sev-CRITICAL { border-left-color: #dc2626; } .cluster-card.sev-HIGH { border-left-color: #f97316; } .cluster-card.sev-MEDIUM { border-left-color: #d97706; }
+.timeline-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.tl-HIGH { background: #dc2626; } .tl-MEDIUM { background: #d97706; } .tl-LOW { background: #16a34a; }
+.no-cluster-state { text-align: center; padding: 3rem 1rem; color: #64748b; }
+.no-cluster-state .icon { font-size: 2.5rem; color: #94a3b8; margin-bottom: 1rem; }
+.lookback-btn { padding: .25rem .75rem; border-radius: .5rem; border: 1px solid #c1c7d3; font-size: .8rem; font-weight: 600; cursor: pointer; background: #fff; color: #414751; transition: all .15s; }
+.lookback-btn.active { background: #0d9488; color: #fff; border-color: #0d9488; }
+.lookback-btn:hover:not(.active) { background: #f7f9fb; }
+.sev-filter-btn { padding: .2rem .6rem; border-radius: .5rem; border: 1px solid #c1c7d3; font-size: .75rem; font-weight: 700; cursor: pointer; background: #fff; transition: all .15s; }
+.sev-filter-btn.active { color: #fff; }
+.sev-filter-btn[data-sev='CRITICAL'].active { background:#dc2626;border-color:#dc2626; }
+.sev-filter-btn[data-sev='HIGH'].active    { background:#f97316;border-color:#f97316; }
+.sev-filter-btn[data-sev='MEDIUM'].active  { background:#d97706;border-color:#d97706; }
+.sev-filter-btn[data-sev=''].active        { background:#005396;border-color:#005396;color:#fff; }
+.type-chip { display:inline-flex; align-items:center; gap:.35rem; padding:.3rem .8rem; border-radius:999px; font-size:.78rem; font-weight:600; margin:.2rem; }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span></div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span></div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">User</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">timeline</span> Clinical Memory</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">link</span> Blockchain Ledger</a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">map</span> Outbreak Map</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">shield</span> Disease Clusters</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">shield</span>
+        Disease Cluster Surveillance
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Early-warning cluster detection — spatial + temporal analysis</p>
+    </div>
+    <button id="sv-refresh" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+      <span class="material-symbols-outlined text-base">refresh</span> Refresh
+    </button>
+  </header>
+
+  <div class="p-6">
+
+    <!-- KPI Row -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm p-4 flex items-center gap-3" style="border-left:3px solid #dc2626">
+        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-shield-virus text-red-600"></i></div>
+        <div><div class="text-2xl font-bold text-red-600" id="sv-total">—</div><div class="text-xs text-on-surface-variant">Active Clusters</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-triangle-exclamation text-red-600"></i></div>
+        <div><div class="text-2xl font-bold text-red-600" id="sv-critical">—</div><div class="text-xs text-on-surface-variant">Critical Severity</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-users text-blue-600"></i></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="sv-cases">—</div><div class="text-xs text-on-surface-variant">Total Cases</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-map-pin text-green-600"></i></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="sv-villages">—</div><div class="text-xs text-on-surface-variant">Affected Villages</div></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm px-5 py-3 mb-4 flex items-center gap-3 flex-wrap">
+      <span class="text-xs text-on-surface-variant font-bold">Lookback window:</span>
+      <button class="lookback-btn active" data-days="7">7 days</button>
+      <button class="lookback-btn" data-days="14">14 days</button>
+      <button class="lookback-btn" data-days="30">30 days</button>
+      <button class="lookback-btn" data-days="60">60 days</button>
+    </div>
+
+    <!-- Type Chips -->
+    <div id="type-chips" class="mb-4"></div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+
+      <!-- Map + Village Breakdown -->
+      <div class="flex flex-col gap-4">
+        <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-outline-variant/20">
+            <h3 class="font-bold text-sm flex items-center gap-2" style="color:#0f766e"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">globe</span> Cluster Map</h3>
+          </div>
+          <div class="p-4">
+            <div id="cluster-map"></div>
+            <div id="no-cluster-map" class="no-cluster-state" style="display:none;">
+              <div class="icon"><i class="fa-solid fa-map-location-dot"></i></div>
+              <p class="text-sm">No geo-tagged clusters detected for this window.<br>Clusters appear when 3+ symptomatic visits occur near the same location.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Village Breakdown -->
+        <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-outline-variant/20">
+            <h3 class="font-bold text-sm flex items-center gap-2" style="color:#0f766e"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">location_on</span> Village Breakdown</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="bg-surface-container-low"><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Village</th><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Clusters</th><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Cases</th><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Severity</th></tr></thead>
+              <tbody id="village-breakdown" class="divide-y divide-outline-variant/20">
+                <tr><td colspan="4" class="text-center py-4 text-on-surface-variant text-sm">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Cluster List -->
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between flex-wrap gap-2">
+          <h3 class="font-bold text-sm flex items-center gap-2" style="color:#0f766e"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">list</span> Active Cluster List</h3>
+          <div class="flex gap-1">
+            <button class="sev-filter-btn active" data-sev="">All</button>
+            <button class="sev-filter-btn" data-sev="CRITICAL">CRITICAL</button>
+            <button class="sev-filter-btn" data-sev="HIGH">HIGH</button>
+            <button class="sev-filter-btn" data-sev="MEDIUM">MEDIUM</button>
+          </div>
+        </div>
+        <div id="cluster-list" class="p-4" style="max-height:680px;overflow-y:auto;">
+          <div class="text-center py-4 text-on-surface-variant text-sm"><i class="fa-solid fa-spinner fa-spin me-1"></i>Loading clusters…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- District Type Summary -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20">
+        <h3 class="font-bold text-sm flex items-center gap-2" style="color:#0f766e"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">bar_chart</span> District Surveillance Summary</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="bg-surface-container-low"><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Disease Category</th><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Clusters</th><th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Total Cases</th></tr></thead>
+          <tbody id="type-summary-table" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="3" class="text-center py-4 text-on-surface-variant text-sm">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'User';
+document.getElementById('sidebar-role').textContent = (_u.role || '').toUpperCase();
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+var MAP_CENTER = [26.9124, 75.7873];
+var svMap = null, clusterLayers = [], allClusters = [], lookbackDays = 7, sevFilter = '';
+var SEV_COLOR = {CRITICAL:'#dc2626',HIGH:'#f97316',MEDIUM:'#d97706',LOW:'#16a34a'};
+
+function sevBadge(s) {
+  var color = SEV_COLOR[s] || '#94a3b8';
+  return '<span class="px-2 py-0.5 rounded-full text-xs font-bold text-white" style="background:'+color+'">'+s+'</span>';
+}
+
+function initSvMap() {
+  if (svMap) return;
+  svMap = L.map('cluster-map').setView(MAP_CENTER, 8);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'© OpenStreetMap contributors'}).addTo(svMap);
+}
+
+function clearClusterLayers() {
+  clusterLayers.forEach(function(l){ l.remove(); }); clusterLayers = [];
+}
+
+function renderClusterMap(clusters) {
+  if (!clusters.length) {
+    if (svMap) document.getElementById('cluster-map').style.display = 'none';
+    document.getElementById('no-cluster-map').style.display = '';
+    return;
+  }
+  document.getElementById('cluster-map').style.display = '';
+  document.getElementById('no-cluster-map').style.display = 'none';
+  initSvMap(); clearClusterLayers();
+  var bounds = [];
+  clusters.forEach(function(c) {
+    if (c.center_lat == null || c.center_lng == null) return;
+    var color  = SEV_COLOR[c.severity] || '#94a3b8';
+    var circle = L.circle([c.center_lat, c.center_lng], {radius:c.radius_m,color:color,fillColor:color,fillOpacity:.18,weight:2}).addTo(svMap);
+    var marker = L.circleMarker([c.center_lat, c.center_lng], {radius:7+Math.min(c.case_count||0,8),fillColor:color,color:'#fff',weight:2,fillOpacity:.95}).addTo(svMap);
+    var popup = '<strong><i class="fa-solid '+(c.icon||'fa-circle-nodes')+'"></i> '+c.label+'</strong><br>Severity: <strong style="color:'+color+'">'+c.severity+'</strong><br>Cases: '+(c.case_count||0)+' | Village: '+(c.village||'—')+'<br>First: '+(c.first_detected?c.first_detected.slice(0,10):'—')+'<br>Last: '+(c.last_seen?c.last_seen.slice(0,10):'—');
+    circle.bindPopup(popup); marker.bindPopup(popup);
+    clusterLayers.push(circle, marker); bounds.push([c.center_lat, c.center_lng]);
+  });
+  if (bounds.length) { try { svMap.fitBounds(bounds,{padding:[40,40],maxZoom:13}); } catch(_) {} }
+  setTimeout(function(){ if(svMap) svMap.invalidateSize(); }, 200);
+}
+
+function renderClusterList(clusters) {
+  var el = document.getElementById('cluster-list');
+  var filtered = sevFilter ? clusters.filter(function(c){ return c.severity === sevFilter; }) : clusters;
+  if (!filtered.length) {
+    el.innerHTML = '<div class="no-cluster-state"><div class="icon"><i class="fa-solid fa-shield-check"></i></div><p class="text-sm">'+(sevFilter?'No '+sevFilter+' severity clusters':'No active clusters')+' detected in this window.<br>Early-warning thresholds not yet met — surveillance is active.</p></div>';
+    return;
+  }
+  el.innerHTML = filtered.map(function(c) {
+    var color = SEV_COLOR[c.severity] || '#94a3b8';
+    var tlItems = (c.timeline || []).slice(-5).map(function(t){ return '<span class="timeline-dot tl-'+(t.risk_level||'LOW')+'"></span>'+(t.date||'').slice(5); }).join('  ');
+    return '<div class="cluster-card sev-'+c.severity+'"><div class="flex justify-between items-start mb-1"><div class="font-semibold text-sm" style="color:'+color+'"><i class="fa-solid '+(c.icon||'fa-circle-nodes')+' me-1"></i>'+c.label+'</div>'+sevBadge(c.severity)+'</div><div class="flex gap-3 text-xs text-on-surface-variant mb-1 flex-wrap"><span><i class="fa-solid fa-users me-1"></i>'+(c.case_count||0)+' cases</span><span><i class="fa-solid fa-person me-1"></i>'+(c.affected_patients||0)+' patients</span><span><i class="fa-solid fa-map-pin me-1"></i>'+(c.village||'—')+'</span><span><i class="fa-solid fa-circle-dot me-1"></i>'+(c.radius_m||0)+'m</span></div><div class="flex gap-3 text-xs text-on-surface-variant mb-2 flex-wrap"><span><i class="fa-solid fa-calendar-plus me-1"></i>First: '+(c.first_detected?c.first_detected.slice(0,10):'—')+'</span><span><i class="fa-solid fa-calendar-check me-1"></i>Last: '+(c.last_seen?c.last_seen.slice(0,10):'—')+'</span></div>'+(tlItems?'<div class="text-xs text-on-surface-variant" style="font-size:.74rem">Timeline: '+tlItems+'</div>':'')+'</div>';
+  }).join('');
+}
+
+function renderKPIs(summary) {
+  document.getElementById('sv-total').textContent    = summary.total_clusters || 0;
+  document.getElementById('sv-critical').textContent = summary.critical_count  || 0;
+  document.getElementById('sv-cases').textContent    = summary.total_cases     || 0;
+  document.getElementById('sv-villages').textContent = (summary.village_breakdown || []).length;
+}
+
+function renderTypeChips(summary) {
+  var el = document.getElementById('type-chips'), types = summary.type_summary || [];
+  if (!types.length) { el.innerHTML = ''; return; }
+  el.innerHTML = types.map(function(t){ return '<span class="type-chip" style="background:'+t.color+'20;color:'+t.color+';border:1px solid '+t.color+'40"><i class="fa-solid '+t.icon+'"></i> '+t.label+': '+t.clusters+' cluster'+(t.clusters>1?'s':'')+', '+t.cases+' cases</span>'; }).join('');
+}
+
+function renderVillageBreakdown(summary) {
+  var tbody = document.getElementById('village-breakdown'), rows = summary.village_breakdown || [];
+  if (!rows.length) { tbody.innerHTML='<tr><td colspan="4" class="text-center py-4 text-on-surface-variant text-sm">No cluster activity by village</td></tr>'; return; }
+  tbody.innerHTML = rows.map(function(r){ return '<tr class="hover:bg-surface-container-low transition-colors"><td class="px-5 py-3 font-semibold text-sm">'+r.village+'</td><td class="px-5 py-3 text-sm">'+r.clusters+'</td><td class="px-5 py-3 text-sm">'+r.cases+'</td><td class="px-5 py-3">'+sevBadge(r.severity)+'</td></tr>'; }).join('');
+}
+
+function renderTypeSummary(summary) {
+  var tbody = document.getElementById('type-summary-table'), rows = summary.type_summary || [];
+  if (!rows.length) { tbody.innerHTML='<tr><td colspan="3" class="text-center py-4 text-on-surface-variant text-sm">No cluster activity detected</td></tr>'; return; }
+  tbody.innerHTML = rows.map(function(t){ return '<tr class="hover:bg-surface-container-low transition-colors"><td class="px-5 py-3 text-sm"><span style="color:'+t.color+'"><i class="fa-solid '+t.icon+' me-1"></i></span>'+t.label+'</td><td class="px-5 py-3 text-sm">'+t.clusters+'</td><td class="px-5 py-3 text-sm">'+t.cases+'</td></tr>'; }).join('');
+}
+
+async function loadSurveillance() {
+  document.getElementById('cluster-list').innerHTML = '<div class="text-center py-4 text-on-surface-variant text-sm"><i class="fa-solid fa-spinner fa-spin me-1"></i>Detecting clusters…</div>';
+  try {
+    var summary = await API.get('/api/clusters/summary?lookback_days=' + lookbackDays);
+    if (!summary) { document.getElementById('cluster-list').innerHTML = '<div class="text-center py-4 text-on-surface-variant text-sm">No data available.</div>'; return; }
+    allClusters = summary.active_clusters || [];
+    renderKPIs(summary); renderTypeChips(summary); renderClusterMap(allClusters);
+    renderClusterList(allClusters); renderVillageBreakdown(summary); renderTypeSummary(summary);
+  } catch(err) {
+    console.error('[Surveillance] Error:', err);
+    document.getElementById('cluster-list').innerHTML = '<div class="text-red-600 text-center py-3 text-sm">Failed to load cluster data. Please refresh.</div>';
+  }
+}
+
+// Event wiring
+document.querySelectorAll('.lookback-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.lookback-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    lookbackDays = parseInt(btn.dataset.days);
+    loadSurveillance();
+  });
+});
+
+document.querySelectorAll('.sev-filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.sev-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    sevFilter = btn.dataset.sev;
+    renderClusterList(allClusters);
+  });
+});
+
+document.getElementById('sv-refresh').addEventListener('click', loadSurveillance);
+
+loadSurveillance();
+</script>
+</body>
+</html>

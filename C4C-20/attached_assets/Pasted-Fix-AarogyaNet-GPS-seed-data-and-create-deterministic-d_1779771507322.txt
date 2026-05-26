@@ -1,0 +1,118 @@
+Fix AarogyaNet GPS seed data and create deterministic demo-ready disease clusters.
+
+CRITICAL:
+The heatmap, outbreak detection, and surveillance dashboards currently render empty because no seeded demo patients or visits contain GPS coordinates.
+
+We need real geospatial demo data.
+
+==================================================
+1. ADD GPS TO SEEDED DEMO PATIENTS
+==================================================
+
+In:
+database/postgres.py
+
+Add realistic Indian village coordinates to:
+- DEMO-MEENA-001
+- DEMO-SURESH-001
+
+Use nearby coordinates within the same district.
+
+Example region:
+Rampur / Sundarpur village cluster area.
+
+==================================================
+2. ADD GPS TO SEEDED VISITS
+==================================================
+
+All seeded visits in:
+asha_visits
+
+must include:
+- latitude
+- longitude
+- visit_timestamp
+
+Do NOT leave any seeded visit GPS NULL.
+
+==================================================
+3. CREATE A REAL FEVER CLUSTER
+==================================================
+
+Seed:
+3 fever-related visits
+
+Requirements:
+- within 200 meters
+- within 10 days
+- valid GPS
+- same symptom cluster
+
+Expected result:
+cluster_engine.py must automatically generate:
+FEVER cluster.
+
+==================================================
+4. CREATE A NON-CLUSTER CONTROL
+==================================================
+
+Add:
+1 fever patient located several kilometers away.
+
+Expected:
+NOT included in cluster.
+
+This validates real spatial separation.
+
+==================================================
+5. VERIFY CLUSTER RULES
+==================================================
+
+Ensure:
+- fever cluster severity computed correctly
+- centroid calculation correct
+- cluster counts accurate
+- village aggregation accurate
+
+==================================================
+6. VERIFY HEATMAP VISIBILITY
+==================================================
+
+After startup:
+- heatmap must show real overlays
+- surveillance dashboard must show non-zero counts
+- cluster cards must render
+- severity coloring must appear
+
+==================================================
+7. REMOVE ALL NULL GEO CASES
+==================================================
+
+Audit seeded demo patients and visits.
+
+No demo-critical patient should have:
+- NULL latitude
+- NULL longitude
+
+==================================================
+8. DEMO REQUIREMENT
+==================================================
+
+After seeding:
+the following must visibly work:
+
+- heatmap overlays
+- disease clusters
+- surveillance dashboard
+- village statistics
+- severity coloring
+- outbreak cards
+
+WITHOUT manual DB edits.
+
+==================================================
+OUTPUT
+==================================================
+
+The heatmap/surveillance system should now feel:
+"alive, spatially intelligent, and operationally real."

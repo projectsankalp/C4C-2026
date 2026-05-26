@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Doctor Dashboard — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61",
+      "outline-variant":"#c1c7d3","on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb",
+      "on-primary-container":"#e3ecff","surface-container-low":"#f2f4f6","surface-container":"#eceef0",
+      "primary-container":"#0f6cbd","surface-container-lowest":"#ffffff","on-secondary-container":"#006f66",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea","surface-bright":"#f7f9fb"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.risk-high { color:#dc2626; font-weight:600; } .risk-medium { color:#d97706; font-weight:600; } .risk-low { color:#16a34a; font-weight:600; }
+.btn-teal { background:#0d9488; color:#fff; border-color:#0d9488; } .btn-teal:hover { background:#0f766e; color:#fff; border-color:#0f766e; }
+.btn-xs { padding:.15rem .45rem; font-size:.72rem; }
+.stat-card-new { background:#fff; border-radius:16px; border:1px solid #e2e8f0; padding:1.25rem; display:flex; align-items:center; gap:1rem; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+      </div>
+      <div>
+        <div class="text-white font-bold text-sm">AarogyaSethu</div>
+        <div class="text-white/50 text-xs">Rural Health Intel</div>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span>
+      </div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">Doctor</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">dashboard</span> Overview
+    </a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Doctor Workflow</div>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white nav-item-active text-sm mb-1" style="background:rgba(255,255,255,.15)">
+      <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">stethoscope</span> Doctor Dashboard
+    </a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">timeline</span> Clinical Memory
+    </a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">link</span> Blockchain Ledger
+    </a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">map</span> Outbreak Map
+    </a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">shield</span> Disease Clusters
+    </a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors">
+      <span class="material-symbols-outlined text-sm">logout</span> Sign Out
+    </a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Topbar -->
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">stethoscope</span>
+        Doctor Dashboard — Risk Queue
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Review patient risk queue, prescriptions and emergencies</p>
+    </div>
+    <button onclick="Promise.allSettled([loadDoctor(),loadTokenDashboard(),loadEmergencyPanel(),loadContinuityPanel()])" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+      <span class="material-symbols-outlined text-base">refresh</span> Refresh All
+    </button>
+  </header>
+
+  <div class="p-6">
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="stat-card-new" style="border-left:3px solid #dc2626">
+        <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings:'FILL' 1">warning</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-red-600" id="q-high">—</div>
+          <div class="text-xs text-on-surface-variant">High Risk Patients</div>
+        </div>
+      </div>
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">assignment</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-on-surface" id="q-total">—</div>
+          <div class="text-xs text-on-surface-variant">Patients in Queue</div>
+        </div>
+      </div>
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-green-600 text-xl" style="font-variation-settings:'FILL' 1">medication</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-on-surface" id="q-rx">—</div>
+          <div class="text-xs text-on-surface-variant">Prescriptions Today</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk Queue -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between flex-wrap gap-3">
+        <h3 class="font-bold text-on-surface flex items-center gap-2 text-sm">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">sort</span>
+          Risk-Ranked Patient Queue
+        </h3>
+        <div class="flex gap-2">
+          <button onclick="filterQueue('HIGH')" class="px-3 py-1 rounded-lg bg-red-50 text-red-600 border border-red-200 text-xs font-bold hover:bg-red-100 transition-colors">HIGH</button>
+          <button onclick="filterQueue('MEDIUM')" class="px-3 py-1 rounded-lg bg-amber-50 text-amber-600 border border-amber-200 text-xs font-bold hover:bg-amber-100 transition-colors">MED</button>
+          <button onclick="filterQueue('LOW')" class="px-3 py-1 rounded-lg bg-green-50 text-green-600 border border-green-200 text-xs font-bold hover:bg-green-100 transition-colors">LOW</button>
+          <button onclick="filterQueue('')" class="px-3 py-1 rounded-lg bg-surface-container text-on-surface-variant border border-outline-variant text-xs font-bold hover:bg-surface-container-high transition-colors">All</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-surface-container-low">
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Patient</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Village</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">BP</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Symptoms</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Risk</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">ASHA</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Action</th>
+            </tr>
+          </thead>
+          <tbody id="queue-table" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="7" class="text-center py-8 text-on-surface-variant text-sm">
+              <span class="material-symbols-outlined text-2xl mb-2 block opacity-40">hourglass_empty</span>Loading queue…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Continuity Intelligence Panel -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden" id="continuity-panel-card">
+      <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+        <h3 class="font-bold flex items-center gap-2 text-sm" style="color:#0d9488">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">monitoring</span>
+          Patient Continuity Intelligence
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold text-white ml-1 hidden" id="continuity-alert-count" style="background:#dc2626"></span>
+        </h3>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-on-surface-variant">Absence Detection Active</span>
+          <button onclick="loadContinuityPanel()" class="flex items-center gap-1 text-xs text-primary font-bold hover:underline">
+            <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+          </button>
+        </div>
+      </div>
+      <div id="continuity-alerts" class="px-5 pt-3 pb-1"></div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm" id="continuity-table">
+          <thead>
+            <tr class="bg-surface-container-low">
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Patient</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Village</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Continuity</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Visits</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Absences</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Streak</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Last Visit</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Risk</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Status</th>
+            </tr>
+          </thead>
+          <tbody id="continuity-table-body" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="9" class="text-center py-4 text-on-surface-variant text-sm">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Active Emergencies Panel -->
+    <div class="bg-white rounded-2xl border border-red-200 shadow-sm mb-6 overflow-hidden" id="emergency-panel-card">
+      <div class="px-5 py-4 border-b border-red-100 flex items-center justify-between" style="background:#fef2f2">
+        <h3 class="font-bold text-red-600 flex items-center gap-2 text-sm">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">emergency</span>
+          Active Emergencies
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-600 text-white ml-1" id="emergency-count">0</span>
+        </h3>
+        <button onclick="loadEmergencyPanel()" class="flex items-center gap-1 text-xs text-red-600 font-bold hover:underline">
+          <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+        </button>
+      </div>
+      <div id="emergency-panel" class="divide-y divide-red-50">
+        <div class="text-center text-on-surface-variant py-4 text-sm">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Prescription Token Adherence -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+        <h3 class="font-bold text-on-surface flex items-center gap-2 text-sm">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">key</span>
+          Prescription Token &amp; Adherence Status
+        </h3>
+        <button onclick="loadTokenDashboard()" class="flex items-center gap-1 text-xs text-primary font-bold hover:underline">
+          <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+        </button>
+      </div>
+      <div id="token-panel" class="px-5 py-3">
+        <div class="text-center text-on-surface-variant py-2 text-sm">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Patient Detail Panel -->
+    <div id="patient-detail-panel" class="d-none">
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20">
+          <h3 class="font-bold text-on-surface flex items-center gap-2 text-sm">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">person_search</span>
+            Patient: <span id="detail-name"></span>
+            <span id="detail-risk-badge" class="badge ms-2"></span>
+          </h3>
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <h6 class="fw-semibold">Clinical Summary</h6>
+              <div id="clinical-summary" class="small"></div>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-semibold">Write Prescription (JanAushadi)</h6>
+              <div id="rx-medicines">
+                <div class="input-group input-group-sm mb-2">
+                  <input type="text" class="form-control" placeholder="Medicine name" id="med-name" />
+                  <input type="text" class="form-control" placeholder="Dose" id="med-dose" />
+                  <input type="text" class="form-control" placeholder="Frequency" id="med-freq" />
+                  <button class="btn btn-teal btn-sm" onclick="addMedicine()">+</button>
+                </div>
+              </div>
+              <ul id="med-list" class="list-group list-group-sm mb-2"></ul>
+              <textarea class="form-control mb-2" id="dosage-instructions" rows="2" placeholder="Dosage instructions..."></textarea>
+              <input type="date" class="form-control mb-2" id="followup-date" />
+              <button class="btn btn-teal w-100" onclick="submitPrescription()">
+                <i class="fa-solid fa-prescription me-1"></i>Submit Prescription
+              </button>
+              <div id="rx-result" class="mt-2"></div>
+            </div>
+          </div>
+          <!-- AI Diabetes Risk Signal -->
+          <div id="ai-diabetes-signal" class="mt-3 d-none">
+            <h6 class="fw-semibold d-flex align-items-center gap-2">
+              <i class="fa-solid fa-brain" style="color:#7c3aed"></i>
+              AI-Assisted Diabetes Risk Signal
+              <span class="badge ms-1" style="background:#ede9fe;color:#6d28d9;font-size:.65rem;font-weight:600">AUGMENTATION ONLY</span>
+            </h6>
+            <div id="ai-diabetes-content"></div>
+          </div>
+          <div class="mt-3">
+            <h6 class="fw-semibold">Visit History</h6>
+            <div id="visit-history" class="small"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'Doctor';
+document.getElementById('sidebar-role').textContent = (_u.role || 'doctor').toUpperCase();
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok){console.warn('[API] GET '+url+' → '+r.status);return null;}return r.json();}).catch(function(e){console.warn('[API] GET failed:',url,e);return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok){console.warn('[API] POST '+url+' → '+r.status);return null;}return r.json();}).catch(function(e){console.warn('[API] POST failed:',url,e);return null;}); }
+};
+
+function safeArray(x)  { return Array.isArray(x) ? x : []; }
+function safeObject(x) { return (x && typeof x === 'object' && !Array.isArray(x)) ? x : {}; }
+
+let allQueue = [];
+let selectedPatient = null;
+let medicines = [];
+
+async function loadDoctor() {
+  try {
+    allQueue = safeArray(await API.get('/api/risk/queue'));
+    document.getElementById('q-total').textContent = allQueue.length;
+    document.getElementById('q-high').textContent  = allQueue.filter(p => p && p.risk_level === 'HIGH').length;
+  } catch(e) {
+    console.warn('[Doctor] queue load error:', e);
+    allQueue = [];
+    document.getElementById('q-total').textContent = '—';
+    document.getElementById('q-high').textContent  = '—';
+  }
+  try {
+    const rxs = safeArray(await API.get('/api/prescriptions'));
+    document.getElementById('q-rx').textContent = rxs.length;
+  } catch(e) {
+    console.warn('[Doctor] rx count error:', e);
+    document.getElementById('q-rx').textContent = '—';
+  }
+  renderQueue(allQueue);
+}
+
+function filterQueue(level) {
+  const q = safeArray(allQueue);
+  renderQueue(level ? q.filter(p => p && p.risk_level === level) : q);
+}
+
+function renderQueue(patients) {
+  const tbody = document.getElementById('queue-table');
+  if (!tbody) return;
+  const pts = safeArray(patients);
+  if (!pts.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center py-6 text-on-surface-variant text-sm">No patients in queue.</td></tr>';
+    return;
+  }
+  const riskClass = { HIGH:'risk-high', MEDIUM:'risk-medium', LOW:'risk-low' };
+  tbody.innerHTML = pts.map(p => {
+    const rCls = riskClass[p.risk_level] || '';
+    return `<tr class="hover:bg-surface-container-low transition-colors cursor-pointer" onclick="openPatient(${p.id}, ${p.visit_id != null ? p.visit_id : 'null'})">
+      <td class="px-5 py-3"><div class="font-semibold text-sm text-on-surface">${p.full_name||'—'}</div><div class="text-xs text-on-surface-variant font-mono">${p.patient_code||''}</div></td>
+      <td class="px-5 py-3 text-sm">${p.village||'—'}</td>
+      <td class="px-5 py-3 text-sm font-bold">${p.bp_systolic||'—'}/${p.bp_diastolic||'—'} <span class="text-xs font-normal text-on-surface-variant">mmHg</span></td>
+      <td class="px-5 py-3 text-xs">
+        ${p.dizziness     ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-bold mr-1">Dizzy</span>'      : ''}
+        ${p.chest_pain    ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-bold mr-1">Chest Pain</span>'            : ''}
+        ${p.medicine_missed ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-bold mr-1">Missed Meds</span>'  : ''}
+      </td>
+      <td class="px-5 py-3"><span class="${rCls} text-sm">${p.risk_level||'—'}</span><div class="text-xs text-on-surface-variant">Score: ${p.risk_score||0}</div></td>
+      <td class="px-5 py-3 text-sm text-on-surface-variant">${p.asha_name||'—'}</td>
+      <td class="px-5 py-3"><button class="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-bold hover:bg-primary-container transition-colors" onclick="openPatient(${p.id}, ${p.visit_id != null ? p.visit_id : 'null'});event.stopPropagation()">Review</button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function openPatient(patientId, visitId) {
+  selectedPatient = { id: patientId, visitId };
+  medicines = [];
+  const medList    = document.getElementById('med-list');
+  const rxResult   = document.getElementById('rx-result');
+  const clinSummary = document.getElementById('clinical-summary');
+  if (medList)    medList.innerHTML    = '';
+  if (rxResult)   rxResult.innerHTML   = '';
+  if (clinSummary) clinSummary.innerHTML = '<div class="text-muted"><i class="fa-solid fa-spinner fa-spin me-1"></i>Loading...</div>';
+
+  let patient = {}, visits = [], visitDetail = null;
+  try {
+    const fetchVisitDetail = visitId ? API.get(`/api/visits/${visitId}`) : Promise.resolve(null);
+    const results = await Promise.all([
+      API.get(`/api/patients/${patientId}`),
+      API.get(`/api/visits/patient/${patientId}`),
+      fetchVisitDetail,
+    ]);
+    patient     = safeObject(results[0]);
+    visits      = safeArray(results[1]);
+    visitDetail = results[2];
+  } catch(e) { console.warn('[Doctor] openPatient fetch error:', e); }
+
+  const nameEl = document.getElementById('detail-name');
+  if (nameEl) nameEl.textContent = patient.full_name || '—';
+
+  const v     = safeObject(visits[0]);
+  const level = v.risk_level || 'LOW';
+  const badge = document.getElementById('detail-risk-badge');
+  if (badge) {
+    badge.textContent = level;
+    badge.className   = `badge ms-2 bg-${{HIGH:'danger',MEDIUM:'warning',LOW:'success'}[level]||'secondary'}`;
+  }
+
+  const rs            = safeObject(safeObject(visitDetail || v).risk_summary);
+  const referralUrgency = rs.referral_urgency       || 'ROUTINE';
+  const referralLabel   = rs.referral_urgency_label || 'Routine follow-up';
+  const bpClass         = rs.bp_classification      || '';
+  const pathways        = safeArray(rs.pathways_triggered);
+  const escalations     = safeArray(rs.escalation_reasons);
+  const adherence       = safeArray(rs.adherence_concerns);
+  const guardNotes      = safeArray(rs.guard_notes);
+  const suggestions     = safeArray(rs.suggestions);
+  const gcpeDriven      = rs.gcpe_driven || false;
+
+  const urgencyColor = { IMMEDIATE:'danger', URGENT:'danger', WITHIN_24H:'warning', WITHIN_7D:'warning', ROUTINE:'success' }[referralUrgency] || 'secondary';
+  const urgencyIcon  = { IMMEDIATE:'fa-siren-on', URGENT:'fa-triangle-exclamation', WITHIN_24H:'fa-clock', WITHIN_7D:'fa-calendar-check', ROUTINE:'fa-circle-check' }[referralUrgency] || 'fa-circle-info';
+
+  let html = `
+    <div class="alert alert-${urgencyColor} py-2 px-3 mb-3 d-flex align-items-center gap-2" style="font-size:.85rem">
+      <i class="fa-solid ${urgencyIcon}"></i>
+      <div><strong>Referral Urgency: ${referralUrgency.replace(/_/g,' ')}</strong><div>${referralLabel}</div></div>
+    </div>
+    <table class="table table-sm table-borderless mb-2" style="font-size:.88rem">
+      <tr><td class="text-muted" style="width:120px">Age / Gender</td><td>${patient.age||'—'} / ${patient.gender||'—'}</td></tr>
+      <tr><td class="text-muted">Village</td><td>${patient.village||'—'}</td></tr>
+      <tr><td class="text-muted">Blood Pressure</td><td><strong>${v.bp_systolic||'—'}/${v.bp_diastolic||'—'} mmHg</strong>
+        ${bpClass ? `<span class="ms-1 badge bg-${urgencyColor} opacity-75" style="font-size:.7rem">${bpClass}</span>` : ''}</td></tr>
+      <tr><td class="text-muted">Risk Score</td><td><strong class="${{HIGH:'risk-high',MEDIUM:'risk-medium',LOW:'risk-low'}[v.risk_level]||''}">${v.risk_score||0} — ${v.risk_level||'—'}</strong></td></tr>
+      <tr><td class="text-muted">Dizziness</td><td>${v.dizziness    ? '<span class="text-warning fw-semibold">⚠ Yes</span>' : 'No'}</td></tr>
+      <tr><td class="text-muted">Chest Pain</td><td>${v.chest_pain   ? '<span class="text-danger fw-semibold">⚠ Yes</span>'  : 'No'}</td></tr>
+      <tr><td class="text-muted">Missed Meds</td><td>${v.medicine_missed ? '<span class="text-warning fw-semibold">⚠ Yes</span>' : 'No'}</td></tr>
+      <tr><td class="text-muted">Medical History</td><td>${patient.medical_history||'None recorded'}</td></tr>
+    </table>`;
+
+  if (pathways.length) html += `<div class="mb-2"><div class="fw-semibold mb-1" style="font-size:.78rem;color:#6b7280;text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-code-branch me-1"></i>GCPE Pathways Triggered</div>${pathways.map(p=>`<span class="badge me-1 mb-1" style="background:#e0f2fe;color:#0369a1;font-size:.78rem">${String(p).replace(/_/g,' ')}</span>`).join('')}</div>`;
+  if (escalations.length) html += `<div class="mb-2"><div class="fw-semibold mb-1" style="font-size:.78rem;color:#6b7280;text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-circle-exclamation me-1"></i>Escalation Reasons</div>${escalations.map(e=>`<div class="p-2 rounded mb-1 text-danger" style="background:#fef2f2;font-size:.82rem"><i class="fa-solid fa-triangle-exclamation me-1"></i>${e}</div>`).join('')}</div>`;
+  if (adherence.length) html += `<div class="mb-2"><div class="fw-semibold mb-1" style="font-size:.78rem;color:#6b7280;text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-pills me-1"></i>Adherence Concerns</div>${adherence.map(a=>`<div class="p-2 rounded mb-1" style="background:#fff7ed;color:#9a3412;font-size:.82rem"><i class="fa-solid fa-pills me-1"></i>${a}</div>`).join('')}</div>`;
+  if (guardNotes.length) html += `<div class="mb-2"><div class="fw-semibold mb-1" style="font-size:.78rem;color:#6b7280;text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-shield-halved me-1"></i>Clinical Safety Overrides</div>${guardNotes.map(g=>`<div class="p-2 rounded mb-1" style="background:#f5f3ff;color:#5b21b6;font-size:.78rem"><i class="fa-solid fa-shield-halved me-1"></i>${g}</div>`).join('')}</div>`;
+  if (suggestions.length) html += `<div class="mb-1"><div class="fw-semibold mb-1" style="font-size:.78rem;color:#6b7280;text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-clipboard-list me-1"></i>Clinical Recommendations</div><ul class="mb-0 ps-3" style="font-size:.82rem">${suggestions.map(s=>`<li class="mb-1">${s}</li>`).join('')}</ul></div>`;
+  if (gcpeDriven) html += `<div class="mt-2 text-end"><span class="badge bg-light text-secondary border" style="font-size:.7rem"><i class="fa-solid fa-sitemap me-1"></i>GCPE Protocol Assessment</span></div>`;
+
+  const diabetesVisits = safeArray(visits).filter(v => { try { return safeObject(safeObject(v).gcpe_data).protocol_id === 'DM-001'; } catch(_) { return false; } });
+  if (diabetesVisits.length) {
+    const dv=safeObject(diabetesVisits[0]),dmGcpe=safeObject(dv.gcpe_data),dmAns=safeObject(dmGcpe.answers);
+    const dmPaths=safeArray(dmGcpe.pathways),dmFlags=safeArray(dmGcpe.risk_flags);
+    const hasCrit=dmFlags.includes('CRITICAL'),hasHigh=dmFlags.includes('HIGH');
+    const borderColor=hasCrit?'#fca5a5':hasHigh?'#fcd34d':'#d8b4fe';
+    const bgColor=hasCrit?'#fef2f2':hasHigh?'#fffbeb':'#fdf4ff';
+    const headerColor=hasCrit?'#991b1b':hasHigh?'#92400e':'#7c3aed';
+    const dmSymptoms=[];
+    if(dmAns.excessive_thirst)dmSymptoms.push('Excessive thirst');if(dmAns.polyuria)dmSymptoms.push('Frequent urination');
+    if(dmAns.fatigue)dmSymptoms.push('Fatigue');if(dmAns.blurred_vision)dmSymptoms.push('Blurred vision');
+    if(dmAns.slow_wound_healing)dmSymptoms.push('Slow wound healing');if(dmAns.weight_loss)dmSymptoms.push('Weight loss');
+    const dmPathBadges=dmPaths.map(p=>`<span class="badge me-1 mb-1" style="background:#f3e8ff;color:#7c3aed;font-size:.73rem">${String(p).replace(/_/g,' ')}</span>`).join('');
+    let glucoseLine='';
+    if(dmAns.fasting_glucose){const gv=parseFloat(dmAns.fasting_glucose);const gColor=gv>=200?'#dc2626':gv>=126?'#d97706':gv>=100?'#ca8a04':'#16a34a';const gLabel=gv>=200?'Critical':gv>=126?'Diabetic Range':gv>=100?'Pre-Diabetic':'Normal';glucoseLine=`<div class="mt-1 small" style="color:${gColor};font-weight:600"><i class="fa-solid fa-droplet me-1"></i>Fasting Glucose: ${gv} mg/dL<span class="ms-1 badge" style="background:${gColor};color:#fff;font-size:.65rem">${gLabel}</span></div>`;}
+    let visitDateStr='';try{if(dv.visit_date)visitDateStr=new Date(dv.visit_date).toLocaleDateString('en-IN');}catch(_){}
+    html+=`<div class="mt-2 mb-2 p-2 rounded" style="background:${bgColor};border:1px solid ${borderColor}"><div class="fw-semibold mb-1" style="font-size:.78rem;color:${headerColor};text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-droplet me-1"></i>Diabetes GCPE Screening${diabetesVisits.length>1?`<span class="ms-1 text-muted fw-normal" style="font-size:.7rem">(${diabetesVisits.length} assessments)</span>`:''}</div>${dmPaths.length?`<div class="mb-1">${dmPathBadges}</div>`:''}${dmSymptoms.length?`<div class="text-muted small mb-1">${dmSymptoms.join(' · ')}</div>`:''}${glucoseLine}${visitDateStr?`<div class="mt-1" style="font-size:.7rem;color:#9ca3af"><i class="fa-solid fa-calendar me-1"></i>${visitDateStr}</div>`:''}</div>`;
+  }
+
+  if (clinSummary) clinSummary.innerHTML = html;
+  loadDiabetesSignal(patientId, patient, visits);
+
+  const visitHistoryEl = document.getElementById('visit-history');
+  if (visitHistoryEl) {
+    visitHistoryEl.innerHTML = visits.length
+      ? visits.slice(0,5).map(vi => {
+          let vDate = '—';
+          try { if (vi.visit_date) vDate = new Date(vi.visit_date).toLocaleDateString('en-IN'); } catch(_) {}
+          return `<div class="d-flex gap-2 mb-1 p-2 rounded align-items-center" style="background:#f8fafc">
+            <small class="text-muted" style="white-space:nowrap">${vDate}</small>
+            <small>BP: <strong>${vi.bp_systolic||'—'}/${vi.bp_diastolic||'—'}</strong></small>
+            <small class="${{HIGH:'risk-high',MEDIUM:'risk-medium',LOW:'risk-low'}[vi.risk_level]||''}">${vi.risk_level||'—'}</small>
+            <small class="text-muted">Score: ${vi.risk_score||0}</small>
+            ${vi.block_index != null ? `<small class="text-success ms-auto"><i class="fa-solid fa-link"></i> Block #${vi.block_index}</small>` : '<small class="text-muted ms-auto">Pending</small>'}
+          </div>`;
+        }).join('')
+      : '<div class="text-muted small">No visit history.</div>';
+  }
+
+  const panel = document.getElementById('patient-detail-panel');
+  if (panel) { panel.classList.remove('d-none'); panel.scrollIntoView({behavior:'smooth'}); }
+}
+
+function addMedicine() {
+  const name=document.getElementById('med-name').value.trim();const dose=document.getElementById('med-dose').value.trim();const freq=document.getElementById('med-freq').value.trim();
+  if(!name)return;medicines.push({name,dose,frequency:freq,duration:'30 days'});
+  document.getElementById('med-list').innerHTML+=`<li class="list-group-item py-1 small d-flex justify-content-between"><span>${name} ${dose} — ${freq}</span><button class="btn btn-sm btn-outline-danger py-0" onclick="removeMed(${medicines.length-1})">×</button></li>`;
+  ['med-name','med-dose','med-freq'].forEach(id=>document.getElementById(id).value='');
+}
+function removeMed(i){medicines.splice(i,1);document.getElementById('med-list').querySelectorAll('li')[i]?.remove();}
+
+async function submitPrescription() {
+  if(!selectedPatient||!medicines.length){alert('Please add at least one medicine');return;}
+  const body={patient_id:selectedPatient.id,visit_id:selectedPatient.visitId,medicines,dosage_instructions:document.getElementById('dosage-instructions').value,followup_date:document.getElementById('followup-date').value||null,notes:''};
+  let res={};
+  try{res=safeObject(await API.post('/api/prescriptions',body));}catch(e){console.warn('[Doctor] submitPrescription error:',e);}
+  const box=document.getElementById('rx-result');
+  if(res.id){
+    const tokenBadge=res.token_id?`<div class="mt-1 small"><i class="fa-solid fa-key me-1 text-teal"></i><strong>Token:</strong> <code style="font-size:.75rem">${res.token_id}</code></div>`:'';
+    const outletBadge=res.outlet_name?`<div class="small text-muted mt-1"><i class="fa-solid fa-store me-1"></i>${res.outlet_name}</div>`:'';
+    box.className='alert alert-success py-2';
+    box.innerHTML=`Prescription #${res.id} created! ${res.is_janaushadi?'<span class="badge bg-success ms-1">JanAushadi</span>':''} ${tokenBadge}${outletBadge}`;
+    medicines=[];document.getElementById('med-list').innerHTML='';loadTokenDashboard();
+  }else{box.className='alert alert-danger py-2';box.innerHTML=(res&&res.error)?res.error:'Failed to submit prescription.';}
+}
+
+function buildDiabetesInferencePayload(patient, visits) {
+  const p=safeObject(patient),vs=safeArray(visits),latest=safeObject(vs[0]);
+  const age=parseFloat(p.age)||0,isFemale=(p.gender||'').toLowerCase().startsWith('f');
+  const blood_pressure=parseFloat(latest.bp_diastolic)||0,bp_systolic=parseFloat(latest.bp_systolic)||0;
+  const medHx=(p.medical_history||'').toLowerCase();
+  const totalVisits=vs.length,missedCount=vs.filter(v=>v&&v.medicine_missed).length,highRiskCount=vs.filter(v=>v&&v.risk_level==='HIGH').length;
+  const adherenceDecline=totalVisits>0?missedCount/totalVisits:0;
+  let bpWorsening=false;
+  if(vs.length>=2){const earliest=safeObject(vs[vs.length-1]),latestSys=parseFloat(latest.bp_systolic)||0,earliestSys=parseFloat(earliest.bp_systolic)||0;if(latestSys>0&&earliestSys>0&&latestSys>earliestSys+10)bpWorsening=true;}
+  let gcpeGlucoseSignal=0,gcpeFamilyHistory=false,gcpeDirectGlucose=0,gcpeOverweight=false;
+  for(const v of vs){try{const gcpe=safeObject((v||{}).gcpe_data),answers=safeObject(gcpe.answers);if(answers.thirst||answers.excessive_thirst||answers.polyuria)gcpeGlucoseSignal+=1;if(answers.fatigue||answers.weakness)gcpeGlucoseSignal+=0.5;if(answers.family_history_diabetes||answers.family_diabetes)gcpeFamilyHistory=true;if(answers.overweight_indicator)gcpeOverweight=true;if(answers.fasting_glucose){const gv=parseFloat(answers.fasting_glucose);if(!isNaN(gv)&&gv>0)gcpeDirectGlucose=Math.max(gcpeDirectGlucose,gv);}const pathways=safeArray(gcpe.pathways);if(pathways.some(pw=>String(pw).includes('diabet')))gcpeGlucoseSignal+=2;}catch(_){}}
+  const hasDiabetesHx=/diabet|glucose|sugar|hba1c/.test(medHx),hasFamilyHx=/family.*diabet|diabet.*family|heredit/.test(medHx),hasMetabolicHx=/obes|overweight|bmi|metabol/.test(medHx),hasHypertension=/hypertens|high.bp|high.blood/.test(medHx);
+  let glucose=0;if(gcpeDirectGlucose>0)glucose=gcpeDirectGlucose;else if(hasDiabetesHx)glucose=Math.max(glucose,145);else if(gcpeGlucoseSignal>=2)glucose=Math.max(glucose,140);else if(gcpeGlucoseSignal>=1)glucose=Math.max(glucose,128);if(bp_systolic>160&&age>45)glucose=Math.max(glucose,128);if(hasHypertension&&age>50)glucose=Math.max(glucose,122);
+  const bmi=(gcpeOverweight||hasMetabolicHx)?34:0;
+  let diabetes_pedigree=0.20;if(gcpeFamilyHistory||hasFamilyHx)diabetes_pedigree+=0.40;if(adherenceDecline>0.30)diabetes_pedigree+=0.20;if(bpWorsening)diabetes_pedigree+=0.15;if(highRiskCount>1)diabetes_pedigree+=0.10;if(blood_pressure>90)diabetes_pedigree+=0.15;if(age>50)diabetes_pedigree+=0.10;if(age>60)diabetes_pedigree+=0.10;diabetes_pedigree=parseFloat(Math.min(diabetes_pedigree,1.80).toFixed(3));
+  const pregnancies=(isFemale&&age>20)?1:0;
+  const features={age,blood_pressure,glucose,bmi,diabetes_pedigree,pregnancies,skin_thickness:0,insulin:0};
+  const context={bpWorsening,adherenceDecline,highRiskCount,totalVisits,gcpeFamilyHistory:gcpeFamilyHistory||hasFamilyHx,gcpeGlucoseSignal,hasDiabetesHx,missedCount,gcpeDirectGlucose,gcpeOverweight};
+  return {features,context};
+}
+
+async function loadDiabetesSignal(patientId, patient, visits) {
+  const signalPanel=document.getElementById('ai-diabetes-signal'),contentDiv=document.getElementById('ai-diabetes-content');
+  if(!signalPanel||!contentDiv)return;
+  signalPanel.classList.add('d-none');contentDiv.innerHTML='';
+  let payload;try{payload=buildDiabetesInferencePayload(patient,visits);}catch(e){return;}
+  const{features,context}=payload;
+  let result=null;try{result=await API.post('/api/ai/diabetes-risk',features);}catch(e){return;}
+  result=safeObject(result);if(!result||result.error||!result.confidence_above_threshold)return;
+  signalPanel.classList.remove('d-none');
+  const bandColors={LOW:{bg:'#f0fdf4',border:'#86efac',text:'#166534',badge:'bg-success'},MODERATE:{bg:'#fffbeb',border:'#fcd34d',text:'#92400e',badge:'bg-warning text-dark'},ELEVATED:{bg:'#fff7ed',border:'#fb923c',text:'#9a3412',badge:'bg-orange'},HIGH:{bg:'#fef2f2',border:'#f87171',text:'#991b1b',badge:'bg-danger'}};
+  const bc=bandColors[result.risk_band]||bandColors.MODERATE;
+  const knownFeatures=safeArray(safeObject(result.data_completeness).known_features);
+  const factorsHtml=safeArray(result.contributing_factors).filter(f=>f&&f.feature&&(knownFeatures.includes(f.feature)||!f.imputed)).map(f=>{const arrow=f.direction==='increases_risk'?'↑':(f.direction==='decreases_risk'?'↓':'•');const clr=f.direction==='increases_risk'?'#dc2626':'#059669';return`<span class="badge me-1 mb-1" style="background:#f3f4f6;color:${clr};font-size:.72rem;border:1px solid #e5e7eb">${arrow} ${f.display_name||f.feature||''}${f.value?` (${f.value}${f.unit?' '+f.unit:''})`:'</span>`}`}).join('')||`<span class="text-muted" style="font-size:.78rem">No SHAP factors available.</span>`;
+  const ctxBadges=[];
+  if(context.bpWorsening)ctxBadges.push(`<span class="badge me-1" style="background:#fff7ed;color:#9a3412;border:1px solid #fb923c;font-size:.7rem"><i class="fa-solid fa-arrow-trend-up me-1"></i>Worsening BP trend</span>`);
+  if(context.adherenceDecline>0.3)ctxBadges.push(`<span class="badge me-1" style="background:#fef2f2;color:#991b1b;border:1px solid #f87171;font-size:.7rem"><i class="fa-solid fa-pills me-1"></i>${context.missedCount}/${context.totalVisits} visits: missed meds</span>`);
+  if(context.gcpeFamilyHistory)ctxBadges.push(`<span class="badge me-1" style="background:#eff6ff;color:#1e40af;border:1px solid #93c5fd;font-size:.7rem"><i class="fa-solid fa-dna me-1"></i>Family history signal</span>`);
+  if(context.gcpeDirectGlucose>0){const gv=context.gcpeDirectGlucose,gColor=gv>=200?'#991b1b':gv>=126?'#92400e':gv>=100?'#854d0e':'#166534',gBorder=gv>=200?'#f87171':gv>=126?'#fcd34d':gv>=100?'#fde047':'#86efac',gBg=gv>=200?'#fef2f2':gv>=126?'#fffbeb':gv>=100?'#fefce8':'#f0fdf4';ctxBadges.push(`<span class="badge me-1" style="background:${gBg};color:${gColor};border:1px solid ${gBorder};font-size:.7rem"><i class="fa-solid fa-droplet me-1"></i>Glucose: ${gv} mg/dL (GCPE direct)</span>`);}
+  else if(context.gcpeGlucoseSignal>=1)ctxBadges.push(`<span class="badge me-1" style="background:#fefce8;color:#854d0e;border:1px solid #fde047;font-size:.7rem"><i class="fa-solid fa-droplet me-1"></i>Glucose-adjacent symptoms</span>`);
+  if(context.highRiskCount>1)ctxBadges.push(`<span class="badge me-1" style="background:#fdf4ff;color:#7e22ce;border:1px solid #d8b4fe;font-size:.7rem"><i class="fa-solid fa-triangle-exclamation me-1"></i>${context.highRiskCount} HIGH-risk visits</span>`);
+  const completeness=safeObject(result.data_completeness),pct=completeness.completeness_pct||0,imputed=safeArray(completeness.imputed_features).join(', ')||'none';
+  const deterministicTxt=result.deterministic_override?String(result.deterministic_override).split('.')[0]:'Clinical rules engine takes precedence';
+  contentDiv.innerHTML=`<div class="rounded p-3 mb-2" style="background:${bc.bg};border:1px solid ${bc.border}"><div class="d-flex align-items-center gap-3 mb-2"><div><span class="badge ${bc.badge}" style="font-size:.85rem">${result.risk_band||''} RISK</span><span class="ms-2 fw-bold" style="color:${bc.text};font-size:1.1rem">${result.risk_probability_pct||''}</span><span class="text-muted small ms-1">probability</span></div><div class="ms-auto"><span class="badge bg-light border text-secondary" style="font-size:.65rem"><i class="fa-solid fa-microchip me-1"></i>XGBoost · SHAP · v${result.model_version||'1.0.0'}</span></div></div>${ctxBadges.length?`<div class="mb-2">${ctxBadges.join('')}</div>`:''}<div class="mb-2"><div class="fw-semibold mb-1" style="font-size:.72rem;color:#6b7280;text-transform:uppercase;letter-spacing:.04em"><i class="fa-solid fa-chart-bar me-1"></i>Key Contributing Factors</div>${factorsHtml}</div><div class="mb-2" style="font-size:.82rem;color:${bc.text}"><i class="fa-solid fa-circle-info me-1"></i>${result.recommendation||''}</div><div class="d-flex align-items-center gap-2" style="font-size:.72rem;color:#9ca3af"><i class="fa-solid fa-database"></i>Data completeness: <strong>${pct}%</strong>${pct<100?`· Imputed: ${imputed} (population medians)`:''}</div><div class="mt-2 pt-2 border-top" style="font-size:.68rem;color:#9ca3af;border-color:${bc.border}!important"><i class="fa-solid fa-shield-halved me-1"></i><strong>Safety:</strong> ${deterministicTxt}. Clinical rules engine takes precedence.</div></div>`;
+}
+
+async function loadTokenDashboard() {
+  const panel=document.getElementById('token-panel');if(!panel)return;
+  let tokens=[];try{tokens=safeArray(await API.get('/api/tokens/my'));}catch(e){}
+  if(!tokens.length){panel.innerHTML='<div class="text-muted text-center py-2 small">No prescriptions issued yet.</div>';return;}
+  const statusBadge=s=>({pending:'<span class="badge bg-warning text-dark">Pending</span>',redeemed:'<span class="badge bg-success">Redeemed</span>',expired:'<span class="badge bg-secondary">Expired</span>',cancelled:'<span class="badge bg-danger">Cancelled</span>'}[s]||`<span class="badge bg-light text-dark">${s||'Unknown'}</span>`);
+  const methodLabel=m=>({patient_pickup:'<i class="fa-solid fa-person-walking me-1"></i>Patient Pickup',asha_pickup:'<i class="fa-solid fa-hands-holding me-1"></i>ASHA Pickup',home_delivery:'<i class="fa-solid fa-truck-medical me-1"></i>Home Delivery'}[m]||(m||'—'));
+  panel.innerHTML=tokens.map(t=>{let redeemedDate='';try{if(t.redeemed_at)redeemedDate=new Date(t.redeemed_at).toLocaleDateString('en-IN');}catch(_){}return`<div class="d-flex align-items-center gap-2 py-2 border-bottom" style="font-size:.82rem"><div style="flex:1;min-width:0"><div class="fw-semibold text-truncate">${t.patient_name||'—'}</div><div class="text-muted" style="font-size:.73rem"><code>${t.token_id?t.token_id.slice(0,16)+'…':'—'}</code></div></div><div style="flex:0 0 auto">${statusBadge(t.redemption_status)}</div><div class="text-muted" style="flex:0 0 auto;font-size:.75rem">${t.redemption_status==='redeemed'?methodLabel(t.redemption_method)+'<br>'+redeemedDate:(t.outlet_name||'—')}</div>${t.adherence_block_index!=null?`<div class="text-success" style="flex:0 0 auto;font-size:.73rem"><i class="fa-solid fa-cube me-1"></i>Block #${t.adherence_block_index}</div>`:''}</div>`;}).join('');
+}
+
+async function loadEmergencyPanel() {
+  const panel=document.getElementById('emergency-panel'),card=document.getElementById('emergency-panel-card'),countEl=document.getElementById('emergency-count');
+  if(!panel||!card||!countEl)return;
+  let events=[];try{events=safeArray(await API.get('/api/emergency'));}catch(e){}
+  countEl.textContent=events.length;card.style.display=events.length?'':'none';
+  if(!events.length){panel.innerHTML='<div class="text-muted text-center py-3 small">No active emergencies.</div>';return;}
+  const sevColor=s=>s==='CRITICAL'?'#dc2626':(s==='HIGH'?'#d97706':'#6b7280');
+  const sevBg=s=>s==='CRITICAL'?'#fef2f2':(s==='HIGH'?'#fff7ed':'#f9fafb');
+  const statusBadge=s=>({active:'<span class="badge bg-danger">Active</span>',acknowledged:'<span class="badge bg-warning text-dark">Acknowledged</span>',escalated:'<span class="badge bg-danger">Escalated</span>'}[s]||`<span class="badge bg-secondary">${s||'Unknown'}</span>`);
+  panel.innerHTML=events.map(e=>{let timeStr='—';try{if(e.created_at)timeStr=new Date(e.created_at).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(_){}return'<div class="px-3 py-2 border-bottom d-flex align-items-start gap-3" style="background:'+sevBg(e.severity)+';font-size:.84rem"><div style="flex:0 0 auto;padding-top:3px"><span class="fw-bold" style="color:'+sevColor(e.severity)+'">'+(e.severity||'HIGH')+'</span></div><div style="flex:1;min-width:0"><div class="fw-semibold">'+(e.patient_name||'Patient')+' <span class="text-muted fw-normal">· '+(e.patient_village||'')+'</span></div><div class="text-muted">'+(e.emergency_type||'').replace(/_/g,' ')+' · ASHA: '+(e.asha_name||'—')+'</div>'+(e.latest_bp_systolic?'<div class="small">BP: <strong>'+e.latest_bp_systolic+'/'+e.latest_bp_diastolic+'</strong> mmHg · Risk: '+(e.latest_risk_level||'—')+'</div>':'')+'</div><div class="d-flex flex-column align-items-end gap-1" style="flex:0 0 auto">'+statusBadge(e.status)+'<small class="text-muted">'+timeStr+'</small>'+(e.block_index!=null?'<small class="text-success"><i class="fa-solid fa-cube me-1"></i>#'+e.block_index+'</small>':'')+(e.status==='active'?'<button class="btn btn-xs btn-outline-warning py-0 px-2" style="font-size:.75rem" onclick="acknowledgeEmergency(\''+(e.event_id||'')+'\')">Acknowledge</button>':'')+'</div></div>';}).join('');
+}
+
+async function acknowledgeEmergency(eventId) {
+  try{const res=await API.post('/api/emergency/'+eventId+'/acknowledge',{});if(res&&res.message)loadEmergencyPanel();}catch(e){}
+}
+
+async function loadContinuityPanel() {
+  const alertCount=document.getElementById('continuity-alert-count'),alertStrip=document.getElementById('continuity-alerts'),tbody=document.getElementById('continuity-table-body');
+  let overview=[],alerts=[];
+  try{const results=await Promise.all([API.get('/api/absence/continuity'),API.get('/api/absence/alerts')]);overview=safeArray(results[0]);alerts=safeArray(results[1]);}catch(e){}
+  const gradeColor=g=>({GOOD:'#16a34a',MODERATE:'#b45309',POOR:'#dc2626',CRITICAL:'#7f1d1d',NO_DATA:'#6b7280'}[g]||'#6b7280');
+  const riskBadge=r=>({HIGH:'<span class="badge bg-danger">HIGH</span>',MEDIUM:'<span class="badge bg-warning text-dark">MED</span>',LOW:'<span class="badge bg-success">LOW</span>'}[r]||'<span class="badge bg-secondary">—</span>');
+  if(alertCount){alertCount.textContent=alerts.length;alertCount.style.display=alerts.length?'':'none';}
+  if(alertStrip){alertStrip.innerHTML=alerts.slice(0,3).map(a=>{const topAlert=safeObject(a.top_alert),sev=topAlert.severity||'HIGH';return'<div class="alert py-1 px-2 mb-1 d-flex align-items-center gap-2 small '+(sev==='CRITICAL'?'alert-danger':'alert-warning')+'"><i class="fa-solid fa-'+(sev==='CRITICAL'?'triangle-exclamation':'circle-exclamation')+'"></i><strong>'+(a.patient_name||'—')+'</strong> · '+(a.village||'')+' — '+(topAlert.message||'')+'</div>';}).join('')||'<div class="text-muted small px-1">No longitudinal alerts.</div>';}
+  if(!tbody)return;
+  if(!overview.length){tbody.innerHTML='<tr><td colspan="9" class="text-center py-4 text-on-surface-variant text-sm">No longitudinal data yet.</td></tr>';return;}
+  tbody.innerHTML=overview.map(p=>{
+    const score=p.continuity_score,grade=p.continuity_grade||'NO_DATA';
+    const scoreDisplay=score!=null?'<div class="d-flex align-items-center gap-1"><div style="width:50px;height:6px;background:#e5e7eb;border-radius:3px"><div style="width:'+score+'%;height:6px;background:'+gradeColor(grade)+';border-radius:3px"></div></div><span style="color:'+gradeColor(grade)+';font-weight:600">'+score+'</span></div>':'<span class="text-muted">—</span>';
+    const ms=p.missed_streak||0;const streakDisplay=ms>=2?'<span class="badge bg-danger">'+ms+'×</span>':(ms===1?'<span class="badge bg-warning text-dark">1×</span>':'<span class="text-muted">0</span>');
+    const statusDisplay=p.escalation_flag?'<span class="badge bg-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>Escalation</span>':(p.has_alerts?'<span class="badge" style="background:#9333ea">Alert</span>':'<span class="badge bg-success">OK</span>');
+    const daysAgo=p.days_since_visit!=null?(p.days_since_visit>45?'<span class="text-danger">'+p.days_since_visit+'d</span>':p.days_since_visit+'d'):'—';
+    return'<tr class="hover:bg-surface-container-low transition-colors" style="'+(p.escalation_flag?'background:#fef2f2':'')+'"><td class="px-5 py-2.5 font-semibold text-sm">'+(p.patient_name||'—')+'</td><td class="px-5 py-2.5 text-sm text-on-surface-variant">'+(p.village||'—')+'</td><td class="px-5 py-2.5">'+scoreDisplay+'</td><td class="px-5 py-2.5 text-sm">'+(p.visit_count||0)+'</td><td class="px-5 py-2.5">'+(p.absence_count>0?'<span class="text-danger fw-semibold">'+p.absence_count+'</span>':'<span class="text-muted">0</span>')+'</td><td class="px-5 py-2.5">'+streakDisplay+'</td><td class="px-5 py-2.5 text-sm">'+daysAgo+'</td><td class="px-5 py-2.5">'+riskBadge(p.latest_risk_level)+'</td><td class="px-5 py-2.5">'+statusDisplay+'</td></tr>';
+  }).join('');
+}
+
+Promise.allSettled([loadDoctor(),loadTokenDashboard(),loadEmergencyPanel(),loadContinuityPanel()]).then(results=>{results.forEach((r,i)=>{if(r.status==='rejected')console.warn('[Doctor] Panel '+i+' failed:',r.reason);});});
+</script>
+</body>
+</html>

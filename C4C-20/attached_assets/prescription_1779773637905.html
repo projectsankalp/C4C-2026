@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AarogyaNet | Digital Prescription Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#0060ab",
+                      "tertiary-container": "#217855",
+                      "on-primary-container": "#e3ecff",
+                      "secondary": "#006a61",
+                      "primary": "#005396",
+                      "on-secondary-fixed": "#00201d",
+                      "on-secondary-fixed-variant": "#005049",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e0e3e5",
+                      "on-tertiary-fixed": "#002113",
+                      "surface-container-high": "#e6e8ea",
+                      "on-tertiary-container": "#a9fdd1",
+                      "on-surface-variant": "#414751",
+                      "secondary-container": "#6bf5e5",
+                      "surface-container-highest": "#e0e3e5",
+                      "primary-fixed": "#d3e3ff",
+                      "background": "#f7f9fb",
+                      "tertiary": "#005e3f",
+                      "primary-fixed-dim": "#a3c9ff",
+                      "secondary-fixed": "#6ef8e7",
+                      "surface-dim": "#d8dadc",
+                      "outline-variant": "#c1c7d3",
+                      "on-surface": "#191c1e",
+                      "on-secondary-container": "#006f66",
+                      "tertiary-fixed-dim": "#85d7ad",
+                      "primary-container": "#0f6cbd",
+                      "on-primary-fixed": "#001c39",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-bright": "#f7f9fb",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#eceef0",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#4cdbcb",
+                      "on-primary-fixed-variant": "#004883",
+                      "on-background": "#191c1e",
+                      "on-error": "#ffffff",
+                      "inverse-primary": "#a3c9ff",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "surface-container-low": "#f2f4f6",
+                      "surface": "#f7f9fb",
+                      "outline": "#717783",
+                      "tertiary-fixed": "#a0f4c8",
+                      "on-primary": "#ffffff",
+                      "inverse-surface": "#2d3133",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "stack-sm": "8px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "stack-md": "16px",
+                      "stack-lg": "32px",
+                      "margin-desktop": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "label-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "body-md": ["Inter"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "body-lg": ["Inter"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .status-pill-stable { border-left: 4px solid #10b981; }
+        .status-pill-urgent { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30 shadow-sm flex justify-between items-center w-full px-margin-desktop h-16">
+<div class="flex items-center gap-stack-md">
+<span class="text-headline-md font-headline-md font-bold text-primary">AarogyaSethu</span>
+</div>
+<div class="hidden md:flex flex-1 max-w-xl mx-stack-lg">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-body-md transition-all" placeholder="Search patient database..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+<button class="bg-primary-container text-on-primary px-6 py-2 rounded-lg font-label-md hover:brightness-110 active:scale-95 transition-all">
+                Finalize Prescription
+            </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Doctor profile avatar" class="w-full h-full object-cover" data-alt="A professional medical headshot of a middle-aged male doctor with a warm, confident smile, wearing a pristine white clinical coat and a stethoscope around his neck. The lighting is bright and soft, set against a clean, modern medical office background with subtle glass textures and a cool blue and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiuPC8Op9tw-50Z31Ja_2ElhuzzWA8p7uZ4_FcAS0hJmK2SQ-PkNzEN4bzwlvOJKUGLPReiGp9bcrEcmzhjS95n-tVtXkdXMYBebnqWz1dClO19oiSkKhjzVTwrn_sqHS66BucmIYFC104QW6mhj6GmPFtXzIX_uFXSTL5U7hobwVvGsUz9bW2LUnFh60TMk4Y4mMkb2x4GQvZ5j11fWjFOtdgezz3hlgZ2Jny9bnx4jZM5NYpLnQMoi0JuRYa5qLG0zCbzZV6pFRN"/>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)] overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/20 py-stack-md">
+<div class="px-6 mb-stack-lg">
+<p class="text-label-md font-bold text-on-surface">Clinical Portal</p>
+<p class="text-[10px] text-outline uppercase tracking-widest mt-1">Verified Dr. ID: 8829</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 mx-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md">Patient Registry</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md">Clinical Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 bg-primary-container text-white rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medication</span>
+<span class="font-label-md">Prescriptions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">share_location</span>
+<span class="font-label-md">Referrals</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant/10 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 mx-2 text-error hover:bg-error-container/20 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Grid -->
+<main class="lg:ml-64 flex-1 grid grid-cols-12 gap-gutter p-gutter h-full overflow-y-auto custom-scrollbar bg-background">
+<!-- Left: Patient Context (3 cols) -->
+<section class="col-span-12 xl:col-span-3">
+<div class="sticky top-0 space-y-stack-md">
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/10 status-pill-stable">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-headline-md">RG</div>
+<div>
+<h2 class="text-body-md font-bold text-on-surface">Ramesh Gowda</h2>
+<p class="text-label-sm text-on-surface-variant">52y, Male | ARG-000421</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mb-4">
+<div class="bg-surface-container-low p-3 rounded-lg text-center">
+<p class="text-[10px] uppercase text-outline font-bold">Weight</p>
+<p class="text-body-md font-bold text-on-surface">78.5 kg</p>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg text-center">
+<p class="text-[10px] uppercase text-outline font-bold">BMI</p>
+<p class="text-body-md font-bold text-on-surface">25.4</p>
+</div>
+</div>
+<div class="space-y-3">
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-white transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-white">history</span>
+<span class="text-label-md">View Timeline</span>
+</div>
+<span class="material-symbols-outlined text-label-sm">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-white transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-white">assessment</span>
+<span class="text-label-md">Recent Assessments</span>
+</div>
+<span class="material-symbols-outlined text-label-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="bg-primary/5 p-4 rounded-xl border border-primary/10">
+<h3 class="text-label-sm font-bold text-primary mb-2">Vitals Summary</h3>
+<div class="space-y-2">
+<div class="flex justify-between text-label-sm">
+<span class="text-on-surface-variant">BP (Last)</span>
+<span class="font-bold text-error">140/90 mmHg</span>
+</div>
+<div class="flex justify-between text-label-sm">
+<span class="text-on-surface-variant">SpO2</span>
+<span class="font-bold text-tertiary">98%</span>
+</div>
+<div class="flex justify-between text-label-sm">
+<span class="text-on-surface-variant">Heart Rate</span>
+<span class="font-bold text-on-surface">72 bpm</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Center: Prescription Workspace (6 cols) -->
+<section class="col-span-12 xl:col-span-6 space-y-stack-md pb-stack-lg">
+<!-- Clinical Summary -->
+<div class="glass-panel p-stack-md rounded-xl">
+<h1 class="text-headline-md font-headline-md text-on-surface mb-2">Clinical Summary</h1>
+<div class="bg-surface-container-low p-4 rounded-lg border-l-4 border-primary">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary">clinical_notes</span>
+<div>
+<p class="text-label-sm font-bold text-on-surface-variant">CHIEF COMPLAINT</p>
+<p class="text-body-md">Recurrent headache with blurred vision. Patient reports elevated home BP readings over past 7 days.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Medicine Builder -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-headline-md font-headline-md text-on-surface">Medicine Builder</h2>
+<button class="flex items-center gap-2 text-primary hover:bg-primary/10 px-3 py-1 rounded-full transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-md">Add Medicine</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Medicine Card 1 -->
+<div class="bg-white border border-outline-variant/30 p-4 rounded-xl hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-3">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">pill</span>
+</div>
+<span class="text-[10px] px-2 py-1 bg-tertiary-container/10 text-tertiary font-bold rounded-full">IN STOCK</span>
+</div>
+<h3 class="font-bold text-on-surface">Metformin 500mg</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">Antidiabetic | 2x Daily</p>
+<div class="flex items-center gap-1">
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+<div class="w-3 h-3 rounded-full border border-outline-variant"></div>
+</div>
+</div>
+<!-- Medicine Card 2 -->
+<div class="bg-white border border-outline-variant/30 p-4 rounded-xl hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-3">
+<div class="bg-secondary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">medication</span>
+</div>
+<span class="text-[10px] px-2 py-1 bg-tertiary-container/10 text-tertiary font-bold rounded-full">IN STOCK</span>
+</div>
+<h3 class="font-bold text-on-surface">Amlodipine 5mg</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">Antihypertensive | 1x Daily</p>
+<div class="flex items-center gap-1">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<div class="w-3 h-3 rounded-full border border-outline-variant"></div>
+<div class="w-3 h-3 rounded-full border border-outline-variant"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dosage Timeline -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/10">
+<h2 class="text-label-md font-bold text-on-surface-variant uppercase mb-4 tracking-wider">Dosage Schedule</h2>
+<div class="flex justify-between gap-4">
+<div class="flex-1 bg-surface-container-low p-4 rounded-xl text-center border-b-4 border-primary">
+<span class="material-symbols-outlined text-primary mb-1">wb_twilight</span>
+<p class="text-label-sm font-bold text-on-surface">Morning</p>
+<p class="text-[10px] text-outline">08:00 AM</p>
+<div class="mt-2 flex justify-center -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary border-2 border-white"></div>
+<div class="w-6 h-6 rounded-full bg-secondary border-2 border-white"></div>
+</div>
+</div>
+<div class="flex-1 bg-surface-container-low p-4 rounded-xl text-center">
+<span class="material-symbols-outlined text-outline-variant mb-1">light_mode</span>
+<p class="text-label-sm font-bold text-on-surface-variant">Afternoon</p>
+<p class="text-[10px] text-outline">01:00 PM</p>
+</div>
+<div class="flex-1 bg-surface-container-low p-4 rounded-xl text-center border-b-4 border-primary">
+<span class="material-symbols-outlined text-primary mb-1">bedtime</span>
+<p class="text-label-sm font-bold text-on-surface">Night</p>
+<p class="text-[10px] text-outline">09:00 PM</p>
+<div class="mt-2 flex justify-center">
+<div class="w-6 h-6 rounded-full bg-primary border-2 border-white"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- JanAushadhi Integration -->
+<div class="bg-tertiary/5 border border-tertiary/20 p-stack-md rounded-xl">
+<div class="flex items-center gap-3 mb-4">
+<div class="bg-tertiary p-2 rounded-lg text-white">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<div>
+<h3 class="font-bold text-tertiary">JanAushadhi Savings Potential</h3>
+<p class="text-label-sm text-on-tertiary-fixed-variant">Save up to 85% with generic alternatives</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center bg-white/50 p-3 rounded-lg border border-tertiary/10">
+<span class="text-body-sm font-medium">Metformin (Generic)</span>
+<div class="flex items-center gap-3">
+<span class="text-tertiary font-bold">₹12.00</span>
+<span class="text-[10px] text-white bg-tertiary px-2 py-0.5 rounded-full">AVAILABLE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Patient Instructions -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Patient Instructions</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container-high text-primary"><span class="material-symbols-outlined">volume_up</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container-high text-primary"><span class="material-symbols-outlined">translate</span></button>
+</div>
+</div>
+<p class="text-body-lg text-on-surface leading-relaxed">
+                        Take Metformin with food to reduce stomach upset. Monitor your blood pressure daily and record it in the AarogyaNet app. Avoid heavy sodium intake and maintain mild physical activity for 20 minutes daily.
+                    </p>
+</div>
+<!-- Trust Module -->
+<div class="flex flex-col md:flex-row gap-4 items-center justify-between p-stack-md bg-surface-container-high/30 rounded-xl border-t-2 border-primary">
+<div class="flex items-center gap-4">
+<div class="relative">
+<img alt="QR Code" class="w-20 h-20 rounded-lg p-1 bg-white border border-outline-variant shadow-sm" data-alt="A clean and modern minimalist black and white QR code displayed on a high-gloss smartphone screen. The lighting is bright and high-key, reinforcing a professional medical tech atmosphere. The digital interface in the background is blurred, showing soft blues and whites consistent with a clinical dashboard style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALwMvfk6U6NUISOD9JuIQbbEI__nk_tQ35U5cIYP5JGk7pBxR4Lu5SIOynPiPXRv0XlYpeiGPs0ruPMAsC5Nf4ZQ1ufzpTwHntE4Yt9Dctv2GmIJCUTE4nBRuD7q3aSPz3fCMOCbGguW4XHSk_FanYdN1gYYRYLlBAcl602VorOkUPf9rzB5YA65JGCRqM0pD0M0fgel0fuvjEZa_EOOERW9PrXZBPB5skhm_Vp6prs26MEgBQEoIHmUBVN9p5X3RhNIJeU9tejfNl"/>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Blockchain Verified</span>
+</div>
+<p class="text-body-sm font-bold text-on-surface">Dr. Anjali Verma, MBBS MD</p>
+<p class="text-[10px] text-outline italic">Hash: 8k2j...f9d2 | Mar 15, 2024</p>
+</div>
+</div>
+<div class="text-center md:text-right">
+<img alt="Digital Signature" class="h-12 w-auto object-contain opacity-70 mb-1 mix-blend-multiply" data-alt="A flowing, elegant handwritten digital signature in dark navy blue ink on a crisp white background. The signature looks professional and authentic, suitable for a formal medical prescription. The lighting is uniform and bright, suggesting a digital document context within a modern healthcare system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQS8fWT6E1KNbqOgUcdOU1VoZZF7iSD_VJnt7aEbm19uNX6Rk7AZpquX7fI2qhluY99KrdDkU3OGKFUT_Di1ZJnc56HW2syPcE6AaqxnO66oAaRgcjhFhdU0M9w4lfLGTJQ9ukv8aqkxciU2BhU_IG42lQEW50fV5H1-J87lCcSoDmwjlLnFtKXc94WF3xrxeZpxTfFHuJSXXzlxWEOQw_yWC4cqZWI61rZfceP-lieRPSjWPlPbH9l4Yv8CBnreXesbpPbJuj4Eoi"/>
+<p class="text-[10px] text-outline">Digital Authentication Token</p>
+</div>
+</div>
+</section>
+<!-- Right: Intelligence Rail (3 cols) -->
+<section class="col-span-12 xl:col-span-3 space-y-stack-md">
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/10">
+<h3 class="text-label-md font-bold text-on-surface-variant uppercase mb-4">Health Intelligence</h3>
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="text-center flex-1">
+<div class="relative w-16 h-16 mx-auto mb-2">
+<svg class="w-16 h-16 transform -rotate-90">
+<circle class="text-surface-container-high" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="176" stroke-dashoffset="44" stroke-width="6"></circle>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-label-sm font-bold">75%</span>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant">Estimated Recovery</p>
+</div>
+<div class="text-center flex-1">
+<div class="relative w-16 h-16 mx-auto mb-2">
+<svg class="w-16 h-16 transform -rotate-90">
+<circle class="text-surface-container-high" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-tertiary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="176" stroke-dashoffset="18" stroke-width="6"></circle>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-label-sm font-bold">92%</span>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant">Adherence Score</p>
+</div>
+</div>
+<div class="border-t border-outline-variant/10 pt-4">
+<h4 class="text-[10px] font-bold text-outline uppercase mb-3">Follow-up Schedule</h4>
+<div class="bg-primary/5 p-3 rounded-lg border-l-4 border-primary mb-3">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm font-bold text-on-surface">Next Clinical Visit</p>
+<p class="text-body-sm text-primary font-medium">March 28, 2024</p>
+</div>
+<span class="material-symbols-outlined text-primary text-body-md">calendar_today</span>
+</div>
+</div>
+<div class="space-y-2">
+<p class="text-[10px] font-bold text-outline uppercase">ASHA Worker Review</p>
+<div class="bg-surface-container-high/50 p-3 rounded-lg flex items-center gap-3">
+<img alt="ASHA Worker" class="w-10 h-10 rounded-full object-cover" data-alt="A close-up portrait of a professional female community healthcare worker in India, wearing a traditional professional sari and a lanyard. She has a dedicated and friendly expression. The background is a soft-focus rural healthcare center with clean, bright white walls and natural daylight, emphasizing a sense of community trust and modern health infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBb7E5h-rBZfi-nidMTGEGOmtptIA4NeDBEjpOJj5HtfKMnRzkujPlvV8jJADH7Si69ESa20ecckE9CO0AlqkKaWcxfb0NjDRaVSmZT1ydnSaQso8FAJBJZhKuRiBFQcAeZFqbgkUBVraX-HtMxrhzOHN45dyx_LcDZbPOr1dsjnkD0wH3VFj4Vn9zlo-61Jc3cBbuXGdk6A2eUk22l_MQ2fds-NAvEvTdeOf0BBT46r3DdlnorZ7YpUG63CmvCSAOS4VlWWCER7Em"/>
+<div>
+<p class="text-label-sm font-bold">Sunita Devi</p>
+<p class="text-[10px] text-on-surface-variant">Daily check-in assigned</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- System Messages -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/10">
+<h3 class="text-label-md font-bold text-on-surface-variant uppercase mb-3 tracking-wider">Alerts</h3>
+<div class="bg-error-container/20 p-3 rounded-lg border border-error/10 flex gap-3">
+<span class="material-symbols-outlined text-error text-body-md">warning</span>
+<p class="text-label-sm text-on-error-container">Patient reported 3 skipped doses in the last week.</p>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple scale effect for interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+
+        // Search highlight simulation
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

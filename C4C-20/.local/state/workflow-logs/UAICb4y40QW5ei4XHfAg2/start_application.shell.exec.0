@@ -1,0 +1,30 @@
+[AarogyaNet] Database initialized successfully.
+[AarogyaNet] Starting on http://0.0.0.0:5000
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [26/May/2026 04:14:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:00] "GET /api/risk/stats HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:00] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:14:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:01] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:01] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+127.0.0.1 - - [26/May/2026 04:14:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:11] "GET /asha HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:11] "GET /api/patients HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:11] "GET /api/visits HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:11] "GET /api/emergency HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:13] "[31m[1mGET /api/absence/continuity HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:14:38] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:39] "[35m[1mPOST /api/ai/diabetes-risk HTTP/1.1[0m" 500 -
+127.0.0.1 - - [26/May/2026 04:14:39] "[35m[1mPOST /api/ai/diabetes-risk HTTP/1.1[0m" 500 -
+127.0.0.1 - - [26/May/2026 04:14:39] "[35m[1mPOST /api/ai/diabetes-risk HTTP/1.1[0m" 500 -
+127.0.0.1 - - [26/May/2026 04:14:45] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:46] "GET /api/risk/stats HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:46] "[31m[1mGET /api/risk/queue HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 04:14:47] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 04:14:47] "[35m[1mPOST /api/ai/diabetes-risk HTTP/1.1[0m" 500 -

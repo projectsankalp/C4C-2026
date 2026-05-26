@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Overview Dashboard — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","primary-container":"#0f6cbd","surface-container-lowest":"#ffffff",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.risk-high { color:#dc2626; font-weight:600; } .risk-medium { color:#d97706; font-weight:600; } .risk-low { color:#16a34a; font-weight:600; }
+.stat-card-new { background:#fff; border-radius:16px; border:1px solid #e2e8f0; padding:1.25rem; display:flex; align-items:center; gap:1rem; box-shadow:0 1px 3px rgba(0,0,0,.06); transition:box-shadow .2s; }
+.stat-card-new:hover { box-shadow:0 4px 12px rgba(0,0,0,.1); }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+      </div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span>
+      </div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">User</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)">
+      <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">dashboard</span> Overview
+    </a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">timeline</span> Clinical Memory</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">link</span> Blockchain Ledger</a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">map</span> Outbreak Map</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">shield</span> Disease Clusters</a>
+    <a href="/patient" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">person</span> My Health</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">dashboard</span>
+        AarogyaNet — Overview Dashboard
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Real-time rural healthcare intelligence platform</p>
+    </div>
+    <button onclick="loadDashboard()" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+      <span class="material-symbols-outlined text-base">refresh</span> Refresh
+    </button>
+  </header>
+
+  <div class="p-6">
+
+    <!-- Stat Row -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#ccfbf1"><span class="material-symbols-outlined text-xl" style="color:#0d9488;font-variation-settings:'FILL' 1">group</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="stat-patients">—</div><div class="text-xs text-on-surface-variant">Total Patients</div></div>
+      </div>
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-xl text-blue-600" style="font-variation-settings:'FILL' 1">assignment</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="stat-visits">—</div><div class="text-xs text-on-surface-variant">Total Visits</div></div>
+      </div>
+      <div class="stat-card-new" style="border-left:3px solid #dc2626">
+        <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-xl text-red-600" style="font-variation-settings:'FILL' 1">warning</span></div>
+        <div><div class="text-2xl font-bold text-red-600" id="stat-high">—</div><div class="text-xs text-on-surface-variant">High Risk</div></div>
+      </div>
+      <div class="stat-card-new">
+        <div class="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-xl text-green-600" style="font-variation-settings:'FILL' 1">link</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="stat-blocks">—</div><div class="text-xs text-on-surface-variant">Blockchain Blocks</div></div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+      <div class="lg:col-span-2 bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20">
+          <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">pie_chart</span>
+            Risk Distribution
+          </h3>
+        </div>
+        <div class="p-5 flex items-center justify-center">
+          <canvas id="riskChart" style="max-height:220px;"></canvas>
+        </div>
+      </div>
+      <div class="lg:col-span-3 bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20">
+          <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">bar_chart</span>
+            Recent Visit Activity (7 days)
+          </h3>
+        </div>
+        <div class="p-5">
+          <canvas id="activityChart" style="max-height:220px;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm p-5 mb-6">
+      <h3 class="font-bold text-sm text-on-surface mb-3 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">bolt</span>
+        Quick Actions
+      </h3>
+      <div class="flex gap-3 flex-wrap">
+        <a href="/asha" class="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-bold hover:opacity-90 transition-all" style="background:#0d9488">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">medical_services</span>ASHA Dashboard
+        </a>
+        <a href="/doctor" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-all">
+          <span class="material-symbols-outlined text-base">stethoscope</span>Doctor Queue
+        </a>
+        <a href="/blockchain" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-outline-variant text-on-surface-variant text-sm font-bold hover:bg-surface-container transition-all">
+          <span class="material-symbols-outlined text-base">link</span>Blockchain Ledger
+        </a>
+        <a href="/heatmap" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-green-300 text-green-700 text-sm font-bold hover:bg-green-50 transition-all">
+          <span class="material-symbols-outlined text-base">map</span>Outbreak Map
+        </a>
+        <a href="/surveillance" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-purple-300 text-purple-700 text-sm font-bold hover:bg-purple-50 transition-all">
+          <span class="material-symbols-outlined text-base">shield</span>Disease Clusters
+        </a>
+        <a href="/longitudinal" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-outline-variant text-on-surface-variant text-sm font-bold hover:bg-surface-container transition-all">
+          <span class="material-symbols-outlined text-base">timeline</span>Clinical Memory
+        </a>
+      </div>
+    </div>
+
+    <!-- High Risk Patients Table -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+        <h3 class="font-bold text-sm flex items-center gap-2 text-red-600">
+          <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">warning</span>
+          High Risk Patients
+        </h3>
+        <a href="/doctor" class="flex items-center gap-1 text-xs text-primary font-bold hover:underline">
+          View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-surface-container-low">
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Patient</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Village</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">BP</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Risk Score</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Level</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide">Last Visit</th>
+              <th class="text-left px-5 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wide"></th>
+            </tr>
+          </thead>
+          <tbody id="high-risk-table" class="divide-y divide-outline-variant/20">
+            <tr><td colspan="7" class="text-center py-8 text-on-surface-variant text-sm">
+              <span class="material-symbols-outlined text-2xl block mb-2 opacity-40">hourglass_empty</span>Loading…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'User';
+document.getElementById('sidebar-role').textContent = (_u.role || '').toUpperCase();
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+async function loadDashboard() {
+  try {
+    const stats = await API.get('/api/risk/stats');
+    if (stats) {
+      document.getElementById('stat-patients').textContent = stats.total_patients ?? 0;
+      document.getElementById('stat-visits').textContent   = stats.total_visits   ?? 0;
+      document.getElementById('stat-high').textContent     = stats.high_risk      ?? 0;
+      document.getElementById('stat-blocks').textContent   = stats.blockchain_blocks ?? 0;
+      new Chart(document.getElementById('riskChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['High Risk', 'Medium Risk', 'Low Risk'],
+          datasets: [{ data: [stats.high_risk||0, stats.medium_risk||0, stats.low_risk||0], backgroundColor: ['#dc2626','#d97706','#16a34a'], borderWidth: 2 }]
+        },
+        options: { plugins: { legend: { position: 'bottom' } }, cutout: '60%' }
+      });
+    }
+
+    const queue = await API.get('/api/risk/queue');
+    const high  = (queue || []).filter(function(p){ return p.risk_level === 'HIGH'; }).slice(0, 6);
+    const tbody = document.getElementById('high-risk-table');
+    if (!high.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="text-center py-6 text-on-surface-variant text-sm">No high risk patients at the moment.</td></tr>';
+    } else {
+      tbody.innerHTML = high.map(function(p) {
+        var visitDate = p.visit_date ? new Date(p.visit_date).toLocaleDateString('en-IN') : '—';
+        return '<tr class="hover:bg-surface-container-low transition-colors">' +
+          '<td class="px-5 py-3"><div class="font-semibold text-sm text-on-surface">' + (p.full_name||'—') + '</div><div class="text-xs text-on-surface-variant font-mono">' + (p.patient_code||'') + '</div></td>' +
+          '<td class="px-5 py-3 text-sm">' + (p.village||'—') + '</td>' +
+          '<td class="px-5 py-3 text-sm font-bold">' + (p.bp_systolic||'—') + '/' + (p.bp_diastolic||'—') + '</td>' +
+          '<td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">' + (p.risk_score||0) + '</span></td>' +
+          '<td class="px-5 py-3 text-sm font-bold text-red-600">HIGH</td>' +
+          '<td class="px-5 py-3 text-sm text-on-surface-variant">' + visitDate + '</td>' +
+          '<td class="px-5 py-3"><a href="/doctor?patient=' + p.id + '" class="px-3 py-1.5 rounded-lg text-white text-xs font-bold" style="background:#0d9488">Review</a></td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    // Activity chart
+    const chartLabels = [], visitCounts = new Array(7).fill(0), highRiskCounts = new Array(7).fill(0);
+    const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(todayEnd); d.setDate(d.getDate() - 6 + i);
+      chartLabels.push(d.toLocaleDateString('en-IN', {month:'short', day:'numeric'}));
+    }
+    try {
+      const allVisits = await API.get('/api/visits');
+      (allVisits || []).forEach(function(v) {
+        if (!v.visit_date) return;
+        var vd = new Date(v.visit_date), diffDay = Math.floor((todayEnd - vd) / 86400000), idx = 6 - diffDay;
+        if (idx >= 0 && idx <= 6) { visitCounts[idx]++; if ((v.risk_level||'').toUpperCase()==='HIGH') highRiskCounts[idx]++; }
+      });
+    } catch(_) {}
+    new Chart(document.getElementById('activityChart'), {
+      type: 'bar',
+      data: {
+        labels: chartLabels,
+        datasets: [
+          { label: 'Visits',    data: visitCounts,    backgroundColor: '#0d9488', borderRadius: 4 },
+          { label: 'High Risk', data: highRiskCounts, backgroundColor: '#dc2626', borderRadius: 4 },
+        ]
+      },
+      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+    });
+  } catch(err) { console.error('Dashboard load error:', err); }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

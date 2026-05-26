@@ -1,0 +1,79 @@
+╔══════════════════════════════════════════════════════════════╗
+  AarogyaNet Dataset Profile — heart_disease_uci
+╚══════════════════════════════════════════════════════════════╝
+  Profiled : 2026-05-26T00:15:42.140095+00:00
+  File     : heart_disease_uci.csv
+
+── SHAPE ──────────────────────────────────────────────────────
+  Rows    : 920
+  Columns : 16
+  Dupes   : 0 (0.0%)
+
+── MISSINGNESS ────────────────────────────────────────────────
+  Overall missing : 11.9%
+  ⚠ > 50% missing : ca, thal
+  ✓ Complete cols  : 6
+
+── TARGET LABELS ──────────────────────────────────────────────
+  [⚠ imbalanced] 'num' — name matches target keyword; 5 unique values (low cardinality)
+             0: 44.7%
+             1: 28.8%
+             2: 11.8%
+             3: 11.6%
+             4: 3.0%
+  [✓ balanced] 'sex' — binary column; 2 unique values (low cardinality)
+             Male: 78.9%
+             Female: 21.1%
+  [✓ balanced] 'exang' — binary column; 2 unique values (low cardinality)
+             False: 61.0%
+             True: 39.0%
+  [✓ balanced] 'fbs' — binary column; 2 unique values (low cardinality)
+             False: 83.4%
+             True: 16.6%
+
+── HEALTHCARE VALIDATION ──────────────────────────────────────
+  🔴 trestbps — impossible_value: Expected [50, 300]; 1 values out of range (1 rows)
+  🟡 trestbps — zero_as_missing: 1 zeros (0.1%) — zeros are clinically impossible here; replace with NaN before training (1 rows)
+  🔴 chol — impossible_value: Expected [50, 700]; 172 values out of range (172 rows)
+  🟡 chol — zero_as_missing: 172 zeros (19.3%) — zeros are clinically impossible here; replace with NaN before training (172 rows)
+  🟡 age, trestbps, chol, thalch — duplicate_clinical_fingerprint: 6 rows share identical values across 4 clinical columns — possible duplicate patients (6 rows)
+
+── PHI AUDIT ──────────────────────────────────────────────────
+  🔴 PHI columns detected: id
+     → These MUST be stripped before any ML pipeline.
+  ⚠ ID columns detected : id
+
+── CORRELATION & LEAKAGE ──────────────────────────────────────
+  ✓ No high-correlation pairs found.
+
+── ML READINESS ───────────────────────────────────────────────
+  Score   : 5.5 / 10
+  Verdict : NEEDS_CLEANING
+  Required preprocessing:
+    • Strip PHI columns: id
+    • Drop or impute high-missingness columns: ca, thal
+    • Fix 'trestbps': impossible_value — Expected [50, 300]; 1 values out of range
+    • Fix 'chol': impossible_value — Expected [50, 700]; 172 values out of range
+    • Replace zeros with NaN in 'trestbps' before imputation.
+    • Replace zeros with NaN in 'chol' before imputation.
+    • Drop ID columns: id
+  Critical issues:
+    🔴 PHI present: ['id']
+
+── FEATURE USABILITY SCORES ───────────────────────────────────
+  ██████████ 10.0  age
+  ██████████ 10.0  sex
+  ██████████ 10.0  dataset
+  ██████████ 10.0  cp
+  ██████████ 10.0  restecg
+  ██████████ 10.0  num
+  █████████░  9.5  chol
+  █████████░  9.0  trestbps
+  █████████░  9.0  fbs
+  █████████░  9.0  thalch
+  █████████░  9.0  exang
+  █████████░  9.0  oldpeak
+  ████████░░  8.0  slope
+  █████░░░░░  5.0  ca
+  █████░░░░░  5.0  thal
+  ░░░░░░░░░░  0.0  id [PHI]

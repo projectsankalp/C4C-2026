@@ -1,0 +1,137 @@
+Set up the foundational AI infrastructure layer for AarogyaNet.
+
+IMPORTANT:
+Do NOT train models yet.
+Do NOT implement inference yet.
+Do NOT redesign existing architecture.
+
+GOAL:
+Create a clean, scalable healthcare AI pipeline foundation for future model training and inference.
+
+==================================================
+1. DIRECTORY STRUCTURE
+==================================================
+
+Create:
+
+ai_engine/
+├── datasets/
+│   ├── raw/
+│   ├── processed/
+│   ├── feature_store/
+│   └── metadata/
+├── models/
+├── pipelines/
+├── inference/
+├── training/
+├── evaluation/
+└── utils/
+
+==================================================
+2. DATASET INGESTION PIPELINE
+==================================================
+
+Build utilities for:
+- loading CSV/XLSX datasets
+- schema inspection
+- missing-value analysis
+- column normalization
+- metadata extraction
+
+Support:
+- ICMR diabetes dataset
+- NFHS survey data
+- NIKSHAY
+- HMIS
+
+==================================================
+3. FEATURE ENGINEERING PIPELINE
+==================================================
+
+Create:
+ai_engine/preprocessing.py
+
+Implement:
+- feature normalization
+- categorical encoding
+- longitudinal feature extraction
+- adherence feature generation
+- trajectory slope calculation
+- demographic feature mapping
+
+==================================================
+4. FEATURE STORE
+==================================================
+
+Create reusable feature-store generation.
+
+Store:
+- model-ready feature vectors
+- schema metadata
+- feature descriptions
+
+Do NOT train models yet.
+
+==================================================
+5. MODEL ABSTRACTION
+==================================================
+
+Create modular model loader interfaces.
+
+Support future models:
+- diabetes risk
+- trajectory prediction
+- outbreak intelligence
+
+Use:
+- joblib-compatible interfaces
+
+==================================================
+6. EXPLAINABILITY FOUNDATION
+==================================================
+
+Prepare:
+- SHAP-compatible model interfaces
+- feature attribution structure
+
+Do NOT generate explanations yet.
+
+==================================================
+7. INFERENCE PIPELINE SKELETON
+==================================================
+
+Create:
+- prediction interfaces
+- validation hooks
+- preprocessing consistency layer
+
+No actual inference yet.
+
+==================================================
+8. SAFETY REQUIREMENTS
+==================================================
+
+Ensure:
+- no PHI leakage into model artifacts
+- clear separation between clinical logic and ML inference
+- deterministic preprocessing
+
+==================================================
+9. PRESERVE ARCHITECTURE
+==================================================
+
+Do NOT modify:
+- GCPE
+- blockchain
+- longitudinal engine
+- risk engine
+
+AI should become:
+an augmentation layer, not a replacement.
+
+==================================================
+OUTPUT
+==================================================
+
+The result should feel like:
+"a production-grade healthcare AI foundation layer ready for future training."

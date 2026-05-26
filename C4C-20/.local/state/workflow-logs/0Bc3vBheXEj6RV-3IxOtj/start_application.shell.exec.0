@@ -1,0 +1,44 @@
+[AarogyaNet] Database initialized successfully.
+[AarogyaNet] Starting on http://0.0.0.0:5000
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [26/May/2026 05:24:17] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/absence/alerts HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/absence/continuity HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/patients/2/longitudinal HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/tokens/patient/1 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/tokens/patient/2 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/blockchain/verify HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "[33mGET /api/clusters/fever HTTP/1.1[0m" 404 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/prescriptions/patient/1 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:24:17] "GET /api/prescriptions/patient/2 HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:00] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:00] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:00] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:00] "GET /api/clusters HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:00] "[31m[1mGET /api/clusters/summary HTTP/1.1[0m" 403 -
+127.0.0.1 - - [26/May/2026 05:25:01] "GET /api/absence/alerts HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:01] "GET /api/absence/continuity HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:01] "POST /api/visits/sync HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:01] "GET /api/blockchain/verify HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:01] "[33mGET /api/blockchain/blocks HTTP/1.1[0m" 404 -
+127.0.0.1 - - [26/May/2026 05:25:25] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:25] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:25] "GET /api/clusters HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:25] "[33mGET /api/blockchain/blocks HTTP/1.1[0m" 404 -
+127.0.0.1 - - [26/May/2026 05:25:25] "[33mGET /api/blockchain HTTP/1.1[0m" 404 -
+127.0.0.1 - - [26/May/2026 05:25:25] "GET /api/blockchain/chain HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:25:25] "GET /api/blockchain/verify HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:26:01] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:26:01] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:26:01] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:26:01] "GET /api/clusters HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:26:01] "GET /api/blockchain/chain HTTP/1.1" 200 -
+127.0.0.1 - - [26/May/2026 05:26:01] "POST /api/visits/sync HTTP/1.1" 200 -

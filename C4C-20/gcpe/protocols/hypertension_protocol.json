@@ -1,0 +1,250 @@
+{
+  "protocol_id": "HTN-001",
+  "name": "Hypertension Assessment Protocol",
+  "version": "2.0",
+  "description": "Guided branching triage protocol for ASHA worker hypertension visits. Branches dynamically on symptoms, BP readings, and medication history.",
+  "entry_step": "q_dizziness",
+  "steps": [
+
+    {
+      "id": "q_dizziness",
+      "label": "Symptom Check",
+      "question": "Does the patient report dizziness or lightheadedness today?",
+      "field": "dizziness",
+      "type": "boolean",
+      "yes_next": "q_chest_pain",
+      "no_next": "q_chest_pain"
+    },
+
+    {
+      "id": "q_chest_pain",
+      "label": "Chest Symptoms",
+      "question": "Does the patient report any chest pain, tightness, or pressure?",
+      "field": "chest_pain",
+      "type": "boolean",
+      "yes_next": "q_chest_severity",
+      "no_next": "q_medicine_missed"
+    },
+
+    {
+      "id": "q_chest_severity",
+      "label": "Chest Pain — Severity",
+      "question": "How would the patient describe the chest pain?",
+      "field": "chest_severity",
+      "type": "choice",
+      "options": [
+        "Mild — dull ache",
+        "Moderate — persistent pressure",
+        "Severe — crushing or squeezing"
+      ],
+      "conditions": [
+        { "field": "chest_severity", "op": "==", "value": "Severe — crushing or squeezing", "next": "q_breathing" },
+        { "field": "chest_severity", "op": "==", "value": "Moderate — persistent pressure", "next": "q_breathing" },
+        { "next": "q_medicine_missed" }
+      ]
+    },
+
+    {
+      "id": "q_breathing",
+      "label": "Respiratory Check",
+      "question": "Is the patient experiencing difficulty breathing or shortness of breath alongside the chest pain?",
+      "field": "breathing_difficulty",
+      "type": "boolean",
+      "yes_next": "q_urgent_referral",
+      "no_next": "q_urgent_soft"
+    },
+
+    {
+      "id": "q_urgent_referral",
+      "label": "⚠ Emergency Action",
+      "question": "Chest pain with breathing difficulty detected. Has the ASHA worker contacted the PHC emergency line or called for transport?",
+      "field": "phc_contacted",
+      "type": "boolean",
+      "alert": "CRITICAL — Chest pain with breathing difficulty may indicate an acute cardiac event. Call PHC emergency line immediately. Do not leave the patient alone.",
+      "risk_flag": "CRITICAL",
+      "pathway": "cardiac_emergency",
+      "yes_next": "q_medicine_missed",
+      "no_next": "q_medicine_missed"
+    },
+
+    {
+      "id": "q_urgent_soft",
+      "label": "Clinical Note",
+      "question": "Chest pain is present but breathing is normal. Has the ASHA worker advised the patient to rest and informed the PHC duty doctor?",
+      "field": "phc_informed",
+      "type": "boolean",
+      "alert": "ATTENTION — Chest pain present without breathing difficulty. Monitor for worsening. Refer to PHC if symptoms persist beyond 30 minutes.",
+      "risk_flag": "HIGH",
+      "pathway": "chest_pain_monitoring",
+      "yes_next": "q_medicine_missed",
+      "no_next": "q_medicine_missed"
+    },
+
+    {
+      "id": "q_medicine_missed",
+      "label": "Medication Adherence",
+      "question": "Has the patient missed any antihypertensive medication in the last 7 days?",
+      "field": "medicine_missed",
+      "type": "boolean",
+      "yes_next": "q_missed_days",
+      "no_next": "q_bp_systolic"
+    },
+
+    {
+      "id": "q_missed_days",
+      "label": "Adherence — Duration",
+      "question": "How many days was medication missed?",
+      "field": "medicine_missed_days",
+      "type": "choice",
+      "options": [
+        "1 day",
+        "2–3 days",
+        "4–7 days",
+        "More than 1 week"
+      ],
+      "pathway": "adherence_assessment",
+      "conditions": [
+        { "field": "medicine_missed_days", "op": "in", "value": ["4–7 days", "More than 1 week"], "next": "q_missed_reason" },
+        { "next": "q_bp_systolic" }
+      ]
+    },
+
+    {
+      "id": "q_missed_reason",
+      "label": "Adherence — Reason",
+      "question": "What was the primary reason the patient missed their medication?",
+      "field": "missed_reason",
+      "type": "choice",
+      "options": [
+        "Forgot",
+        "Side effects",
+        "Medicine unavailable at PHC",
+        "Too costly",
+        "Felt better — self-discontinued"
+      ],
+      "next": "q_bp_systolic"
+    },
+
+    {
+      "id": "q_bp_systolic",
+      "label": "Blood Pressure",
+      "question": "Record the patient's systolic blood pressure (upper number):",
+      "field": "bp_systolic",
+      "type": "number",
+      "unit": "mmHg",
+      "range": { "min": 60, "max": 300 },
+      "next": "q_bp_diastolic"
+    },
+
+    {
+      "id": "q_bp_diastolic",
+      "label": "Blood Pressure",
+      "question": "Record the diastolic blood pressure (lower number):",
+      "field": "bp_diastolic",
+      "type": "number",
+      "unit": "mmHg",
+      "range": { "min": 40, "max": 200 },
+      "conditions": [
+        { "field": "bp_systolic", "op": ">=", "value": 180, "next": "q_crisis_symptoms" },
+        { "field": "bp_diastolic", "op": ">=", "value": 110, "next": "q_crisis_symptoms" },
+        { "field": "bp_systolic", "op": ">=", "value": 160, "next": "q_high_bp_monitoring" },
+        { "next": "q_pulse" }
+      ]
+    },
+
+    {
+      "id": "q_crisis_symptoms",
+      "label": "⚠ Hypertensive Crisis",
+      "question": "BP is severely elevated. Is the patient experiencing severe headache, blurred vision, nausea, or confusion?",
+      "field": "crisis_symptoms",
+      "type": "boolean",
+      "alert": "HYPERTENSIVE CRISIS — Systolic ≥ 180 or Diastolic ≥ 110. Immediate hospital referral required. Do not send home.",
+      "risk_flag": "CRITICAL",
+      "pathway": "hypertensive_crisis",
+      "yes_next": "q_crisis_referred",
+      "no_next": "q_pulse"
+    },
+
+    {
+      "id": "q_crisis_referred",
+      "label": "Crisis — Referral",
+      "question": "Has the patient been referred to the nearest district hospital or PHC for immediate management?",
+      "field": "crisis_referred",
+      "type": "boolean",
+      "risk_flag": "CRITICAL",
+      "conditions": [
+        { "field": "crisis_referred", "op": "==", "value": false, "next": "q_crisis_escalate" },
+        { "next": "q_pulse" }
+      ]
+    },
+
+    {
+      "id": "q_crisis_escalate",
+      "label": "⚠ Escalation Required",
+      "question": "Patient has refused or transport is unavailable. Has the ASHA supervisor or block health officer been notified?",
+      "field": "supervisor_notified",
+      "type": "boolean",
+      "alert": "Document refusal in writing. Notify supervisor immediately. Follow PHC escalation protocol.",
+      "risk_flag": "CRITICAL",
+      "pathway": "crisis_escalation",
+      "yes_next": "q_pulse",
+      "no_next": "q_pulse"
+    },
+
+    {
+      "id": "q_high_bp_monitoring",
+      "label": "Elevated BP",
+      "question": "BP is elevated (≥ 160 mmHg). Is the patient also experiencing dizziness alongside this elevated reading?",
+      "field": "dizziness_with_high_bp",
+      "type": "boolean",
+      "alert": "Elevated BP — Stage 2 Hypertension. Reinforce medication adherence. Schedule follow-up within 7 days.",
+      "risk_flag": "HIGH",
+      "pathway": "hypertensive_urgency",
+      "yes_next": "q_exertion_check",
+      "no_next": "q_pulse"
+    },
+
+    {
+      "id": "q_exertion_check",
+      "label": "Dizziness + High BP",
+      "question": "Dizziness with elevated BP may indicate hypertensive urgency. Has the patient been physically exerted or under significant stress recently?",
+      "field": "recent_exertion",
+      "type": "boolean",
+      "pathway": "hypertensive_urgency",
+      "next": "q_pulse"
+    },
+
+    {
+      "id": "q_pulse",
+      "label": "Pulse",
+      "question": "Record the patient's pulse rate:",
+      "field": "pulse",
+      "type": "number",
+      "unit": "bpm",
+      "range": { "min": 30, "max": 200 },
+      "next": "q_temperature"
+    },
+
+    {
+      "id": "q_temperature",
+      "label": "Temperature",
+      "question": "Record the patient's temperature (optional):",
+      "field": "temperature",
+      "type": "number",
+      "unit": "°C",
+      "range": { "min": 34.0, "max": 42.0 },
+      "optional": true,
+      "next": "q_notes"
+    },
+
+    {
+      "id": "q_notes",
+      "label": "Clinical Notes",
+      "question": "Any additional clinical observations or follow-up actions to note?",
+      "field": "notes",
+      "type": "text",
+      "optional": true,
+      "next": "complete"
+    }
+  ]
+}

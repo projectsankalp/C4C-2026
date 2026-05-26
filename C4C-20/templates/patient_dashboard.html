@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Health Dashboard — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","primary-container":"#0f6cbd","surface-container-lowest":"#ffffff",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.risk-high { color:#dc2626; font-weight:600; } .risk-medium { color:#d97706; font-weight:600; } .risk-low { color:#16a34a; font-weight:600; }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span>
+      </div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span>
+      </div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs">Patient</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <a href="/patient" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)">
+      <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">person</span> My Health
+    </a>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">timeline</span> Clinical Timeline
+    </a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1">
+      <span class="material-symbols-outlined text-base">link</span> My Records (Blockchain)
+    </a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors">
+      <span class="material-symbols-outlined text-sm">logout</span> Sign Out
+    </a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 sticky top-0 z-50 shadow-sm">
+    <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">person</span>
+      My Health Dashboard
+    </h1>
+    <p class="text-xs text-on-surface-variant mt-0.5">Your personal health record and visit history</p>
+  </header>
+
+  <div class="p-6">
+
+    <!-- No record notice -->
+    <div id="no-record" class="hidden">
+      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 text-center">
+        <span class="material-symbols-outlined text-blue-400 text-4xl mb-3 block">info</span>
+        <p class="text-blue-700 font-medium">No patient record is linked to your account yet. Please contact your ASHA worker.</p>
+      </div>
+    </div>
+
+    <div id="patient-content" class="hidden">
+
+      <!-- Patient Summary Card -->
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+        <div class="p-5 flex items-center gap-4">
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:#ccfbf1">
+            <span class="material-symbols-outlined text-3xl" style="color:#0d9488;font-variation-settings:'FILL' 1">person</span>
+          </div>
+          <div class="flex-1">
+            <div class="text-xl font-bold text-on-surface" id="p-name">—</div>
+            <div class="text-sm text-on-surface-variant mt-1" id="p-meta">—</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-on-surface-variant mb-1">Current Risk</div>
+            <div class="text-2xl font-bold" id="p-risk">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visit History + BP Chart -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-outline-variant/20">
+            <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+              <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">history</span>
+              Visit History
+            </h3>
+          </div>
+          <div class="p-5" id="visit-timeline">
+            <div class="text-center text-on-surface-variant py-4 text-sm">Loading…</div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-outline-variant/20">
+            <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+              <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">monitoring</span>
+              Blood Pressure Trend
+            </h3>
+          </div>
+          <div class="p-5">
+            <canvas id="bpChart" style="max-height:200px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescriptions -->
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20">
+          <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">medication</span>
+            My Prescriptions
+          </h3>
+        </div>
+        <div class="p-5" id="prescriptions-list">
+          <div class="text-center text-on-surface-variant py-4 text-sm">Loading…</div>
+        </div>
+      </div>
+
+      <!-- Prescription Tokens -->
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20">
+          <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">key</span>
+            My Prescription Tokens
+          </h3>
+        </div>
+        <div class="p-5" id="token-list">
+          <div class="text-center text-on-surface-variant py-4 text-sm">Loading…</div>
+        </div>
+      </div>
+
+      <!-- Continuity Panel -->
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+          <h3 class="font-bold text-sm flex items-center gap-2 text-on-surface">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">timeline</span>
+            Visit Continuity
+          </h3>
+          <span id="continuity-badge-patient" class="px-2 py-0.5 rounded-full text-white text-xs font-bold" style="background:#0d9488">—</span>
+        </div>
+        <div class="p-5" id="patient-continuity-panel">
+          <div class="text-center text-on-surface-variant py-2 text-sm">Loading…</div>
+        </div>
+      </div>
+
+      <!-- Emergency History -->
+      <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm mb-6 overflow-hidden">
+        <div class="px-5 py-4 border-b border-outline-variant/20">
+          <h3 class="font-bold text-sm flex items-center gap-2 text-red-600">
+            <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">emergency</span>
+            Emergency History
+          </h3>
+        </div>
+        <div class="p-5" id="emergency-history-patient">
+          <div class="text-center text-on-surface-variant py-2 text-sm">Loading…</div>
+        </div>
+      </div>
+
+      <!-- SOS Button -->
+      <div class="text-center py-4">
+        <button onclick="triggerSOS()" class="flex items-center gap-3 mx-auto px-8 py-4 bg-error text-white rounded-2xl text-base font-bold hover:bg-red-700 transition-all active:scale-95 shadow-lg">
+          <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1">emergency</span>
+          SOS Emergency Alert
+        </button>
+        <div id="sos-result" class="mt-4 max-w-sm mx-auto"></div>
+      </div>
+
+    </div><!-- /#patient-content -->
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'Patient';
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+async function loadPatient() {
+  const patient = await API.get('/api/patients/my');
+  if (!patient || !patient.id) {
+    document.getElementById('no-record').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('patient-content').classList.remove('hidden');
+  document.getElementById('p-name').textContent = patient.full_name;
+  document.getElementById('p-meta').textContent = [patient.age ? patient.age + 'y' : null, patient.gender, patient.village].filter(Boolean).join(' · ');
+
+  const visits = await API.get(`/api/visits/patient/${patient.id}`) || [];
+  const latest = visits[0];
+  if (latest) {
+    const risk = latest.risk_level || 'LOW';
+    const el = document.getElementById('p-risk');
+    el.textContent = risk;
+    el.className = `text-2xl font-bold risk-${risk.toLowerCase()}`;
+  }
+
+  const tl = document.getElementById('visit-timeline');
+  if (!visits.length) {
+    tl.innerHTML = '<div class="text-center text-on-surface-variant py-4 text-sm">No visits recorded.</div>';
+  } else {
+    tl.innerHTML = visits.slice(0,8).map((v, i) => {
+      const rColor = v.risk_level==='HIGH'?'#dc2626':v.risk_level==='MEDIUM'?'#d97706':'#16a34a';
+      const rCls = {HIGH:'text-red-600 font-bold',MEDIUM:'text-amber-600 font-bold',LOW:'text-green-600 font-semibold'}[v.risk_level] || '';
+      return `<div class="flex gap-3 mb-3 ${i < visits.length-1 ? 'pb-3 border-b border-outline-variant/20' : ''}">
+        <div class="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0" style="background:${rColor}"></div>
+        <div>
+          <div class="text-sm font-semibold text-on-surface">${new Date(v.visit_date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</div>
+          <div class="text-xs text-on-surface-variant mt-0.5">BP: ${v.bp_systolic||'—'}/${v.bp_diastolic||'—'} · Risk: <span class="${rCls}">${v.risk_level||'—'}</span></div>
+          ${v.notes ? `<div class="text-xs text-on-surface-variant mt-0.5">${v.notes}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  const bpData = visits.slice(0,7).reverse();
+  if (bpData.length) {
+    new Chart(document.getElementById('bpChart'), {
+      type: 'line',
+      data: {
+        labels: bpData.map(v => new Date(v.visit_date).toLocaleDateString('en-IN',{month:'short',day:'numeric'})),
+        datasets: [
+          { label:'Systolic', data:bpData.map(v=>v.bp_systolic||null), borderColor:'#dc2626', backgroundColor:'rgba(220,38,38,.1)', tension:.3, fill:true },
+          { label:'Diastolic', data:bpData.map(v=>v.bp_diastolic||null), borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,.1)', tension:.3, fill:true },
+        ]
+      },
+      options: { plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:false}}, responsive:true }
+    });
+  }
+
+  const rxs = await API.get(`/api/prescriptions/patient/${patient.id}`) || [];
+  const rxEl = document.getElementById('prescriptions-list');
+  if (!rxs.length) {
+    rxEl.innerHTML = '<div class="text-center text-on-surface-variant py-4 text-sm">No prescriptions yet.</div>';
+  } else {
+    rxEl.innerHTML = rxs.map(rx => {
+      let meds = [];
+      try { meds = typeof rx.medicines === 'string' ? JSON.parse(rx.medicines) : (rx.medicines || []); } catch(e) {}
+      return `<div class="p-4 rounded-xl border border-outline-variant/20 mb-3" style="background:#f8fafc">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <div class="font-semibold text-sm text-on-surface">Dr. ${rx.doctor_name||'—'}</div>
+            <div class="text-xs text-on-surface-variant">${new Date(rx.prescribed_at).toLocaleDateString('en-IN')}</div>
+          </div>
+          ${rx.is_janaushadi ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">JanAushadi</span>' : ''}
+        </div>
+        <div class="flex flex-wrap gap-2">${meds.map(m=>`<span class="px-2 py-1 rounded-lg text-xs font-medium border border-outline-variant bg-white text-on-surface">${m.name||''} ${m.dose||''}</span>`).join('')}</div>
+        ${rx.dosage_instructions ? `<div class="text-xs text-on-surface-variant mt-2">${rx.dosage_instructions}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  loadPatientTokens(patient.id);
+  loadPatientEmergencies(patient.id);
+  loadPatientContinuity(patient.id);
+}
+
+async function loadPatientTokens(patientId) {
+  const tokens = await API.get(`/api/tokens/patient/${patientId}`) || [];
+  const el = document.getElementById('token-list');
+  if (!tokens.length) { el.innerHTML = '<div class="text-center text-on-surface-variant py-4 text-sm">No tokens yet.</div>'; return; }
+  const statusBadge = s => ({pending:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">Pending Pickup</span>',redeemed:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Redeemed</span>',expired:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant">Expired</span>',cancelled:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Cancelled</span>'}[s]||`<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant">${s}</span>`);
+  el.innerHTML = tokens.map(t => `
+    <div class="p-4 rounded-xl border border-outline-variant/20 mb-3" style="background:#f8fafc">
+      <div class="flex items-center justify-between mb-2">
+        <code class="text-xs text-on-surface-variant">${t.token_id?t.token_id.slice(0,20)+'…':'—'}</code>
+        ${statusBadge(t.redemption_status)}
+      </div>
+      <div class="flex gap-4 text-xs text-on-surface-variant flex-wrap">
+        <span><i class="fa-solid fa-store me-1"></i>${t.outlet_name||'—'}</span>
+        ${t.redemption_status==='redeemed'?`<span class="text-green-600 font-medium">Redeemed ${t.redeemed_at?new Date(t.redeemed_at).toLocaleDateString('en-IN'):''}</span>`:`<span>Expires ${t.expires_at?new Date(t.expires_at).toLocaleDateString('en-IN'):'—'}</span>`}
+        ${t.adherence_block_index!=null?`<span class="text-green-600 ml-auto font-bold"><i class="fa-solid fa-cube me-1"></i>Block #${t.adherence_block_index} verified</span>`:''}
+      </div>
+    </div>`).join('');
+}
+
+async function triggerSOS() {
+  if (!confirm('Send SOS emergency alert?')) return;
+  const result = await API.post('/api/risk/sos', {patient_id:1,location:{lat:26.9124,lng:75.7873,note:'Home location'}});
+  const box = document.getElementById('sos-result');
+  box.className = 'p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium';
+  box.innerHTML = `<i class="fa-solid fa-siren-on me-2"></i>${result?.message||'SOS dispatched!'}`;
+}
+
+async function loadPatientContinuity(patientId) {
+  const data = await API.get(`/api/absence/patient/${patientId}`);
+  const el = document.getElementById('patient-continuity-panel');
+  const badge = document.getElementById('continuity-badge-patient');
+  if (!data || !data.continuity || !data.continuity.has_data) {
+    el.innerHTML = '<div class="text-center text-on-surface-variant py-4 text-sm">No continuity data yet — keep attending scheduled visits!</div>';
+    if (badge) badge.textContent = 'No data';
+    return;
+  }
+  const c = data.continuity, alerts = data.alerts || [], absences = data.absences || [];
+  const gradeColor = {GOOD:'#16a34a',MODERATE:'#b45309',POOR:'#dc2626',CRITICAL:'#7f1d1d',NO_DATA:'#6b7280'};
+  const grade = c.continuity_grade || 'NO_DATA', score = c.continuity_score;
+  if (badge) { badge.textContent = grade === 'NO_DATA' ? 'No data' : `${grade} (${score})`; badge.style.background = gradeColor[grade] || '#0d9488'; }
+  const scoreBar = score != null ? `<div style="height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden"><div style="width:${score}%;height:8px;background:${gradeColor[grade]};border-radius:4px;transition:width .4s"></div></div><div class="flex justify-between text-xs text-on-surface-variant mt-1"><span>Continuity Score</span><span style="color:${gradeColor[grade]};font-weight:600">${score}/100 — ${grade}</span></div>` : '';
+  const metaHtml = `<div class="grid grid-cols-3 gap-4 mt-4 text-center text-sm"><div><div class="text-xl font-bold" style="color:#0d9488">${c.visit_count}</div><div class="text-xs text-on-surface-variant">Completed Visits</div></div><div><div class="text-xl font-bold ${c.absence_count>0?'text-amber-600':'text-on-surface-variant'}">${c.absence_count}</div><div class="text-xs text-on-surface-variant">Missed / Unavailable</div></div><div><div class="text-xl font-bold ${c.days_since_last_visit>45?'text-red-600':'text-on-surface-variant'}">${c.days_since_last_visit!=null?c.days_since_last_visit+'d':'—'}</div><div class="text-xs text-on-surface-variant">Since Last Visit</div></div></div>`;
+  const alertHtml = alerts.length ? alerts.map(a=>`<div class="p-2 rounded-xl mb-2 text-sm border ${a.severity==='CRITICAL'?'bg-red-50 border-red-200 text-red-700':a.severity==='HIGH'?'bg-amber-50 border-amber-200 text-amber-700':'bg-blue-50 border-blue-200 text-blue-700'}"><i class="fa-solid fa-circle-exclamation me-1"></i>${a.message}</div>`).join('') : '';
+  const absenceHtml = absences.length ? `<div class="mt-4"><div class="text-xs font-bold text-on-surface-variant uppercase tracking-wide mb-2">Absence Log</div>${absences.slice(0,5).map(a=>`<div class="flex justify-between items-center border-b border-outline-variant/20 py-2 text-sm"><span class="text-on-surface-variant"><i class="fa-solid fa-person-circle-question me-1"></i>${a.absence_label}</span><span class="text-xs text-on-surface-variant">${(a.created_at||'').slice(0,10)}</span></div>`).join('')}</div>` : '';
+  el.innerHTML = scoreBar + metaHtml + (alertHtml || absenceHtml ? '<div class="mt-4">' + alertHtml + absenceHtml + '</div>' : '');
+}
+
+async function loadPatientEmergencies(patientId) {
+  const events = await API.get(`/api/emergency/patient/${patientId}`) || [];
+  const el = document.getElementById('emergency-history-patient');
+  if (!events.length) { el.innerHTML = '<div class="text-center text-on-surface-variant py-4 text-sm">No emergency events on record.</div>'; return; }
+  const statusBadge = s => ({active:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Active</span>',acknowledged:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">Acknowledged</span>',resolved:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Resolved</span>',escalated:'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Escalated</span>'}[s]||`<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant">${s}</span>`);
+  el.innerHTML = events.map(e=>`<div class="p-4 rounded-xl mb-3" style="background:#fef2f2;border:1px solid #fecaca"><div class="flex items-center justify-between mb-1"><span class="font-semibold text-sm text-on-surface">${(e.emergency_type||'').replace(/_/g,' ')}</span>${statusBadge(e.status)}</div><div class="flex gap-3 text-xs text-on-surface-variant flex-wrap"><span><i class="fa-solid fa-user-nurse me-1"></i>${e.asha_name||'ASHA Worker'}</span><span><i class="fa-regular fa-clock me-1"></i>${new Date(e.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>${e.status==='acknowledged'&&e.acknowledged_by_name?`<span class="text-green-600"><i class="fa-solid fa-user-doctor me-1"></i>Ack: Dr. ${e.acknowledged_by_name}</span>`:''} ${e.block_index!=null?`<span class="text-green-600 ml-auto font-bold"><i class="fa-solid fa-cube me-1"></i>Block #${e.block_index} verified</span>`:''}</div></div>`).join('');
+}
+
+loadPatient();
+</script>
+</body>
+</html>

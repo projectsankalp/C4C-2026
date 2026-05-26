@@ -1,0 +1,222 @@
+{
+  "dataset_key": "nhfs_5__all_india",
+  "filename": "NHFS_5 _All_India.csv",
+  "profiled_at": "2026-05-26T00:15:42.085656+00:00",
+  "file_hash_md5": "fa7ae9a0bd0b51f7a15dabeb459d07de",
+  "row_count": 131,
+  "column_count": 7,
+  "duplicate_rows": 0,
+  "duplicate_pct": 0.0,
+  "overall_null_pct": 20.28,
+  "columns_gt50pct_null": [
+    "Footnotes",
+    "Footnote description"
+  ],
+  "columns_complete": [
+    "Indicators",
+    "Urban",
+    "Rural",
+    "Total (2019-21)",
+    "Total (2015-16)"
+  ],
+  "columns": {
+    "Indicators": {
+      "dtype": "str",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 125,
+      "cardinality_ratio": 0.9542,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {},
+      "value_distribution": {},
+      "sample_values": [
+        " Female population age 6 years and above who ever attended school (%)",
+        " Population below age 15 years (%)",
+        " Sex ratio of the total population (females per 1,000 males)"
+      ]
+    },
+    "Urban": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 123,
+      "cardinality_ratio": 0.9389,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 81.0031,
+        "std": 313.4785,
+        "min": 0.2,
+        "p25": 13.1,
+        "median": 33.2,
+        "p75": 74.1,
+        "max": 3385.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "82.5",
+        "23.1",
+        "985.0"
+      ]
+    },
+    "Rural": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 122,
+      "cardinality_ratio": 0.9313,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 74.5313,
+        "std": 266.0108,
+        "min": 0.3,
+        "p25": 11.9,
+        "median": 37.0,
+        "p75": 65.85,
+        "max": 2770.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "66.8",
+        "28.1",
+        "1037.0"
+      ]
+    },
+    "Total (2019-21)": {
+      "dtype": "float64",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 125,
+      "cardinality_ratio": 0.9542,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {
+        "mean": 76.2229,
+        "std": 276.903,
+        "min": 0.3,
+        "p25": 12.55,
+        "median": 35.5,
+        "p75": 68.95,
+        "max": 2916.0,
+        "zeros": 0,
+        "zeros_pct": 0.0
+      },
+      "value_distribution": {},
+      "sample_values": [
+        "71.8",
+        "26.5",
+        "1020.0"
+      ]
+    },
+    "Total (2015-16)": {
+      "dtype": "str",
+      "col_type": "continuous",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "unique_count": 96,
+      "cardinality_ratio": 0.7328,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 10.0,
+      "usability_notes": [],
+      "stats": {},
+      "value_distribution": {},
+      "sample_values": [
+        "68.8",
+        "28.6",
+        "991"
+      ]
+    },
+    "Footnotes": {
+      "dtype": "str",
+      "col_type": "continuous",
+      "null_count": 82,
+      "null_pct": 62.6,
+      "unique_count": 27,
+      "cardinality_ratio": 0.2061,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 5.0,
+      "usability_notes": [
+        "62.6% missing \u2014 severely incomplete"
+      ],
+      "stats": {},
+      "value_distribution": {},
+      "sample_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "Footnote description": {
+      "dtype": "str",
+      "col_type": "continuous",
+      "null_count": 104,
+      "null_pct": 79.39,
+      "unique_count": 27,
+      "cardinality_ratio": 0.2061,
+      "is_phi": false,
+      "is_id_column": false,
+      "usability_score": 5.0,
+      "usability_notes": [
+        "79.4% missing \u2014 severely incomplete"
+      ],
+      "stats": {},
+      "value_distribution": {},
+      "sample_values": [
+        "Piped water into dwelling/yard/plot, piped to neighbour, public tap/standpipe, tube well or borehole, protected dug well, protected spring, rainwater, tanker truck, with small tank, bottled water, community RO plant.",
+        "Flush to piped sewer system, flush to septic tank, flush to pit latrine, flush to don't know where, ventilated improved pit (VIP)/biogas latrine, pit latrine with slab, pit/composting toilet, which is not shared with any other household. This indicator does not denote access to toilet facility.",
+        "Electricity, LPG/natural gas, biogas."
+      ]
+    }
+  },
+  "target_candidates": [],
+  "high_correlation_pairs": [
+    {
+      "col_a": "Rural",
+      "col_b": "Total (2019-21)",
+      "correlation": 0.9996
+    },
+    {
+      "col_a": "Urban",
+      "col_b": "Total (2019-21)",
+      "correlation": 0.9978
+    },
+    {
+      "col_a": "Urban",
+      "col_b": "Rural",
+      "correlation": 0.9957
+    }
+  ],
+  "leakage_risk_features": [],
+  "healthcare_issues": [],
+  "phi_columns_detected": [],
+  "id_columns_detected": [],
+  "ml_readiness_score": 6.0,
+  "ml_readiness_verdict": "needs_cleaning",
+  "preprocessing_steps": [
+    "Drop or impute high-missingness columns: Footnotes, Footnote description"
+  ],
+  "warnings": [],
+  "critical_issues": [
+    "No supervised learning target detected \u2014 dataset may be aggregate/summary data."
+  ]
+}

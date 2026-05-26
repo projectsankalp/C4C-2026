@@ -1,0 +1,135 @@
+Build the missing AarogyaNet offline visit replay/sync pipeline.
+
+CRITICAL:
+The SQLite offline queue exists, but offline visits currently never replay into PostgreSQL because there is no sync route.
+
+This breaks the offline-first architecture claim.
+
+==================================================
+1. CREATE VISIT SYNC ROUTE
+==================================================
+
+In:
+routes/visit_routes.py
+
+Create:
+POST /api/visits/sync
+
+==================================================
+2. LOAD OFFLINE VISITS
+==================================================
+
+Use:
+database/sqlite_sync.py
+
+Load:
+get_pending_syncs()
+
+Replay all pending offline visits.
+
+==================================================
+3. REPLAY FULL VISIT PIPELINE
+==================================================
+
+Each synced visit must trigger:
+- PostgreSQL insert
+- visit_hash generation
+- risk scoring
+- GCPE persistence
+- blockchain mining
+- longitudinal update
+- cluster recalculation
+
+The replayed visit must behave IDENTICALLY to a live visit.
+
+==================================================
+4. PRESERVE ORIGINAL TIMESTAMPS
+==================================================
+
+Use:
+visit_timestamp from SQLite.
+
+DO NOT overwrite with sync time.
+
+This is critical for:
+- longitudinal analysis
+- outbreak windows
+- blockchain integrity
+
+==================================================
+5. MARK VISITS AS SYNCED
+==================================================
+
+After successful replay:
+mark_synced()
+
+Prevent duplicate replay.
+
+==================================================
+6. PARTIAL FAILURE SAFETY
+==================================================
+
+If one visit fails:
+- continue replaying remaining visits
+- return detailed sync summary
+
+Do NOT abort the whole batch.
+
+==================================================
+7. BLOCKCHAIN REQUIREMENT
+==================================================
+
+Each replayed visit must mine:
+a REAL blockchain block.
+
+Verify:
+- hashes valid
+- chain continuity preserved
+- timestamps preserved
+
+==================================================
+8. DEMO REQUIREMENT
+==================================================
+
+The following flow must work live:
+
+Disable internet
+    ↓
+Create ASHA visit
+    ↓
+Stored in SQLite
+    ↓
+Reconnect internet
+    ↓
+POST /api/visits/sync
+    ↓
+Visit appears in dashboards
+    ↓
+Blockchain block mined
+    ↓
+Heatmap updates
+    ↓
+Longitudinal timeline updates
+
+WITHOUT manual DB edits.
+
+==================================================
+9. RESPONSE FORMAT
+==================================================
+
+Return:
+{
+  success,
+  synced_count,
+  failed_count,
+  synced_visit_ids,
+  failed_visits,
+  mined_blocks
+}
+
+==================================================
+OUTPUT
+==================================================
+
+The offline infrastructure should now feel:
+"truly resilient, asynchronous, and rural-network ready."

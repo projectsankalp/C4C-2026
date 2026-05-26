@@ -1,0 +1,101 @@
+Implement the AarogyaNet Passive Absence Detection System.
+
+GOAL:
+Treat missed visits, unavailable patients, and broken continuity as healthcare intelligence signals instead of missing data.
+
+This is a key part of AarogyaNet's "Clinical Memory as Infrastructure" philosophy.
+
+==================================================
+1. VISIT CONTINUITY TRACKING
+==================================================
+
+Track:
+- expected visit frequency
+- actual completed visits
+- missed visit streaks
+- patient unavailable events
+
+Support:
+- chronic disease monitoring continuity
+
+==================================================
+2. ABSENCE SIGNAL DETECTION
+==================================================
+
+Generate alerts for:
+- repeated missed visits
+- sudden disappearance after consistent follow-up
+- adherence interruption
+- high-risk patients becoming unavailable
+
+Examples:
+- "Patient unavailable 3 of last 5 scheduled visits"
+- "Previously compliant patient missed first visit in 6 months"
+
+==================================================
+3. LONGITUDINAL MEMORY INTEGRATION
+==================================================
+
+Absence events should appear in:
+- patient timeline
+- doctor longitudinal summaries
+- clinical alerts
+- risk escalation summaries
+
+==================================================
+4. RISK ESCALATION
+==================================================
+
+Absence should influence risk.
+
+Examples:
+- repeated absence → raise longitudinal risk
+- high-risk patient unavailable → escalation flag
+
+Keep deterministic and interpretable.
+
+==================================================
+5. OFFLINE-FIRST SUPPORT
+==================================================
+
+Ensure:
+- unavailable visits sync correctly
+- timestamps preserved
+- continuity calculations remain valid offline
+
+==================================================
+6. DOCTOR VISIBILITY
+==================================================
+
+Doctors should see:
+- continuity breakdown
+- absence trends
+- disappearance alerts
+- visit regularity metrics
+
+==================================================
+7. DASHBOARD POLISH
+==================================================
+
+Add:
+- continuity badges
+- adherence continuity graphs
+- absence warning cards
+
+==================================================
+8. PRESERVE ARCHITECTURE
+==================================================
+
+Do NOT redesign:
+- GCPE
+- longitudinal engine
+- visit system
+
+Extend existing continuity intelligence cleanly.
+
+==================================================
+OUTPUT
+==================================================
+
+The system should now behave like:
+"a healthcare continuity intelligence layer."

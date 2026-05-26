@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+@media(max-width:768px){ .sidebar{display:none;} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span></div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <a href="/admin" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">admin_panel_settings</span> Admin</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">link</span> Blockchain Ledger</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 text-sm mb-1"><span class="material-symbols-outlined text-base">shield</span> Disease Clusters</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold flex items-center gap-2 text-on-surface">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">admin_panel_settings</span>
+        Platform Administration
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">System health, user management, and platform status</p>
+    </div>
+    <button onclick="loadAdmin()" class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-xl text-sm text-on-surface-variant hover:bg-surface-container transition-all">
+      <span class="material-symbols-outlined text-base">refresh</span> Refresh
+    </button>
+  </header>
+
+  <div class="p-6">
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">group</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="adm-patients">—</div><div class="text-xs text-on-surface-variant">Total Patients</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-green-600 text-xl" style="font-variation-settings:'FILL' 1">assignment</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="adm-visits">—</div><div class="text-xs text-on-surface-variant">Total Visits</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#e0f2fe"><span class="material-symbols-outlined text-xl" style="color:#0369a1;font-variation-settings:'FILL' 1">link</span></div>
+        <div><div class="text-2xl font-bold text-on-surface" id="adm-blocks">—</div><div class="text-xs text-on-surface-variant">Blockchain Blocks</div></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-outline-variant/20 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings:'FILL' 1">warning</span></div>
+        <div><div class="text-2xl font-bold text-red-600" id="adm-high">—</div><div class="text-xs text-on-surface-variant">High Risk Patients</div></div>
+      </div>
+    </div>
+
+    <!-- Platform Feature Matrix -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden mb-6">
+      <div class="px-5 py-4 border-b border-outline-variant/20">
+        <h3 class="font-bold text-sm text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1">apps</span>
+          Platform Modules — AarogyaNet / AarogyaSethu
+        </h3>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-x divide-y divide-outline-variant/20">
+        <a href="/asha" class="p-5 hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#ccfbf1"><span class="material-symbols-outlined text-sm" style="color:#0d9488;font-variation-settings:'FILL' 1">medical_services</span></div>
+            <span class="font-bold text-sm text-on-surface">ASHA Dashboard</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">GCPE patient visits, SOS alerts, risk scoring, absence tracking.</p>
+        </a>
+        <a href="/doctor" class="p-5 hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-blue-600 text-sm" style="font-variation-settings:'FILL' 1">stethoscope</span></div>
+            <span class="font-bold text-sm text-on-surface">Doctor Dashboard</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">Risk queue, JanAushadi prescriptions, AI diabetes signal, continuity intelligence.</p>
+        </a>
+        <a href="/blockchain" class="p-5 hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#e0f2fe"><span class="material-symbols-outlined text-sm" style="color:#0369a1;font-variation-settings:'FILL' 1">link</span></div>
+            <span class="font-bold text-sm text-on-surface">Blockchain Ledger</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">SHA-256 + ECDSA + PoW tamper-proof audit ledger for all clinical events.</p>
+        </a>
+        <a href="/longitudinal" class="p-5 hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#fdf4ff"><span class="material-symbols-outlined text-sm" style="color:#7c3aed;font-variation-settings:'FILL' 1">timeline</span></div>
+            <span class="font-bold text-sm text-on-surface">Clinical Memory</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">Passive longitudinal intelligence — deviations, adherence, BP trajectory, pathways.</p>
+        </a>
+        <a href="/heatmap" class="p-5 hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-green-600 text-sm" style="font-variation-settings:'FILL' 1">map</span></div>
+            <span class="font-bold text-sm text-on-surface">Outbreak Map</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">Geospatial risk distribution with Leaflet — village-level high-risk heatmap.</p>
+        </a>
+        <a href="/surveillance" class="p-5 hover:bg-surface-container-low transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-red-600 text-sm" style="font-variation-settings:'FILL' 1">shield</span></div>
+            <span class="font-bold text-sm text-on-surface">Disease Clusters</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">Early-warning spatial + temporal disease cluster detection with severity grading.</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="bg-white rounded-2xl border border-outline-variant/20 shadow-sm p-5">
+      <h3 class="font-bold text-sm text-on-surface mb-3">Quick Navigation</h3>
+      <div class="flex gap-3 flex-wrap">
+        <a href="/" class="px-4 py-2 rounded-xl border border-outline-variant text-sm text-on-surface-variant hover:bg-surface-container transition-all">Overview Dashboard</a>
+        <a href="/patient" class="px-4 py-2 rounded-xl border border-outline-variant text-sm text-on-surface-variant hover:bg-surface-container transition-all">Patient Health View</a>
+        <a href="/emergency" class="px-4 py-2 rounded-xl border border-red-200 text-red-600 text-sm hover:bg-red-50 transition-all">Emergency Centre</a>
+        <a href="/prescription" class="px-4 py-2 rounded-xl border border-blue-200 text-blue-600 text-sm hover:bg-blue-50 transition-all">Prescription Manager</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+async function loadAdmin() {
+  try {
+    var stats = await API.get('/api/risk/stats');
+    if (stats) {
+      document.getElementById('adm-patients').textContent = stats.total_patients     || 0;
+      document.getElementById('adm-visits').textContent   = stats.total_visits       || 0;
+      document.getElementById('adm-blocks').textContent   = stats.blockchain_blocks  || 0;
+      document.getElementById('adm-high').textContent     = stats.high_risk          || 0;
+    }
+  } catch(e) { console.warn('Admin load error:', e); }
+}
+
+loadAdmin();
+</script>
+</body>
+</html>

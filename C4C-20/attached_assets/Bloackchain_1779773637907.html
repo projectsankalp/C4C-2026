@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AarogyaSethu Blockchain Explorer</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .block-connector {
+            background: linear-gradient(90deg, #00B7A8 0%, #0F6CBD 100%);
+            height: 2px;
+            width: 40px;
+            align-self: center;
+        }
+        .tamper-alert {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(186, 26, 26, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+        .node-active {
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "on-surface": "#191c1e",
+                        "tertiary-container": "#217855",
+                        "tertiary": "#005e3f",
+                        "inverse-primary": "#a3c9ff",
+                        "on-tertiary-container": "#a9fdd1",
+                        "inverse-surface": "#2d3133",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#6ef8e7",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary": "#005396",
+                        "on-primary-fixed-variant": "#004883",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed": "#a0f4c8",
+                        "on-primary-fixed": "#001c39",
+                        "on-secondary-container": "#006f66",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#006a61",
+                        "error": "#ba1a1a",
+                        "primary-container": "#0f6cbd",
+                        "surface-tint": "#0060ab",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary-fixed-dim": "#85d7ad",
+                        "secondary-fixed-dim": "#4cdbcb",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#414751",
+                        "on-secondary-fixed-variant": "#005049",
+                        "on-primary-container": "#e3ecff",
+                        "outline-variant": "#c1c7d3",
+                        "surface": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-container": "#6bf5e5",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1e",
+                        "primary-fixed": "#d3e3ff",
+                        "on-tertiary-fixed": "#002113",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "outline": "#717783"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "32px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface-bright text-on-surface font-body-md overflow-hidden h-screen flex">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col h-screen sticky top-0 bg-surface-container-low border-r border-outline-variant w-72 flex-shrink-0 z-50">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AarogyaSethu</h1>
+<p class="text-label-sm text-on-surface-variant">Clinical Integrity Platform</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Timeline</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary bg-secondary-container/20 border-r-4 border-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+<span>Blockchain Explorer</span>
+</a>
+</nav>
+<div class="px-4 py-6 border-t border-outline-variant space-y-1">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary py-3 rounded-xl font-bold mb-4 shadow-lg active:scale-[0.99] transition-transform">
+<span class="material-symbols-outlined">verified</span>
+                Verify Block
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">security</span>
+<span>Security</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Top Header -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant z-40 sticky top-0">
+<div class="flex items-center gap-8 flex-1">
+<h2 class="font-headline-md text-headline-md font-bold text-primary whitespace-nowrap">Clinical Integrity Explorer</h2>
+<div class="relative w-full max-w-xl">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary text-body-sm" placeholder="Search Patient ID, Block Hash, or Transaction..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-6">
+<div class="hidden lg:flex gap-4">
+<button class="text-primary font-label-md border border-primary px-4 py-2 rounded-lg hover:bg-primary/5 transition-colors">Connect Node</button>
+<button class="bg-error text-on-error font-label-md px-4 py-2 rounded-lg hover:bg-error/90 transition-colors">Emergency Access</button>
+</div>
+<div class="flex gap-2 border-l border-outline-variant pl-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full"><span class="material-symbols-outlined">help</span></button>
+</div>
+<img alt="Healthcare Professional Avatar" class="w-10 h-10 rounded-full border-2 border-primary object-cover" data-alt="A professional medical doctor headshot in a bright hospital setting. The doctor is a South Asian male in his late 40s wearing a clean white lab coat and a stethoscope around his neck. He has a warm, confident smile that exudes clinical authority and empathy. High-key clinical lighting with soft blue background tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAH5vgg5BR6n6T1jlgLgxqKtz1J5nH1cmTnW_z99Dkg_eQQUYRmWjdZybyJGBd54wgxKb78FXoYVlLmOXFq3um9hiE19zSSvU_sZomQTRvVUIR1UWiheE-nt-l3srnHNhakYo4XaxStvIQrQBEMSn1TdK2Aesox3AACeaiUW3ilyugBATke1QEriSlelJULayQHjUq7sqSNwHLcFd4PG6Jxb2txDISM4ztybV9CPoiXgcjpKv5JvMx1I_cZjp8snNr2A7_6O3wA7tV"/>
+</div>
+</header>
+<!-- Content Area -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-6">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Section 1: Trust Overview -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-4 shadow-sm border-l-4 border-primary">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">database</span>
+</div>
+<div>
+<p class="text-label-sm text-outline">Records Verified</p>
+<h4 class="font-headline-md text-headline-md font-bold">3.2M</h4>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-4 shadow-sm border-l-4 border-secondary">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="text-label-sm text-outline">Integrity Score</p>
+<h4 class="font-headline-md text-headline-md font-bold">99.8%</h4>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-4 shadow-sm border-l-4 border-tertiary">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">lan</span>
+</div>
+<div>
+<p class="text-label-sm text-outline">Chain Health</p>
+<h4 class="font-headline-md text-headline-md font-bold text-tertiary">Excellent</h4>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-4 shadow-sm border-l-4 border-primary-fixed-dim">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<p class="text-label-sm text-outline">Blocks Today</p>
+<h4 class="font-headline-md text-headline-md font-bold">24,118</h4>
+</div>
+</div>
+</div>
+<!-- Section 2: Blockchain Visualizer -->
+<section class="glass-panel rounded-2xl p-6 overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary font-semibold">Live Blockchain Visualizer</h3>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary node-active"></span>
+<span class="text-label-sm font-medium">Synced with Mainnet</span>
+</div>
+</div>
+<div class="flex overflow-x-auto pb-4 gap-0 custom-scrollbar" id="block-container">
+<!-- Block 1 -->
+<div class="flex flex-shrink-0 items-center">
+<div class="w-64 bg-white border border-outline-variant p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-sm font-bold text-primary">#842,109</span>
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-bold rounded uppercase">Verified</span>
+</div>
+<p class="text-[10px] text-outline mb-3">Today, 10:42:15 AM</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-secondary">clinical_notes</span>
+<span class="text-body-sm font-semibold">ASHA Assessment</span>
+</div>
+<div class="bg-surface-container p-2 rounded text-[10px] font-mono break-all text-on-surface-variant">
+                                    0x4f2...a9e1
+                                </div>
+</div>
+<div class="block-connector"></div>
+</div>
+<!-- Block 2 -->
+<div class="flex flex-shrink-0 items-center">
+<div class="w-64 bg-white border border-outline-variant p-4 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-sm font-bold text-primary">#842,108</span>
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-bold rounded uppercase">Verified</span>
+</div>
+<p class="text-[10px] text-outline mb-3">Today, 10:41:02 AM</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-secondary">medication</span>
+<span class="text-body-sm font-semibold">Prescription Issued</span>
+</div>
+<div class="bg-surface-container p-2 rounded text-[10px] font-mono break-all text-on-surface-variant">
+                                    0x8b1...3c2d
+                                </div>
+</div>
+<div class="block-connector"></div>
+</div>
+<!-- Block 3 -->
+<div class="flex flex-shrink-0 items-center">
+<div class="w-64 bg-white border border-outline-variant p-4 rounded-xl shadow-sm transition-all duration-500" id="target-block">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-sm font-bold text-primary">#842,107</span>
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-bold rounded uppercase transition-colors" id="target-badge">Verified</span>
+</div>
+<p class="text-[10px] text-outline mb-3">Today, 10:38:45 AM</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-secondary">health_and_safety</span>
+<span class="text-body-sm font-semibold">Vitals Logged</span>
+</div>
+<div class="bg-surface-container p-2 rounded text-[10px] font-mono break-all text-on-surface-variant transition-colors" id="target-hash">
+                                    0x2a9...f5b4
+                                </div>
+</div>
+<div class="block-connector"></div>
+</div>
+<!-- Block 4 -->
+<div class="flex flex-shrink-0 items-center">
+<div class="w-64 bg-white border border-outline-variant p-4 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-sm font-bold text-primary">#842,106</span>
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-bold rounded uppercase">Verified</span>
+</div>
+<p class="text-[10px] text-outline mb-3">Today, 10:35:12 AM</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-secondary">emergency</span>
+<span class="text-body-sm font-semibold">Doctor Approval</span>
+</div>
+<div class="bg-surface-container p-2 rounded text-[10px] font-mono break-all text-on-surface-variant">
+                                    0xd6c...11a2
+                                </div>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Section 3: Clinical Event Chain (Timeline) -->
+<section class="glass-panel rounded-2xl p-6">
+<h3 class="font-headline-md text-headline-md text-primary font-semibold mb-6">Patient Audit Trail</h3>
+<div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:h-full before:w-0.5 before:bg-outline-variant">
+<!-- Step 1 -->
+<div class="relative flex items-center gap-6 group">
+<div class="absolute left-0 w-10 h-10 bg-white border-2 border-primary rounded-full flex items-center justify-center z-10 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-primary text-xl">person_search</span>
+</div>
+<div class="ml-12">
+<h4 class="text-body-md font-bold">ASHA Assessment</h4>
+<p class="text-body-sm text-outline">Anjali Singh (ASHA ID: 942) • 08:30 AM</p>
+<div class="mt-2 text-[12px] bg-surface-container-low p-2 rounded italic">"Initial vitals check: BP 140/90, Pulse 78."</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex items-center gap-6 group">
+<div class="absolute left-0 w-10 h-10 bg-white border-2 border-secondary rounded-full flex items-center justify-center z-10 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-secondary text-xl">analytics</span>
+</div>
+<div class="ml-12">
+<h4 class="text-body-md font-bold">Risk Generation</h4>
+<p class="text-body-sm text-outline">Automated AI Analysis • 08:31 AM</p>
+<p class="text-body-sm font-semibold text-secondary">High Risk Flagged (Hypertension Stage 1)</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex items-center gap-6 group">
+<div class="absolute left-0 w-10 h-10 bg-white border-2 border-primary rounded-full flex items-center justify-center z-10 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-primary text-xl">medical_information</span>
+</div>
+<div class="ml-12">
+<h4 class="text-body-md font-bold">Doctor Approval</h4>
+<p class="text-body-sm text-outline">Dr. Rajesh Kumar • 09:15 AM</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative flex items-center gap-6 group">
+<div class="absolute left-0 w-10 h-10 bg-white border-2 border-primary-container rounded-full flex items-center justify-center z-10 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-primary-container text-xl">pill</span>
+</div>
+<div class="ml-12">
+<h4 class="text-body-md font-bold">Prescription Issued</h4>
+<p class="text-body-sm text-outline">Verification Node: PHC-42 • 09:16 AM</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Tamper Detection Simulator -->
+<section class="glass-panel rounded-2xl p-6 bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary font-semibold">Integrity Simulator</h3>
+<p class="text-body-sm text-on-surface-variant">Test the immutability of the clinical record chain.</p>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl">security_update_good</span>
+</div>
+<div class="bg-black/90 p-4 rounded-xl font-mono text-green-500 text-xs h-40 overflow-y-auto mb-6" id="simulator-console">
+<div>[SYS] Monitoring network integrity...</div>
+<div>[SYS] Consensus reached on Block #842,109</div>
+<div>[SYS] All hashes match. System state: CLEAN</div>
+</div>
+</div>
+<button class="w-full bg-secondary text-on-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:bg-secondary/90" id="simulate-btn" onclick="simulateTampering()">
+<span class="material-symbols-outlined">warning</span>
+                            Simulate Block Modification
+                        </button>
+</section>
+</div>
+<!-- Section 5: Audit Logs Table -->
+<section class="glass-panel rounded-2xl p-6 overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary font-semibold">Recent Verification Events</h3>
+<button class="text-primary font-label-md flex items-center gap-1 hover:underline">
+                            View Full History <span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-label-md text-outline border-b border-outline-variant">
+<th class="pb-3 font-semibold">Timestamp</th>
+<th class="pb-3 font-semibold">Event Type</th>
+<th class="pb-3 font-semibold">Actor</th>
+<th class="pb-3 font-semibold">Record ID</th>
+<th class="pb-3 font-semibold">Status</th>
+</tr>
+</thead>
+<tbody class="text-body-sm">
+<tr class="border-b border-outline-variant/30 hover:bg-primary/5 transition-colors group">
+<td class="py-4 text-outline">10:42:15</td>
+<td class="py-4 font-semibold">Block Minted</td>
+<td class="py-4">Network Node (AP-04)</td>
+<td class="py-4 font-mono">REC-921-001</td>
+<td class="py-4">
+<span class="px-2 py-1 bg-tertiary-container/10 text-tertiary-container rounded-full text-[10px] font-bold">SUCCESS</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-primary/5 transition-colors">
+<td class="py-4 text-outline">10:41:02</td>
+<td class="py-4 font-semibold">Consensus Validation</td>
+<td class="py-4">District Validator</td>
+<td class="py-4 font-mono">REC-884-X92</td>
+<td class="py-4">
+<span class="px-2 py-1 bg-tertiary-container/10 text-tertiary-container rounded-full text-[10px] font-bold">SUCCESS</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-primary/5 transition-colors">
+<td class="py-4 text-outline">10:38:45</td>
+<td class="py-4 font-semibold">Merkle Root Update</td>
+<td class="py-4">Chain Controller</td>
+<td class="py-4 font-mono">BATCH-42-L</td>
+<td class="py-4">
+<span class="px-2 py-1 bg-tertiary-container/10 text-tertiary-container rounded-full text-[10px] font-bold">SUCCESS</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Chart.js Verification Trends -->
+<section class="glass-panel rounded-2xl p-6">
+<h3 class="font-headline-md text-headline-md text-primary font-semibold mb-6">Verification Throughput (24h)</h3>
+<div class="h-64">
+<canvas id="growthChart"></canvas>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Right Insight Rail -->
+<aside class="hidden xl:flex flex-col w-80 h-screen sticky top-0 bg-surface-container-low border-l border-outline-variant p-6 space-y-6 overflow-y-auto">
+<!-- Network Status Widget -->
+<div class="glass-panel rounded-2xl p-5 shadow-sm">
+<h4 class="text-label-md font-bold mb-4 uppercase text-outline">Network Status</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-body-sm font-medium">Mainnet Live</span>
+</div>
+<span class="text-body-sm text-outline">99.9% Up</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-body-sm font-medium">Syncing</span>
+</div>
+<span class="text-body-sm text-outline">100%</span>
+</div>
+<div class="pt-4 border-t border-outline-variant">
+<p class="text-[10px] text-outline uppercase mb-1">Chain Height</p>
+<p class="text-headline-md font-bold text-primary">842,109</p>
+</div>
+</div>
+</div>
+<!-- Chain Analytics Graph -->
+<div class="glass-panel rounded-2xl p-5 shadow-sm">
+<h4 class="text-label-md font-bold mb-3 uppercase text-outline">Avg Block Time</h4>
+<div class="h-24">
+<canvas id="miniChart"></canvas>
+</div>
+<p class="text-center text-body-sm font-bold mt-2">12.4 Seconds</p>
+</div>
+<!-- Healthcare Record Preview -->
+<div class="glass-panel rounded-2xl p-5 shadow-sm bg-primary/5">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">description</span>
+<h4 class="text-label-md font-bold uppercase text-primary">Record Preview</h4>
+</div>
+<div class="space-y-3">
+<div class="p-3 bg-white rounded-lg border border-outline-variant">
+<p class="text-[10px] text-outline">Patient UID</p>
+<p class="text-body-sm font-semibold">xxxx-xxxx-4492</p>
+</div>
+<div class="p-3 bg-white rounded-lg border border-outline-variant">
+<p class="text-[10px] text-outline">Status</p>
+<span class="text-[12px] text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">verified</span> Verified &amp; Encrypted
+                    </span>
+</div>
+<button class="w-full text-center text-primary text-body-sm font-bold py-2 hover:bg-primary/5 rounded-lg transition-colors">
+                    Download Full Audit Hash
+                </button>
+</div>
+</div>
+<!-- Visual Context -->
+<div class="rounded-2xl overflow-hidden relative group">
+<img alt="Blockchain Visualization" class="w-full h-32 object-cover" data-alt="A sophisticated 3D visualization of a digital blockchain infrastructure. Glistening crystalline blocks are connected by glowing teal and blue data streams against a dark, tech-oriented backdrop. The scene represents transparency and modern healthcare security with soft light-mode atmospheric effects and a professional corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTY1ASFtRUDbTl546_wGm85Sk9JcJ9jydSj_nSjoE-E4C3QJT0Zuu4qu_0hZhIlaNZs83lTS5a_j5uJL42yP3qsBrLjf83I45vA2bUpyBLQYW4TrOkzxcPbHUcwNXr5DphhupVxUtx-fKe4dGZh03_o_ycjlxC5IP3kgYDF426PJK-LBdaeBUHtLFcOzU7IYmJYuGqU2AK6kac11lKwQTsU9CeQfk98fJDn0WVCtQrt_wji0KVTx1El3JBEvlon6sv6qvdv2ypjVfp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+<p class="text-white text-[10px] font-medium">Securing Rural Health Data Across the Nation.</p>
+</div>
+</div>
+</aside>
+<script>
+        // Chart Initialization
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '23:59'],
+                datasets: [{
+                    label: 'Verifications',
+                    data: [12000, 15000, 32000, 28000, 45000, 38000, 42000],
+                    borderColor: '#0F6CBD',
+                    backgroundColor: 'rgba(15, 108, 189, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f1f1' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        const miniCtx = document.getElementById('miniChart').getContext('2d');
+        new Chart(miniCtx, {
+            type: 'bar',
+            data: {
+                labels: ['', '', '', '', '', '', '', '', '', ''],
+                datasets: [{
+                    data: [12, 11, 14, 12, 13, 11, 12, 14, 12, 13],
+                    backgroundColor: '#00B7A8',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { display: false },
+                    x: { display: false }
+                }
+            }
+        });
+
+        // Simulation Logic
+        function simulateTampering() {
+            const btn = document.getElementById('simulate-btn');
+            const consoleBox = document.getElementById('simulator-console');
+            const targetBlock = document.getElementById('target-block');
+            const targetHash = document.getElementById('target-hash');
+            const targetBadge = document.getElementById('target-badge');
+
+            btn.disabled = true;
+            consoleBox.innerHTML += `<div class="text-yellow-400">[CMD] Initializing unauthorized data modification on Block #842,107...</div>`;
+            
+            setTimeout(() => {
+                consoleBox.innerHTML += `<div class="text-red-500">[WARN] Data Mismatch Detected! Re-calculating Merkle Root...</div>`;
+                targetBlock.classList.add('border-error', 'bg-error-container/20', 'tamper-alert');
+                targetHash.classList.replace('text-on-surface-variant', 'text-error');
+                targetHash.innerHTML = "0xERR_TAMPER_DETECTED";
+                targetBadge.classList.replace('bg-secondary/10', 'bg-error/10');
+                targetBadge.classList.replace('text-secondary', 'text-error');
+                targetBadge.innerText = "INVALID";
+
+                consoleBox.innerHTML += `<div class="text-red-500 font-bold">[ALERT] IMMUTABILITY BREACH ATTEMPT BLOCKED. Restoring from peer nodes...</div>`;
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+            }, 1500);
+
+            setTimeout(() => {
+                consoleBox.innerHTML += `<div class="text-blue-400">[INFO] Block #842,107 has been restored to its original state.</div>`;
+                targetBlock.classList.remove('border-error', 'bg-error-container/20', 'tamper-alert');
+                targetHash.classList.replace('text-error', 'text-on-surface-variant');
+                targetHash.innerHTML = "0x2a9...f5b4";
+                targetBadge.classList.replace('bg-error/10', 'bg-secondary/10');
+                targetBadge.classList.replace('text-error', 'text-secondary');
+                targetBadge.innerText = "Verified";
+                btn.disabled = false;
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+            }, 5000);
+        }
+    </script>
+</body></html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Clinical Memory — AarogyaSethu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+tailwind.config = {
+  important: false,
+  theme: { extend: {
+    colors: {
+      "outline":"#717783","background":"#f7f9fb","secondary":"#006a61","outline-variant":"#c1c7d3",
+      "on-surface":"#191c1e","primary":"#005396","surface":"#f7f9fb","surface-container-low":"#f2f4f6",
+      "surface-container":"#eceef0","primary-container":"#0f6cbd","surface-container-lowest":"#ffffff",
+      "on-surface-variant":"#414751","surface-container-high":"#e6e8ea"
+    }
+  }}
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f7f9fb; color: #191c1e; margin: 0; overflow-x: hidden; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+.sidebar { width: 240px; min-height: 100vh; background: linear-gradient(180deg,#005396 0%,#006a61 100%); position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+/* PCM styles */
+.pcm-hero { background:linear-gradient(135deg,#0f766e 0%,#1d6fa4 100%); border-radius:14px; padding:1.5rem 2rem; color:#fff; display:flex; align-items:center; gap:2rem; flex-wrap:wrap; margin-bottom:1.5rem; position:relative; overflow:hidden; }
+.pcm-hero::after { content:'PCM'; position:absolute; right:1.5rem; top:50%; transform:translateY(-50%); font-size:6rem; font-weight:900; opacity:.06; letter-spacing:-4px; pointer-events:none; }
+.pcm-hero-name { font-size:1.55rem; font-weight:700; line-height:1.2; }
+.pcm-hero-sub  { font-size:.85rem; opacity:.8; margin-top:.2rem; }
+.pcm-meta-grid { display:flex; gap:1.5rem; flex-wrap:wrap; }
+.pcm-meta-item { text-align:center; }
+.pcm-meta-val  { font-size:1.25rem; font-weight:700; display:block; }
+.pcm-meta-lbl  { font-size:.68rem; opacity:.75; text-transform:uppercase; letter-spacing:.05em; }
+.risk-badge-lg { padding:.45rem 1rem; border-radius:999px; font-weight:700; font-size:.85rem; letter-spacing:.04em; }
+.risk-HIGH   { background:#fee2e2; color:#dc2626; }
+.risk-MEDIUM { background:#fef9c3; color:#92400e; }
+.risk-LOW    { background:#dcfce7; color:#166534; }
+.gcpe-badge  { background:rgba(255,255,255,.18); padding:.3rem .7rem; border-radius:6px; font-size:.75rem; font-weight:600; }
+.trend-up   { color:#f87171; } .trend-down { color:#4ade80; } .trend-flat { color:#94a3b8; }
+.selector-bar { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:.75rem 1rem; margin-bottom:1.25rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+.pcm-card { background:#fff; border-radius:12px; border:1px solid #e2e8f0; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.pcm-card-header { padding:.85rem 1.25rem; border-bottom:1px solid #f1f5f9; font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:.5rem; color:#0f766e; }
+.pcm-card-body { padding:1.25rem; }
+.timeline-wrap { position:relative; padding-left:2rem; }
+.timeline-wrap::before { content:''; position:absolute; left:.65rem; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,#0d9488,#1d6fa4,#e2e8f0); }
+.tl-item { position:relative; margin-bottom:1.25rem; }
+.tl-node { position:absolute; left:-2rem; top:.55rem; width:20px; height:20px; border-radius:50%; border:3px solid #fff; display:flex; align-items:center; justify-content:center; font-size:.55rem; font-weight:700; z-index:2; box-shadow:0 0 0 2px currentColor; }
+.tl-node.HIGH   { background:#dc2626; color:#dc2626; } .tl-node.MEDIUM  { background:#d97706; color:#d97706; } .tl-node.LOW     { background:#16a34a; color:#16a34a; }
+.tl-node.CRISIS { background:#7c3aed; color:#7c3aed; animation:pulse-ring 1.5s infinite; }
+@keyframes pulse-ring { 0%{box-shadow:0 0 0 2px #7c3aed} 70%{box-shadow:0 0 0 8px rgba(124,58,237,0)} 100%{box-shadow:0 0 0 2px #7c3aed} }
+.tl-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:.85rem 1rem; font-size:.82rem; transition:border-color .15s; }
+.tl-card:hover { border-color:#0d9488; }
+.tl-card.crisis-event { border-color:#7c3aed; background:#faf5ff; }
+.tl-card.escalation-event { border-color:#dc2626; background:#fff5f5; }
+.tl-date  { font-size:.72rem; color:#64748b; margin-bottom:.3rem; }
+.tl-bp    { font-size:1.1rem; font-weight:700; color:#0f766e; }
+.tl-badges{ display:flex; gap:.3rem; flex-wrap:wrap; margin-top:.4rem; }
+.tl-badge { font-size:.65rem; padding:.15rem .45rem; border-radius:4px; font-weight:600; }
+.badge-pathway{ background:#dbeafe; color:#1e40af; } .badge-alert{ background:#fee2e2; color:#dc2626; }
+.badge-ok{ background:#dcfce7; color:#166534; } .badge-warn{ background:#fef9c3; color:#854d0e; }
+.dev-card { border-radius:10px; padding:1rem 1.1rem; margin-bottom:.75rem; border-left:4px solid; font-size:.83rem; }
+.dev-CRITICAL{ border-color:#dc2626; background:#fff5f5; } .dev-HIGH{ border-color:#ea580c; background:#fff7ed; }
+.dev-MEDIUM{ border-color:#d97706; background:#fffbeb; } .dev-LOW{ border-color:#16a34a; background:#f0fdf4; }
+.dev-type { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.2rem; }
+.dev-date { font-size:.7rem; color:#64748b; margin-bottom:.3rem; }
+.alert-pcm { border-radius:8px; padding:.75rem 1rem; margin-bottom:.6rem; font-size:.82rem; border-left:4px solid; display:flex; gap:.6rem; align-items:flex-start; }
+.alert-pcm.sev-0{ border-color:#dc2626; background:#fff5f5; } .alert-pcm.sev-1{ border-color:#ea580c; background:#fff7ed; }
+.alert-pcm.sev-2{ border-color:#d97706; background:#fffbeb; } .alert-pcm.sev-3{ border-color:#64748b; background:#f8fafc; }
+.narrative-box { background:linear-gradient(135deg,#f0fdf4,#eff6ff); border:1px solid #bbf7d0; border-radius:10px; padding:1.1rem 1.25rem; font-size:.88rem; line-height:1.7; color:#1e293b; font-style:italic; }
+.pcm-empty { text-align:center; padding:3rem 1rem; color:#94a3b8; }
+.pcm-empty i { font-size:2.5rem; margin-bottom:.75rem; display:block; }
+.stat-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; margin-bottom:1.25rem; }
+.strip-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:.85rem 1rem; text-align:center; }
+.strip-val { font-size:1.4rem; font-weight:700; color:#0f766e; }
+.strip-lbl { font-size:.68rem; color:#64748b; text-transform:uppercase; letter-spacing:.05em; }
+.adh-bar-wrap { background:#f1f5f9; border-radius:999px; height:10px; overflow:hidden; margin:.4rem 0; }
+.adh-bar-fill { height:100%; border-radius:999px; transition:width .6s ease; }
+.pathway-pill { display:inline-flex; align-items:center; gap:.35rem; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; border-radius:6px; padding:.35rem .75rem; margin:.25rem; font-size:.78rem; font-weight:600; }
+.pathway-pill.crisis { background:#fef3c7; border-color:#fcd34d; color:#92400e; }
+.pathway-pill.escalation { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+@media(max-width:992px){ .stat-strip{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main-content{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="px-4 py-5 border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-xl" style="font-variation-settings:'FILL' 1">favorite</span></div>
+      <div><div class="text-white font-bold text-sm">AarogyaSethu</div><div class="text-white/50 text-xs">Rural Health Intel</div></div>
+    </div>
+    <div class="mt-3 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">person</span></div>
+      <div>
+        <div class="text-white text-xs font-semibold" id="sidebar-name">Loading…</div>
+        <div class="text-white/60 text-xs" id="sidebar-role">User</div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 py-4 px-2 overflow-y-auto">
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mb-2">Main</div>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">dashboard</span> Overview</a>
+    <a href="/asha" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">medical_services</span> ASHA Dashboard</a>
+    <a href="/doctor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">stethoscope</span> Doctor Dashboard</a>
+    <div class="text-white/40 text-xs font-bold uppercase tracking-widest px-3 mt-3 mb-2">Platform</div>
+    <a href="/longitudinal" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm mb-1" style="background:rgba(255,255,255,.15)"><span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1">timeline</span> Clinical Memory</a>
+    <a href="/blockchain" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">link</span> Blockchain Ledger</a>
+    <a href="/heatmap" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">map</span> Outbreak Map</a>
+    <a href="/surveillance" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm mb-1"><span class="material-symbols-outlined text-base">shield</span> Disease Clusters</a>
+  </div>
+  <div class="px-4 py-4 border-t border-white/10">
+    <a href="/logout" class="flex items-center gap-2 text-white/60 hover:text-white text-xs transition-colors"><span class="material-symbols-outlined text-sm">logout</span> Sign Out</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header class="bg-white border-b border-outline-variant/20 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+    <div>
+      <h1 class="text-lg font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings:'FILL' 1">timeline</span>
+        Longitudinal Intelligence Timeline
+      </h1>
+      <p class="text-xs text-on-surface-variant mt-0.5 italic">"We made the healthcare system remember."</p>
+    </div>
+  </header>
+
+  <div class="p-6">
+
+    <!-- Patient Selector Bar -->
+    <div class="selector-bar">
+      <i class="fa-solid fa-user-injured text-secondary"></i>
+      <label class="fw-semibold small mb-0 text-nowrap" style="font-weight:600;font-size:.875rem;">Select Patient</label>
+      <select id="patient-select" class="block border border-outline-variant rounded-lg px-3 py-2 text-sm bg-white" style="max-width:320px;">
+        <option value="">— choose a patient —</option>
+      </select>
+      <button class="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-bold disabled:opacity-40" id="load-btn" disabled style="background:#0d9488">
+        <i class="fa-solid fa-brain"></i>Load Clinical Memory
+      </button>
+      <span class="ml-auto text-xs text-on-surface-variant italic" id="pcm-tagline">"We made the healthcare system remember."</span>
+    </div>
+
+    <!-- Loading State -->
+    <div id="pcm-loading" class="pcm-empty" style="display:none;">
+      <i class="fa-solid fa-spinner fa-spin" style="color:#0d9488"></i>
+      <div>Building longitudinal intelligence…</div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="pcm-empty" class="pcm-empty">
+      <i class="fa-solid fa-timeline" style="color:#cbd5e1"></i>
+      <div class="fw-semibold mb-1" style="font-weight:600">No patient selected</div>
+      <div class="small text-muted">Select a patient above to view their full clinical memory timeline.</div>
+    </div>
+
+    <!-- PCM Content (hidden until patient loaded) -->
+    <div id="pcm-content" style="display:none;">
+
+      <!-- Hero Card -->
+      <div class="pcm-hero" id="hero-card">
+        <div>
+          <div class="pcm-hero-name" id="hero-name">—</div>
+          <div class="pcm-hero-sub" id="hero-sub">—</div>
+          <div class="mt-2 flex gap-2 flex-wrap" id="hero-badges"></div>
+        </div>
+        <div class="pcm-meta-grid ms-auto" id="hero-meta"></div>
+      </div>
+
+      <!-- Stat Strip -->
+      <div class="stat-strip" id="stat-strip">
+        <div class="strip-card"><div class="strip-val" id="s-visits">—</div><div class="strip-lbl">Total Visits</div></div>
+        <div class="strip-card"><div class="strip-val" id="s-peak">—</div><div class="strip-lbl">Peak Risk Score</div></div>
+        <div class="strip-card"><div class="strip-val" id="s-crisis">—</div><div class="strip-lbl">Crisis Events</div></div>
+        <div class="strip-card"><div class="strip-val" id="s-adh">—</div><div class="strip-lbl">Adherence %</div></div>
+      </div>
+
+      <!-- Narrative -->
+      <div class="narrative-box mb-4" id="pcm-narrative" style="display:none;"></div>
+
+      <!-- Clinical Alerts -->
+      <div class="pcm-card mb-4" id="alerts-section">
+        <div class="pcm-card-header">
+          <i class="fa-solid fa-triangle-exclamation" style="color:#dc2626"></i>
+          Clinical Alerts
+          <span class="badge ml-auto" style="background:#fee2e2;color:#dc2626;" id="alert-count-badge">0</span>
+        </div>
+        <div class="pcm-card-body" id="alerts-body">
+          <div class="text-muted small">No alerts.</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <div class="pcm-card">
+          <div class="pcm-card-header">
+            <i class="fa-solid fa-heart-pulse"></i> BP Trajectory
+            <span class="ml-auto text-xs font-normal text-on-surface-variant" id="bp-dir-label"></span>
+          </div>
+          <div class="pcm-card-body"><canvas id="bpChart" style="max-height:240px;"></canvas></div>
+        </div>
+        <div class="pcm-card">
+          <div class="pcm-card-header">
+            <i class="fa-solid fa-chart-line"></i> Risk Trajectory
+            <span class="ml-auto text-xs font-normal text-on-surface-variant" id="risk-dir-label"></span>
+          </div>
+          <div class="pcm-card-body"><canvas id="riskChart" style="max-height:240px;"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Timeline + Side Panels -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
+        <div class="lg:col-span-2 pcm-card">
+          <div class="pcm-card-header">
+            <i class="fa-solid fa-clock-rotate-left"></i> Visit Timeline
+            <span class="ml-auto text-xs font-normal text-on-surface-variant" id="tl-visit-count"></span>
+          </div>
+          <div class="pcm-card-body" style="max-height:620px;overflow-y:auto;">
+            <div class="timeline-wrap" id="timeline-body"><div class="text-muted small">No visits.</div></div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 flex flex-col gap-4">
+          <!-- First Deviations -->
+          <div class="pcm-card">
+            <div class="pcm-card-header">
+              <i class="fa-solid fa-flag" style="color:#dc2626"></i> First-Deviation Events
+              <span class="ml-auto text-xs font-normal text-on-surface-variant">Clinically significant firsts</span>
+            </div>
+            <div class="pcm-card-body">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="deviations-body">
+                <div class="text-muted small">No deviations recorded.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adherence + Pathway Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="pcm-card">
+              <div class="pcm-card-header"><i class="fa-solid fa-pills"></i> Adherence Analytics</div>
+              <div class="pcm-card-body" id="adherence-body"><div class="text-muted small">No data.</div></div>
+            </div>
+            <div class="pcm-card">
+              <div class="pcm-card-header"><i class="fa-solid fa-route"></i> GCPE Pathway History</div>
+              <div class="pcm-card-body" id="pathway-body"><div class="text-muted small">No pathways triggered.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#pcm-content -->
+  </div>
+</div>
+
+<script>
+if (!localStorage.getItem('aarogyanet_token')) window.location.href = '/login';
+var _u = {};
+try { _u = JSON.parse(localStorage.getItem('aarogyanet_user') || '{}'); } catch(e) {}
+document.getElementById('sidebar-name').textContent = _u.full_name || _u.username || 'User';
+document.getElementById('sidebar-role').textContent = (_u.role || '').toUpperCase();
+
+var API = {
+  token: function() { return localStorage.getItem('aarogyanet_token'); },
+  headers: function() { return {'Content-Type':'application/json','Authorization':'Bearer '+API.token()}; },
+  get: function(url) { return fetch(url,{headers:API.headers()}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); },
+  post: function(url,body) { return fetch(url,{method:'POST',headers:API.headers(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)return null;return r.json();}).catch(function(){return null;}); }
+};
+
+var bpChartInst = null, riskChartInst = null, _data = null;
+
+(async function boot() {
+  try {
+    var pts = await API.get('/api/patients');
+    var sel = document.getElementById('patient-select');
+    (pts || []).forEach(function(p) {
+      var o = document.createElement('option');
+      o.value = p.id;
+      o.textContent = p.full_name + ' — ' + (p.village || '—') + ' (Age ' + (p.age || '?') + ')';
+      sel.appendChild(o);
+    });
+  } catch(e) { console.warn('Patient list error', e); }
+
+  document.getElementById('patient-select').addEventListener('change', function() {
+    document.getElementById('load-btn').disabled = !this.value;
+  });
+  document.getElementById('load-btn').addEventListener('click', function() {
+    var pid = document.getElementById('patient-select').value;
+    if (pid) loadPCM(parseInt(pid));
+  });
+
+  var qp = new URLSearchParams(window.location.search).get('patient');
+  if (qp) {
+    var sel = document.getElementById('patient-select');
+    sel.value = qp;
+    document.getElementById('load-btn').disabled = false;
+    loadPCM(parseInt(qp));
+  }
+}());
+
+async function loadPCM(patientId) {
+  document.getElementById('pcm-empty').style.display   = 'none';
+  document.getElementById('pcm-content').style.display = 'none';
+  document.getElementById('pcm-loading').style.display = 'flex';
+  try {
+    _data = await API.get('/api/patients/' + patientId + '/longitudinal');
+    if (!_data || _data.error) { showError(_data ? _data.error : 'No data'); return; }
+    renderAll(_data);
+    document.getElementById('pcm-loading').style.display = 'none';
+    document.getElementById('pcm-content').style.display = 'block';
+  } catch(e) { showError('Failed to load longitudinal data: ' + e.message); }
+}
+
+function showError(msg) {
+  document.getElementById('pcm-loading').style.display = 'none';
+  document.getElementById('pcm-empty').style.display   = 'block';
+  document.getElementById('pcm-empty').innerHTML = '<i class="fa-solid fa-circle-xmark" style="color:#dc2626;font-size:2rem;display:block;margin-bottom:.5rem"></i><div class="fw-semibold text-danger" style="color:#dc2626">' + msg + '</div>';
+}
+
+function renderAll(d) {
+  renderHero(d); renderStatStrip(d); renderNarrative(d); renderAlerts(d);
+  renderBPChart(d); renderRiskChart(d); renderTimeline(d);
+  renderDeviations(d); renderAdherence(d); renderPathways(d);
+}
+
+function renderHero(d) {
+  var p = d.patient || {}, rt = d.risk_trajectory || {}, adh = d.adherence || {}, visits = d.visits || [];
+  document.getElementById('hero-name').textContent = p.full_name || '—';
+  document.getElementById('hero-sub').textContent  = 'Age ' + (p.age||'?') + ' · ' + (p.village||'—') + (p.chronic_conditions ? ' · ' + p.chronic_conditions : '');
+  var last = visits.length ? visits[visits.length - 1] : null;
+  var lastRisk = last ? (last.risk_level || 'LOW') : 'LOW', lastScore = last ? (last.risk_score || 0) : 0;
+  var lastBP = last && last.bp_systolic ? last.bp_systolic + '/' + last.bp_diastolic : '—/—';
+  var lastDate = last ? fmtDate(last.visit_date) : '—';
+  document.getElementById('hero-badges').innerHTML =
+    '<span class="risk-badge-lg risk-' + lastRisk + '">' + lastRisk + ' RISK</span>' +
+    '<span class="gcpe-badge"><i class="fa-solid fa-bolt me-1"></i>GCPE-Driven</span>' +
+    '<span class="gcpe-badge"><i class="fa-solid fa-brain me-1"></i>Passive Clinical Memory</span>' +
+    trendArrow(rt.direction);
+  document.getElementById('hero-meta').innerHTML = [
+    metaItem(lastBP + ' mmHg', 'Latest BP'), metaItem(lastScore, 'Risk Score'),
+    metaItem((adh.adherence_pct||0) + '%', 'Adherence'), metaItem(lastDate, 'Last Visit'),
+    metaItem(d.visit_count || visits.length, 'Total Visits'),
+  ].join('');
+}
+function metaItem(val, lbl) {
+  return '<div class="pcm-meta-item"><span class="pcm-meta-val">' + val + '</span><span class="pcm-meta-lbl">' + lbl + '</span></div>';
+}
+function trendArrow(dir) {
+  if (dir === 'ESCALATING' || dir === 'WORSENING') return '<span class="gcpe-badge trend-up"><i class="fa-solid fa-arrow-trend-up me-1"></i>' + dir + '</span>';
+  if (dir === 'IMPROVING') return '<span class="gcpe-badge trend-down"><i class="fa-solid fa-arrow-trend-down me-1"></i>IMPROVING</span>';
+  return '<span class="gcpe-badge trend-flat"><i class="fa-solid fa-minus me-1"></i>' + (dir || 'STABLE') + '</span>';
+}
+
+function renderStatStrip(d) {
+  var rt = d.risk_trajectory || {}, ph = d.pathway_history || {}, adh = d.adherence || {};
+  document.getElementById('s-visits').textContent = d.visit_count || (d.visits || []).length;
+  document.getElementById('s-peak').textContent   = rt.peak || '—';
+  document.getElementById('s-crisis').textContent = ph.crisis_events || 0;
+  document.getElementById('s-adh').textContent    = (adh.adherence_pct || 0) + '%';
+}
+
+function renderNarrative(d) {
+  var box = document.getElementById('pcm-narrative');
+  if (d.doctor_narrative) {
+    box.innerHTML = '<i class="fa-solid fa-quote-left me-2" style="color:#0d9488;opacity:.5"></i>' + d.doctor_narrative + '<i class="fa-solid fa-quote-right ms-2" style="color:#0d9488;opacity:.5"></i>';
+    box.style.display = 'block';
+  }
+}
+
+function renderAlerts(d) {
+  var alerts = d.clinical_alerts || [], body = document.getElementById('alerts-body');
+  document.getElementById('alert-count-badge').textContent = alerts.length;
+  var icons = ['fa-skull-crossbones','fa-triangle-exclamation','fa-exclamation','fa-circle-info'];
+  var sevColor = ['#dc2626','#ea580c','#d97706','#64748b'];
+  if (!alerts.length) { body.innerHTML = '<div class="text-muted small"><i class="fa-solid fa-check-circle text-success me-1"></i>No clinical alerts at this time.</div>'; return; }
+  body.innerHTML = alerts.map(function(a, i) {
+    var sev = Math.min(i, 3);
+    return '<div class="alert-pcm sev-' + sev + '"><i class="fa-solid ' + icons[sev] + ' mt-1 flex-shrink-0" style="color:' + sevColor[sev] + '"></i><span>' + a + '</span></div>';
+  }).join('');
+}
+
+function renderBPChart(d) {
+  var bp = d.bp_trend || {}, reads = bp.readings || [], dates = bp.dates || reads.map(function(_,i){ return 'V'+(i+1); });
+  document.getElementById('bp-dir-label').textContent = bp.direction || '';
+  if (bpChartInst) { bpChartInst.destroy(); bpChartInst = null; }
+  if (!reads.length) return;
+  var ctx = document.getElementById('bpChart').getContext('2d');
+  bpChartInst = new Chart(ctx, {
+    type: 'line',
+    data: { labels: dates, datasets: [
+      { label:'Systolic BP (mmHg)', data:reads, borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,.08)', borderWidth:2.5, pointRadius:5, pointBackgroundColor:reads.map(function(v){ return v>=180?'#dc2626':v>=140?'#d97706':'#16a34a'; }), tension:.35, fill:true },
+      { label:'Crisis Threshold (180)', data:Array(reads.length).fill(180), borderColor:'#dc2626', borderDash:[6,4], borderWidth:1.5, pointRadius:0, fill:false },
+      { label:'Stage 1 Threshold (140)', data:Array(reads.length).fill(140), borderColor:'#d97706', borderDash:[4,3], borderWidth:1.5, pointRadius:0, fill:false }
+    ]},
+    options: { responsive:true, animation:{duration:800}, plugins:{ legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}, tooltip:{callbacks:{label:function(ctx){ if(ctx.datasetIndex===0){var v=ctx.raw;var zone=v>=180?'🔴 CRISIS':v>=140?'🟡 STAGE 1':'🟢 NORMAL';return ' '+v+' mmHg — '+zone;} return ctx.dataset.label; }}} },
+      scales:{ y:{min:Math.max(60,Math.min.apply(null,reads)-20),max:Math.max.apply(null,reads)+20,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}}, x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}} } }
+  });
+}
+
+function renderRiskChart(d) {
+  var rt = d.risk_trajectory || {}, scores = rt.scores || [], dates = rt.dates || scores.map(function(_,i){ return 'V'+(i+1); });
+  document.getElementById('risk-dir-label').textContent = rt.direction || '';
+  if (riskChartInst) { riskChartInst.destroy(); riskChartInst = null; }
+  if (!scores.length) return;
+  var ctx = document.getElementById('riskChart').getContext('2d');
+  riskChartInst = new Chart(ctx, {
+    type: 'line',
+    data: { labels: dates, datasets: [
+      { label:'Risk Score', data:scores, borderColor:'#7c3aed', backgroundColor:'rgba(124,58,237,.07)', borderWidth:2.5, pointRadius:5, pointBackgroundColor:scores.map(function(v){ return v>=70?'#dc2626':v>=40?'#d97706':'#16a34a'; }), tension:.35, fill:true },
+      { label:'High Risk (70)', data:Array(scores.length).fill(70), borderColor:'#dc2626', borderDash:[6,4], borderWidth:1.5, pointRadius:0, fill:false },
+      { label:'Medium Risk (40)', data:Array(scores.length).fill(40), borderColor:'#d97706', borderDash:[4,3], borderWidth:1.5, pointRadius:0, fill:false }
+    ]},
+    options: { responsive:true, animation:{duration:900,easing:'easeInOutQuart'}, plugins:{ legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}, tooltip:{callbacks:{label:function(ctx){ if(ctx.datasetIndex===0){var v=ctx.raw;var zone=v>=70?'🔴 HIGH':v>=40?'🟡 MEDIUM':'🟢 LOW';return ' Score: '+v+' — '+zone;} return ctx.dataset.label; }}} },
+      scales:{ y:{min:0,max:100,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}}, x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45}} } }
+  });
+}
+
+function renderTimeline(d) {
+  var visits = (d.visits || []).slice().reverse(), body = document.getElementById('timeline-body');
+  var ph = d.pathway_history || {}, crisisSet = new Set(['hypertensive_crisis','crisis_escalation']);
+  document.getElementById('tl-visit-count').textContent = visits.length + ' visits';
+  if (!visits.length) { body.innerHTML = '<div class="text-muted small">No visits recorded.</div>'; return; }
+  body.innerHTML = visits.map(function(v, idx) {
+    var pathways = ((v.gcpe_data || {}).pathways || []);
+    var isCrisis = pathways.some(function(p){ return crisisSet.has(p); }) || parseInt(v.bp_systolic||0) >= 180;
+    var level = v.risk_level || 'LOW', nodeClass = isCrisis ? 'CRISIS' : level;
+    var pathwayBadges = pathways.map(function(p){ var cls = crisisSet.has(p) ? 'badge-alert' : 'badge-pathway'; return '<span class="tl-badge ' + cls + '">' + p.replace(/_/g,' ') + '</span>'; }).join('');
+    var symptomBadges = [v.chest_pain?'<span class="tl-badge badge-alert">chest pain</span>':'',v.dizziness?'<span class="tl-badge badge-warn">dizziness</span>':'',v.medicine_missed?'<span class="tl-badge badge-warn">meds missed</span>':'',(!v.chest_pain&&!v.dizziness&&!v.medicine_missed)?'<span class="tl-badge badge-ok">no symptoms</span>':''].join('');
+    var cardClass = isCrisis ? 'crisis-event' : (level === 'HIGH' ? 'escalation-event' : '');
+    return '<div class="tl-item"><div class="tl-node ' + nodeClass + '"></div><div class="tl-card ' + cardClass + '"><div class="tl-date"><i class="fa-regular fa-calendar me-1"></i>' + fmtDate(v.visit_date) + (idx===0?' <span class="badge" style="background:#0d9488;color:#fff;font-size:.6rem;">LATEST</span>':'') + '</div><div class="d-flex align-items-center gap-2 mb-1"><span class="tl-bp">' + (v.bp_systolic||'—') + '/' + (v.bp_diastolic||'—') + '</span><span class="text-muted small">mmHg</span><span class="ms-auto badge risk-' + level + '" style="font-size:.65rem;">Risk ' + (v.risk_score||0) + '</span></div>' + (v.pulse?'<div class="text-muted" style="font-size:.75rem;"><i class="fa-solid fa-heart-pulse me-1"></i>Pulse: '+v.pulse+' bpm</div>':'') + '<div class="tl-badges">' + symptomBadges + pathwayBadges + '</div>' + (v.notes?'<div class="text-muted mt-1" style="font-size:.73rem;font-style:italic;">'+v.notes+'</div>':'') + '</div></div>';
+  }).join('');
+}
+
+function renderDeviations(d) {
+  var devs = d.first_deviations || [], body = document.getElementById('deviations-body');
+  if (!devs.length) { body.innerHTML = '<div class="text-muted small"><i class="fa-solid fa-check-circle text-success me-1"></i>No significant deviations detected.</div>'; return; }
+  var icons = {FIRST_ABNORMAL_BP:'fa-heart-crack',FIRST_HYPERTENSIVE_CRISIS:'fa-skull-crossbones',FIRST_CHEST_PAIN:'fa-lungs',FIRST_DIZZINESS:'fa-person-falling',FIRST_MEDICATION_MISS:'fa-pills',FIRST_CRISIS_ESCALATION:'fa-truck-medical',FIRST_TACHYCARDIA:'fa-heart-pulse'};
+  var sevColors = {CRITICAL:'#dc2626',HIGH:'#ea580c',MEDIUM:'#d97706',LOW:'#16a34a'};
+  body.innerHTML = devs.map(function(dev) {
+    var icon = icons[dev.type] || 'fa-flag', color = sevColors[dev.severity] || '#64748b', label = (dev.type||'').replace(/_/g,' ');
+    return '<div class="dev-card dev-' + dev.severity + '"><div class="dev-type d-flex align-items-center gap-1" style="color:'+color+'"><i class="fa-solid '+icon+'"></i> '+label+' <span class="ms-auto badge" style="background:'+color+'22;color:'+color+';font-size:.6rem;">'+dev.severity+'</span></div><div class="dev-date"><i class="fa-regular fa-calendar me-1"></i>'+(dev.date||'—')+'</div><div>'+(dev.description||'')+'</div>'+(dev.value?'<div class="mt-1 fw-bold" style="color:'+color+';">'+dev.value+'</div>':'')+'</div>';
+  }).join('');
+}
+
+function renderAdherence(d) {
+  var adh = d.adherence || {}, body = document.getElementById('adherence-body');
+  var pct = adh.adherence_pct || 0, cons = adh.current_consecutive_miss || 0, maxC = adh.max_consecutive_miss || 0, reasons = adh.missed_reasons || {};
+  var barColor = pct >= 80 ? '#16a34a' : pct >= 60 ? '#d97706' : '#dc2626';
+  var trendBadge = {GOOD:'badge-ok',IMPROVING:'badge-ok',STABLE:'badge-warn',WORSENING:'badge-alert',NO_DATA:'badge-warn'}[adh.trend] || 'badge-warn';
+  var reasonsHtml = Object.keys(reasons).length ? '<div class="mt-2"><div class="small fw-semibold text-muted mb-1">Missed Reasons</div>' + Object.entries(reasons).map(function(kv){ return '<div class="d-flex justify-content-between small mb-1"><span>'+kv[0]+'</span><span class="badge badge-warn">'+kv[1]+'×</span></div>'; }).join('') + '</div>' : '';
+  body.innerHTML = '<div class="d-flex justify-content-between align-items-center mb-1"><span class="fw-semibold" style="font-size:.85rem;">Overall Adherence</span><span class="fw-bold" style="color:'+barColor+';font-size:1.2rem;">'+pct+'%</span></div><div class="adh-bar-wrap"><div class="adh-bar-fill" style="width:'+pct+'%;background:'+barColor+';"></div></div><div class="d-flex gap-1 mt-2 flex-wrap"><span class="tl-badge '+trendBadge+'">Trend: '+(adh.trend||'—')+'</span>'+(cons>=1?'<span class="tl-badge badge-alert">Current: '+cons+' missed streak</span>':'')+(maxC>0?'<span class="tl-badge badge-warn">Max streak: '+maxC+'</span>':'')+'</div>'+(adh.narrative?'<div class="mt-2 small text-muted">'+adh.narrative+'</div>':'')+reasonsHtml;
+}
+
+function renderPathways(d) {
+  var ph = d.pathway_history || {}, paths = ph.pathways || {}, body = document.getElementById('pathway-body');
+  var crisisPaths = new Set(['hypertensive_crisis','crisis_escalation']);
+  var keys = Object.keys(paths);
+  if (!keys.length) { body.innerHTML = '<div class="text-muted small">No GCPE pathways triggered across visit history.</div>'; return; }
+  var pills = keys.sort(function(a,b){ return paths[b].count - paths[a].count; }).map(function(k) {
+    var p = paths[k], cls = crisisPaths.has(k) ? 'escalation' : (k.indexOf('urgent')!==-1?'crisis':'');
+    return '<span class="pathway-pill '+cls+'"><i class="fa-solid fa-route" style="font-size:.65rem"></i>'+k.replace(/_/g,' ')+'<span class="badge ms-1" style="background:rgba(0,0,0,.12);font-size:.6rem;">'+p.count+'×</span></span>';
+  }).join('');
+  body.innerHTML = '<div class="mb-2">'+pills+'</div><div class="d-flex gap-3 mt-2 small text-muted"><span><strong>'+(ph.total_pathway_events||0)+'</strong> total events</span><span><strong>'+(ph.crisis_events||0)+'</strong> crisis events</span><span><strong>'+(ph.escalation_events||0)+'</strong> escalations</span></div>';
+}
+
+function fmtDate(dt) {
+  if (!dt) return '—';
+  try { return new Date(dt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}); }
+  catch(e) { return String(dt).slice(0,10); }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+Implement the AarogyaNet Prescription Tokenization & Adherence Integrity system.
+
+GOAL:
+Transform digital prescriptions into verifiable, single-use healthcare redemption tokens with blockchain-backed adherence tracking.
+
+IMPORTANT:
+Do NOT use Ethereum.
+Do NOT use Web3.
+Do NOT use smart contracts.
+
+Use the existing lightweight Python blockchain architecture only.
+
+==================================================
+1. PRESCRIPTION TOKENIZATION
+==================================================
+
+For every issued prescription:
+- generate a unique prescription_token
+- cryptographically sign it
+- persist it in database
+
+Token should include:
+- prescription_id
+- patient_id
+- issued_timestamp
+- expiry window (optional)
+- redemption_status
+
+==================================================
+2. SINGLE-USE REDEMPTION
+==================================================
+
+Implement redemption logic.
+
+Valid redemption methods:
+- patient pickup
+- ASHA pickup
+- home delivery
+
+Once redeemed:
+- token becomes consumed/burned
+- repeat redemption attempts fail
+
+==================================================
+3. BLOCKCHAIN ADHERENCE EVENT
+==================================================
+
+Each redemption event should:
+- generate an adherence hash
+- mine a blockchain record
+- create immutable adherence proof
+
+IMPORTANT:
+Do NOT store PHI in blockchain payloads.
+
+Store:
+- adherence hash
+- token reference
+- timestamp
+- redemption type
+
+==================================================
+4. FRAUD PREVENTION
+==================================================
+
+Prevent:
+- duplicate redemption
+- reused tokens
+- forged token identifiers
+
+==================================================
+5. JAN AUSHADI WORKFLOW
+==================================================
+
+Support:
+- nearest outlet assignment
+- ASHA pickup option
+- delivery option
+
+Mock routing is acceptable.
+No external APIs required.
+
+==================================================
+6. DOCTOR/PATIENT VISIBILITY
+==================================================
+
+Doctors should see:
+- issued
+- redeemed
+- pending
+- expired
+
+Patients and ASHA workers should see:
+- token status
+- pickup method
+- redemption timestamp
+
+==================================================
+7. AUDITABILITY
+==================================================
+
+Tampering with redemption status should:
+- invalidate blockchain verification
+OR
+- produce detectable mismatch
+
+==================================================
+8. PRESERVE EXISTING WORKFLOW
+==================================================
+
+Do NOT redesign:
+- prescriptions
+- doctor dashboard
+- blockchain architecture
+
+Extend the current system cleanly.
+
+==================================================
+OUTPUT
+==================================================
+
+The system should now behave like:
+"a tamper-proof rural prescription fulfillment infrastructure."

@@ -1,0 +1,62 @@
+{
+  "model_type": "diabetes_risk",
+  "version": "1.0.0",
+  "algorithm": "XGBoost (Gradient Boosted Trees)",
+  "training_dataset": "Pima Indians Diabetes Database",
+  "trained_at": "2026-05-26T00:51:30.416476+00:00",
+  "feature_names": [
+    "pregnancies",
+    "glucose",
+    "blood_pressure",
+    "skin_thickness",
+    "insulin",
+    "bmi",
+    "diabetes_pedigree",
+    "age"
+  ],
+  "target_column": "Outcome",
+  "n_total": 768,
+  "n_train": 536,
+  "n_test": 116,
+  "class_distribution": {
+    "0_non_diabetic": 500,
+    "1_diabetic": 268
+  },
+  "metrics": {
+    "auc_roc": 0.8503,
+    "f1": 0.7333,
+    "sensitivity": 0.825,
+    "specificity": 0.7763,
+    "precision": 0.66,
+    "brier_score": 0.1539,
+    "expected_calibration_error": 0.0917,
+    "confusion_matrix": [
+      [
+        59,
+        17
+      ],
+      [
+        7,
+        33
+      ]
+    ],
+    "n_test": 116,
+    "threshold_used": 0.5
+  },
+  "shap_global_importance": {
+    "glucose": 0.753912,
+    "age": 0.387228,
+    "bmi": 0.378829,
+    "diabetes_pedigree": 0.246144,
+    "insulin": 0.203556,
+    "pregnancies": 0.107077,
+    "skin_thickness": 0.101628,
+    "blood_pressure": 0.04945
+  },
+  "artifact_paths": {
+    "model": "ai_engine/models/artifacts/diabetes_risk_v1.joblib",
+    "preprocessor": "ai_engine/models/artifacts/diabetes_preprocessor_v1.joblib",
+    "eval_report": "ai_engine/models/artifacts/diabetes_eval_report.json"
+  },
+  "clinical_note": "This model is a clinical decision-support augmentation layer. It does not produce medical diagnoses. All outputs must be interpreted by qualified healthcare professionals."
+}

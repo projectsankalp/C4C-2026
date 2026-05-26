@@ -1,0 +1,117 @@
+Fix AarogyaNet AI signal invisibility by ensuring the diabetes ML model receives clinically meaningful structured inputs.
+
+CRITICAL:
+The AI-assisted diabetes risk signal is one of the most important demo moments and must reliably appear for appropriate patients.
+
+==================================================
+1. ROOT CAUSE FIX
+==================================================
+
+Current issue:
+loadDiabetesSignal() sends:
+- glucose = 0
+- BMI = 0
+- age = 0
+
+Result:
+model confidence stays below threshold.
+
+Fix by pulling real structured values from:
+- latest patient visit
+- longitudinal history
+- patient demographics
+
+==================================================
+2. FEATURE EXTRACTION LAYER
+==================================================
+
+Create a reusable:
+buildDiabetesInferencePayload(patient, visits)
+
+Extract:
+- age
+- glucose
+- BMI
+- blood pressure
+- pregnancies (fallback 0 if unknown)
+- diabetes pedigree proxy
+- risk trajectory
+- adherence indicators
+
+Use clinically meaningful defaults only when data truly missing.
+
+==================================================
+3. GCPE INTEGRATION
+==================================================
+
+If GCPE diabetes protocol answers exist:
+prioritize:
+- glucose readings
+- thirst
+- fatigue
+- wound healing
+- family history
+
+Map them into inference features.
+
+==================================================
+4. LONGITUDINAL ENRICHMENT
+==================================================
+
+Enhance inference using:
+- worsening BP trajectory
+- medication adherence decline
+- repeated dizziness/fatigue
+- continuity deterioration
+
+These should improve confidence for truly at-risk patients.
+
+==================================================
+5. FRONTEND VISIBILITY
+==================================================
+
+Ensure:
+- high-risk demo patients reliably trigger AI card
+- low-risk patients correctly suppress AI card
+
+Do NOT show AI for everyone.
+
+==================================================
+6. SHAP DISPLAY HARDENING
+==================================================
+
+Ensure:
+- contributing_factors always safeArray()
+- missing SHAP values degrade gracefully
+- empty explanations show fallback text
+
+==================================================
+7. DEMO REQUIREMENT
+==================================================
+
+At least one seeded demo patient should consistently produce:
+- HIGH diabetes risk signal
+- visible SHAP explanations
+- longitudinal deterioration context
+- recommendation for screening
+
+WITHOUT manual tweaking during demo.
+
+==================================================
+8. SAFETY
+==================================================
+
+Preserve:
+- deterministic_override hierarchy
+- confidence threshold gating
+- assistive wording only
+
+AI must remain:
+"clinical augmentation", not diagnosis.
+
+==================================================
+OUTPUT
+==================================================
+
+The AI panel should now feel:
+"intelligent, explainable, clinically believable, and reliably visible during demo."

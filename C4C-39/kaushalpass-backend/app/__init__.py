@@ -1,0 +1,1 @@
+"""KaushalPass backend application."""

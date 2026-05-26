@@ -1,0 +1,139 @@
+Build AarogyaNet's first explainable healthcare ML model:
+Diabetes Risk Stratification.
+
+IMPORTANT:
+This is NOT a diagnosis engine.
+This is a clinical decision-support augmentation layer.
+
+Use:
+- Pima Indians Diabetes Dataset
+- existing AI infrastructure
+- explainable ML only
+
+DO NOT use:
+- deep learning
+- neural networks
+- transformers
+- LLMs
+
+==================================================
+1. DATASET PREPROCESSING
+==================================================
+
+Use:
+ai_engine/datasets/raw/Pima_Indians_Diabetes_Database.csv
+
+Implement:
+- zeros-as-missing handling for:
+  - Glucose
+  - BloodPressure
+  - SkinThickness
+  - BMI
+  - Insulin
+- median imputation
+- feature normalization
+- train/validation/test split
+
+==================================================
+2. MODEL
+==================================================
+
+Train:
+- XGBoost OR RandomForest
+
+Target:
+Outcome
+
+Features:
+- pregnancies
+- glucose
+- blood pressure
+- skin thickness
+- insulin
+- BMI
+- diabetes pedigree
+- age
+
+==================================================
+3. EVALUATION
+==================================================
+
+Generate:
+- AUC-ROC
+- sensitivity
+- specificity
+- F1
+- confusion matrix
+- calibration metrics
+
+==================================================
+4. SHAP EXPLAINABILITY
+==================================================
+
+Integrate SHAP explanations.
+
+Support:
+- top contributing features
+- feature importance
+- patient-level explanation output
+
+==================================================
+5. MODEL ARTIFACTS
+==================================================
+
+Save:
+- trained model
+- preprocessing pipeline
+- feature metadata
+- evaluation report
+
+Store under:
+ai_engine/models/artifacts/
+
+==================================================
+6. INFERENCE INTERFACE
+==================================================
+
+Create:
+predict_diabetes_risk()
+
+Input:
+structured patient features
+
+Output:
+{
+  risk_probability,
+  risk_band,
+  contributing_factors,
+  recommendation
+}
+
+==================================================
+7. SAFETY
+==================================================
+
+IMPORTANT:
+Model output MUST:
+- avoid diagnosis language
+- remain assistive
+- preserve deterministic rule engine priority
+
+Add:
+deterministic_override field.
+
+==================================================
+8. DOCTOR SUMMARY INTEGRATION
+==================================================
+
+Enhance doctor summaries with:
+"AI-assisted diabetes risk signal"
+
+ONLY if:
+confidence threshold exceeded.
+
+==================================================
+9. OUTPUT
+==================================================
+
+The result should feel like:
+"a clinically interpretable rural diabetes risk augmentation system."

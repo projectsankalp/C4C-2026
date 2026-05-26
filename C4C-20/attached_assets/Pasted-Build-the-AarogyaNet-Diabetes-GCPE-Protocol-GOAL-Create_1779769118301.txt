@@ -1,0 +1,133 @@
+Build the AarogyaNet Diabetes GCPE Protocol.
+
+GOAL:
+Create a structured diabetes-focused Guided Clinical Protocol Engine workflow that integrates directly with the AI diabetes risk model and longitudinal memory system.
+
+IMPORTANT:
+This is NOT a diagnosis workflow.
+This is a structured rural screening and triage protocol.
+
+==================================================
+1. CREATE DIABETES PROTOCOL
+==================================================
+
+Create:
+gcpe/protocols/diabetes_protocol.json
+
+Structure similarly to:
+hypertension_protocol.json
+
+Support:
+- branching flow
+- pathway triggers
+- risk flags
+- structured summaries
+
+==================================================
+2. CORE SCREENING QUESTIONS
+==================================================
+
+Include:
+- excessive thirst
+- frequent urination
+- fatigue
+- blurred vision
+- slow wound healing
+- unexplained weight loss
+- family history
+- prior diabetes diagnosis
+- medication adherence
+- glucose readings if available
+
+==================================================
+3. BRANCHING PATHWAYS
+==================================================
+
+Implement pathways such as:
+- possible_diabetes
+- high_risk_diabetes
+- medication_nonadherence
+- uncontrolled_diabetes
+- urgent_screening_required
+
+==================================================
+4. RISK FLAGS
+==================================================
+
+Generate:
+- symptom cluster alerts
+- chronic deterioration alerts
+- adherence concern flags
+- urgent referral recommendations
+
+==================================================
+5. AI INTEGRATION
+==================================================
+
+Map protocol answers into:
+buildDiabetesInferencePayload()
+
+Ensure:
+- GCPE symptom answers enrich ML inference
+- family history influences pedigree proxy
+- symptom combinations strengthen confidence
+
+==================================================
+6. LONGITUDINAL MEMORY
+==================================================
+
+Ensure diabetes GCPE events become:
+- timeline events
+- longitudinal summaries
+- pathway history
+- deterioration tracking
+
+==================================================
+7. DOCTOR SUMMARY INTEGRATION
+==================================================
+
+Doctor dashboard should display:
+- diabetes pathway badges
+- symptom summaries
+- AI-assisted risk signal
+- screening recommendation
+- adherence concerns
+
+==================================================
+8. UI INTEGRATION
+==================================================
+
+ASHA dashboard:
+- protocol selector
+- diabetes assessment flow
+- pathway badges
+- progress indicator
+- summary generation
+
+==================================================
+9. DEMO REQUIREMENT
+==================================================
+
+At least one seeded demo patient should show:
+- diabetes GCPE workflow
+- AI risk signal
+- longitudinal deterioration
+- doctor escalation recommendation
+
+in one coherent flow.
+
+==================================================
+10. SAFETY
+==================================================
+
+Preserve:
+- assistive wording
+- deterministic override hierarchy
+- non-diagnostic framing
+
+==================================================
+OUTPUT
+==================================================
+
+The result should feel like:
+"a structured rural diabetes triage and early-risk detection workflow."

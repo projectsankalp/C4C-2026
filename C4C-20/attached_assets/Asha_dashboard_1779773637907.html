@@ -1,0 +1,466 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AarogyaNet | ASHA Worker Dashboard</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#a3c9ff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "tertiary-container": "#217855",
+                    "secondary-fixed-dim": "#4cdbcb",
+                    "primary-fixed": "#d3e3ff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed": "#00201d",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#005396",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#85d7ad",
+                    "inverse-surface": "#2d3133",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-container-high": "#e6e8ea",
+                    "secondary-fixed": "#6ef8e7",
+                    "primary-container": "#0f6cbd",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001c39",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "on-primary-container": "#e3ecff",
+                    "outline": "#717783",
+                    "on-tertiary-fixed": "#002113",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#6bf5e5",
+                    "on-tertiary-container": "#a9fdd1",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d3",
+                    "surface-tint": "#0060ab",
+                    "surface-container": "#eceef0",
+                    "on-background": "#191c1e",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-variant": "#e0e3e5",
+                    "primary-fixed-dim": "#a3c9ff",
+                    "on-primary-fixed-variant": "#004883",
+                    "secondary": "#006a61",
+                    "tertiary-fixed": "#a0f4c8",
+                    "tertiary": "#005e3f",
+                    "on-surface-variant": "#414751",
+                    "on-secondary-fixed-variant": "#005049",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#006f66",
+                    "surface-bright": "#f7f9fb",
+                    "background": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "stack-lg": "32px",
+                    "margin-desktop": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: #191c1e;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c7d3;
+            border-radius: 10px;
+        }
+        .risk-indicator-high { border-left: 4px solid #ba1a1a; }
+        .risk-indicator-med { border-left: 4px solid #006a61; }
+        .risk-indicator-low { border-left: 4px solid #74C69D; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-row">
+<!-- SideNavBar Shell -->
+<aside class="fixed inset-y-0 left-0 flex flex-col p-stack-md h-screen w-72 flex-shrink-0 bg-surface-container-low dark:bg-inverse-surface/90 backdrop-blur-xl border-r border-outline-variant/30 shadow-sm z-50" id="side-nav">
+<div class="mb-stack-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">AarogyaSethu</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Rural Health Intelligence</p>
+</div>
+<!-- User Profile Card in Sidebar -->
+<div class="mb-stack-lg p-stack-md bg-white/50 rounded-xl border border-outline-variant/20 shadow-sm">
+<div class="flex items-center gap-3 mb-2">
+<img alt="ASHA Worker Profile Picture" class="w-12 h-12 rounded-full object-cover border-2 border-primary-container" data-alt="A professional portrait of a rural healthcare worker named Anitha Devi. She is smiling confidently, wearing a traditional yet professional uniform. The background is a soft-focus rural landscape during the golden hour, creating a warm, trustworthy, and mission-driven clinical atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa2selBlWxK6JBmMuC-2N0Lo-eqM_fiLwm3s04DkQ8Eu6JHU2QTcE1IWWTEeJnpQcS5nhDOADoJgLA_ujrJSSJaatyai0BH51EcR3P57MZAatUzbyVB1hb9NXQaASO6rISdnM3OIUk0EAENdGGStSfDQGS70dO16XfGpZTYw0-RDCqrfOq5H_COjCJLluHXXDbXvcoQFC0H3X0LAwgWzSY4A95NCUdl5JI2SfJOhfItwFrVsLsxvJpYaBRzcGQ0eTgLJyzt-tsQjti">
+<div>
+<p class="font-label-md text-label-md text-on-surface">Anitha Devi</p>
+<p class="text-[10px] uppercase tracking-wider text-outline">KRS Rural Cluster</p>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 89%;"></div>
+</div>
+<p class="text-[11px] mt-1.5 text-on-surface-variant font-medium text-right">89% Target Completion</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-stack-md py-3 rounded-lg text-primary dark:text-primary-fixed font-bold border-r-4 border-primary dark:border-primary-fixed-dim hover:bg-primary/5 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-stack-md py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-stack-md py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Assessments</span>
+</a>
+<a class="flex items-center gap-3 px-stack-md py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-stack-md py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-primary/5 transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Health Timeline</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1">
+<button class="w-full mb-4 py-2 px-4 bg-primary text-white rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 shadow-md hover:brightness-110 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+                Sync Offline Data
+            </button>
+<a class="flex items-center gap-3 px-stack-md py-2 rounded-lg text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-stack-md py-2 rounded-lg text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Viewport Container -->
+<main class="flex-1 flex flex-col min-w-0 ml-72 bg-surface">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center h-16 px-margin-desktop sticky top-0 z-40 bg-surface/70 dark:bg-inverse-surface/70 backdrop-blur-md border-b border-outline-variant/20">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-[18px] font-extrabold text-primary dark:text-primary-fixed-dim">Good Morning, Anitha</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">18 scheduled visits today</p>
+</div>
+<div class="flex items-center gap-stack-lg">
+<div class="relative w-64">
+<input class="w-full bg-surface-container-low border-none rounded-full px-10 py-1.5 font-body-sm text-body-sm focus:ring-2 focus:ring-primary/20 outline-none" placeholder="Search patients..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors text-primary" title="Voice Assistant">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors text-outline" title="Sync Status">
+<span class="material-symbols-outlined">cloud_done</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<button class="flex items-center gap-3 px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        New Assessment
+                    </button>
+</div>
+</div>
+</header>
+<!-- Main Workspace (Scrollable) -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Content Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-desktop custom-scrollbar space-y-stack-lg">
+<!-- Section 1: Health Overview Analytics -->
+<section class="grid grid-cols-4 gap-gutter">
+<div class="bg-white p-stack-md rounded-xl shadow-sm border border-outline-variant/20">
+<p class="font-label-md text-label-sm text-on-surface-variant">Today's Visits</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-display-lg leading-none">18</h3>
+<div class="w-16 h-8 opacity-40"><canvas id="sparkline-visits" width="80" height="40" style="display: block; box-sizing: border-box; height: 32px; width: 64px;"></canvas></div>
+</div>
+</div>
+<div class="bg-white p-stack-md rounded-xl shadow-sm border border-outline-variant/20">
+<p class="font-label-md text-label-sm text-on-surface-variant">Completed</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-display-lg leading-none text-tertiary">11</h3>
+<div class="w-16 h-8 opacity-40"><canvas id="sparkline-completed" width="80" height="40" style="display: block; box-sizing: border-box; height: 32px; width: 64px;"></canvas></div>
+</div>
+</div>
+<div class="bg-white p-stack-md rounded-xl shadow-sm border border-outline-variant/20">
+<p class="font-label-md text-label-sm text-on-surface-variant">Pending</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-display-lg leading-none text-primary">07</h3>
+<div class="w-16 h-8 opacity-40"><canvas id="sparkline-pending" width="80" height="40" style="display: block; box-sizing: border-box; height: 32px; width: 64px;"></canvas></div>
+</div>
+</div>
+<div class="bg-white p-stack-md rounded-xl shadow-sm border border-outline-variant/20">
+<p class="font-label-md text-label-sm text-on-surface-variant">High Risk</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-display-lg leading-none text-error">04</h3>
+<div class="w-16 h-8 opacity-40"><canvas id="sparkline-risk" width="80" height="40" style="display: block; box-sizing: border-box; height: 32px; width: 64px;"></canvas></div>
+</div>
+</div>
+</section>
+<!-- Section 2: Quick Actions -->
+<section class="grid grid-cols-4 gap-gutter">
+<button class="group flex flex-col items-center justify-center p-stack-lg bg-primary-container text-on-primary-container rounded-2xl hover:scale-[1.02] transition-transform duration-200 shadow-md">
+<span class="material-symbols-outlined text-[40px] mb-3 group-hover:scale-110 transition-transform">assignment_add</span>
+<span class="font-label-md text-label-md">Start Assessment</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-stack-lg bg-secondary-container text-on-secondary-container rounded-2xl hover:scale-[1.02] transition-transform duration-200 shadow-md">
+<span class="material-symbols-outlined text-[40px] mb-3 group-hover:scale-110 transition-transform">person_add</span>
+<span class="font-label-md text-label-md">Add Patient</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-stack-lg bg-error-container text-on-error-container rounded-2xl hover:scale-[1.02] transition-transform duration-200 shadow-md">
+<span class="material-symbols-outlined text-[40px] mb-3 group-hover:scale-110 transition-transform">emergency_share</span>
+<span class="font-label-md text-label-md">Emergency Alert</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-stack-lg bg-surface-container-highest text-on-surface rounded-2xl hover:scale-[1.02] transition-transform duration-200 shadow-md border border-outline-variant/30">
+<span class="material-symbols-outlined text-[40px] mb-3 group-hover:scale-110 transition-transform">sync</span>
+<span class="font-label-md text-label-md">Offline Sync</span>
+</button>
+</section>
+<!-- Section 3 & 4 Grid -->
+<div class="grid grid-cols-3 gap-gutter">
+<!-- Section 3: Today's Visits (Priority) -->
+<div class="col-span-2 space-y-4">
+<div class="flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface">Priority Visits</h4>
+<button class="text-primary font-label-md text-label-md hover:underline">View Schedule</button>
+</div>
+<div class="space-y-stack-md">
+<!-- Patient Card 1 -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-outline-variant/20 risk-indicator-high flex items-center justify-between group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container font-bold">R</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface">Ramesh Kumar (42M)</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Village: Haripur • Risk: <span class="text-error font-bold">82</span></p>
+<p class="text-[12px] text-error flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">warning</span> Possible Hypertension Cluster</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-primary text-white rounded-lg font-label-md text-label-md active:scale-95 transition-transform">Start Visit</button>
+</div>
+<!-- Patient Card 2 -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-outline-variant/20 risk-indicator-med flex items-center justify-between group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">S</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface">Sunita Devi (78F)</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Village: Haripur • Risk: <span class="text-secondary font-bold">54</span></p>
+<p class="text-[12px] text-on-surface-variant">Routine Ante-natal Checkup</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-surface-container-highest text-on-surface rounded-lg font-label-md text-label-md">Start Visit</button>
+</div>
+<!-- Patient Card 3 -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-outline-variant/20 risk-indicator-low flex items-center justify-between group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-bold">M</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface">Madan Lal (65M)</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Village: Bilaspur • Risk: <span class="text-on-tertiary-fixed-variant font-bold">21</span></p>
+<p class="text-[12px] text-on-surface-variant">Chronic Care Follow-up</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-surface-container-highest text-on-surface rounded-lg font-label-md text-label-md">Start Visit</button>
+</div>
+</div>
+</div>
+<!-- Section 4: Health Insights -->
+<div class="space-y-4">
+<h4 class="font-headline-md text-headline-md text-on-surface">Health Trends</h4>
+<div class="bg-white p-stack-md rounded-xl shadow-sm border border-outline-variant/20 h-[300px]">
+<p class="font-label-md text-label-sm text-on-surface-variant mb-4">Risk Distribution by Village</p>
+<canvas id="healthTrendsChart" width="191" height="333" style="display: block; box-sizing: border-box; height: 266.4px; width: 153.1px;"></canvas>
+</div>
+<div class="bg-white p-stack-md rounded-xl shadow-sm border border-outline-variant/20">
+<p class="font-label-md text-label-sm text-on-surface-variant mb-2">Resource Utilization</p>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[65%]"></div>
+</div>
+<span class="text-[12px] font-bold">65%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Notification Rail -->
+<aside class="w-80 bg-white border-l border-outline-variant/20 flex flex-col p-stack-md">
+<div class="mb-stack-lg">
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-4 uppercase tracking-widest text-[11px]">Recent Alerts</h4>
+<div class="space-y-4">
+<div class="p-3 bg-error/5 border border-error/10 rounded-lg">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-error text-[20px]">emergency</span>
+<div>
+<p class="text-[13px] font-bold text-error">High Fever Cluster</p>
+<p class="text-[12px] text-on-surface-variant">3 new cases reported in Haripur within 24h.</p>
+<p class="text-[10px] text-outline mt-1">2 mins ago</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="mb-stack-lg">
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-4 uppercase tracking-widest text-[11px]">Doctor Messages</h4>
+<div class="space-y-3">
+<div class="flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center text-[12px] font-bold">Dr</div>
+<div class="flex-1">
+<p class="text-[13px] font-semibold">Dr. S. Sharma</p>
+<p class="text-[12px] text-on-surface-variant line-clamp-2">"Please prioritize Ramesh's BP check today. Meds need adjustment."</p>
+</div>
+</div>
+<div class="flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center text-[12px] font-bold">Dr</div>
+<div class="flex-1">
+<p class="text-[13px] font-semibold">Dr. Anjali M.</p>
+<p class="text-[12px] text-on-surface-variant line-clamp-2">"Great work on the immunisation drive in Bilaspur!"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto">
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div>
+<p class="text-[12px] font-bold">Offline Ready</p>
+<p class="text-[10px] text-on-surface-variant">Last synced 14m ago</p>
+</div>
+<button class="p-2 bg-white rounded-full shadow-sm text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-[32px]">add</span>
+<span class="absolute right-20 bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-lg font-label-md text-label-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Start Assessment</span>
+</button>
+<script>
+        // Sparklines
+        const sparklineOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            elements: { point: { radius: 0 }, line: { tension: 0.4, borderWidth: 2 } },
+            scales: { x: { display: false }, y: { display: false } },
+            plugins: { legend: { display: false }, tooltip: { enabled: false } }
+        };
+
+        const drawSparkline = (id, color, data) => {
+            const ctx = document.getElementById(id).getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [1, 2, 3, 4, 5, 6, 7],
+                    datasets: [{ data, borderColor: color, fill: false }]
+                },
+                options: sparklineOptions
+            });
+        };
+
+        drawSparkline('sparkline-visits', '#005396', [12, 15, 14, 18, 16, 20, 18]);
+        drawSparkline('sparkline-completed', '#006a61', [5, 8, 7, 10, 9, 12, 11]);
+        drawSparkline('sparkline-pending', '#0f6cbd', [7, 7, 7, 8, 7, 8, 7]);
+        drawSparkline('sparkline-risk', '#ba1a1a', [2, 3, 2, 4, 3, 5, 4]);
+
+        // Main Chart
+        const ctxMain = document.getElementById('healthTrendsChart').getContext('2d');
+        new Chart(ctxMain, {
+            type: 'bar',
+            data: {
+                labels: ['Haripur', 'Bilaspur', 'KRS Main', 'Sonpur'],
+                datasets: [
+                    {
+                        label: 'High Risk',
+                        data: [12, 4, 8, 2],
+                        backgroundColor: '#ba1a1a',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Stable',
+                        data: [45, 38, 52, 29],
+                        backgroundColor: '#00B7A8',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } } }
+                },
+                scales: {
+                    y: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+    </script>
+
+
+</body></html>

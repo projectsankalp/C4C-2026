@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AarogyaSethu | National Health Intelligence</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Leaflet CSS -->
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Leaflet JS -->
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#f7f9fb",
+                      "on-background": "#191c1e",
+                      "surface-tint": "#0060ab",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#2d3133",
+                      "on-primary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#00201d",
+                      "on-secondary": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "inverse-on-surface": "#eff1f3",
+                      "primary": "#005396",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#006f66",
+                      "inverse-primary": "#a3c9ff",
+                      "surface-container-highest": "#e0e3e5",
+                      "tertiary": "#005e3f",
+                      "on-primary-fixed": "#001c39",
+                      "on-primary-fixed-variant": "#004883",
+                      "on-tertiary-fixed": "#002113",
+                      "on-surface-variant": "#414751",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#4cdbcb",
+                      "on-tertiary": "#ffffff",
+                      "background": "#f7f9fb",
+                      "secondary-container": "#6bf5e5",
+                      "on-secondary-fixed-variant": "#005049",
+                      "tertiary-fixed": "#a0f4c8",
+                      "primary-container": "#0f6cbd",
+                      "outline": "#717783",
+                      "tertiary-container": "#217855",
+                      "on-tertiary-container": "#a9fdd1",
+                      "tertiary-fixed-dim": "#85d7ad",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "surface-dim": "#d8dadc",
+                      "on-primary-container": "#e3ecff",
+                      "surface-variant": "#e0e3e5",
+                      "primary-fixed-dim": "#a3c9ff",
+                      "primary-fixed": "#d3e3ff",
+                      "secondary-fixed": "#6ef8e7",
+                      "surface-container-high": "#e6e8ea",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary": "#006a61",
+                      "surface-container": "#eceef0",
+                      "on-surface": "#191c1e",
+                      "outline-variant": "#c1c7d3",
+                      "insight-purple": "#6C63FF",
+                      "alert-orange": "#FF8A00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "16px",
+                      "container-max": "1280px",
+                      "base": "8px",
+                      "margin-mobile": "16px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px",
+                      "gutter": "24px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "label-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .clinical-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .clinical-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(15, 108, 189, 0.1); }
+        .map-container { height: 400px; z-index: 10; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c1c7d3; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-72 flex-col fixed left-0 top-0 bg-surface-container-low dark:bg-inverse-surface border-r border-outline-variant/20 shadow-lg shadow-primary/10 flex z-50 -translate-x-full lg:translate-x-0 transition-transform duration-300">
+<div class="p-stack-lg flex flex-col items-center">
+<div class="flex items-center gap-3 mb-8 w-full px-4">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">health_and_safety</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">AarogyaSethu</h1>
+</div>
+<div class="w-full px-4 mb-8">
+<div class="p-3 bg-surface-container rounded-xl flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary/20" data-alt="A professional portrait of a senior female health officer in a corporate medical setting, wearing a white blazer with a subtle government insignia. The background is a blurred high-tech medical laboratory with cool blue and teal lighting, conveying a sense of authority, expertise, and national health leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASamzd5Ai2ju5vfNZRfcUSQ_OrwVkFybpvgMbNtEU4sGZLP2g8088bvLCWaHmJfhZsYjaxfPMptg-huzBNDYUMAZc8JCInJEUU1DQYN8qXoxeTpRlPWAcqpa8Pxl57lyo1kbIT85JxzmnELWXOMlwAE6EIg72utjceNIaxndWS-fGMEf0Ae4yD1Lcs7HHw0kLBxSjh9orp2josa5-ovGVSYRK3YuOFgiDKn9FufQq7RQj5vXrktNY-4WQMUGLGAEFAQfeU3oCqWttY"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Meera Rao</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">District Health Officer</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-2 space-y-1">
+<div class="bg-primary-container text-on-primary-container dark:bg-primary dark:text-on-primary rounded-lg font-bold cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 transition-transform duration-200">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">District Analytics</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">location_city</span>
+<span class="font-label-md text-label-md">Village Intelligence</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">coronavirus</span>
+<span class="font-label-md text-label-md">Outbreak Monitoring</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">ASHA Operations</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">medication</span>
+<span class="font-label-md text-label-md">Medicine Distribution</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-md text-label-md">Blockchain Audits</span>
+</div>
+<div class="pt-4 mt-4 border-t border-outline-variant/10">
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-highest dark:hover:bg-surface-variant/10 cursor-pointer flex items-center gap-3 p-3 mx-4 my-1 hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</div>
+</div>
+</nav>
+<div class="p-stack-md">
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md flex items-center justify-center gap-2 shadow-md hover:bg-primary-container hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined">description</span>
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 h-screen overflow-hidden flex flex-col lg:ml-72">
+<!-- Top Nav Bar -->
+<header class="h-16 px-margin-desktop w-full bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl border-b border-outline-variant/30 dark:border-outline/20 flex justify-between items-center sticky top-0 z-40 shadow-sm shadow-primary/5"><button aria-label="Open menu" class="lg:hidden p-2 -ml-2 text-primary" id="mobile-menu-toggle"><span class="material-symbols-outlined">menu</span></button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">Public Health Intelligence Command Center</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Transforming healthcare activity into preventive public-health decisions</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary w-64 text-sm hidden sm:block" placeholder="Search analytics..." type="text"/>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg cursor-pointer hover:bg-surface-container-high transition-colors hidden md:flex">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+<span class="font-label-sm text-label-sm">Aug 1 - Aug 28, 2024</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Workspace -->
+<div class="flex-1 overflow-y-auto bg-surface">
+<div class="p-stack-lg flex gap-gutter flex-col lg:flex-row">
+<!-- Left Main Column (75%) -->
+<div class="flex-[3] space-y-stack-lg">
+<!-- KPI Overview Cards (Bento Grid Style) -->
+<section class="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+<div class="clinical-card p-4 bg-white rounded-xl border-l-4 border-primary shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Population</p>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">2.4M</h3>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="text-[12px] font-bold">+1.2%</span>
+</div>
+</div>
+<div class="clinical-card p-4 bg-white rounded-xl border-l-4 border-insight-purple shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Villages</p>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">820</h3>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="text-[12px]">Coverage 98%</span>
+</div>
+</div>
+<div class="clinical-card p-4 bg-white rounded-xl border-l-4 border-secondary shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Assessments</p>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">980K</h3>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="text-[12px] font-bold">+4%</span>
+</div>
+</div>
+<div class="clinical-card p-4 bg-white rounded-xl border-l-4 border-primary shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Doctor Reviews</p>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">312K</h3>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="text-[12px] font-bold">+12%</span>
+</div>
+</div>
+<div class="clinical-card p-4 bg-white rounded-xl border-l-4 border-error shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">High Risk</p>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">18.4K</h3>
+<div class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="text-[12px] font-bold">+0.8%</span>
+</div>
+</div>
+<div class="clinical-card p-4 bg-white rounded-xl border-l-4 border-tertiary shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Adherence</p>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">78%</h3>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">timeline</span>
+<span class="text-[12px]">Target: 85%</span>
+</div>
+</div>
+</section>
+<!-- Section 2 & 3: Map & District Analytics -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+<!-- Outbreak Monitor Map -->
+<section class="bg-white rounded-2xl p-6 shadow-sm flex flex-col h-[500px]">
+<div class="flex justify-between items-center mb-4">
+<h4 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">public</span>
+                                    Outbreak Monitor
+                                </h4>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-error-container text-on-error-container text-[12px] font-bold rounded-full">4 Active Zones</span>
+</div>
+</div>
+<div class="map-container rounded-xl overflow-hidden border border-outline-variant flex-1" data-location="Karnataka, India" id="map" style=""></div>
+</section>
+<!-- District Analytics Scores -->
+<section class="bg-white rounded-2xl p-6 shadow-sm flex flex-col h-[500px]">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">query_stats</span>
+                                    District Scores
+                                </h4>
+<button class="text-primary font-label-sm hover:underline">View All Districts</button>
+</div>
+<div class="space-y-6 overflow-y-auto pr-2">
+<!-- District Row -->
+<div class="p-4 bg-surface-container-low rounded-xl flex items-center justify-between border-l-4 border-secondary">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full border-4 border-secondary flex items-center justify-center font-bold text-secondary">
+                                            88
+                                        </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Tumakuru District</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Primary Care Efficiency</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-tertiary font-bold">+2.4%</p>
+<p class="text-[10px] uppercase text-outline">Vs Prev Month</p>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl flex items-center justify-between border-l-4 border-insight-purple">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full border-4 border-insight-purple flex items-center justify-center font-bold text-insight-purple">
+                                            74
+                                        </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Mysuru District</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Infrastructure Index</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-error font-bold">-0.8%</p>
+<p class="text-[10px] uppercase text-outline">Vs Prev Month</p>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl flex items-center justify-between border-l-4 border-primary">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full border-4 border-primary flex items-center justify-center font-bold text-primary">
+                                            92
+                                        </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Udupi District</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Vaccination Rate</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-tertiary font-bold">+5.1%</p>
+<p class="text-[10px] uppercase text-outline">Vs Prev Month</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Section 4: ASHA Operations Center -->
+<section class="bg-white rounded-2xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h4 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">groups</span>
+                                    ASHA Operations Center
+                                </h4>
+<p class="text-label-sm text-on-surface-variant">Workforce Efficiency &amp; Field Intelligence</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-label-md text-on-surface">12,450 Workers</p>
+<p class="text-[10px] text-tertiary font-bold">96.4% ACTIVE NOW</p>
+</div>
+<div class="w-10 h-10 bg-surface-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">more_vert</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="h-64 border border-outline-variant/30 rounded-xl p-4 bg-surface/30">
+<canvas id="ashaEfficiencyChart"></canvas>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-primary-container/10 rounded-xl flex flex-col justify-center">
+<p class="text-[12px] font-bold text-primary uppercase">Visit Completion</p>
+<p class="text-3xl font-extrabold text-on-surface">94.2%</p>
+<div class="mt-2 h-2 bg-outline-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 94.2%"></div>
+</div>
+</div>
+<div class="p-4 bg-secondary-container/10 rounded-xl flex flex-col justify-center">
+<p class="text-[12px] font-bold text-secondary uppercase">Data Sync Delay</p>
+<p class="text-3xl font-extrabold text-on-surface">12m</p>
+<div class="mt-2 flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span class="text-[11px]">Real-time optimized</span>
+</div>
+</div>
+<div class="p-4 bg-surface-container rounded-xl flex flex-col justify-center">
+<p class="text-[12px] font-bold text-on-surface-variant uppercase">Pending Alerts</p>
+<p class="text-3xl font-extrabold text-on-surface">42</p>
+<p class="text-error text-[11px] mt-1 font-bold">12 URGENT</p>
+</div>
+<div class="p-4 bg-insight-purple/10 rounded-xl flex flex-col justify-center">
+<p class="text-[12px] font-bold text-insight-purple uppercase">Trainings Done</p>
+<p class="text-3xl font-extrabold text-on-surface">88%</p>
+<p class="text-[11px] mt-1">Batch 04 in progress</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5 & 6: Policy Engine & Blockchain Audit -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+<!-- Policy Impact Engine -->
+<section class="bg-white rounded-2xl p-6 shadow-sm">
+<h4 class="font-headline-md text-headline-md text-primary flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined">model_training</span>
+                                Policy Impact Engine
+                            </h4>
+<div class="space-y-4">
+<div class="p-4 border border-outline-variant/30 rounded-xl hover:bg-primary/5 cursor-pointer group transition-colors">
+<div class="flex justify-between items-start">
+<h5 class="font-bold text-on-surface">Deploy 20% More ASHA</h5>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">play_circle</span>
+</div>
+<p class="text-label-sm text-on-surface-variant mb-2">Simulate impact on maternal mortality in high-risk zones.</p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+<span class="text-sm font-bold">14% Risk Red.</span>
+</div>
+<div class="text-on-surface-variant text-[11px]">Cost Est: ₹4.2M / mo</div>
+</div>
+</div>
+<div class="p-4 border border-outline-variant/30 rounded-xl hover:bg-insight-purple/5 cursor-pointer group transition-colors">
+<div class="flex justify-between items-start">
+<h5 class="font-bold text-on-surface">Increase Camps x2</h5>
+<span class="material-symbols-outlined text-insight-purple opacity-0 group-hover:opacity-100 transition-opacity">play_circle</span>
+</div>
+<p class="text-label-sm text-on-surface-variant mb-2">Bi-weekly diagnostic camps in remote villages.</p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+<span class="text-sm font-bold">22% Early Det.</span>
+</div>
+<div class="text-on-surface-variant text-[11px]">Cost Est: ₹2.8M / mo</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Blockchain Audit Center -->
+<section class="bg-white rounded-2xl p-6 shadow-sm flex flex-col">
+<h4 class="font-headline-md text-headline-md text-primary flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined">verified_user</span>
+                                Blockchain Audit Center
+                            </h4>
+<div class="flex-1 flex flex-col justify-center items-center p-4 bg-surface-container-low rounded-xl">
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-secondary transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="3.6" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-on-surface">99.9</span>
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Integrity</span>
+</div>
+</div>
+<div class="w-full space-y-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Verified Records</span>
+<span class="font-bold">4.2M</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Pending Blocks</span>
+<span class="font-bold text-tertiary">0</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Last Hash Sync</span>
+<span class="font-mono text-[10px] bg-white px-1 rounded">0x4F...E8B</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Right Intelligence Rail (25%) -->
+<aside class="flex-1 space-y-stack-lg max-w-[320px] -translate-x-full lg:translate-x-0 transition-transform duration-300 max-w-none lg:max-w-\[320px\]">
+<!-- Current Health Gauge -->
+<div class="bg-white rounded-2xl p-6 shadow-sm">
+<p class="font-label-md text-label-md text-on-surface mb-4">District Health Status</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-extrabold text-xl">
+                                94
+                            </div>
+<div>
+<h5 class="font-bold text-tertiary">STABLE</h5>
+<p class="text-label-sm text-on-surface-variant">Normal variance in all metrics</p>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl border-l-2 border-primary">
+<p class="text-[11px] font-bold text-primary uppercase mb-1">Key Insight</p>
+<p class="text-label-sm text-on-surface-variant">Maternal follow-ups reached an all-time high of 98% this week.</p>
+</div>
+</div>
+<!-- Risk Forecast -->
+<div class="bg-white rounded-2xl p-6 shadow-sm">
+<p class="font-label-md text-label-md text-on-surface mb-4">7-Day Risk Forecast</p>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-2 h-10 rounded-full bg-alert-orange"></div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-label-sm font-bold">Vector-borne</span>
+<span class="text-label-sm text-alert-orange">Elevated</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full">
+<div class="h-full bg-alert-orange rounded-full" style="width: 72%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-10 rounded-full bg-error"></div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-label-sm font-bold">Water Quality</span>
+<span class="text-label-sm text-error">Critical</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full">
+<div class="h-full bg-error rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-10 rounded-full bg-secondary"></div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-label-sm font-bold">Immunization Gap</span>
+<span class="text-label-sm text-secondary">Low Risk</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Network Status -->
+<div class="bg-white rounded-2xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<p class="font-label-md text-label-md text-on-surface">Network Connectivity</p>
+<span class="w-2 h-2 bg-tertiary rounded-full animate-pulse"></span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[12px]">
+<span class="text-on-surface-variant">Primary Server (Hub)</span>
+<span class="text-tertiary font-bold">Online</span>
+</div>
+<div class="flex justify-between text-[12px]">
+<span class="text-on-surface-variant">Village Gateways</span>
+<span class="text-on-surface">814 / 820</span>
+</div>
+<div class="flex justify-between text-[12px]">
+<span class="text-on-surface-variant">Data Pipeline Latency</span>
+<span class="text-on-surface">140ms</span>
+</div>
+</div>
+</div>
+<!-- Policy Feed -->
+<div class="p-6 bg-primary-container rounded-2xl text-on-primary-container shadow-lg shadow-primary/20">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined">policy</span>
+<h5 class="font-bold">New Policy Directives</h5>
+</div>
+<p class="text-sm mb-4 opacity-90">National Protocol v2.4: "Monsoon Preparedness &amp; Vector Control" mandatory reporting begins tomorrow.</p>
+<button class="w-full py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-sm font-bold backdrop-blur-md">
+                            Download Protocol
+                        </button>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<script>
+        // Initialize Leaflet Map
+        document.addEventListener('DOMContentLoaded', () => {
+            const map = L.map('map').setView([15.3173, 75.7139], 7); // Karnataka Region
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Mock Data for severity zones
+            const zones = [
+                { lat: 12.9716, lng: 77.5946, severity: 'critical', name: 'Bangalore Outbreak Zone' },
+                { lat: 15.3647, lng: 75.1240, severity: 'warning', name: 'Hubli Monitoring Zone' },
+                { lat: 12.2958, lng: 76.6394, severity: 'stable', name: 'Mysuru Safe Zone' }
+            ];
+
+            zones.forEach(zone => {
+                const color = zone.severity === 'critical' ? '#ba1a1a' : zone.severity === 'warning' ? '#FF8A00' : '#006a61';
+                L.circle([zone.lat, zone.lng], {
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.2,
+                    radius: 35000
+                }).addTo(map).bindPopup(`<b>${zone.name}</b><br>Severity: ${zone.severity.toUpperCase()}`);
+            });
+        });
+
+        // Initialize Chart.js
+        const ctx = document.getElementById('ashaEfficiencyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Efficiency Index',
+                    data: [88, 92, 91, 95, 93, 89, 94],
+                    borderColor: '#0F6CBD',
+                    backgroundColor: 'rgba(15, 108, 189, 0.05)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#0F6CBD'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: false, 
+                        min: 80,
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        ticks: { font: { size: 10 } }
+                    },
+                    x: { 
+                        grid: { display: false },
+                        ticks: { font: { size: 10 } }
+                    }
+                }
+            }
+        });
+    </script>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const sidebar = document.querySelector('aside');
+            if (toggle && sidebar) {
+                toggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('-translate-x-full');
+                });
+            }
+        });
+    </script></body></html>

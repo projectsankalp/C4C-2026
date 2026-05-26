@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AarogyaSethu | Patient Portal</title>
+<!-- Tailwind CSS for utility-first styling based on Design System -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Plus Jakarta Sans & Inter Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary-container": "#a9fdd1",
+                "inverse-surface": "#2d3133",
+                "on-tertiary-fixed": "#002113",
+                "inverse-on-surface": "#eff1f3",
+                "error": "#ba1a1a",
+                "outline": "#717783",
+                "on-secondary-fixed": "#00201d",
+                "on-primary-fixed": "#001c39",
+                "background": "#f7f9fb",
+                "on-secondary": "#ffffff",
+                "tertiary-container": "#217855",
+                "secondary": "#006a61",
+                "primary-fixed-dim": "#a3c9ff",
+                "tertiary": "#005e3f",
+                "error-container": "#ffdad6",
+                "surface-container-highest": "#e0e3e5",
+                "secondary-container": "#6bf5e5",
+                "on-surface-variant": "#414751",
+                "on-background": "#191c1e",
+                "outline-variant": "#c1c7d3",
+                "on-surface": "#191c1e",
+                "tertiary-fixed": "#a0f4c8",
+                "surface-dim": "#d8dadc",
+                "primary": "#005396",
+                "surface": "#f7f9fb",
+                "on-primary-container": "#e3ecff",
+                "surface-variant": "#e0e3e5",
+                "secondary-fixed": "#6ef8e7",
+                "on-primary": "#ffffff",
+                "inverse-primary": "#a3c9ff",
+                "surface-container-low": "#f2f4f6",
+                "surface-container": "#eceef0",
+                "surface-bright": "#f7f9fb",
+                "tertiary-fixed-dim": "#85d7ad",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#005236",
+                "surface-container-high": "#e6e8ea",
+                "primary-fixed": "#d3e3ff",
+                "surface-tint": "#0060ab",
+                "secondary-fixed-dim": "#4cdbcb",
+                "on-primary-fixed-variant": "#004883",
+                "primary-container": "#0f6cbd",
+                "on-error": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "on-secondary-container": "#006f66",
+                "on-secondary-fixed-variant": "#005049"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "margin-mobile": "16px",
+                "margin-desktop": "32px",
+                "gutter": "24px",
+                "container-max": "1280px",
+                "stack-sm": "8px",
+                "base": "8px"
+            },
+            "fontFamily": {
+                "label-sm": ["Inter"],
+                "label-md": ["Inter"],
+                "body-sm": ["Inter"],
+                "headline-lg-mobile": ["Plus Jakarta Sans"],
+                "body-md": ["Inter"],
+                "headline-md": ["Plus Jakarta Sans"],
+                "headline-lg": ["Plus Jakarta Sans"],
+                "display-lg": ["Plus Jakarta Sans"],
+                "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Inter', sans-serif;
+            color: #191c1e;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(15, 108, 189, 0.05);
+        }
+        .waveform-bar {
+            width: 4px;
+            height: 20px;
+            background: #0f6cbd;
+            border-radius: 2px;
+            animation: pulse 1.2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { height: 10px; }
+            50% { height: 35px; }
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c7d3;
+            border-radius: 10px;
+        }
+        .main-container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen">
+<!-- SideNavBar (Shared Component - Desktop Only) -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col py-stack-lg z-40 bg-surface-container-low/90 backdrop-blur-xl border-r border-outline-variant/20 shadow-md hidden md:flex">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AarogyaSethu</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Rural Health Network</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="bg-primary-container text-on-primary-container rounded-xl font-bold flex items-center px-4 py-3 group transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">clinical_notes</span>
+<span class="font-label-md text-label-md">Health Snapshot</span>
+</a>
+<a class="text-on-surface-variant flex items-center px-4 py-3 hover:bg-surface-variant rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">pill</span>
+<span class="font-label-md text-label-md">Prescriptions</span>
+</a>
+<a class="text-on-surface-variant flex items-center px-4 py-3 hover:bg-surface-variant rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">alarm</span>
+<span class="font-label-md text-label-md">Reminders</span>
+</a>
+<a class="text-on-surface-variant flex items-center px-4 py-3 hover:bg-surface-variant rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">trending_up</span>
+<span class="font-label-md text-label-md">Trends</span>
+</a>
+<a class="text-on-surface-variant flex items-center px-4 py-3 hover:bg-surface-variant rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">mic</span>
+<span class="font-label-md text-label-md">Voice Assistant</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-2">
+<button class="w-full bg-error text-on-error py-4 rounded-xl flex items-center justify-center font-bold shadow-lg hover:opacity-90 transition-all mb-6">
+<span class="material-symbols-outlined mr-2" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+                SOS EMERGENCY
+            </button>
+<a class="text-on-surface-variant flex items-center px-4 py-3 hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="text-on-surface-variant flex items-center px-4 py-3 hover:bg-surface-variant rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined mr-3">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen pb-24 md:pb-8">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 left-0 md:left-64 h-20 z-30 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-4 md:px-margin-desktop">
+<div class="flex items-center gap-4">
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary text-3xl">menu</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-primary truncate max-w-[200px] md:max-w-none">Good Morning, Ramesh</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant hidden md:block">Your health is stable. 2 tasks remaining for today.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 md:gap-4">
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">translate</span>
+</button>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-primary/20 flex-shrink-0">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAndOGORv2UaxZYsliKlSaskrDHQZMk5-whLm95NWkmKVUORClLNCJ90fHYV38Lqchv4zcTfvWHpCJPVCUm26KZb5ikDZC6WqU539Rh8FZfKmFmNN-lCkjuO523M3VR5AVmBilqrY_9Dq-DaG7-FPOC8etlI99YYVaazsUozbMGGjw9ChHizffuu5UZPn9sbtbBRZGHgj6zpWVe6vEFc_fztD76vIDm4tHksFUKFbdAvkju5JRjh_njKf4Yd_cwH9vRuu5rBsGFemoE"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="mt-24 px-4 md:px-margin-desktop main-container space-y-8">
+<!-- Health Snapshot Bento Grid (12-column logic) -->
+<section class="grid grid-cols-12 gap-6">
+<!-- Health Score -->
+<div class="col-span-12 md:col-span-3 glass-card p-6 rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-[#74C69D]">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Health Score</span>
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-variant" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-tertiary" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="40.2" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-display-lg text-2xl font-bold text-primary">84</span>
+</div>
+<p class="mt-2 font-body-sm text-tertiary font-semibold">Excellent Stability</p>
+</div>
+<!-- Adherence -->
+<div class="col-span-12 md:col-span-3 glass-card p-6 rounded-2xl border-l-4 border-primary">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary p-2 bg-primary/10 rounded-lg">medication</span>
+<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">WEEKLY</span>
+</div>
+<h3 class="font-headline-md text-xl font-bold mb-1">78%</h3>
+<p class="font-body-sm text-on-surface-variant">Medicine Adherence</p>
+<div class="w-full bg-surface-variant h-2 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full w-[78%]"></div>
+</div>
+</div>
+<!-- Next Visit -->
+<div class="col-span-12 md:col-span-3 glass-card p-6 rounded-2xl border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">event</span>
+<div class="text-right">
+<p class="text-xs font-bold text-secondary">3 DAYS LEFT</p>
+</div>
+</div>
+<h3 class="font-headline-md text-xl font-bold mb-1">Oct 24, 2023</h3>
+<p class="font-body-sm text-on-surface-variant">General Checkup</p>
+<button class="mt-4 text-secondary font-bold text-sm flex items-center hover:gap-2 transition-all">
+                        View Details <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+<!-- Vitals Summary -->
+<div class="col-span-12 md:col-span-3 glass-card p-6 rounded-2xl bg-primary text-on-primary">
+<h3 class="font-label-md text-label-md mb-4 opacity-80">Latest Vitals</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center border-b border-on-primary/20 pb-2">
+<span class="text-sm">BP</span>
+<span class="font-bold">120/80</span>
+</div>
+<div class="flex justify-between items-center border-b border-on-primary/20 pb-2">
+<span class="text-sm">Glucose</span>
+<span class="font-bold">110 mg/dL</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm">Weight</span>
+<span class="font-bold">72 kg</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Layout (12-column grid system) -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column (Schedule & Prescriptions) -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Medicine Reminders Timeline -->
+<section>
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+<h3 class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">schedule</span> Today's Schedule
+                            </h3>
+<button class="text-primary font-bold text-sm text-left md:text-right">View Full Calendar</button>
+</div>
+<div class="space-y-4">
+<!-- Morning -->
+<div class="glass-card p-5 rounded-2xl flex flex-col md:flex-row md:items-center gap-4 md:gap-6 border-l-8 border-secondary-container">
+<div class="md:text-center md:min-w-[60px] flex md:flex-col items-baseline md:items-center gap-2">
+<p class="font-bold text-lg">08:00</p>
+<p class="text-xs uppercase text-on-surface-variant">AM</p>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+<h4 class="font-bold">Morning Medicines</h4>
+</div>
+<p class="text-sm text-on-surface-variant">Metformin 500mg, Atorvastatin</p>
+</div>
+<button class="w-full md:w-auto bg-tertiary text-on-tertiary px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    Taken
+                                </button>
+</div>
+<!-- Afternoon -->
+<div class="glass-card p-5 rounded-2xl flex flex-col md:flex-row md:items-center gap-4 md:gap-6 border-l-8 border-primary-fixed-dim">
+<div class="md:text-center md:min-w-[60px] flex md:flex-col items-baseline md:items-center gap-2">
+<p class="font-bold text-lg">02:00</p>
+<p class="text-xs uppercase text-on-surface-variant">PM</p>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<h4 class="font-bold">Afternoon Dosage</h4>
+</div>
+<p class="text-sm text-on-surface-variant">Multivitamin Syrup</p>
+</div>
+<button class="w-full md:w-auto border-2 border-primary text-primary px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/5 transition-all">
+                                    Mark Complete
+                                </button>
+</div>
+<!-- Evening -->
+<div class="glass-card p-5 rounded-2xl flex flex-col md:flex-row md:items-center gap-4 md:gap-6 border-l-8 border-primary opacity-60">
+<div class="md:text-center md:min-w-[60px] flex md:flex-col items-baseline md:items-center gap-2">
+<p class="font-bold text-lg">08:30</p>
+<p class="text-xs uppercase text-on-surface-variant">PM</p>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<h4 class="font-bold">Night Medicines</h4>
+</div>
+<p class="text-sm text-on-surface-variant">Metformin 500mg</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant hidden md:block">lock</span>
+<button class="w-full md:hidden border border-outline-variant text-on-surface-variant px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2" disabled="">
+<span class="material-symbols-outlined">lock</span> Locked
+                                </button>
+</div>
+</div>
+</section>
+<!-- Aarogya Sahayak (Responsive Focus Card - Injected into middle flow on mobile) -->
+<section class="block lg:hidden bg-primary-container p-6 rounded-3xl text-on-primary-container shadow-xl">
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline-md text-xl font-bold">Aarogya Sahayak</h3>
+<div class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold">HINDI / EN</div>
+</div>
+<div class="flex flex-col items-center py-8">
+<div class="flex items-end gap-1 h-12 mb-6">
+<div class="waveform-bar" style="animation-delay: 0.1s;"></div>
+<div class="waveform-bar" style="animation-delay: 0.3s; height: 30px;"></div>
+<div class="waveform-bar" style="animation-delay: 0.5s; height: 40px;"></div>
+<div class="waveform-bar" style="animation-delay: 0.2s; height: 25px;"></div>
+<div class="waveform-bar" style="animation-delay: 0.4s; height: 15px;"></div>
+</div>
+<p class="text-center font-body-md mb-8">"Ramesh Ji, aapki sham ki dawai ka samay ho gaya hai. Kya aapne li?"</p>
+<button class="bg-white text-primary w-20 h-20 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+<p class="mt-4 text-xs opacity-70">Tap to respond</p>
+</div>
+</section>
+<!-- Active Prescriptions -->
+<section>
+<h3 class="font-headline-md text-headline-md font-bold text-primary mb-4">Active Prescriptions</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-9xl">pill</span>
+</div>
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-bold text-lg text-primary">Metformin Hydrochloride</h4>
+<span class="bg-secondary-container/30 text-secondary px-2 py-1 rounded text-xs font-bold">500 MG</span>
+</div>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">repeat</span>
+                                        Twice Daily (Post Breakfast &amp; Dinner)
+                                    </div>
+<div class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">calendar_today</span>
+                                        15 Days Remaining
+                                    </div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/20">
+<span class="text-xs text-on-surface-variant italic">Dr. Aruna Singh</span>
+<button class="text-primary font-bold text-sm">Prescription Info</button>
+</div>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-9xl">medication_liquid</span>
+</div>
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-bold text-lg text-primary">Atorvastatin</h4>
+<span class="bg-secondary-container/30 text-secondary px-2 py-1 rounded text-xs font-bold">10 MG</span>
+</div>
+<div class="space-y-2 mb-6">
+<div class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">event_repeat</span>
+                                        Once Daily (Night)
+                                    </div>
+<div class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">inventory_2</span>
+                                        Refill Needed (2 pills left)
+                                    </div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/20">
+<span class="text-xs text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">warning</span> Low Stock
+                                    </span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-bold">Refill</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Wellness Plan (2-col mobile, 4-col desktop) -->
+<section>
+<h3 class="font-headline-md text-headline-md font-bold text-primary mb-4">Wellness Plan</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-card p-4 rounded-2xl text-center">
+<span class="material-symbols-outlined text-tertiary mb-2 text-3xl">restaurant</span>
+<p class="font-bold">Balanced Diet</p>
+<p class="text-xs text-on-surface-variant">Low Sugar/Salt</p>
+<button class="mt-2 text-primary p-2 bg-primary/5 rounded-full">
+<span class="material-symbols-outlined text-lg">volume_up</span>
+</button>
+</div>
+<div class="glass-card p-4 rounded-2xl text-center">
+<span class="material-symbols-outlined text-[#00B7A8] mb-2 text-3xl">water_drop</span>
+<p class="font-bold">Hydration</p>
+<p class="text-xs text-on-surface-variant">2.5L Remaining</p>
+<div class="mt-2 text-xs font-bold text-secondary">8 / 12 Glasses</div>
+</div>
+<div class="glass-card p-4 rounded-2xl text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">directions_walk</span>
+<p class="font-bold">Activity</p>
+<p class="text-xs text-on-surface-variant">3200 Steps Today</p>
+<p class="text-xs text-tertiary font-bold">Goal: 5000</p>
+</div>
+<div class="glass-card p-4 rounded-2xl text-center">
+<span class="material-symbols-outlined text-purple-600 mb-2 text-3xl">sleep</span>
+<p class="font-bold">Sleep</p>
+<p class="text-xs text-on-surface-variant">7h 20m Last Night</p>
+<button class="mt-2 text-primary p-2 bg-primary/5 rounded-full">
+<span class="material-symbols-outlined text-lg">volume_up</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Trends, Records - Desktop Position) -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Voice Health Assistant (Desktop only position) -->
+<section class="hidden lg:block bg-primary-container p-6 rounded-3xl text-on-primary-container shadow-xl">
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline-md text-xl font-bold">Aarogya Sahayak</h3>
+<div class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold">HINDI / EN</div>
+</div>
+<div class="flex flex-col items-center py-8">
+<div class="flex items-end gap-1 h-12 mb-6">
+<div class="waveform-bar" style="animation-delay: 0.1s;"></div>
+<div class="waveform-bar" style="animation-delay: 0.3s; height: 30px;"></div>
+<div class="waveform-bar" style="animation-delay: 0.5s; height: 40px;"></div>
+<div class="waveform-bar" style="animation-delay: 0.2s; height: 25px;"></div>
+<div class="waveform-bar" style="animation-delay: 0.4s; height: 15px;"></div>
+</div>
+<p class="text-center font-body-md mb-8">"Ramesh Ji, aapki sham ki dawai ka samay ho gaya hai. Kya aapne li?"</p>
+<button class="bg-white text-primary w-20 h-20 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+<p class="mt-4 text-xs opacity-70">Tap to respond</p>
+</div>
+</section>
+<!-- Health Trends (Chart) -->
+<section class="glass-card p-6 rounded-2xl">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-primary">BP Trend</h3>
+<span class="text-xs text-on-surface-variant">Last 7 Days</span>
+</div>
+<div class="h-48">
+<canvas id="bpChart"></canvas>
+</div>
+</section>
+<!-- Digital Health Record -->
+<section class="bg-white border border-outline-variant/30 p-6 rounded-2xl">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-tertiary-fixed text-tertiary p-3 rounded-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div>
+<h4 class="font-bold">Digital Health ID</h4>
+<p class="text-xs text-on-surface-variant">ABHA: 91-2345-6789-0123</p>
+</div>
+</div>
+<div class="bg-surface p-4 rounded-xl mb-4 flex justify-between items-center border border-dashed border-outline">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">token</span>
+<span class="text-xs font-bold">Blockchain Secured</span>
+</div>
+<span class="text-[10px] bg-tertiary-container/20 text-tertiary px-2 py-1 rounded">VERIFIED</span>
+</div>
+<button class="w-full bg-surface-variant hover:bg-surface-container-highest transition-colors py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                            Download Record (PDF)
+                        </button>
+</section>
+<!-- ASHA Contact -->
+<section class="bg-secondary/10 border-2 border-secondary/20 p-6 rounded-2xl">
+<h4 class="font-bold text-secondary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">support_agent</span> Your Local ASHA Worker
+                        </h4>
+<div class="flex items-center gap-4">
+<img alt="ASHA Worker" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzuVyVRzTyXPr-Ko0tZWoo03Ps2fm4ixxKM9zuXTK5Hyx13e_ag9wX2iW3CxeH7Mj-yd55hWJA8DR3-EPgxPonMG5WEi3uQARTkSM13ksNsOrGN5fdT6HuhfFajsZeQGhmVzhL32N9Dp-ieZp9ZQkZ7L7nNl9ymr7JkrTQA0O7R56pI31VD-A9IFr_INcO_QlMp1pe3r1q0kfsyEQTfNd0_3rl8SlnqWOY2O6QimSspECTODjZjNQNF4XZsDCqcjcVdcme2ozemJkG"/>
+<div>
+<p class="font-bold text-sm">Sunita Devi</p>
+<p class="text-xs text-on-surface-variant">Zone: Bilaspur Rural</p>
+</div>
+<div class="ml-auto flex gap-2">
+<button class="p-2 bg-secondary text-on-secondary rounded-full shadow-sm">
+<span class="material-symbols-outlined text-lg">call</span>
+</button>
+<button class="p-2 bg-white text-secondary border border-secondary rounded-full shadow-sm">
+<span class="material-symbols-outlined text-lg">chat</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Health Timeline -->
+<section class="pb-12">
+<h3 class="font-headline-md text-headline-md font-bold text-primary mb-6">Recent History</h3>
+<div class="relative pl-6 md:pl-8 border-l-2 border-outline-variant space-y-8">
+<div class="relative">
+<span class="absolute -left-[33px] md:-left-[41px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></span>
+<div class="glass-card p-4 rounded-xl max-w-2xl">
+<p class="text-xs text-on-surface-variant font-bold">Oct 10, 2023</p>
+<h4 class="font-bold text-primary">Cardiology Consult</h4>
+<p class="text-sm">Follow-up checkup with Dr. Aruna Singh. Recommended continuing Metformin dosage.</p>
+<div class="mt-2 flex flex-wrap gap-2">
+<span class="text-[10px] bg-primary/5 text-primary px-2 py-1 rounded">Prescription #4521</span>
+<span class="text-[10px] bg-primary/5 text-primary px-2 py-1 rounded">Report Attached</span>
+</div>
+</div>
+</div>
+<div class="relative">
+<span class="absolute -left-[33px] md:-left-[41px] top-0 w-4 h-4 rounded-full bg-secondary border-4 border-white shadow-sm"></span>
+<div class="glass-card p-4 rounded-xl max-w-2xl">
+<p class="text-xs text-on-surface-variant font-bold">Sep 28, 2023</p>
+<h4 class="font-bold text-secondary">Blood Tests (Full Panel)</h4>
+<p class="text-sm">All parameters within normal range. HbA1c: 6.2 (Stable).</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Mobile Sticky Top SOS (Alternative to sidebar button for mobile visibility) -->
+<div class="md:hidden sticky top-20 z-20 px-4 py-2 bg-background/50 backdrop-blur-sm">
+<button class="w-full bg-error text-on-error py-3 rounded-xl flex items-center justify-center font-bold shadow-xl active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined mr-2" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+                SOS EMERGENCY
+            </button>
+</div>
+<!-- BottomNavBar (Shared Component Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-xl border-t border-outline-variant/30 flex justify-around items-center h-20 px-4 z-50">
+<a class="flex flex-col items-center text-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="text-[10px] mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">pill</span>
+<span class="text-[10px] mt-1">Medicines</span>
+</a>
+<div class="relative -mt-10">
+<div class="bg-error w-16 h-16 rounded-full border-4 border-background flex items-center justify-center text-on-error shadow-2xl active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">emergency</span>
+</div>
+</div>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] mt-1">Timeline</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+</main>
+<script>
+        // BP Chart Initialization
+        const ctx = document.getElementById('bpChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Systolic',
+                    data: [122, 125, 120, 118, 121, 124, 120],
+                    borderColor: '#0f6cbd',
+                    backgroundColor: 'rgba(15, 108, 189, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Diastolic',
+                    data: [82, 84, 80, 78, 81, 82, 80],
+                    borderColor: '#00B7A8',
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { display: false },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // Simple dark mode toggle logic (reserved)
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</body></html>
