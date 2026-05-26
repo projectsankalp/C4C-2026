@@ -1,0 +1,377 @@
+[
+  {
+    "label": "आंध्र प्रदेश",
+    "value": "andhra_pradesh",
+    "capital": "अमरावती",
+    "supportFocus": "कृषि, खाद्य प्रसंस्करण, विनिर्माण, एमएसएमई, इलेक्ट्रॉनिक्स",
+    "description": "आंध्र प्रदेश औद्योगिक प्रोत्साहन, स्टार्टअप कार्यक्रमों और कौशल विकास पहलों के माध्यम से एमएसएमई, खाद्य प्रसंस्करण इकाइयों, महिला उद्यमियों और विनिर्माण व्यवसायों का समर्थन करता है।",
+    "infoLink": "https://www.apindustries.gov.in/",
+    "schemes": [
+      "YSR Cheyutha",
+      "AP MSME Development Policy",
+      "YSR Asara"
+    ]
+  },
+  {
+    "label": "अरुणाचल प्रदेश",
+    "value": "arunachal_pradesh",
+    "capital": "ईटानगर",
+    "supportFocus": "हस्तशिल्प, पर्यटन, कृषि, जनजातीय उद्यमिता",
+    "description": "अरुणाचल प्रदेश सरकारी सहायता और ग्रामीण विकास कार्यक्रमों के माध्यम से आदिवासी व्यवसायों, हस्तशिल्प, पर्यावरण-पर्यटन और कृषि-आधारित उद्यमों को बढ़ावा देता है।",
+    "infoLink": "https://industries.arunachal.gov.in/",
+    "schemes": [
+      "Deen Dayal Upadhyaya Swavalamban Yojana",
+      "Arunachal Pradesh Startup Policy"
+    ]
+  },
+  {
+    "label": "असम",
+    "value": "assam",
+    "capital": "दिसपुर",
+    "supportFocus": "चाय उद्योग, हस्तशिल्प, पर्यटन, कृषि, एमएसएमई",
+    "description": "असम वित्तीय सहायता और उद्यमिता योजनाओं के माध्यम से चाय उत्पादन, हस्तशिल्प, पर्यटन, कृषि और महिलाओं के नेतृत्व वाले एमएसएमई को सहायता प्रदान करता है।",
+    "infoLink": "https://industries.assam.gov.in/",
+    "schemes": [
+      "Assam Startup Policy",
+      "SVAYEM Scheme"
+    ]
+  },
+  {
+    "label": "बिहार",
+    "value": "bihar",
+    "capital": "पटना",
+    "supportFocus": "ग्रामीण उद्यमिता, कृषि, खाद्य प्रसंस्करण, एमएसएमई",
+    "description": "बिहार सब्सिडी, ऋण और रोजगार सृजन कार्यक्रमों के माध्यम से ग्रामीण उद्यमों, महिला उद्यमियों, खाद्य प्रसंस्करण व्यवसायों और स्टार्टअप का समर्थन करता है।",
+    "infoLink": "https://industries.bihar.gov.in/",
+    "schemes": [
+      "Bihar Startup Policy",
+      "Mukhyamantri Udyami Yojana"
+    ]
+  },
+  {
+    "label": "छत्तीसगढ",
+    "value": "chhattisgarh",
+    "capital": "रायपुर",
+    "supportFocus": "खनन, हस्तशिल्प, आदिवासी व्यवसाय, खाद्य प्रसंस्करण",
+    "description": "छत्तीसगढ़ औद्योगिक प्रोत्साहन और प्रशिक्षण कार्यक्रमों के माध्यम से एमएसएमई, आदिवासी उद्यमिता, वन-आधारित उद्योगों और खाद्य प्रसंस्करण व्यवसायों को बढ़ावा देता है।",
+    "infoLink": "https://industries.cg.gov.in/",
+    "schemes": [
+      "CG Startup Policy",
+      "Mukhyamantri Yuva Swarozgar Yojana"
+    ]
+  },
+  {
+    "label": "गोवा",
+    "value": "goa",
+    "capital": "पणजी",
+    "supportFocus": "पर्यटन, आतिथ्य, स्टार्टअप, हस्तशिल्प",
+    "description": "गोवा स्टार्टअप समर्थन और पर्यटन प्रोत्साहन के माध्यम से पर्यटन व्यवसायों, आतिथ्य स्टार्टअप, हस्तशिल्प और महिला नेतृत्व वाले उद्यमों को प्रोत्साहित करता है।",
+    "infoLink": "https://goa.gov.in/department/industries/",
+    "schemes": [
+      "Goa Startup Policy",
+      "Chief Minister Rojgar Yojana"
+    ]
+  },
+  {
+    "label": "गुजरात",
+    "value": "gujarat",
+    "capital": "गांधीनगर",
+    "supportFocus": "विनिर्माण, कपड़ा, निर्यात, स्टार्टअप, एमएसएमई",
+    "description": "विनिर्माण, निर्यात, कपड़ा और महिला उद्यमिता के लिए व्यापक समर्थन के साथ गुजरात भारत के सबसे मजबूत औद्योगिक राज्यों में से एक है।",
+    "infoLink": "https://industriescomm.gujarat.gov.in/",
+    "schemes": [
+      "Gujarat Industrial Policy",
+      "iCreate Startup Support"
+    ]
+  },
+  {
+    "label": "हरयाणा",
+    "value": "haryana",
+    "capital": "चंडीगढ़",
+    "supportFocus": "ऑटोमोबाइल विनिर्माण, स्टार्टअप, कृषि, एमएसएमई",
+    "description": "हरियाणा नवाचार और एमएसएमई-केंद्रित पहलों के माध्यम से स्टार्टअप, औद्योगिक विनिर्माण, कृषि-व्यवसायों और महिला उद्यमियों का समर्थन करता है।",
+    "infoLink": "https://industriesharyana.gov.in/",
+    "schemes": [
+      "Haryana Startup Policy",
+      "Padma Scheme"
+    ]
+  },
+  {
+    "label": "हिमाचल प्रदेश",
+    "value": "himachal_pradesh",
+    "capital": "शिमला",
+    "supportFocus": "पर्यटन, हस्तशिल्प, खाद्य प्रसंस्करण, कृषि",
+    "description": "हिमाचल प्रदेश एमएसएमई और पर्यटन सहायता कार्यक्रमों के माध्यम से पर्यावरण-पर्यटन, हस्तशिल्प, खाद्य प्रसंस्करण और ग्रामीण उद्यमिता को बढ़ावा देता है।",
+    "infoLink": "https://emerginghimachal.hp.gov.in/",
+    "schemes": [
+      "Himachal Pradesh Startup Scheme",
+      "Mukhyamantri Swavalamban Yojana"
+    ]
+  },
+  {
+    "label": "झारखंड",
+    "value": "jharkhand",
+    "capital": "रांची",
+    "supportFocus": "खनन, जनजातीय उद्यमिता, एमएसएमई, हस्तशिल्प",
+    "description": "झारखंड वित्तीय सहायता और कौशल विकास के माध्यम से एमएसएमई, खनन से संबंधित उद्योगों, आदिवासी व्यवसायों और महिला उद्यमियों का समर्थन करता है।",
+    "infoLink": "https://industries.jharkhand.gov.in/",
+    "schemes": [
+      "Jharkhand Startup Policy",
+      "Mukhyamantri Rojgar Srijan Yojana"
+    ]
+  },
+  {
+    "label": "कर्नाटक",
+    "value": "karnataka",
+    "capital": "बेंगलुरु",
+    "supportFocus": "स्टार्टअप, जैव प्रौद्योगिकी, महिला उद्यमिता, विनिर्माण",
+    "description": "कर्नाटक में एमएसएमई, महिला नेतृत्व वाले उद्यमों, खाद्य प्रसंस्करण और प्रौद्योगिकी व्यवसायों के समर्थन के साथ भारत के सबसे मजबूत स्टार्टअप और नवाचार पारिस्थितिकी तंत्र में से एक है।",
+    "infoLink": "https://startup.karnataka.gov.in/",
+    "schemes": [
+      "Elevate Karnataka",
+      "Karnataka Startup Policy",
+      "MSME Subsidy Schemes"
+    ]
+  },
+  {
+    "label": "केरल",
+    "value": "kerala",
+    "capital": "तिरुवनंतपुरम",
+    "supportFocus": "पर्यटन, स्टार्टअप, महिला उद्यमिता, एमएसएमई",
+    "description": "केरल इन्क्यूबेशन और वित्तीय सहायता के माध्यम से स्टार्टअप, पर्यटन व्यवसाय, कॉयर उद्योग और महिला नेतृत्व वाले उद्यमों को सक्रिय रूप से बढ़ावा देता है।",
+    "infoLink": "https://startupmission.kerala.gov.in/",
+    "schemes": [
+      "Kerala Startup Mission",
+      "WE Mission"
+    ]
+  },
+  {
+    "label": "मध्य प्रदेश",
+    "value": "madhya_pradesh",
+    "capital": "भोपाल",
+    "supportFocus": "विनिर्माण, कृषि, खाद्य प्रसंस्करण, एमएसएमई",
+    "description": "मध्य प्रदेश सब्सिडी और उद्यमिता योजनाओं के माध्यम से औद्योगिक विकास, खाद्य प्रसंस्करण, ग्रामीण व्यवसायों और एमएसएमई का समर्थन करता है।",
+    "infoLink": "https://invest.mp.gov.in/",
+    "schemes": [
+      "Mukhyamantri Udyam Kranti Yojana",
+      "MP Startup Policy"
+    ]
+  },
+  {
+    "label": "महाराष्ट्र",
+    "value": "maharashtra",
+    "capital": "मुंबई",
+    "supportFocus": "औद्योगिक विकास, स्टार्टअप, विनिर्माण, महिला उद्यमिता",
+    "description": "महाराष्ट्र राज्य समर्थित फंडिंग और सब्सिडी पहल के माध्यम से स्टार्टअप, एमएसएमई, औद्योगिक व्यवसायों और महिला उद्यमियों के लिए व्यापक सहायता प्रदान करता है।",
+    "infoLink": "https://industry.maharashtra.gov.in/",
+    "schemes": [
+      "CMEGP",
+      "Maharashtra Startup Policy"
+    ]
+  },
+  {
+    "label": "मणिपुर",
+    "value": "manipur",
+    "capital": "इंफाल",
+    "supportFocus": "हस्तशिल्प, हथकरघा, पर्यटन, महिला उद्यमिता",
+    "description": "मणिपुर महिलाओं के नेतृत्व वाले उद्यमों, हस्तशिल्प, हथकरघा व्यवसायों और पर्यटन से संबंधित उद्यमिता को बढ़ावा देता है।",
+    "infoLink": "https://manipur.gov.in/",
+    "schemes": [
+      "Startup Manipur",
+      "Handloom Promotion Schemes"
+    ]
+  },
+  {
+    "label": "मेघालय",
+    "value": "meghalaya",
+    "capital": "शिलांग",
+    "supportFocus": "पर्यटन, हस्तशिल्प, कृषि, स्टार्टअप",
+    "description": "मेघालय उद्यमिता विकास पहल के माध्यम से पर्यावरण-पर्यटन, कृषि, हस्तशिल्प और स्थानीय स्टार्टअप का समर्थन करता है।",
+    "infoLink": "https://megeducation.gov.in/",
+    "schemes": [
+      "Meghalaya Startup Policy"
+    ]
+  },
+  {
+    "label": "मिजोरम",
+    "value": "mizoram",
+    "capital": "आइजोल",
+    "supportFocus": "बांस उद्योग, हस्तशिल्प, कृषि, एमएसएमई",
+    "description": "मिजोरम बांस आधारित उद्योगों, हस्तशिल्प, खाद्य प्रसंस्करण और ग्रामीण उद्यमिता को बढ़ावा देता है।",
+    "infoLink": "https://mizoram.gov.in/",
+    "schemes": [
+      "Bamboo Development Programs"
+    ]
+  },
+  {
+    "label": "नगालैंड",
+    "value": "nagaland",
+    "capital": "कोहिमा",
+    "supportFocus": "हस्तशिल्प, पर्यटन, जनजातीय उद्यमिता",
+    "description": "नागालैंड स्टार्टअप और आजीविका योजनाओं के माध्यम से आदिवासी उद्यमियों, पर्यटन व्यवसायों और हस्तशिल्प उद्यमों का समर्थन करता है।",
+    "infoLink": "https://investmentdevelopmentauthority.com/",
+    "schemes": [
+      "Nagaland Startup Policy"
+    ]
+  },
+  {
+    "label": "ओडिशा",
+    "value": "odisha",
+    "capital": "भुवनेश्वर",
+    "supportFocus": "खनन, हस्तशिल्प, कपड़ा, एमएसएमई",
+    "description": "ओडिशा स्टार्टअप और सब्सिडी कार्यक्रमों के माध्यम से एमएसएमई, कपड़ा, हस्तशिल्प, महिला उद्यमिता और औद्योगिक विकास को बढ़ावा देता है।",
+    "infoLink": "https://msme.odisha.gov.in/",
+    "schemes": [
+      "Odisha Startup Policy",
+      "Mission Shakti"
+    ]
+  },
+  {
+    "label": "पंजाब",
+    "value": "punjab",
+    "capital": "चंडीगढ़",
+    "supportFocus": "कृषि, खाद्य प्रसंस्करण, विनिर्माण, एमएसएमई",
+    "description": "पंजाब औद्योगिक और एमएसएमई योजनाओं के माध्यम से खाद्य प्रसंस्करण, कृषि व्यवसाय, विनिर्माण और महिला नेतृत्व वाले उद्यमों का समर्थन करता है।",
+    "infoLink": "https://pbindustries.gov.in/",
+    "schemes": [
+      "Punjab Startup Policy"
+    ]
+  },
+  {
+    "label": "राजस्थान",
+    "value": "rajasthan",
+    "capital": "जयपुर",
+    "supportFocus": "हस्तशिल्प, पर्यटन, कपड़ा, एमएसएमई",
+    "description": "राजस्थान स्टार्टअप और ग्रामीण विकास पहल के माध्यम से हस्तशिल्प, पर्यटन, कपड़ा उद्योग और महिला उद्यमिता को बढ़ावा देता है।",
+    "infoLink": "https://industries.rajasthan.gov.in/",
+    "schemes": [
+      "iStart Rajasthan",
+      "Rajasthan MSME Policy"
+    ]
+  },
+  {
+    "label": "सिक्किम",
+    "value": "sikkim",
+    "capital": "गंगटोक",
+    "supportFocus": "जैविक खेती, पर्यटन, हस्तशिल्प",
+    "description": "सिक्किम जैविक खेती, पर्यावरण-पर्यटन, हस्तशिल्प और टिकाऊ उद्यमिता पहल का समर्थन करता है।",
+    "infoLink": "https://sikkim.gov.in/",
+    "schemes": [
+      "Organic Farming Support Programs"
+    ]
+  },
+  {
+    "label": "तमिलनाडु",
+    "value": "tamil_nadu",
+    "capital": "चेन्नई",
+    "supportFocus": "विनिर्माण, कपड़ा, इलेक्ट्रॉनिक्स, महिला नेतृत्व वाले उद्यम",
+    "description": "तमिलनाडु कपड़ा, इलेक्ट्रॉनिक्स, एमएसएमई और महिला उद्यमिता पहल के लिए मजबूत औद्योगिक बुनियादी ढांचा और सहायता प्रदान करता है।",
+    "infoLink": "https://www.msmeonline.tn.gov.in/",
+    "schemes": [
+      "NEEDS Scheme",
+      "Tamil Nadu Startup Mission"
+    ]
+  },
+  {
+    "label": "तेलंगाना",
+    "value": "telangana",
+    "capital": "हैदराबाद",
+    "supportFocus": "प्रौद्योगिकी स्टार्टअप, नवाचार, एमएसएमई, महिला उद्यमी",
+    "description": "तेलंगाना में नवाचार, महिला उद्यमिता और एमएसएमई विकास के समर्थन के साथ तेजी से बढ़ता स्टार्टअप पारिस्थितिकी तंत्र है।",
+    "infoLink": "https://t-hub.co/",
+    "schemes": [
+      "WE Hub",
+      "T-Hub"
+    ]
+  },
+  {
+    "label": "त्रिपुरा",
+    "value": "tripura",
+    "capital": "अगरतला",
+    "supportFocus": "बांस उद्योग, हस्तशिल्प, कृषि",
+    "description": "त्रिपुरा एमएसएमई और आजीविका कार्यक्रमों के माध्यम से बांस उद्योग, कृषि, खाद्य प्रसंस्करण और ग्रामीण उद्यमिता का समर्थन करता है।",
+    "infoLink": "https://industries.tripura.gov.in/",
+    "schemes": [
+      "Tripura Industrial Investment Policy"
+    ]
+  },
+  {
+    "label": "उतार प्रदेश।",
+    "value": "uttar_pradesh",
+    "capital": "लखनऊ",
+    "supportFocus": "विनिर्माण, एमएसएमई, हस्तशिल्प, स्टार्टअप",
+    "description": "उत्तर प्रदेश में हस्तशिल्प, विनिर्माण, ओडीओपी व्यवसायों और महिला उद्यमिता पर ध्यान देने के साथ व्यापक एमएसएमई समर्थन है।",
+    "infoLink": "https://upsdc.gov.in/",
+    "schemes": [
+      "ODOP",
+      "UP Startup Policy"
+    ]
+  },
+  {
+    "label": "उत्तराखंड",
+    "value": "uttarakhand",
+    "capital": "देहरादून",
+    "supportFocus": "पर्यटन, हर्बल उत्पाद, हस्तशिल्प, एमएसएमई",
+    "description": "उत्तराखंड उद्यमिता सहायता पहल के माध्यम से पर्यटन, हर्बल उद्योग, हस्तशिल्प और महिलाओं के नेतृत्व वाले एमएसएमई को बढ़ावा देता है।",
+    "infoLink": "https://industries.uk.gov.in/",
+    "schemes": [
+      "Startup Uttarakhand"
+    ]
+  },
+  {
+    "label": "पश्चिम बंगाल",
+    "value": "west_bengal",
+    "capital": "कोलकाता",
+    "supportFocus": "हस्तशिल्प, कपड़ा, एमएसएमई, स्टार्टअप",
+    "description": "पश्चिम बंगाल औद्योगिक और स्टार्टअप नीतियों के माध्यम से एमएसएमई, हस्तशिल्प, कपड़ा व्यवसायों और महिला उद्यमियों का समर्थन करता है।",
+    "infoLink": "https://wbindustries.gov.in/",
+    "schemes": [
+      "Banglashree",
+      "Startup Bengal"
+    ]
+  },
+  {
+    "label": "दिल्ली",
+    "value": "delhi",
+    "capital": "नई दिल्ली",
+    "supportFocus": "स्टार्टअप, सेवाएँ, प्रौद्योगिकी, खुदरा",
+    "description": "दिल्ली नवाचार और एमएसएमई पहल के माध्यम से स्टार्टअप, सेवा-आधारित व्यवसायों, खुदरा उद्यमों और महिला उद्यमियों का समर्थन करती है।",
+    "infoLink": "https://dsiidc.org/",
+    "schemes": [
+      "Delhi Startup Policy"
+    ]
+  },
+  {
+    "label": "जम्मू एवं कश्मीर",
+    "value": "jammu_kashmir",
+    "capital": "श्रीनगर/जम्मू",
+    "supportFocus": "हस्तशिल्प, पर्यटन, कृषि, एमएसएमई",
+    "description": "जम्मू और कश्मीर आजीविका और एमएसएमई सहायता कार्यक्रमों के माध्यम से हस्तशिल्प, पर्यटन, बागवानी और महिला उद्यमिता को बढ़ावा देता है।",
+    "infoLink": "https://www.jkindustriescommerce.nic.in/",
+    "schemes": [
+      "JK Startup Policy"
+    ]
+  },
+  {
+    "label": "लद्दाख",
+    "value": "ladakh",
+    "capital": "लेह",
+    "supportFocus": "पर्यटन, हस्तशिल्प, पर्यावरण-व्यवसाय",
+    "description": "लद्दाख पर्यटन, पर्यावरण-अनुकूल व्यवसायों, हस्तशिल्प और टिकाऊ उद्यमशीलता पहल का समर्थन करता है।",
+    "infoLink": "https://ladakh.nic.in/",
+    "schemes": [
+      "Tourism Entrepreneurship Support"
+    ]
+  },
+  {
+    "label": "पुदुचेरी",
+    "value": "puducherry",
+    "capital": "पुदुचेरी",
+    "supportFocus": "पर्यटन, एमएसएमई, विनिर्माण",
+    "description": "पुडुचेरी पर्यटन व्यवसायों, एमएसएमई, छोटी विनिर्माण इकाइयों और महिला उद्यमियों का समर्थन करता है।",
+    "infoLink": "https://www.py.gov.in/",
+    "schemes": [
+      "Puducherry Startup Policy"
+    ]
+  }
+]

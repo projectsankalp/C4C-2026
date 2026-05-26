@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Live Vehicle Pollution Monitor</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .vehicle-grid {
+            width: 90%;
+            max-width: 1200px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 20px;
+
+            margin-top: 30px;
+        }
+
+        .vehicle-card {
+            padding: 20px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(14px);
+
+            box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+
+            transition: 0.4s;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-8px) scale(1.04);
+
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .vehicle-card h3 {
+            margin-bottom: 10px;
+            color: #fff6b0;
+            font-size: 18px;
+        }
+
+        .vehicle-card h1 {
+            font-size: 28px;
+            color: lightgreen;
+        }
+
+        .vehicle-id {
+            margin-top: 20px;
+
+            padding: 15px 25px;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(12px);
+
+            font-size: 18px;
+
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body class="dashboard">
+
+    <div class="bg"></div>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <h2>🚗 LIVE VEHICLE POLLUTION MONITOR</h2>
+        <p>Real-Time Vehicle Emission Analysis</p>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="nav">
+
+        <button onclick="location.href='dashboard.html'">
+
+            🏠 Home
+
+        </button>
+
+        <button onclick="location.href='alerts.html'">
+
+            🚨 Alerts
+
+        </button>
+
+        <button onclick="location.href='reports.html'">
+
+            📊 Reports
+
+        </button>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="live-container">
+
+        <!-- AQI CIRCLE -->
+        <div class="aqi-circle green" id="aqiCircle">
+
+            <h1 id="co2">--</h1>
+
+            <p>CO₂ LEVEL</p>
+
+        </div>
+
+        <!-- STATUS -->
+        <div class="status-card">
+
+            <h2 id="level">
+                Loading...
+            </h2>
+
+            <p id="msg">
+                Monitoring vehicle pollution...
+            </p>
+
+        </div>
+
+        <!-- VEHICLE ID -->
+        <div class="vehicle-id">
+
+            🚘 Vehicle:
+            <span id="vehicleId">
+
+                Loading...
+
+            </span>
+
+        </div>
+
+        <!-- POLLUTION GRID -->
+        <div class="vehicle-grid">
+
+            <div class="vehicle-card">
+
+                <h3>CO</h3>
+
+                <h1 id="co">
+                    --
+                </h1>
+
+            </div>
+
+            <div class="vehicle-card">
+
+                <h3>NOx</h3>
+
+                <h1 id="nox">
+                    --
+                </h1>
+
+            </div>
+
+            <div class="vehicle-card">
+
+                <h3>PM2.5</h3>
+
+                <h1 id="pm25">
+                    --
+                </h1>
+
+            </div>
+
+            <div class="vehicle-card">
+
+                <h3>Speed</h3>
+
+                <h1 id="speed">
+                    --
+                </h1>
+
+            </div>
+
+            <div class="vehicle-card">
+
+                <h3>Engine Load</h3>
+
+                <h1 id="engine">
+                    --
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function loadVehicleData() {
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/vehicle-pollution"
+                );
+
+            const data =
+                await response.json();
+
+            // MAIN CO2 DISPLAY
+            document.getElementById("co2")
+                .innerText =
+                data.co2;
+
+            // OTHER DATA
+            document.getElementById("co")
+                .innerText =
+                data.co + " ppm";
+
+            document.getElementById("nox")
+                .innerText =
+                data.nox + " ppm";
+
+            document.getElementById("pm25")
+                .innerText =
+                data.pm25 + " µg/m³";
+
+            document.getElementById("speed")
+                .innerText =
+                data.speed + " km/h";
+
+            document.getElementById("engine")
+                .innerText =
+                data.engineLoad + " %";
+
+            document.getElementById("vehicleId")
+                .innerText =
+                data.vehicleId;
+
+            // STATUS
+            let circle =
+                document.getElementById(
+                    "aqiCircle"
+                );
+
+            let level =
+                document.getElementById(
+                    "level"
+                );
+
+            let msg =
+                document.getElementById(
+                    "msg"
+                );
+
+            // REMOVE COLORS
+            circle.classList.remove(
+                "green",
+                "yellow",
+                "red"
+            );
+
+            // POLLUTION STATUS
+            if (data.co2 < 350) {
+
+                circle.classList.add(
+                    "green"
+                );
+
+                level.innerText =
+                    "LOW POLLUTION";
+
+                msg.innerText =
+                    "Vehicle emissions are within safe range.";
+
+            }
+
+            else if (data.co2 < 500) {
+
+                circle.classList.add(
+                    "yellow"
+                );
+
+                level.innerText =
+                    "MODERATE POLLUTION";
+
+                msg.innerText =
+                    "Pollution level is increasing.";
+
+            }
+
+            else {
+
+                circle.classList.add(
+                    "red"
+                );
+
+                level.innerText =
+                    "HIGH POLLUTION";
+
+                msg.innerText =
+                    "Dangerous vehicle emissions detected.";
+
+            }
+
+        }
+
+        // AUTO UPDATE
+        setInterval(
+            loadVehicleData,
+            3000
+        );
+
+        loadVehicleData();
+
+    </script>
+
+</body>
+
+</html>

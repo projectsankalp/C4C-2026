@@ -1,0 +1,86 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'src/**'
+      - 'vendor_ui/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.prod.ts'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ec2
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SSH_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          cat > ~/.ssh/config <<EOF
+          Host hastkala
+            HostName $SSH_HOST
+            User fedora
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking accept-new
+            ServerAliveInterval 30
+          EOF
+
+      - name: Trigger remote deploy
+        run: |
+          ssh hastkala "set -e; \
+            curl -fsSL 'https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/scripts/remote-deploy.sh' -o /tmp/remote-deploy.sh && \
+            BRANCH=${{ github.ref_name }} bash /tmp/remote-deploy.sh"
+
+      - name: Smoke test (origin via Host header)
+        run: |
+          set -e
+          # nginx now drops requests with unknown Host headers (444), so we
+          # need to set Host: cyberkunju.com to hit the actual server block.
+          # We test against the EC2 IP directly (skipping Cloudflare) to keep
+          # the smoke test independent of CF cache state.
+          for url in / /vendor/ /healthz /api/products; do
+            code=$(curl -sk -o /dev/null -w '%{http_code}' \
+              -H 'Host: cyberkunju.com' \
+              "https://${{ secrets.EC2_HOST }}$url" || true)
+            echo "GET $url -> $code"
+            case $code in
+              2*|3*) ;;
+              *) echo "::error::Smoke test failed for $url ($code)"; exit 1 ;;
+            esac
+          done
+
+      - name: Smoke test (public via Cloudflare)
+        run: |
+          set -e
+          for url in / /vendor/ /healthz /api/products; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' \
+              "https://cyberkunju.com$url" || true)
+            echo "GET https://cyberkunju.com$url -> $code"
+            case $code in
+              2*|3*) ;;
+              *) echo "::error::Public smoke test failed for $url ($code)"; exit 1 ;;
+            esac
+          done

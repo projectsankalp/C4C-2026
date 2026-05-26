@@ -1,0 +1,28 @@
+[Unit]
+Description=Hastkala Web (TanStack Start, Node SSR)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hastkala
+Group=hastkala
+WorkingDirectory=/opt/hastkala/web
+EnvironmentFile=/etc/hastkala/web.env
+ExecStart=/usr/bin/node /opt/hastkala/scripts/web-server.mjs
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+KillSignal=SIGTERM
+
+# Need write access for runtime caching in dist (TanStack Start writes manifest cache)
+ReadWritePaths=/opt/hastkala/web
+
+NoNewPrivileges=yes
+ProtectSystem=full
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

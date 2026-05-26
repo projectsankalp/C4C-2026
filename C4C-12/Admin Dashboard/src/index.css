@@ -1,0 +1,437 @@
+/**
+ * GraamSehat Admin Dashboard - Main Stylesheet
+ * Location: /src/index.css
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Color Palette */
+  --primary: #0D9488;          /* Teal 600 */
+  --primary-light: #CCFBF1;    /* Teal 100 */
+  --primary-dark: #0F766E;     /* Teal 700 */
+  --primary-glow: rgba(13, 148, 136, 0.15);
+  
+  --bg-main: #F8FAFC;          /* Slate 50 */
+  --bg-card: #FFFFFF;
+  --bg-sidebar: #0F172A;       /* Slate 900 */
+  
+  --text-main: #0F172A;        /* Slate 900 */
+  --text-muted: #64748B;       /* Slate 500 */
+  --text-light: #F8FAFC;
+  
+  --border: #E2E8F0;           /* Slate 200 */
+  
+  --risk-green: #10B981;
+  --risk-green-bg: #ECFDF5;
+  --risk-yellow: #F59E0B;
+  --risk-yellow-bg: #FFFBEB;
+  --risk-red: #EF4444;
+  --risk-red-bg: #FEF2F2;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  --radius: 12px;
+  --radius-sm: 6px;
+  --radius-lg: 16px;
+  
+  --sidebar-width: 240px;
+  --topbar-height: 70px;
+  
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Layout System */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin-left: var(--sidebar-width);
+  overflow-y: auto;
+  transition: var(--transition);
+}
+
+.content-body {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Cards & Containers (Premium Glassmorphism) */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.glass-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+/* Shadcn-style Clean Tables */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.clean-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.clean-table th {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  background-color: #F8FAFC;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+}
+.clean-table th:hover {
+  color: var(--text-main);
+  background-color: #F1F5F9;
+}
+
+.clean-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-main);
+  transition: var(--transition);
+}
+
+.clean-table tbody tr {
+  transition: var(--transition);
+}
+.clean-table tbody tr:hover {
+  background-color: #F8FAFC;
+  cursor: pointer;
+}
+
+.clean-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.badge-green {
+  background-color: var(--risk-green-bg);
+  color: var(--risk-green);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.badge-yellow {
+  background-color: var(--risk-yellow-bg);
+  color: var(--risk-yellow);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.badge-red {
+  background-color: var(--risk-red-bg);
+  color: var(--risk-red);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.badge-blue {
+  background-color: #EFF6FF;
+  color: #3B82F6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+.badge-gray {
+  background-color: #F1F5F9;
+  color: #64748B;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+/* Forms & Inputs */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+.form-input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  transition: var(--transition);
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text-light);
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+.btn-secondary {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background-color: #F8FAFC;
+  border-color: #CBD5E1;
+}
+.btn-danger {
+  background-color: var(--risk-red);
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #DC2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* Leaflet Overrides */
+.leaflet-container {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  z-index: 1;
+}
+
+/* Map Popups */
+.custom-popup .leaflet-popup-content-wrapper {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  padding: 0.25rem;
+}
+.custom-popup .leaflet-popup-tip {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+/* Alert Banners */
+.alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  animation: slideIn 0.3s ease-out;
+}
+.alert-error {
+  background-color: var(--risk-red-bg);
+  color: var(--risk-red);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+.alert-warning {
+  background-color: var(--risk-yellow-bg);
+  color: var(--risk-yellow);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+.alert-success {
+  background-color: var(--risk-green-bg);
+  color: var(--risk-green);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 0px; /* Hide by default, show in hamburger trigger */
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .sidebar-open {
+    --sidebar-width: 240px;
+  }
+  .sidebar-open .main-content {
+    margin-left: 240px;
+  }
+}
+
+@media (max-width: 640px) {
+  .content-body {
+    padding: 1rem;
+  }
+}
+
+/* PRINT-OPTIMISED CSS FOR PDF EXPORT */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  /* Hide navigation, forms, selectors, sidebar, topbar */
+  .sidebar,
+  .top-bar,
+  .filter-panel,
+  .btn,
+  .actions-column,
+  .no-print {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .content-body {
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Make glass card simple, no shadows */
+  .glass-card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 2rem !important;
+    page-break-inside: avoid;
+  }
+
+  /* Unroll tables, make them fully visible */
+  .table-container {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  .clean-table {
+    border: none !important;
+  }
+
+  .clean-table th {
+    background-color: #f1f5f9 !important;
+    border-bottom: 2px solid #000 !important;
+    color: black !important;
+  }
+
+  .clean-table td {
+    border-bottom: 1px solid #ccc !important;
+    color: black !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+}

@@ -1,0 +1,1942 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCircle Analytics — Wellness Tracking & Logs</title>
+  <link rel="stylesheet" href="land.css">
+  <link rel="stylesheet" href="face.css">
+  <link rel="stylesheet" href="div-design.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Material Icons 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+  <style>
+    /* Sleek, tiny 'New' indicator */
+    .new-tag {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background-color: rgba(255, 71, 87, 0.9);
+      backdrop-filter: blur(4px);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px 4px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .new-tag::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background-color: white;
+      border-radius: 50%;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    /* Notice Card Animations */
+    .notice-card {
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .expanded-card {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 50 !important;
+      border-radius: 50px !important;
+      cursor: pointer;
+    }
+
+    /* Back Button on Left */
+    .back-expand-btn {
+      display: none;
+      position: absolute;
+      top: 35px;
+      left: 35px;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .back-expand-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+      transform: scale(1.05);
+    }
+
+    .back-expand-btn .material-symbols-outlined {
+      margin-left: 6px;
+      font-size: 22px;
+    }
+  </style>
+
+</head>
+
+<body class="dark">
+
+  <!-- Navbar -->
+  <nav>
+    <!-- Logo (using class instead of id) -->
+
+    <!-- Toggle Button -->
+
+
+
+    <!-- <button class="toggle-btn" onclick="toggleDarkMode()">
+    <span class="material-symbols-outlined" id="theme-icon1">wb_sunny</span>
+  </button>
+
+  -->
+    <button id="leftNavBtn" class="logo-left-wrap" aria-label="Open Navigation">
+      <img src="essentials/dark_logo.png" alt="main logo" class="logo-left theme-logo" data-dark="essentials/dark_logo.png"
+        data-light="essentials/light_logo.png">
+    </button>
+
+    <div id="topNavMenu" class="top-nav-menu">
+      <div class="tn-grid">
+        <a href="#dashboard" class="tn-item nav-link-close"><span
+            class="material-symbols-outlined">home</span>Home Feed</a>
+        <a href="#communities" class="tn-item nav-link-close"><span
+            class="material-symbols-outlined">groups</span>Communities</a>
+        <a href="#tools" class="tn-item nav-link-close"><span
+            class="material-symbols-outlined">self_improvement</span>Wellness Tools</a>
+        <a href="#headArea" class="tn-item nav-link-close"><span class="material-symbols-outlined">forum</span>AI
+          Companion</a>
+        <a href="#safety" class="tn-item nav-link-close"><span
+            class="material-symbols-outlined">health_and_safety</span>Safety</a>
+      </div>
+    </div>
+
+
+    <div class="pdd-header-wrap" id="headerWrap">
+      <div style="position:relative;">
+        <!-- Logo (acts as button) -->
+        <button id="logoBtn" aria-haspopup="true" aria-controls="logoDropdown" aria-expanded="false"
+          class="pdd-logo pdd-focus-ring" title="Open menu">
+          <!-- replace with <img> if you have a logo file -->
+          <img src="essentials/slogo-dark.png" alt="secondary logo" class="logo theme-logo"
+            data-dark="essentials/slogo-dark.png" data-light="essentials/slogo-light.png">
+
+        </button>
+
+        <!-- Dropdown -->
+        <div id="logoDropdown" class="pdd-dropdown " role="menu" aria-label="Logo menu">
+          <div class="pdd-panel " role="none">
+            <!-- Profile -->
+            <a href="auth.html" id="profileLink" class="pdd-row" role="menuitem" tabindex="0">
+              <img class="pdd-avatar" src="essentials/profile.png" alt="avatar">
+              <div class="pdd-meta">
+                <div class="pdd-name" id="profileName">Guest</div>
+                <div class="pdd-sub" id="profileSub">Click to Sign In</div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--muted)">chevron_right</span>
+            </a>
+
+            <hr class="pdd-sep">
+
+            <!-- Theme toggle row -->
+            <div id="theme-toggle-row" class="pdd-row" role="menuitem" tabindex="0" aria-label="Toggle theme">
+              <button class="pd-toggle-btn" onclick="toggleDarkMode()">
+                <span class="material-symbols-outlined" id="theme-icon">wb_sunny</span>
+
+                <div class="pdd-label">Dark / Light</div>
+
+              </button>
+
+              <!-- Toggle button (calls toggleThemeIcon) -->
+            </div>
+
+            <!-- Settings -->
+            <a href="#settings" class="pdd-row" role="menuitem" tabindex="0">
+              <span class="material-symbols-outlined" style="color:var(--muted)">settings</span>
+              <div class="pdd-label">Settings</div>
+              <div style="margin-left:auto" class="pdd-muted">Preferences</div>
+            </a>
+
+            <!-- About -->
+            <a href="#about" class="pdd-row" role="menuitem" tabindex="0">
+              <span class="material-symbols-outlined" style="color:var(--muted)">info</span>
+              <div class="pdd-label">About</div>
+              <div style="margin-left:auto" class="pdd-muted">v1.0</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </nav>
+
+  <div class="starter" id="dashboard">
+    <p class="hub-subtitle">Safe, anonymous space for mental wellness and peer support.</p>
+    <h2 class="uni-title">MindCircle Analytics</h2>
+
+    <div class="ss divs" id="jobs-section">
+      <div id="jobsContainer"
+        style="width: 100%; height: 100%; border-radius: 50px; overflow: hidden; position: relative;"></div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="profileModal">
+    <div class="modal-content" style="max-width: 400px; padding: 40px 30px; text-align: center;">
+      <span class="close-btn" onclick="closeProfileModal()">&times;</span>
+
+      <img src="essentials/profile.png" alt="Profile Avatar"
+        style="width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; border: 3px solid #7c5cff; object-fit: cover;">
+
+      <h2 id="modalProfileName" class="modal-title" style="font-size: 26px; margin-bottom: 5px;">Guest</h2>
+      <p id="modalProfileRole" class="modal-meta" style="font-size: 14px; margin-bottom: 25px;">Not Logged In</p>
+
+      <div
+        style="background: rgba(128, 128, 128, 0.08); border-radius: 20px; padding: 20px; text-align: left; margin-bottom: 25px; width: 100%;">
+        <p style="margin: 8px 0; font-size: 15px;">
+          <strong style="color: var(--ai-accent, #7c5cff);">Email:</strong>
+          <span id="modalProfileEmail" style="float: right;">N/A</span>
+        </p>
+        <hr style="border: 0; border-top: 1px solid rgba(128,128,128,0.2); margin: 10px 0;">
+        <p style="margin: 8px 0; font-size: 15px;">
+          <strong style="color: var(--ai-accent, #7c5cff);">Course:</strong>
+          <span id="modalProfileCourse" style="float: right;">N/A</span>
+        </p>
+        <hr style="border: 0; border-top: 1px solid rgba(128,128,128,0.2); margin: 10px 0;">
+        <p style="margin: 8px 0; font-size: 15px;">
+          <strong style="color: var(--ai-accent, #7c5cff);">Semester:</strong>
+          <span id="modalProfileSem" style="float: right;">N/A</span>
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 10px; width: 100%;">
+        <button onclick="logoutUser()" class="modal-back-btn" style="background: #ff4757; width: 100%; margin: 0;">Sign
+          Out</button>
+        <a id="modalDashboardLink" href="#" class="modal-back-btn"
+          style="background: #2c2c2c; width: 100%; margin: 0;">Dashboard</a>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal" id="jobDetailsModal">
+    <div class="modal-content" style="max-width: 500px; padding: 40px 30px; border-radius: 40px;">
+      <span class="close-btn" onclick="closeJobModal()">&times;</span>
+
+      <div id="jobModalPoster"
+        style="width: 100%; height: 220px; border-radius: 20px; background-size: cover; background-position: center; margin-bottom: 20px; display: none;">
+      </div>
+
+      <div id="jobModalTag"
+        style="background: rgba(176, 38, 255, 0.15); border: 1px solid rgba(176, 38, 255, 0.4); padding: 5px 12px; border-radius: 15px; color: #b275ff; font-weight: bold; font-size: 12px; display: inline-block; margin-bottom: 15px; text-transform: uppercase;">
+        Precaution
+      </div>
+
+      <h2 id="jobModalTitle" class="modal-title"
+        style="font-size: 28px; margin-bottom: 10px; text-align: left; width: 100%;">Guideline</h2>
+
+      <p class="modal-meta"
+        style="font-size: 15px; margin-bottom: 20px; text-align: left; width: 100%; display: flex; gap: 10px; align-items: center;">
+        <span class="material-symbols-outlined" style="font-size: 18px;">local_hospital</span> <span
+          id="jobModalCompany">Category</span> &nbsp;â€¢&nbsp;
+        <span class="material-symbols-outlined" style="font-size: 18px;">info</span> <span
+          id="jobModalLocation">Frequency</span>
+      </p>
+
+      <div style="display: flex; gap: 10px; margin-bottom: 20px; width: 100%;">
+        <span id="jobModalType"
+          style="background: rgba(128,128,128,0.1); padding: 8px 16px; border-radius: 12px; font-size: 14px; font-weight: 600;">Type</span>
+        <span id="jobModalSalary"
+          style="background: rgba(76, 209, 55, 0.1); color: #4cd137; padding: 8px 16px; border-radius: 12px; font-weight: 600; font-size: 14px;">Impact</span>
+      </div>
+
+      <p id="jobModalDesc"
+        style="font-size: 15px; width: 100%; color: var(--muted, #dedede); text-align: left; margin-bottom: 30px; line-height: 1.6;">
+        Detailed description...
+      </p>
+
+      <a id="jobModalApplyLink" href="#" style="text-decoration: none; width: 100%;">
+        <button
+          style="background: linear-gradient(135deg, #6a11cb, #ff007f); color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 700; font-size: 16px; cursor: pointer; width: 100%; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 8px 25px rgba(176, 38, 255, 0.3);"
+          onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+          Learn More
+        </button>
+      </a>
+    </div>
+  </div>
+  <div class="modal" id="aiAssistantModal">
+    <div class="modal-content"
+      style="max-height: 85vh; height: 800px; padding: 30px; display: flex; flex-direction: column;">
+      <span class="close-btn" onclick="closeAiModal()">&times;</span>
+
+      <div class="modal-inner-content"
+        style="flex: 1; display: flex; flex-direction: column; width: 100%; padding: 0; height: 100%;">
+
+        <div style="text-align: center; margin-bottom: 15px;">
+          <span class="material-symbols-outlined"
+            style="font-size: 40px; color: var(--ai-accent, #7c5cff);">smart_toy</span>
+          <h2 id="aiModalTitle" class="modal-title" style="margin-top: 5px; font-size: 28px;">Diagnostic Staging
+            Assistant</h2>
+          <p class="modal-meta">Ask about knee osteoarthritis severity and imaging analysis.</p>
+        </div>
+
+        <div id="aiChatHistory"
+          style="flex: 1; width: 100%; overflow-y: auto; background: rgba(128, 128, 128, 0.05); border-radius: 24px; padding: 20px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 15px; text-align: left;">
+          <div class="ai-assistant">
+            <em>Hello! I am your diagnostic AI assistant. Which patient's scans would you like to review?</em>
+          </div>
+        </div>
+
+        <div
+          style="display: flex; width: 100%; gap: 12px; align-items: flex-end; background: rgba(128, 128, 128, 0.08); padding: 10px; border-radius: 30px;">
+          <textarea id="aiModalInput" class="chatbox" placeholder="Ask about osteoarthritis staging or patient scans..."
+            style="flex: 1; padding: 10px 15px; min-height: 24px; max-height: 100px; overflow-y: auto;"></textarea>
+
+          <button id="aiModalSendBtn"
+            style="background: #2c2c2c; color: white; border: none; border-radius: 50%; width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.2s, background 0.2s;">
+            <span class="material-symbols-outlined" style="font-size: 20px;">send</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="gapp clr-shift-title">
+    <h1>SaaS Analytics Dashboard</h1>
+  </div>
+
+  <div class="container">
+    <div class="row h-100">
+      <!-- Left side -->
+      <div class="col-12 col-md-6 d-flex flex-column">
+
+
+        <div class="box divs flex-fill divpadding" onclick="window.location.href='xray-analysis.html';">
+          <div class="indiv music"></div>
+          <div class="meta">
+            <div class="meta-top clr-shift">
+              <span class="material-symbols-outlined">groups</span>
+              <span class="source">Connect with peers anonymously...</span>
+            </div>
+            <div class="title clr-shift-title">Communities & Feed</div>
+          </div>
+        </div>
+
+
+        <div class="box divs flex-fill mt-3 divpadding todo" onclick="window.location.href='mri-processing.html';">
+          <div class="meta">
+            <div class="meta-top light-clr-meta">
+              <!-- inline SVG headphone icon (editable) -->
+              <span class="material-symbols-outlined">self_improvement</span>
+              <span class="source">Track your mood and journal...</span>
+            </div>
+            <div class="title light-clr-title">Wellness Tools Hub</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right side -->
+      <div class="col-12 col-md-6 mt-3 mt-md-0 ">
+
+        <a href="clinical-report.html" class="sdsd">
+          <div class="box divs h-100  podcast-bg">
+            <div class="up-pc">
+              <div class="pc-img"
+                style="background: linear-gradient(135deg, rgba(40, 150, 255, 0.4), rgba(0, 50, 100, 0.8)), url('https://images.unsplash.com/photo-1551076805-e1869043e560?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+              </div>
+            </div>
+            <div class="down-pc">
+              <div class="meta-c">
+                <div class="title light-clr-title">AI Therapy Companion</div>
+                <div class="meta-top light-clr-meta">
+                  <!-- inline SVG headphone icon (editable) -->
+                  <span class="material-symbols-outlined">forum</span>
+                  <span class="source">Get guided self-help and support...</span>
+                  <!-- From Uiverse.io by JkHuger -->
+                </div>
+
+                <br>
+                <div class="pc-btn light-clr-meta">
+                  <ul class="wave-menu light-clr-meta">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                  <span class="material-symbols-outlined">medical_information</span>
+
+                  <ul class="wave-menu">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Single head-area (no .area grid children) -->
+  <div class="head-area" id="headArea" aria-label="interactive head area">
+    <div class="carousel " id="carousel">
+      <div class="item" data-url="#">
+        <div class="indiv w-100 sum bg-hider"></div>
+        <div class="box  indiv w-100 c-freeze  indiv3-meta slider">
+          <h1>Kellgren-Lawrence Scale</h1>
+          <h6>Standardized classification of osteoarthritis severity.</h6>
+        </div>
+      </div>
+      <div class="item" data-url="#">
+        <div class="indiv w-100 recipe bg-hider"></div>
+        <div class="box  indiv w-100 c-freeze  indiv3-meta slider">
+          <h1>AhlbÃ¤ck System</h1>
+          <h6>Evaluates joint space narrowing and bone attrition.</h6>
+        </div>
+      </div>
+      <div class="item" data-url="#">
+        <div class="indiv w-100 gall bg-hider"></div>
+        <div class="box  indiv w-100 c-freeze  indiv3-meta slider">
+          <h1>OARSI Atlas</h1>
+          <h6>Detailed radiographic features of joint degeneration.</h6>
+        </div>
+      </div>
+
+
+      <div class="item trigger-study-ai">
+        <!-- head/card sits centered inside this area -->
+        <div class="indiv w-100 aiii bg-hider"></div>
+
+        <label class="container-wrap" id="cardWrap" aria-hidden="false">
+          <div class="card" id="card">
+            <div class="background-blur-balls">
+              <div class="balls" id="balls">
+                <span class="ball rosa"></span>
+                <span class="ball violet"></span>
+                <span class="ball green"></span>
+                <span class="ball cyan"></span>
+              </div>
+            </div>
+
+            <div class="content-card">
+              <div class="background-blur-card">
+                <div class="eyes" id="eyesNormal">
+                  <span class="eye"></span>
+                  <span class="eye"></span>
+                </div>
+
+                <div class="eyes happy" id="eyesHappy">
+                  <svg fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor"
+                      d="M8.28386 16.2843C8.9917 15.7665 9.8765 14.731 12 14.731C14.1235 14.731 15.0083 15.7665 15.7161 16.2843C17.8397 17.8376 18.7542 16.4845 18.9014 15.7665C19.4323 13.1777 17.6627 11.1066 17.3088 10.5888C16.3844 9.23666 14.1235 8 12 8C9.87648 8 7.61556 9.23666 6.69122 10.5888C6.33728 11.1066 4.56771 13.1777 5.09858 15.7665C5.24582 16.4845 6.16034 17.8376 8.28386 16.2843Z">
+                    </path>
+                  </svg>
+                  <svg fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor"
+                      d="M8.28386 16.2843C8.9917 15.7665 9.8765 14.731 12 14.731C14.1235 14.731 15.0083 15.7665 15.7161 16.2843C17.8397 17.8376 18.7542 16.4845 18.9014 15.7665C19.4323 13.1777 17.6627 11.1066 17.3088 10.5888C16.3844 9.23666 14.1235 8 12 8C9.87648 8 7.61556 9.23666 6.69122 10.5888C6.33728 11.1066 4.56771 13.1777 5.09858 15.7665C5.24582 16.4845 6.16034 17.8376 8.28386 16.2843Z">
+                    </path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+        <div class="aii c-freeze">
+          <div class="title clr-shift-title">MindCircle Analytics AI</div>
+          <div class="meta-top clr-shift">
+            <!-- inline SVG headphone icon (editable) -->
+            <span class="material-symbols-outlined">volunteer_activism</span>
+            <span class="source">Anonymous, compassionate support.</span>
+            <!-- From Uiverse.io by JkHuger -->
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="item" data-url="#">
+        <div class="indiv w-100 make bg-hider"></div>
+        <div class="box  indiv w-100 c-freeze  indiv3-meta slider">
+          <h1>Clinical History</h1>
+          <h6>Patient symptoms and past medical records.</h6>
+        </div>
+      </div>
+
+      <div class="item" data-url="#">
+        <div class="indiv w-100 books bg-hider"></div>
+        <div class="box  indiv w-100 c-freeze  indiv3-meta slider">
+          <h1>X-Ray Scans</h1>
+          <h6>Radiographic imaging of the knee joint.</h6>
+        </div>
+      </div>
+
+      <div class="item" data-url="#">
+        <div class="indiv w-100 wthr bg-hider"></div>
+        <div class="box  indiv w-100 c-freeze  indiv3-meta slider">
+          <h1>MRI Scans</h1>
+          <h6>High-resolution soft tissue and cartilage imaging.</h6>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+  <section class="CtaBanner_ctaBannerModule__U_IKB section theme-orange"></section>
+
+  <div class="gapp" style="text-align: center; margin-top: 60px; margin-bottom: 120px;">
+    <h3 class="clr-shift-title" style="font-size: 18px; font-weight: 600;">
+      MindCircle Analytics &mdash; Wellness Tracking & Logs
+    </h3>
+    <p class="clr-shift" style="font-size: 14px; margin-top: 8px;">
+      Developed with care for <strong style="color: #906205;">Mental Health SaaS</strong>
+    </p>
+  </div>
+
+
+
+
+  <div class="inputbar">
+        <div class="popup-menu" id="popupMenu">
+      <ul>
+        <li class="upload"><span class="material-symbols-outlined mso">attach_file</span> Add Attachment</li>
+        <li><span class="material-symbols-outlined mso">image</span> AI Generate Image</li>
+        <li><span class="material-symbols-outlined mso">mic</span> Hands-free Mode</li>
+      </ul>
+      <input type="file" id="fileUpload" style="display: none;" multiple />
+
+    </div>
+    <span class="material-symbols-outlined mso plus-icon">add</span>
+    <!--<input type="file" id="fileUpload" style="display:none;" multiple />-->
+
+    <div id="previewContainer" class="preview-container"></div>
+    <textarea class="chatbox" id="chatbox" placeholder="Ask anything"></textarea>
+
+
+    <!-- Mic button -->
+    <span class="material-symbols-outlined mso mic-icon" id="micBtn">mic</span>
+
+    <!-- Loader (hidden initially) -->
+    <div class="loader" id="loader" style="display:none;">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+
+    <!-- Send button (hidden initially) -->
+    <span class="material-symbols-outlined mso send-icon" id="sendBtn" style="display:none;">send</span>
+  </div>
+  <!-- HTML -->
+
+
+
+
+
+  <script>
+    /* ===========================
+       Input icon toggle & send flow
+       Replace your existing mic/send and sending script with this
+       =========================== */
+
+    /* DOM refs */
+    const chatInput = document.querySelector('.chatbox');
+    const micIcon = document.querySelector('.mic-icon');
+    const sendIcon = document.querySelector('.send-icon');
+    const sendBtn = document.getElementById('sendBtn');
+
+    /* Show/hide icons while typing */
+    if (chatInput) {
+      chatInput.addEventListener('input', () => {
+        const hasText = chatInput.value.trim().length > 0;
+        if (micIcon) micIcon.style.display = hasText ? 'none' : 'inline-block';
+        if (sendIcon) sendIcon.style.display = hasText ? 'inline-block' : 'none';
+      });
+    }
+
+    /* Helper to restore icons after sending (when input is empty) */
+    function resetIconsAfterSend() {
+      if (!chatInput) return;
+      const empty = chatInput.value.trim().length === 0;
+      if (empty) {
+        if (micIcon) micIcon.style.display = 'inline-block';
+        if (sendIcon) sendIcon.style.display = 'none';
+      } else {
+        if (micIcon) micIcon.style.display = 'none';
+        if (sendIcon) sendIcon.style.display = 'inline-block';
+      }
+    }
+
+    /* ====== GROQ + formatting + popup code (kept from your script) ====== */
+    /* CONFIG: Use PROXY_ENDPOINT for production to avoid exposing API key client-side */
+    const PROXY_ENDPOINT = null;              // e.g. '/api/groq'
+    const GROQ_API_KEY = 'YOUR_GROQ_API_KEY_HERE'; // DO NOT expose in production
+    const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/responses';
+    const GROQ_MODEL = 'openai/gpt-oss-20b';
+
+    /* safe escape */
+    function escapeHtml(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    /* formatting helper (simple) */
+    function formatAIText(raw) {
+      if (!raw) return '';
+      raw = raw.replace(/\/n/g, '\n'); // support /n
+      let txt = escapeHtml(raw);
+      txt = convertTables(txt);
+      txt = txt.replace(/^###\s*(.+)$/gim, '<div class="ai-h3">$1</div>');
+      txt = txt.replace(/^##\s*(.+)$/gim, '<div class="ai-h3">$1</div>');
+      txt = txt.replace(/^#\s*(.+)$/gim, '<div class="ai-h2">$1</div>');
+      txt = txt.replace(/\*\*(.+?)\*\*/g, '<span class="ai-strong">$1</span>');
+      txt = txt.replace(/`(.+?)`/g, '<span class="ai-code">$1</span>');
+      txt = convertLists(txt);
+      txt = txt.replace(/\n/g, '<br>');
+      return txt;
+    }
+
+    function convertTables(text) {
+      const lines = text.split('\n');
+      let out = [], i = 0;
+      while (i < lines.length) {
+        const line = lines[i], next = lines[i + 1] || '';
+        if (line.includes('|') && (/^\s*[:\-\s|]+\s*$/.test(next))) {
+          const headers = line.split('|').map(s => s.trim()).filter(Boolean);
+          i += 2;
+          const rows = [];
+          while (i < lines.length && lines[i].includes('|')) {
+            rows.push(lines[i].split('|').map(s => s.trim()).filter(Boolean));
+            i++;
+          }
+          let tbl = '<table class="ai-table"><thead><tr>';
+          headers.forEach(h => tbl += `<th>${h}</th>`);
+          tbl += '</tr></thead><tbody>';
+          rows.forEach(r => {
+            tbl += '<tr>';
+            headers.forEach((_, idx) => tbl += `<td>${escapeHtml(r[idx] || '')}</td>`);
+            tbl += '</tr>';
+          });
+          tbl += '</tbody></table>';
+          out.push(tbl);
+        } else {
+          out.push(line);
+          i++;
+        }
+      }
+      return out.join('\n');
+    }
+
+    function convertLists(text) {
+      const lines = text.split('\n');
+      let out = [], inList = false, buf = [];
+      for (const ln of lines) {
+        const m = ln.match(/^\s*[-*]\s+(.+)$/);
+        if (m) { inList = true; buf.push(`<li>${m[1]}</li>`); }
+        else {
+          if (inList) { out.push('<ul class="ai-list">' + buf.join('') + '</ul>'); buf = []; inList = false; }
+          out.push(ln);
+        }
+      }
+      if (inList) out.push('<ul class="ai-list">' + buf.join('') + '</ul>');
+      return out.join('\n');
+    }
+
+    /* Robust recursive extractor: skip objects/fields that look like "reasoning" */
+    function extractBestText(node) {
+      if (!node && node !== 0) return '';
+      if (typeof node === 'string') return node.trim();
+      if (typeof node === 'number' || typeof node === 'boolean') return String(node);
+
+      if (Array.isArray(node)) {
+        // prefer first element that yields non-empty text
+        for (const el of node) {
+          const res = extractBestText(el);
+          if (res) return res;
+        }
+        return '';
+      }
+
+      if (typeof node === 'object') {
+        if (node.type && /reason/i.test(String(node.type))) return '';
+        if (node.role && /reason/i.test(String(node.role))) return '';
+        if (typeof node.output_text === 'string' && node.output_text.trim()) return node.output_text.trim();
+        if (typeof node.text === 'string' && node.text.trim()) return node.text.trim();
+        if (typeof node.content === 'string' && node.content.trim()) return node.content.trim();
+        if (typeof node.message === 'string' && node.message.trim()) return node.message.trim();
+        if (typeof node.answer === 'string' && node.answer.trim()) return node.answer.trim();
+
+        if (node.content && typeof node.content === 'object') {
+          const c = extractBestText(node.content);
+          if (c) return c;
+        }
+
+        if (Array.isArray(node.output) && node.output.length) {
+          for (const el of node.output) {
+            if (el && typeof el === 'object' && /reason/i.test(String(el.type || el.role || ''))) continue;
+            const r = extractBestText(el);
+            if (r) return r;
+          }
+        }
+
+        for (const k of Object.keys(node)) {
+          if (/reason/i.test(k)) continue;
+          const r = extractBestText(node[k]);
+          if (r) return r;
+        }
+      }
+      return '';
+    }
+
+    /* Create or return popup container */
+    function createOrGetPopup() {
+      let popup = document.querySelector('.ai-response-popup');
+      if (popup) return popup;
+
+      const inputbar = document.querySelector('.inputbar');
+      popup = document.createElement('div');
+      popup.className = 'ai-response-popup show';
+      popup.innerHTML = `
+    <div class="ai-response-header">
+      <span class="ai-badge">
+        <img src="essentials/slogo-dark.png" alt="secondary logo" class="logo-cb" data-dark="essentials/slogo-dark.png" data-light="essentials/slogo-light.png">
+      </span>
+      <div class="ai-response-model"><small style="opacity:.3;font-weight:400; margin-left: 0;">waiting</small></div>
+      <button class="ai-response-close" title="Close">&times;</button>
+    </div>
+    <div class="ai-response-messages">
+      <div class="ai-response-placeholder" style="color:var(--muted,#bdbdbd);font-size:13px">No messages yet</div>
+    </div>
+  `;
+      inputbar.parentNode.insertBefore(popup, inputbar);
+      popup.querySelector('.ai-response-close').addEventListener('click', () => popup.remove());
+      return popup;
+    }
+
+    function setPopupLoading(popup, loading = true) {
+      const header = popup.querySelector('.ai-response-model');
+      if (loading) header.innerHTML = `<small style="opacity:.7;font-weight:400; padding-left:10px;">thinkingâ€¦</small><span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>`;
+      else header.innerHTML = '     ';
+    }
+
+    function appendUserBubble(container, userText) {
+      const user = document.createElement('div');
+      user.className = 'ai-user';
+      user.textContent = userText;  // only show typed text
+      container.appendChild(user);
+      container.scrollTop = container.scrollHeight;
+      return user;
+    }
+
+    function appendAssistantPlaceholder(container) {
+      const a = document.createElement('div');
+      a.className = 'ai-assistant';
+      a.innerHTML = `<em>Thinkingâ€¦</em> <span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>`;
+      container.appendChild(a);
+      container.scrollTop = container.scrollHeight;
+      return a;
+    }
+
+    /* call Groq */
+    async function callGroqResponses(inputText) {
+      const body = { model: GROQ_MODEL, input: inputText, max_output_tokens: 1024 };
+
+      if (PROXY_ENDPOINT) {
+        const resp = await fetch(PROXY_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: inputText }) });
+        if (!resp.ok) throw new Error(`Proxy error ${resp.status}`);
+        return resp.json();
+      }
+
+      const resp = await fetch(GROQ_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+        body: JSON.stringify(body)
+      });
+      if (!resp.ok) {
+        const text = await resp.text().catch(() => null);
+        throw new Error(`HTTP ${resp.status} ${resp.statusText}${text ? ': ' + text : ''}`);
+      }
+      return resp.json();
+    }
+
+    /* Main flow: show user bubble, placeholder, then replace placeholder with extracted assistant text (no reasoning) */
+    /* Main flow with Intelligent Routing & Pre-prompting */
+    let sending = false;
+    async function sendChatInput(text) {
+      if (!text || !text.trim()) {
+        resetIconsAfterSend();
+        return;
+      }
+      if (sending) return;
+      sending = true;
+
+      const popup = createOrGetPopup();
+      setPopupLoading(popup, true);
+
+      const messagesContainer = popup.querySelector('.ai-response-messages');
+      messagesContainer.querySelectorAll('.ai-response-placeholder').forEach(n => n.remove());
+
+      const userBubble = appendUserBubble(messagesContainer, text);
+      const assistantPlaceholder = appendAssistantPlaceholder(messagesContainer);
+
+      // --- THE PRE-PROMPT (System Instructions) ---
+      // We wrap the user's text in strict instructions for the AI to follow.
+      const routingPrompt = `You are "OsteoAI", a diagnostic assistant for grading Knee Osteoarthritis. You help clinicians analyze X-rays and MRI scans and stage the disease progression using standardized scales (like Kellgren-Lawrence).
+  
+  CRITICAL RULES:
+  1. Act as a medical imaging assistant. If the user asks for advice on radiographic features, joint space narrowing, or osteophytes, provide constructive, detailed medical feedback. Include this EXACT text somewhere in your reply: [NAV:STUDY]
+  2. If the user asks about how the staging models work or the architecture of this diagnostic platform, answer them and include: [NAV:FACULTY]
+  3. If the user asks where to view the clinical reports, final staging verdict, or analysis trace, answer them warmly and include: [NAV:DISCUSSIONS]
+  4. If the user asks for patient records or scan history, answer them and include: [NAV:NOTICES]
+  5. Keep your responses highly professional, medically accurate, and analytical. Focus on helping them understand the diagnostic evidence.
+
+  User Question: \${text}`;
+
+      try {
+        // Send the wrapped prompt to Groq instead of just the user's text
+        const json = await callGroqResponses(routingPrompt);
+
+        let extracted = extractBestText(json);
+        if (!extracted) {
+          extracted = (json && (json.output_text || json.text)) || "Hello! ðŸ‘‹ How can I help you today?";
+        }
+
+        // --- ROUTING LOGIC (Look for the secret tags) ---
+        // 1. Check for Evaluation Dashboard
+        if (extracted.includes('[NAV:STUDY]')) {
+          extracted = extracted.replace('[NAV:STUDY]', ''); // Remove tag so user doesn't see it
+          const studySection = document.getElementById('study-materials');
+          if (studySection) studySection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 2. Check for AI Panel Architecture
+        if (extracted.includes('[NAV:FACULTY]')) {
+          extracted = extracted.replace('[NAV:FACULTY]', '');
+          const facultySection = document.getElementById('faculty-section');
+          if (facultySection) facultySection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 3. Check for Results / Discussions
+        if (extracted.includes('[NAV:DISCUSSIONS]')) {
+          extracted = extracted.replace('[NAV:DISCUSSIONS]', '');
+          const discussionsSection = document.getElementById('discussions-section');
+          if (discussionsSection) discussionsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 4. Check for Jobs / Notices
+        if (extracted.includes('[NAV:NOTICES]')) {
+          extracted = extracted.replace('[NAV:NOTICES]', '');
+          const jobsSection = document.getElementById('jobs-section');
+          if (jobsSection) jobsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Clean up any accidental blank lines left by removing tags
+        extracted = extracted.trim();
+
+        // Render assistant content (formatted)
+        assistantPlaceholder.innerHTML = formatAIText(extracted);
+        setPopupLoading(popup, false);
+      } catch (err) {
+        assistantPlaceholder.innerHTML = `<div class="ai-response-error">Request failed: ${escapeHtml(err.message)}</div>`;
+        setPopupLoading(popup, false);
+        console.error('Groq call error', err);
+      } finally {
+        sending = false;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        resetIconsAfterSend();
+      }
+    }
+
+    /* Hook Enter (no Shift) and Send button — ensures mic returns after clearing input */
+    (function attachEnterToSend() {
+      const ta = document.getElementById('chatbox');
+      if (!ta) { console.warn('chatbox missing'); return; }
+
+      ta.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' && !ev.shiftKey) {
+          ev.preventDefault();
+          const text = ta.value.trim();
+          if (!text) {
+            // nothing to send — ensure mic visible
+            resetIconsAfterSend();
+            return;
+          }
+          // clear textarea BEFORE sending (you already did this pattern)
+          ta.value = '';
+          ta.style.height = '20px';
+          // restore icons immediately (input is empty now)
+          resetIconsAfterSend();
+          // then send using saved text
+          sendChatInput(text);
+        }
+      });
+
+      if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+          const text = ta.value.trim();
+          if (!text) {
+            resetIconsAfterSend();
+            return;
+          }
+          ta.value = '';
+          ta.style.height = '20px';
+          resetIconsAfterSend();
+          sendChatInput(text);
+        });
+      }
+    })();
+  </script>
+
+
+
+
+  <script>
+    ///mic disappear when typing
+    //const chatInput = document.querySelector('.chatbox');
+    //const micIcon = document.querySelector('.mic-icon');
+    //const sendIcon = document.querySelector('.send-icon');
+
+    //chatInput.addEventListener('input', () => {
+    //if (chatInput.value.trim().length > 0) {
+    //micIcon.style.display = 'none';
+    //     sendIcon.style.display = 'inline-block';
+    //} else {
+    //    micIcon.style.display = 'inline-block';
+    //    sendIcon.style.display = 'none';
+    //   }
+    //});
+  </script>
+
+  <script>
+    const upload = document.querySelector(".upload");
+    const fileUpload = document.getElementById("fileUpload");
+
+    // Open file dialog on click
+    upload.addEventListener("click", () => {
+      fileUpload.click();
+    });
+
+    // Handle selected files
+    fileUpload.addEventListener("change", () => {
+      if (fileUpload.files.length > 0) {
+        console.log("Selected files:", fileUpload.files);
+
+        // Example: show file names
+        [...fileUpload.files].forEach(file => {
+          console.log("File:", file.name);
+        });
+      }
+    });
+  </script>
+
+  <!-- Dark/Light Mode Script -->
+  <script>
+    // Apply saved theme on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      const body = document.body;
+      const icon = document.getElementById("theme-icon");
+      const logos = document.querySelectorAll(".theme-logo");
+
+      function updateLogos(theme) {
+        logos.forEach(logo => {
+          const darkSrc = logo.getAttribute("data-dark");
+          const lightSrc = logo.getAttribute("data-light");
+          logo.src = theme === "light" ? lightSrc : darkSrc;
+        });
+      }
+
+      if (savedTheme === "light") {
+        body.classList.remove("dark");
+        if (icon) icon.textContent = "dark_mode";
+        updateLogos("light");
+      } else {
+        body.classList.add("dark");
+        if (icon) icon.textContent = "wb_sunny";
+        updateLogos("dark");
+      }
+    });
+
+    // Toggle and save theme
+    function toggleDarkMode() {
+      const body = document.body;
+      const icon = document.getElementById("theme-icon");
+
+      if (body.classList.contains("dark")) {
+        body.classList.remove("dark");
+        if (icon) icon.textContent = "dark_mode";
+        localStorage.setItem("theme", "light");
+        updateLogos("light");
+      } else {
+        body.classList.add("dark");
+        if (icon) icon.textContent = "wb_sunny";
+        localStorage.setItem("theme", "dark");
+        updateLogos("dark");
+      }
+    }
+
+    // Shared function to update logos
+    function updateLogos(theme) {
+      document.querySelectorAll(".theme-logo").forEach(logo => {
+        const darkSrc = logo.getAttribute("data-dark");
+        const lightSrc = logo.getAttribute("data-light");
+        logo.src = theme === "light" ? lightSrc : darkSrc;
+      });
+    }
+  </script>
+
+
+
+
+  <script>
+    const jobsContainer = document.getElementById("jobsContainer");
+    let jobSlideInterval;
+
+    async function fetchAndRenderJobs() {
+      // Hardcoded clinical precautions for Knee Osteoarthritis instead of fetching jobs
+      const jobs = [
+        {
+          title: "Weight Management & Diet",
+          company: "Nutrition Guidance",
+          location: "Daily Habit",
+          type: "Lifestyle",
+          salary: "Crucial",
+          apply_link: "#",
+          poster_url: "https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=800&q=80",
+          description: "Maintaining a healthy body weight is critical. Extra weight puts additional stress on weight-bearing joints like the knees. A balanced diet rich in anti-inflammatory foods can also help.",
+          tag: "Health Notice"
+        },
+        {
+          title: "Physical Therapy & Exercise",
+          company: "Joint Care",
+          location: "Home / Clinic",
+          type: "Activity",
+          salary: "Highly Recommended",
+          apply_link: "#",
+          poster_url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80",
+          description: "Low-impact exercises such as swimming, cycling, or walking can help keep your joints flexible. Physical therapy can strengthen the muscles around your knee, making it more stable.",
+          tag: "Exercise Alert"
+        },
+        {
+          title: "Use of Assistive Devices",
+          company: "Orthotics",
+          location: "As Needed",
+          type: "Support Tools",
+          salary: "Preventative",
+          apply_link: "#",
+          poster_url: "https://images.unsplash.com/photo-1583324113626-70df0f4deaab?auto=format&fit=crop&w=800&q=80",
+          description: "Using knee braces, shoe inserts (orthotics), or walking aids like a cane can reduce pressure on the affected knee and slow down disease progression while providing pain relief.",
+          tag: "Care Standard"
+        }
+      ];
+
+      renderJobSlideshow(jobs);
+    }
+
+    function renderJobSlideshow(jobs) {
+      jobsContainer.innerHTML = "";
+
+      const slides = jobs.map((job, index) => {
+        const slide = document.createElement("div");
+
+        // Determine if there is a poster image uploaded
+        const hasPoster = job.poster_url && job.poster_url !== "null";
+        const bgStyle = hasPoster
+          ? `url('${job.poster_url}') center/cover no-repeat`
+          : `linear-gradient(135deg, rgba(20, 15, 28, 0.9), rgba(30, 25, 40, 0.9))`;
+
+        slide.style.position = "absolute";
+        slide.style.top = "0";
+        slide.style.left = "0";
+        slide.style.width = "100%";
+        slide.style.height = "100%";
+        slide.style.opacity = index === 0 ? "1" : "0";
+        slide.style.transition = "opacity 0.8s ease-in-out, transform 0.8s ease-in-out";
+        slide.style.transform = index === 0 ? "scale(1)" : "scale(1.05)";
+        slide.style.zIndex = index === 0 ? "10" : "0";
+        slide.style.background = bgStyle;
+
+        // Make the slide cursor a pointer so users know it's clickable
+        slide.style.cursor = "pointer";
+
+        // Dark overlay gradient to make text readable in the bottom right
+        const overlay = `<div style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(to bottom right, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%); z-index:0;"></div>`;
+
+        // Slide Content - Minimalist, bottom-right aligned
+        slide.innerHTML = `
+        ${overlay}
+        <div style="position:relative; z-index:1; width:100%; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-end; text-align:right; padding:40px;">
+          
+          <div style="background: rgba(176, 38, 255, 0.25); backdrop-filter: blur(4px); border: 1px solid rgba(176, 38, 255, 0.5); padding: 8px 16px; border-radius: 20px; color: #e1b4ff; font-weight: bold; font-size: 12px; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">
+            ${job.tag || "Notice"}
+          </div>
+          
+          <h2 style="font-size: clamp(28px, 5vw, 50px); font-weight: 900; color: white; margin: 0; line-height: 1.1; text-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+            ${job.title}
+          </h2>
+        </div>
+        `;
+
+        // Trigger the popup modal on click
+        slide.addEventListener('click', () => openJobModal(job));
+
+        jobsContainer.appendChild(slide);
+        return slide;
+      });
+
+      if (slides.length > 1) {
+        let currentIndex = 0;
+        clearInterval(jobSlideInterval);
+        jobSlideInterval = setInterval(() => {
+          slides[currentIndex].style.opacity = "0";
+          slides[currentIndex].style.transform = "scale(1.05)";
+          slides[currentIndex].style.zIndex = "0";
+
+          currentIndex = (currentIndex + 1) % slides.length;
+
+          slides[currentIndex].style.opacity = "1";
+          slides[currentIndex].style.transform = "scale(1)";
+          slides[currentIndex].style.zIndex = "10";
+        }, 5000);
+      }
+    }
+
+    // Load jobs when the page opens
+    document.addEventListener("DOMContentLoaded", fetchAndRenderJobs);
+  </script>
+
+  <script>
+    // --- Job Details Popup Logic ---
+    const jobDetailsModal = document.getElementById('jobDetailsModal');
+
+    function openJobModal(job) {
+      // Fill in the text details
+      document.getElementById('jobModalTitle').innerText = job.title || "Guideline";
+      document.getElementById('jobModalCompany').innerText = job.company || "Category";
+      document.getElementById('jobModalLocation').innerText = job.location || "Frequency";
+      document.getElementById('jobModalType').innerText = job.type || "Type";
+      document.getElementById('jobModalSalary').innerText = job.salary || "Impact";
+      document.getElementById('jobModalTag').innerText = job.tag || "Precaution";
+      if (document.getElementById('jobModalDesc')) {
+        document.getElementById('jobModalDesc').innerText = job.description || "More details...";
+      }
+      document.getElementById('jobModalApplyLink').href = job.apply_link || "#";
+
+      // Handle the image inside the modal
+      const posterDiv = document.getElementById('jobModalPoster');
+      if (job.poster_url && job.poster_url !== "null") {
+        posterDiv.style.backgroundImage = `url('${job.poster_url}')`;
+        posterDiv.style.display = "block";
+      } else {
+        posterDiv.style.display = "none";
+      }
+
+      // Show the modal
+      jobDetailsModal.style.display = 'flex';
+    }
+
+    function closeJobModal() {
+      jobDetailsModal.style.display = 'none';
+    }
+
+    // Close when clicking outside the popup box
+    jobDetailsModal.addEventListener('click', (e) => {
+      if (e.target === jobDetailsModal) {
+        closeJobModal();
+      }
+    });
+  </script>
+  <script>
+    // --- Job Seeker Profile & Modal Logic ---
+    const profileModal = document.getElementById('profileModal');
+    const profileLink = document.getElementById('profileLink');
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const userString = localStorage.getItem('hiringUser');
+      const profileName = document.getElementById('profileName');
+      const profileSub = document.getElementById('profileSub');
+
+      // 1. Kick out unauthorized users immediately
+      if (!userString) {
+        window.location.href = 'hiring-login.html';
+        return;
+      }
+
+      const localUser = JSON.parse(userString);
+      const userId = localUser.id;
+
+      // 2. INSTANT UI UPDATE: Stop it from saying "Guest" immediately
+      const firstName = localUser.full_name ? localUser.full_name.split(' ')[0] : "User";
+      profileName.innerText = firstName;
+      profileSub.innerText = "Clinician";
+
+      // 2b. Dynamic Profile Picture Replacement
+      const userSessionStr = localStorage.getItem('mentalHealth_currentUser') || localStorage.getItem('hiringUser');
+      if (userSessionStr) {
+        const sessionUser = JSON.parse(userSessionStr);
+        const userPic = sessionUser.profilePic || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80";
+        document.querySelectorAll('img').forEach(img => {
+          const src = img.getAttribute('src') || '';
+          if (src.includes('slogo-dark.png') || src.includes('slogo-light.png') || src.includes('profile.png')) {
+            img.src = userPic;
+            if (img.hasAttribute('data-dark')) img.setAttribute('data-dark', userPic);
+            if (img.hasAttribute('data-light')) img.setAttribute('data-light', userPic);
+          }
+        });
+      }
+
+      // 3. Background fetch for heavy data (Resume URL & Status)
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/user/profile/${userId}`);
+
+        if (response.ok) {
+          const freshUser = await response.json();
+
+          // Bind the popup click with the fresh database data
+          profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openProfileModal(freshUser, "Clinician");
+          });
+        } else {
+          console.warn("Could not fetch fresh profile. Using local data.");
+          bindFallbackModal(localUser);
+        }
+      } catch (error) {
+        console.warn("Server offline. Using local data.", error);
+        bindFallbackModal(localUser);
+      }
+    });
+
+    function bindFallbackModal(localUser) {
+      profileLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openProfileModal(localUser, "Clinician (Offline)");
+      });
+    }
+
+    // --- Modal Functions ---
+    function openProfileModal(user, roleText) {
+      document.getElementById('modalProfileName').innerText = user.full_name || 'Unknown User';
+      document.getElementById('modalProfileRole').innerText = roleText;
+      document.getElementById('modalProfileEmail').innerText = user.email || 'Not Provided';
+      document.getElementById('modalProfileStatus').innerText = user.current_status || 'N/A';
+
+      // Resume Link Logic
+      const resumeLink = document.getElementById('modalResumeLink');
+      if (user.resume_url) {
+        resumeLink.href = user.resume_url;
+        resumeLink.style.display = 'inline-block';
+      } else {
+        resumeLink.style.display = 'none';
+      }
+
+      profileModal.style.display = 'flex';
+    }
+
+    function closeProfileModal() {
+      profileModal.style.display = 'none';
+    }
+
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) closeProfileModal();
+    });
+
+    function logoutUser() {
+      localStorage.removeItem('hiringUser');
+      localStorage.removeItem('hiringToken');
+      window.location.href = 'hiring-login.html';
+    }
+  </script>
+  <script>
+    const micBtn = document.getElementById("micBtn");
+    const loader = document.getElementById("loader");
+    const chatbox = document.querySelector(".chatbox");
+    const sendBtn1 = document.getElementById("sendBtn");
+
+    let recognition;
+    let isRecording = false;
+
+    // --- Show send button only if input has text ---
+    chatbox.addEventListener("input", () => {
+      if (chatbox.value.trim() !== "") {
+        sendBtn1.style.display = "inline-block";
+        micBtn.style.display = "none"; // hide mic when typing
+      } else {
+        sendBtn1.style.display = "none";
+        micBtn.style.display = "inline-block"; // show mic if empty
+      }
+    });
+
+    // --- Speech recognition setup ---
+    if ("webkitSpeechRecognition" in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        chatbox.value = transcript;
+        sendBtn1.style.display = transcript.trim() ? "inline-block" : "none";
+      };
+    } else {
+      alert("Speech Recognition not supported in this browser.");
+    }
+
+    // --- Start recording ---
+    micBtn.addEventListener("click", () => {
+      micBtn.style.display = "none";
+      loader.style.display = "flex";
+      recognition.start();
+      isRecording = true;
+    });
+
+    // --- Stop recording ---
+    loader.addEventListener("click", () => {
+      loader.style.display = "none";
+      recognition.stop();
+      isRecording = false;
+      // if input is empty â†’ show mic back, else keep send button
+      if (chatbox.value.trim() === "") {
+        micBtn.style.display = "inline-block";
+      }
+    });
+  </script>
+
+  <script>
+    // JS
+    const plusIcon = document.querySelector(".plus-icon");
+    const popupMenu = document.getElementById("popupMenu");
+
+    let isOpen = false;
+
+    plusIcon.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent bubbling
+      isOpen = !isOpen;
+      popupMenu.style.display = isOpen ? "block" : "none";
+      plusIcon.textContent = isOpen ? "close" : "add"; // Toggle icon
+    });
+
+    // Close popup if clicked outside
+    document.addEventListener("click", (e) => {
+      if (isOpen && !popupMenu.contains(e.target) && !plusIcon.contains(e.target)) {
+        popupMenu.style.display = "none";
+        plusIcon.textContent = "add";
+        isOpen = false;
+      }
+    });
+
+  </script>
+
+
+  <script>
+    const chatboxEl = document.getElementById("chatbox");
+
+    chatboxEl.addEventListener("input", () => {
+      chatboxEl.style.height = "20px"; // reset to base
+      chatboxEl.style.height = Math.min(chatboxEl.scrollHeight, 120) + "px"; // expand up to 5 lines
+    });
+
+  </script>
+
+  <script>
+    const chatboxInput = document.getElementById("chatbox");
+
+    chatboxInput.addEventListener("input", () => {
+      chatboxInput.style.height = "20px"; // reset to base
+      chatboxInput.style.height = chatboxInput.scrollHeight + "px";
+
+      // if more than 5 lines â†’ allow scroll
+      if (chatboxInput.scrollHeight > 120) {
+        chatboxInput.style.overflowY = "auto";
+        chatboxInput.style.height = "120px";
+      } else {
+        chatboxInput.style.overflowY = "hidden";
+      }
+    });
+
+  </script>
+  <script>
+    // --- UI Elements ---
+    const aiAssistantModal = document.getElementById('aiAssistantModal');
+    const aiChatHistory = document.getElementById('aiChatHistory');
+    const aiModalInput = document.getElementById('aiModalInput');
+    const aiModalSendBtn = document.getElementById('aiModalSendBtn');
+    const aiModalTitle = document.getElementById('aiModalTitle');
+
+    // --- Open/Close Logic ---
+    function openAiModal(titleText) {
+      aiModalTitle.textContent = titleText;
+      aiAssistantModal.style.display = 'flex';
+      aiModalInput.focus();
+    }
+
+    function closeAiModal() {
+      aiAssistantModal.style.display = 'none';
+    }
+
+    // Close modal when clicking on the dark background overlay
+    aiAssistantModal.addEventListener('click', (e) => {
+      if (e.target === aiAssistantModal) closeAiModal();
+    });
+
+    // Attach click events to the specific carousel items
+    document.querySelectorAll('.trigger-study-ai').forEach(item => {
+      item.addEventListener('click', () => {
+        // Only open the AI modal if the selected item is actually in the center
+        if (!item.classList.contains('large')) return;
+
+        // Grab the H1 text from the clicked item to personalize the modal title
+        const titleEl = item.querySelector('h1');
+        const title = titleEl ? titleEl.innerText + " Guide" : "Study Assistant";
+        openAiModal(title);
+      });
+    });
+
+    // --- AI Chat Logic ---
+    let isAiModalSending = false;
+
+    async function sendAiModalMessage() {
+      const text = aiModalInput.value.trim();
+      if (!text || isAiModalSending) return;
+
+      isAiModalSending = true;
+      aiModalInput.value = ''; // Clear input
+      aiModalInput.style.height = '24px'; // Reset height
+
+      // 1. Append User Message
+      const userBubble = document.createElement('div');
+      userBubble.className = 'ai-user';
+      userBubble.textContent = text;
+      aiChatHistory.appendChild(userBubble);
+      aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+
+      // 2. Append Loading Placeholder
+      const loaderBubble = document.createElement('div');
+      loaderBubble.className = 'ai-assistant';
+      loaderBubble.innerHTML = `<em>Reviewing...</em> <span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>`;
+      aiChatHistory.appendChild(loaderBubble);
+      aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+
+      // 3. Inject Study Assistant Persona into the Prompt
+      // This tells the AI *how* to answer without the user seeing the instructions
+      const systemPrompt = `You are a highly intelligent medical assistant guiding clinicians on knee osteoarthritis grading. Break down complex imaging analysis simply, provide accurate diagnostic guidance, and use formatting like bolding and bullet points for readability. \n\nUser Question: ${text}`;
+
+      try {
+        // Uses your existing Groq function
+        const json = await callGroqResponses(systemPrompt);
+
+        // Uses your existing extractor and formatter functions
+        let extracted = extractBestText(json);
+        if (!extracted) {
+          extracted = (json && (json.output_text || json.text)) || "I'm having trouble processing that topic right now. Could you rephrase?";
+        }
+
+        // Replace loader with actual formatted text
+        loaderBubble.innerHTML = formatAIText(extracted);
+      } catch (err) {
+        loaderBubble.innerHTML = `<div class="ai-response-error">Connection Error: ${escapeHtml(err.message)}</div>`;
+        console.error('Study Assistant API Error:', err);
+      } finally {
+        isAiModalSending = false;
+        aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+      }
+    }
+
+    // --- Input Handlers ---
+    aiModalSendBtn.addEventListener('click', sendAiModalMessage);
+
+    aiModalInput.addEventListener('keydown', (e) => {
+      // Send on Enter (but allow Shift+Enter for new lines)
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendAiModalMessage();
+      }
+    });
+
+    // Auto-resize the modal input bar just like your main chatbox
+    aiModalInput.addEventListener('input', () => {
+      aiModalInput.style.height = '24px';
+      aiModalInput.style.height = Math.min(aiModalInput.scrollHeight, 100) + 'px';
+    });
+  </script>
+  <script>
+    const carousel = document.getElementById('carousel');
+    const items = Array.from(document.querySelectorAll('.item'));
+    let centerIndex = 3; // default: 4th div is center (index 3)
+
+    const cardWrap = document.getElementById('cardWrap');
+    const cardParent = cardWrap ? cardWrap.closest('.item') : null;
+
+    let cardActive = false;
+
+    function updateLayout() {
+      items.forEach((item, i) => {
+        item.className = 'item'; // reset
+        if (i === centerIndex) {
+          item.classList.add('large');
+        } else if (i === centerIndex - 1 || i === centerIndex + 1) {
+          item.classList.add('medium');
+        } else if (i === centerIndex - 2 || i === centerIndex + 2) {
+          item.classList.add('small');
+        } else {
+          item.classList.add('x-small');
+        }
+      });
+
+      // If the card exists, toggle its visibility depending on whether its parent .item has .large
+      if (cardWrap && cardParent) {
+        const isLarge = cardParent.classList.contains('large');
+        setCardActive(isLarge);
+      }
+    }
+
+    function setCardActive(active) {
+      cardActive = !!active;
+      if (cardWrap) {
+        if (cardActive) {
+          cardWrap.classList.remove('card-hidden');
+        } else {
+          // hide and reset visuals/targets handled in head-area script
+          cardWrap.classList.add('card-hidden');
+        }
+      }
+    }
+
+    // init
+    updateLayout();
+
+    items.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        if (centerIndex === i) {
+          // If the item is already centered, trigger its navigation link
+          const url = item.getAttribute('data-url');
+          if (url) {
+            window.location.href = url;
+          }
+        } else {
+          // Otherwise merely rotate the carousel to make it the center
+          centerIndex = i;
+          updateLayout();
+        }
+      });
+    });
+  </script>
+
+
+
+
+  <script>
+    (function () {
+      const headArea = document.getElementById('headArea');   // large interactive zone
+      const cardWrap = document.getElementById('cardWrap');   // the visible head (happy eyes)
+      const card = document.getElementById('card');
+      const eyes = document.getElementById('eyesNormal');
+
+      // Config (tweak as needed)
+      const MAX_ROT_X = 14;    // degrees
+      const MAX_ROT_Y = 18;    // degrees
+      const LERP = 0.14;       // smoothing (0..1)
+      const EYE_MOVE_X = 9;    // px
+      const EYE_MOVE_Y = 6;    // px
+      let translateZ = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--translateY')) || 45;
+
+      // State
+      let targetRotX = 0, targetRotY = 0;
+      let currentRotX = 0, currentRotY = 0;
+      let targetEyeX = 0, targetEyeY = 0;
+      let currentEyeX = 0, currentEyeY = 0;
+
+      // This flag is toggled from the carousel updateLayout via the element class (card-hidden)
+      function isCardActive() {
+        return !(cardWrap && cardWrap.classList.contains('card-hidden'));
+      }
+
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      // Map pointer pos inside headArea to rotations & eye offsets
+      function handlePointerMove(clientX, clientY) {
+        if (!isCardActive()) return; // freeze when card inactive
+
+        const rect = headArea.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+
+        const nx = (clientX - cx) / (rect.width / 2);  // -1..1
+        const ny = (clientY - cy) / (rect.height / 2); // -1..1
+
+        const sx = clamp(nx, -1, 1);
+        const sy = clamp(ny, -1, 1);
+
+        // rotate toward pointer: right => positive Y rotation; down => negative X rotation
+        targetRotY = sx * MAX_ROT_Y;
+        targetRotX = -sy * MAX_ROT_X;
+
+        // eyes move toward pointer
+        targetEyeX = sx * EYE_MOVE_X;
+        targetEyeY = sy * EYE_MOVE_Y;
+      }
+
+      // HEAD AREA handlers: control tilt + eye-parallax only
+      function onHeadMove(e) {
+        if (e.touches && e.touches[0]) handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+        else handlePointerMove(e.clientX, e.clientY);
+      }
+      function onHeadLeave() {
+        // reset targets when pointer leaves the head area
+        targetRotX = 0; targetRotY = 0;
+        targetEyeX = 0; targetEyeY = 0;
+      }
+
+      // CARD handlers: control happy eyes + pause balls/glow (only when pointer actually on the head)
+      function onCardEnter() { if (!isCardActive()) return; cardWrap.classList.add('is-hovered'); }
+      function onCardLeave() { if (!isCardActive()) return; cardWrap.classList.remove('is-hovered'); }
+
+      // Animation loop: smooth rotation + eyes parallax
+      function animate() {
+        // If card not active, smoothly lerp rotation/eye targets to zero (freeze)
+        if (!isCardActive()) {
+          targetRotX = 0; targetRotY = 0;
+          targetEyeX = 0; targetEyeY = 0;
+        }
+
+        currentRotX = lerp(currentRotX, targetRotX, LERP);
+        currentRotY = lerp(currentRotY, targetRotY, LERP);
+
+        const perspectiveVal = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--perspective')) || 1000;
+        if (card) {
+          card.style.transform = `perspective(${perspectiveVal}px) rotateX(${currentRotX.toFixed(3)}deg) rotateY(${currentRotY.toFixed(3)}deg) translateZ(${translateZ}px)`;
+        }
+
+        currentEyeX = lerp(currentEyeX, targetEyeX, LERP * 1.2);
+        currentEyeY = lerp(currentEyeY, targetEyeY, LERP * 1.2);
+        if (eyes) {
+          eyes.style.transform = `translateX(calc(-50% + ${currentEyeX.toFixed(2)}px)) translateY(${currentEyeY.toFixed(2)}px)`;
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      // Attach listeners to the single headArea:
+      headArea.addEventListener('mousemove', onHeadMove, { passive: true });
+      headArea.addEventListener('touchmove', onHeadMove, { passive: true });
+      headArea.addEventListener('mouseleave', onHeadLeave, { passive: true });
+      headArea.addEventListener('touchend', onHeadLeave, { passive: true });
+
+      // Card only toggles the happy eyes / paused balls — handlers check active flag
+      cardWrap.addEventListener('mouseenter', onCardEnter, { passive: true });
+      cardWrap.addEventListener('mouseleave', onCardLeave, { passive: true });
+      cardWrap.addEventListener('touchstart', function (e) { onCardEnter(); onHeadMove(e); }, { passive: true });
+      cardWrap.addEventListener('touchend', onCardLeave, { passive: true });
+
+      // Responsive depth tweak
+      function updateResponsive() {
+        if (window.innerWidth < 520) translateZ = 35;
+        else translateZ = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--translateY')) || 45;
+      }
+      window.addEventListener('resize', updateResponsive);
+      updateResponsive();
+
+      requestAnimationFrame(animate);
+    })();
+  </script>
+
+  <script>
+    const leftNavBtn = document.getElementById('leftNavBtn');
+    const topNavMenu = document.getElementById('topNavMenu');
+
+    // Toggle the menu when the logo is clicked
+    leftNavBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevents the click from immediately closing it
+      topNavMenu.classList.toggle('show');
+    });
+
+    // Close the menu if the user clicks anywhere outside of it
+    document.addEventListener('click', (e) => {
+      if (topNavMenu.classList.contains('show')) {
+        // Check if the click happened outside the menu and outside the button
+        if (!topNavMenu.contains(e.target) && !leftNavBtn.contains(e.target)) {
+          topNavMenu.classList.remove('show');
+        }
+      }
+    });
+  </script>
+
+  <script>
+    (function () {
+      const logoBtn = document.getElementById('logoBtn');
+      const dropdown = document.getElementById('logoDropdown');
+      const themeBtn = document.getElementById('themeBtn');
+      const themeIcon = document.getElementById('themeIcon');
+
+      // Open
+      function openDropdown() {
+        dropdown.classList.add('pdd-visible');
+        logoBtn.setAttribute('aria-expanded', 'true');
+        // Move focus to first interactive item for keyboard users
+        const first = dropdown.querySelector('[role="menuitem"]');
+        if (first) first.focus();
+      }
+
+      // Close
+      function closeDropdown() {
+        dropdown.classList.remove('pdd-visible');
+        logoBtn.setAttribute('aria-expanded', 'false');
+        logoBtn.focus();
+      }
+
+      // Toggle
+      function toggleDropdown() {
+        if (dropdown.classList.contains('pdd-visible')) closeDropdown(); else openDropdown();
+      }
+
+      // Click on logo toggles dropdown
+      logoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+      // Keyboard: open via Enter/Space when focused on logo
+      logoBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          logoBtn.click();
+        }
+      });
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!dropdown.classList.contains('pdd-visible')) return;
+        if (!dropdown.contains(e.target) && e.target !== logoBtn) closeDropdown();
+      });
+
+      // Close on Escape and support keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (dropdown.classList.contains('pdd-visible')) closeDropdown();
+        } else if (e.key === 'Tab' && dropdown.classList.contains('pdd-visible')) {
+          // If Tabbed out of the menu (focus not inside dropdown nor logo), close it
+          // Use a small timeout to allow focus to change
+          setTimeout(() => {
+            const active = document.activeElement;
+            if (!dropdown.contains(active) && active !== logoBtn) closeDropdown();
+          }, 10);
+        }
+      });
+
+      // Allow clicking/pressing any row to close the dropdown (common UX)
+      dropdown.addEventListener('click', (e) => {
+        const row = e.target.closest('[role="menuitem"]');
+        if (row && row.tagName.toLowerCase() === 'a') {
+          // for anchor links, allow default navigation but close the menu
+          closeDropdown();
+        }
+      });
+
+      // Simple theme icon toggle (no global theme changes)
+      function toggleThemeIcon() {
+        const isSun = themeIcon.textContent.trim() === 'wb_sunny';
+        themeIcon.textContent = isSun ? 'dark_mode' : 'wb_sunny';
+        themeBtn.setAttribute('aria-pressed', String(!isSun));
+      }
+      themeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleThemeIcon();
+      });
+
+      // Accessibility: allow Enter/Space to activate any menuitem (div/button/a with role=menuitem)
+      dropdown.addEventListener('keydown', (e) => {
+        const target = e.target;
+        if ((e.key === 'Enter' || e.key === ' ') && target.getAttribute('role') === 'menuitem') {
+          e.preventDefault();
+          // if it's an anchor, follow it; if button-like, trigger click
+          if (target.tagName.toLowerCase() === 'a') {
+            target.click();
+          } else {
+            target.querySelector('button')?.click();
+          }
+        }
+      });
+
+      // Ensure dropdown closes on window blur (optional, helps mobile)
+      window.addEventListener('blur', () => {
+        if (dropdown.classList.contains('pdd-visible')) closeDropdown();
+      });
+
+      // Expose for debugging if needed
+      window._logoDropdown = { open: openDropdown, close: closeDropdown, toggle: toggleDropdown };
+    })();
+  </script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const previewContainer = document.getElementById('previewContainer');
+    if (!previewContainer) return;
+
+    // Handle File Upload Previews
+    const fileUpload = document.getElementById("fileUpload");
+    if (fileUpload) {
+      fileUpload.addEventListener("change", (e) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+        
+        Array.from(files).forEach(file => {
+          const item = document.createElement('div');
+          item.className = 'preview-item';
+          
+          const removeBtn = document.createElement('div');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '&times;';
+          removeBtn.onclick = () => item.remove();
+          
+          if (file.type.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            item.appendChild(img);
+          } else {
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined';
+            icon.textContent = 'description';
+            item.appendChild(icon);
+          }
+          
+          item.appendChild(removeBtn);
+          previewContainer.appendChild(item);
+        });
+      });
+    }
+
+    // Handle AI Generate Image
+    const popupMenu = document.getElementById('popupMenu');
+    const aiGenBtn = Array.from(document.querySelectorAll('.popup-menu li')).find(li => li.textContent.includes('AI Generate Image'));
+    
+    if (aiGenBtn) {
+      aiGenBtn.addEventListener('click', () => {
+        // Clear previous UI if any
+        const existingUI = previewContainer.querySelector('.ai-gen-ui');
+        if (existingUI) existingUI.remove();
+
+        const ui = document.createElement('div');
+        ui.className = 'ai-gen-ui';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Describe the image you want...';
+        
+        const controls = document.createElement('div');
+        controls.className = 'ai-gen-controls';
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">close</span> Cancel';
+        closeBtn.style.background = 'rgba(255, 71, 87, 0.9)';
+        closeBtn.onclick = () => ui.remove();
+
+        const genBtn = document.createElement('button');
+        genBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">auto_awesome</span> Generate';
+        genBtn.onclick = () => {
+          if (!input.value.trim()) return;
+          genBtn.innerHTML = 'Generating...';
+          genBtn.disabled = true;
+          
+          // Show preview item after generation mock delay
+          setTimeout(() => {
+            ui.remove();
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            const img = document.createElement('img');
+            img.src = 'https://images.unsplash.com/photo-1698047976856-d7c71ba76e3c?auto=format&fit=crop&w=150&q=80';
+            
+            const removeBtn = document.createElement('div');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.onclick = () => item.remove();
+            
+            item.appendChild(img);
+            item.appendChild(removeBtn);
+            previewContainer.appendChild(item);
+          }, 1500);
+        };
+
+        controls.appendChild(closeBtn);
+        controls.appendChild(genBtn);
+        ui.appendChild(input);
+        ui.appendChild(controls);
+        
+        previewContainer.appendChild(ui);
+        
+        // Focus the input
+        setTimeout(() => input.focus(), 100);
+        
+        // Close menu
+        if (popupMenu) popupMenu.style.display = 'none';
+      });
+    }
+  });
+  </script>
+</body>
+
+</html>
+
+

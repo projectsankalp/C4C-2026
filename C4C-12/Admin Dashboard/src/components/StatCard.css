@@ -1,0 +1,94 @@
+/**
+ * GraamSehat Admin Dashboard - Stat Card CSS
+ * Location: /src/components/StatCard.css
+ */
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+}
+
+.stat-card-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.stat-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card-footer {
+  margin-top: 0.25rem;
+}
+
+.stat-subtext {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Color Types definitions */
+.stat-icon-default {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+.stat-card-default:hover {
+  border-color: var(--primary);
+}
+
+.stat-icon-success {
+  background-color: var(--risk-green-bg);
+  color: var(--risk-green);
+}
+.stat-card-success:hover {
+  border-color: var(--risk-green);
+}
+
+.stat-icon-warning {
+  background-color: var(--risk-yellow-bg);
+  color: var(--risk-yellow);
+}
+.stat-card-warning:hover {
+  border-color: var(--risk-yellow);
+}
+
+.stat-icon-critical {
+  background-color: var(--risk-red-bg);
+  color: var(--risk-red);
+}
+.stat-card-critical:hover {
+  border-color: var(--risk-red);
+}
+
+.stat-card-critical .stat-value {
+  color: var(--risk-red);
+}

@@ -1,0 +1,277 @@
+// HastKala Database Schema
+// Person 4 - Backend Lead
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Artisan {
+  id                 String   @id @default(uuid()) @db.Uuid
+  name               String?
+  phone              String   @unique
+  village            String?
+  district           String   @default("Unknown")
+  state              String   @default("Karnataka")
+  language           String   @default("en")
+  craftType          String   @default("Handmade Crafts") @map("craft_type")
+  story              String?  @db.Text
+  yearsExperience    Int?     @map("years_experience")
+  shgName            String?  @map("shg_name")
+  profileImageUrl    String?  @map("profile_image_url")
+  verificationStatus String   @default("unverified") @map("verification_status")
+  isVerified         Boolean  @default(false) @map("is_verified")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  products Product[]
+  messages WhatsappMessage[]
+  orders   Order[]
+
+  @@index([phone])
+  @@index([verificationStatus])
+  @@map("artisans")
+}
+
+model Product {
+  id               String    @id @default(uuid()) @db.Uuid
+  artisanId        String    @map("artisan_id") @db.Uuid
+  title            String
+  description      String    @db.Text
+  shortDescription String?   @map("short_description") @db.Text
+  price            Int
+  suggestedPrice   Int?      @map("suggested_price")
+  quantity         Int       @default(1)
+  category         String    @default("Handmade Crafts")
+  district         String    @default("Unknown")
+  imageUrl         String?   @map("image_url")
+  imagePublicId    String?   @map("image_public_id")
+  status           String    @default("approved")
+  aiGenerated      Boolean   @default(true) @map("ai_generated")
+  rawMessage       String?   @map("raw_message") @db.Text
+  material         String?
+  tags             String[]  @default([])
+  careInstructions String?   @map("care_instructions") @db.Text
+  rejectionReason  String?   @map("rejection_reason") @db.Text
+  approvedAt       DateTime? @map("approved_at") @db.Timestamptz
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  artisan   Artisan           @relation(fields: [artisanId], references: [id], onDelete: Cascade)
+  approvals ProductApproval[]
+  orders    Order[]
+  messages  WhatsappMessage[]
+  steps     ProcessStep[]
+
+  @@index([artisanId])
+  @@index([status])
+  @@index([category])
+  @@index([district])
+  @@map("products")
+}
+
+model ProductApproval {
+  id           String   @id @default(uuid()) @db.Uuid
+  productId    String   @map("product_id") @db.Uuid
+  reviewerName String   @default("Karigar Sakhi") @map("reviewer_name")
+  reviewerRole String   @default("Coordinator") @map("reviewer_role")
+  action       String
+  comment      String?  @db.Text
+  reason       String?  @db.Text
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_approvals")
+}
+
+model Order {
+  id            String   @id @default(uuid()) @db.Uuid
+  productId     String   @map("product_id") @db.Uuid
+  artisanId     String   @map("artisan_id") @db.Uuid
+  buyerId       String?  @map("buyer_id") @db.Uuid
+  buyerName     String   @map("buyer_name")
+  buyerPhone    String   @map("buyer_phone")
+  buyerAddress  String   @map("buyer_address") @db.Text
+  quantity      Int      @default(1)
+  totalAmount   Int      @map("total_amount")
+  status        String   @default("new")
+  paymentStatus String   @default("pending") @map("payment_status")
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  artisan Artisan @relation(fields: [artisanId], references: [id], onDelete: Cascade)
+  buyer   User?   @relation(fields: [buyerId], references: [id], onDelete: SetNull)
+
+  @@index([productId])
+  @@index([artisanId])
+  @@index([status])
+  @@index([buyerPhone])
+  @@map("orders")
+}
+
+model WhatsappMessage {
+  id            String   @id @default(uuid()) @db.Uuid
+  fromPhone     String   @map("from_phone")
+  artisanId     String?  @map("artisan_id") @db.Uuid
+  productId     String?  @map("product_id") @db.Uuid
+  messageType   String   @map("message_type")
+  body          String?  @db.Text
+  mediaUrl      String?  @map("media_url")
+  mediaPublicId String?  @map("media_public_id")
+  waMessageId   String?  @map("wa_message_id")
+  direction     String   @default("inbound")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  artisan Artisan? @relation(fields: [artisanId], references: [id], onDelete: SetNull)
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([fromPhone])
+  @@index([artisanId])
+  @@index([productId])
+  @@index([createdAt])
+  @@map("whatsapp_messages")
+}
+
+model ImpactMetric {
+  id          String   @id @default(uuid()) @db.Uuid
+  label       String
+  value       String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("impact_metrics")
+}
+
+model BarterListing {
+  id          String   @id @default(uuid()) @db.Uuid
+  artisanId   String?  @map("artisan_id") @db.Uuid
+  posterName  String   @map("poster_name")
+  posterPhone String?  @map("poster_phone")
+  offerSkill  String   @map("offer_skill")
+  needSkill   String   @map("need_skill")
+  description String?  @db.Text
+  district    String?
+  language    String   @default("en")
+  status      String   @default("open")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([status])
+  @@index([offerSkill])
+  @@index([needSkill])
+  @@map("barter_listings")
+}
+
+model ProcessStep {
+  id          String   @id @default(uuid()) @db.Uuid
+  productId   String   @map("product_id") @db.Uuid
+  stepNumber  Int      @map("step_number")
+  title       String
+  description String   @db.Text
+  imageUrl    String?  @map("image_url")
+  videoUrl    String?  @map("video_url")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("process_steps")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  address   String?  @db.Text
+  avatarUrl String?  @map("avatar_url")
+  role      String   @default("buyer")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  orders Order[]
+
+  @@map("users")
+}
+
+model VendorUser {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  phone     String?  @unique
+  email     String?  @unique
+  role      String   @default("karigar_sakhi")
+  district  String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("vendor_users")
+}
+
+model CommunityMember {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String
+  phone       String?   @unique
+  location    String?
+  skills      String?
+  language    String    @default("en")
+  stage       String    @default("discover")
+  points      Int       @default(0)
+  isCertified Boolean   @default(false) @map("is_certified")
+  certifiedAt DateTime? @map("certified_at") @db.Timestamptz
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  completions    ModuleCompletion[]
+  certifications Certification[]
+
+  @@index([phone])
+  @@index([stage])
+  @@map("community_members")
+}
+
+model LearningModule {
+  id           String   @id @default(uuid()) @db.Uuid
+  title        String
+  description  String   @db.Text
+  content      String?  @db.Text
+  language     String   @default("en")
+  pointsReward Int      @default(50) @map("points_reward")
+  orderIndex   Int      @default(0) @map("order_index")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  completions ModuleCompletion[]
+
+  @@map("learning_modules")
+}
+
+model ModuleCompletion {
+  id          String   @id @default(uuid()) @db.Uuid
+  memberId    String   @map("member_id") @db.Uuid
+  moduleId    String   @map("module_id") @db.Uuid
+  completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz
+
+  member CommunityMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  module LearningModule  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([memberId, moduleId])
+  @@index([memberId])
+  @@map("module_completions")
+}
+
+model Certification {
+  id         String   @id @default(uuid()) @db.Uuid
+  memberId   String   @map("member_id") @db.Uuid
+  certNumber String   @unique @map("cert_number")
+  issuedAt   DateTime @default(now()) @map("issued_at") @db.Timestamptz
+
+  member CommunityMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@map("certifications")
+}

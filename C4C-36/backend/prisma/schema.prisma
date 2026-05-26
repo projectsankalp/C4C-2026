@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Volunteer {
+  id              String          @id @default(uuid())
+  volunteerCode   String          @unique
+  email           String          @unique
+  phone           String          @unique
+  passwordHash    String
+  collegeProofUrl String
+  livePhotoUrl    String
+  isApproved      Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  certifications  Certification[]
+  usersAssigned   User[]
+}
+
+model Certification {
+  id          String    @id @default(uuid())
+  certCode    String    @unique
+  title       String
+  hoursValue  Int
+  proofUrl    String?
+  volunteerId String
+  issuedAt    DateTime  @default(now())
+  volunteer   Volunteer @relation(fields: [volunteerId], references: [id])
+}
+
+model User {
+  id                  String     @id @default(uuid())
+  userCode            String     @unique
+  phone               String     @unique
+  otp                 String?
+  otpExpiry           DateTime?
+  scoreRating         Int        @default(0)
+  hasWatchedTutorial  Boolean    @default(false)
+  encryptedVideoUrl   String?
+  associatedVolId     String?
+  createdAt           DateTime   @default(now())
+  associatedVolunteer Volunteer? @relation(fields: [associatedVolId], references: [id])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model certificates {
+  id                   String      @id @db.Uuid
+  userId               String      @db.Uuid
+  submissionId         String      @db.Uuid
+  certCode             String      @unique(map: "ix_certificates_certCode") @db.VarChar
+  hash                 String      @db.VarChar
+  issuedAt             DateTime?   @db.Timestamp(6)
+  skillScore           Float
+  professionalismScore Float
+  submissions          submissions @relation(fields: [submissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                users       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model submissions {
+  id           String         @id @db.Uuid
+  userId       String         @db.Uuid
+  trade        String         @db.VarChar
+  mediaUrl     String         @db.VarChar
+  transcript   String?        @db.VarChar
+  aiScore      Float?
+  status       String?        @db.VarChar
+  createdAt    DateTime?      @db.Timestamp(6)
+  certificates certificates[]
+  users        users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id           String         @id @db.Uuid
+  phone        String         @unique(map: "ix_users_phone") @db.VarChar
+  name         String?        @db.VarChar
+  trade        String?        @db.VarChar
+  otp          String?        @db.VarChar
+  otpExpiry    DateTime?      @db.Timestamp(6)
+  createdAt    DateTime?      @db.Timestamp(6)
+  certificates certificates[]
+  submissions  submissions[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model validators {
+  id           String @id @db.Uuid
+  email        String @unique(map: "ix_validators_email") @db.VarChar
+  passwordHash String @db.VarChar
+  name         String @db.VarChar
+}

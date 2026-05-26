@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>PRAANA Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+            position: relative;
+            background: #04140d;
+        }
+
+        /* TREE BACKGROUND */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.60),
+                    rgba(0, 0, 0, 0.60)),
+                url("https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1800&auto=format&fit=crop");
+
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        /* LIGHT YELLOW + GREEN OVERLAY */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background:
+                linear-gradient(to bottom right,
+                    rgba(255, 255, 180, 0.12),
+                    rgba(0, 255, 120, 0.08),
+                    rgba(255, 240, 150, 0.10));
+
+            z-index: -1;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            width: 100%;
+            padding: 25px 20px;
+            text-align: center;
+
+            backdrop-filter: blur(12px);
+
+            background: rgba(255, 255, 220, 0.08);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .topbar h1 {
+            font-size: 42px;
+            color: #fff6b0;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(255, 255, 180, 0.4);
+        }
+
+        .topbar p {
+            font-size: 18px;
+            color: #f5f5dc;
+            opacity: 0.95;
+        }
+
+        /* MAIN CONTAINER */
+        .dashboard-container {
+            width: 92%;
+            max-width: 1400px;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        /* HERO SECTION */
+        .hero-card {
+            width: 100%;
+            padding: 65px 30px;
+            border-radius: 30px;
+
+            background: rgba(255, 255, 220, 0.08);
+
+            backdrop-filter: blur(16px);
+
+            text-align: center;
+
+            box-shadow:
+                0 0 40px rgba(255, 255, 150, 0.08),
+                0 10px 30px rgba(0, 0, 0, 0.4);
+
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-card h2 {
+            font-size: 58px;
+            margin-bottom: 20px;
+            color: #fff4a3;
+
+            text-shadow: 0 0 18px rgba(255, 255, 150, 0.35);
+        }
+
+        .hero-card p {
+            font-size: 22px;
+            max-width: 900px;
+            margin: auto;
+            line-height: 1.8;
+            color: #fefce8;
+        }
+
+        /* GRID */
+        .grid {
+            margin-top: 40px;
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 25px;
+        }
+
+        /* CARDS */
+        .card {
+            position: relative;
+
+            padding: 40px 25px;
+
+            border-radius: 25px;
+
+            background: rgba(255, 255, 220, 0.08);
+
+            backdrop-filter: blur(15px);
+
+            text-align: center;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+            transition: 0.4s;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            box-shadow:
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 180, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.04);
+
+            background: rgba(255, 255, 200, 0.14);
+
+            box-shadow:
+                0 0 30px rgba(255, 255, 180, 0.35),
+                0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ICON */
+        .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* CARD TITLE */
+        .card h3 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            color: #fff6b0;
+        }
+
+        /* CARD TEXT */
+        .card p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #fefce8;
+            opacity: 0.95;
+        }
+
+        /* LIGHT GLOW EFFECT */
+        .card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            background: rgba(255, 255, 180, 0.10);
+
+            border-radius: 50%;
+
+            top: -60px;
+            right: -60px;
+
+            filter: blur(25px);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+
+            .topbar h1 {
+                font-size: 30px;
+            }
+
+            .hero-card {
+                padding: 45px 20px;
+            }
+
+            .hero-card h2 {
+                font-size: 38px;
+            }
+
+            .hero-card p {
+                font-size: 17px;
+            }
+
+            .card h3 {
+                font-size: 24px;
+            }
+        }
+
+        /* ANIMATION */
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h1>🌍 PRAANA DASHBOARD</h1>
+        <p>Smart Real-Time Air Quality Monitoring System</p>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="dashboard-container">
+
+        <!-- HERO SECTION -->
+        <div class="hero-card">
+
+            <h2>🌳 Protect Environment</h2>
+
+            <p>
+                Monitor air quality, analyze pollution levels,
+                receive instant alerts, and spread environmental
+                awareness for a cleaner and greener future.
+            </p>
+
+        </div>
+
+        <!-- FEATURE GRID -->
+        <div class="grid">
+
+            <!-- LIVE AQI -->
+            <div class="card" onclick="location.href='live.html'">
+
+                <span class="icon">📡</span>
+
+                <h3>Live AQI</h3>
+
+                <p>
+                    View real-time air quality index and pollutant levels instantly.
+                </p>
+
+            </div>
+
+            <!-- ALERTS -->
+            <div class="card" onclick="location.href='alerts.html'">
+
+                <span class="icon">🚨</span>
+
+                <h3>Alerts</h3>
+
+                <p>
+                    Get warning notifications during dangerous pollution conditions.
+                </p>
+
+            </div>
+
+            <!-- REPORTS -->
+            <div class="card" onclick="location.href='reports.html'">
+
+                <span class="icon">📊</span>
+
+                <h3>Reports</h3>
+
+                <p>
+                    Analyze pollutant variations using interactive smart charts.
+                </p>
+
+            </div>
+
+            <!-- AWARENESS -->
+            <div class="card" onclick="location.href='awareness.html'">
+
+                <span class="icon">🌱</span>
+
+                <h3>Awareness</h3>
+
+                <p>
+                    Learn eco-friendly practices to reduce pollution and save nature.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+/**
+ * GraamSehat Admin Dashboard - Patient Search Page CSS
+ * Location: /src/pages/PatientSearch.css
+ */
+
+.patient-search-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.search-header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.search-page-body {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.search-list-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.search-input-bar {
+  width: 100%;
+}
+
+.search-results-table {
+  width: 100%;
+}
+
+.search-filters-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (max-width: 1200px) {
+  .search-page-body {
+    grid-template-columns: 1fr;
+  }
+  .search-filters-column {
+    order: -1; /* place filters above search list on mobile */
+  }
+}

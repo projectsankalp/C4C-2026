@@ -1,0 +1,18 @@
+name: AI Pipeline CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'ai-pipeline/**'
+
+jobs:
+  train-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Training
+        run: |
+          cd ai-pipeline
+          pip install -r requirements.txt
+          python src/train.py

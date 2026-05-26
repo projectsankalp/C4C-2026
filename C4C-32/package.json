@@ -1,0 +1,37 @@
+{
+  "name": "karighar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "dev:frontend": "npm run dev --prefix ecommerce-project",
+    "build:frontend": "npm run build --prefix ecommerce-project",
+    "preview:frontend": "npm run preview --prefix ecommerce-project"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NikhilShet1/KariGhar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NikhilShet1/KariGhar/issues"
+  },
+  "homepage": "https://github.com/NikhilShet1/KariGhar#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.106.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

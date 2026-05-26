@@ -1,0 +1,2 @@
+// predictionHandler placeholder
+module.exports = {};

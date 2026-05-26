@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Seva | Voice-First Rural Healthcare</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#414752",
+                        "tertiary-fixed-dim": "#bac9d3",
+                        "on-background": "#191c1e",
+                        "secondary-fixed-dim": "#88d982",
+                        "primary-container": "#1976d2",
+                        "on-surface": "#191c1e",
+                        "inverse-primary": "#a5c8ff",
+                        "secondary-fixed": "#a3f69c",
+                        "primary": "#005dac",
+                        "outline-variant": "#c1c6d4",
+                        "on-tertiary-container": "#fdfdff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#a0f399",
+                        "surface-variant": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-tint": "#005faf",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005312",
+                        "surface": "#f7f9fb",
+                        "outline": "#717783",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-container": "#217128",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#697781",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "surface-container": "#eceef0",
+                        "primary-fixed": "#d4e3ff",
+                        "secondary": "#1b6d24",
+                        "on-tertiary-fixed-variant": "#3b4951",
+                        "tertiary": "#505e68",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#d6e5ef",
+                        "on-secondary-fixed": "#002204",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#001c3a",
+                        "on-primary-fixed-variant": "#004786",
+                        "on-tertiary-fixed": "#0f1d25",
+                        "on-primary-container": "#fffdff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "32px",
+                        "sidebar-width": "280px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Lexend"],
+                        "headline-lg-mobile": ["Lexend"],
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Lexend"],
+                        "headline-lg": ["Lexend"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.08);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(212, 227, 255, 0.5), transparent),
+                        radial-gradient(circle at bottom left, rgba(163, 246, 156, 0.2), transparent);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary/20">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 max-w-container-max mx-auto bg-surface/60 dark:bg-surface-dim/60 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="health_and_safety">health_and_safety</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Health Seva</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="/">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#about">About</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#features">Features</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#contact">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<a href="/login.html" class="hidden sm:block font-label-md text-label-md px-6 py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all">Login</a>
+<a href="/signup-user.html" class="font-label-md text-label-md px-6 py-2.5 rounded-full bg-primary text-on-primary shadow-lg transition-all">Get Started</a>
+</div>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative overflow-hidden hero-gradient min-h-[921px] flex items-center">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#005dac 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+<div class="container mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+<div class="space-y-8 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="record_voice_over">record_voice_over</span>
+                        Empowering Rural Healthcare with AI
+                    </div>
+<h1 class="font-headline-xl text-headline-xl text-on-background leading-tight">
+                        Voice-First Rural <span class="text-primary">Healthcare</span> Connectivity Platform
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        Breaking language barriers and connectivity gaps. Health Seva uses intuitive voice interfaces to connect ASHA workers and rural patients with high-quality clinical guidance instantly.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<a href="/login.html" class="px-8 py-4 bg-primary text-on-primary rounded-2xl font-label-md flex items-center gap-2 hover:translate-y-[-2px] transition-all shadow-xl shadow-primary/20">
+                            Login
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+<div class="flex gap-2">
+<a href="/signup-user.html" class="px-6 py-4 bg-surface-container-lowest border border-outline-variant/30 text-primary rounded-2xl font-label-md hover:bg-surface-container-low transition-all">
+                                Sign Up as User
+                            </a>
+<a href="/signup-asha.html" class="px-6 py-4 bg-secondary-container text-on-secondary-container rounded-2xl font-label-md hover:opacity-90 transition-all">
+                                Sign Up as ASHA Worker
+                            </a>
+</div>
+</div>
+<div class="flex items-center gap-6 pt-8 border-t border-outline-variant/20">
+<div class="flex -space-x-3">
+<img alt="Clinician 1" class="w-12 h-12 rounded-full border-2 border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCviSckCi3kJygsrX4bGSkyDFnmFz8xen96fk_PjzeNJ2JmrAvSLeHxz4JEkWlrzJAokuNoS3MeV9x4vOsYQRsR-vVR_oFiXmMctFHuss993yd9ZO9P9pylyLB0U9vVhUH2oEvWWzgxika4xUpA6PZoxnYhA57OLS4DbKnbasg0flAIVrNXW3fBT-JWjhCnXt5S7f7tgG5Gnr0Sg-tyvwCG43uDvXc7FhccYKDyKToGV2ysJ4GlJl1n8VORYa4GQl9Lo6eL_aYLlxyc"/>
+<img alt="Clinician 2" class="w-12 h-12 rounded-full border-2 border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8_VpUeQTdbZhmiKm4_DPcgh7MRvcJMsjkilze8ZC9tZHn--rvPlKjCRWPjwZ631QVE_TN8ynwDJPSuTajc8Oqt4qmzaGrxhxvu1gPRn45q-JhEV7hfgBzNb8lT5TFN6Papw5ELegAE3imtuws4rPAuiYwrem6_61X-6peCZJzuqqez5KXZqIPtC4Vf5sX9l7QzNBRMXxG-mhltPnkJCh9eojETWbJKsbm3TqwVrkC4dXXsrWZF8PGGQxUVCy1hWswip-k-ldlwazM"/>
+<img alt="Clinician 3" class="w-12 h-12 rounded-full border-2 border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcOGC2yieBC0_dZK5bODSWwRAgRxpRoCVu_xRE3HmeDoQF4DsL5nTgBAFwO5_bXxssgVnmdgtfkBZSOObCaobKC4eGQ6gfCAVQyTp8dvUwWYfWKCTKRNoUuD8UARv8qxCxQ_DQdwFLZhNPleX3itoiMMguefxmaBCoPB3aA3Ew5Y2NC6FdwqEnzHfHZrUQQgmsYe7Ddomr-axJUrwRNScgutQDiz4ba_PkVvBrUeZBTaNxJaEzSuFAuv5Al0tK2mNag8T_yZOFztbI"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            Trusted by <span class="font-bold text-on-surface">500+</span> healthcare centers across rural India.
+                        </p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-12 -left-12 w-48 h-48 bg-secondary/10 rounded-full blur-2xl"></div>
+<div class="relative glass-card rounded-2xl overflow-hidden p-2 aspect-[4/3] group">
+<img class="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105" data-alt="A futuristic and professional 3D medical visualization showing a glowing digital human pulse or DNA strand. The image is set in a high-tech medical laboratory with clean, white glass surfaces and soft blue ambient lighting. Floating UI elements like data charts and health icons surround the central figure. The overall mood is optimistic, clean, and technologically advanced, reflecting a modern healthcare startup aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDJthqn805Otjh3EwFuAbaWNYYRZOJoVaKHOa8AETv7xSAVcbgkxFz9Kdib1JPAzOM0te-Up5hlKgmMIX2ts-Gk_7wezQcgPapOqtLle9KUhB9EOTS3PnuMQwyV_vlqjXQ33eJ9bS3w5JCPapPSNQtINyyVkx9Rw1CkqsmecyyLh33d5lpb61g0jHsCPCfzcW1kmY9g0EPn4VCdFXGNOw0tqObMZALypjVfooehvqeoaoMDs6IeclRixf1ByzkIR0FsIY0t4WxVH4t"/>
+<!-- Floating Data Cards -->
+<div class="absolute top-8 right-8 glass-card p-4 rounded-xl animate-bounce" style="animation-duration: 3s;">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="monitoring">monitoring</span>
+<div>
+<p class="text-[10px] uppercase font-bold text-outline">Real-time Vitals</p>
+<p class="font-headline-md text-headline-md text-on-surface leading-none">98 bpm</p>
+</div>
+</div>
+</div>
+<div class="absolute bottom-12 -left-4 glass-card p-4 rounded-xl animate-pulse" style="animation-duration: 4s;">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="mic">mic</span>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-outline">Voice Assistant</p>
+<p class="font-label-md text-label-md text-on-surface">"How can I help today?"</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Features Section -->
+<section id="features" class="py-24 bg-surface-container-lowest">
+<div class="container mx-auto px-margin-desktop">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-4">The Future of Rural Care</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">We combine cutting-edge AI with deep community empathy to solve healthcare's last-mile challenges.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter auto-rows-[280px]">
+<!-- Feature 1 -->
+<div class="md:col-span-2 glass-card rounded-2xl p-8 flex flex-col justify-end group hover:bg-primary-container transition-all duration-500">
+<div class="absolute top-8 right-8 text-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-5xl" data-icon="translate">translate</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background group-hover:text-on-primary transition-colors mb-2">Multilingual Voice Support</h3>
+<p class="font-body-md text-body-md text-on-surface-variant group-hover:text-primary-fixed transition-colors max-w-lg">
+                            ASHA workers can interact with the system in local dialects, getting instant diagnostic support through natural speech.
+                        </p>
+</div>
+<!-- Feature 2 -->
+<div class="glass-card rounded-2xl p-8 bg-secondary-container/30 border-secondary-container flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-6xl text-secondary mb-6" data-icon="offline_pin">offline_pin</span>
+<h3 class="font-headline-md text-headline-md text-on-secondary-container mb-2">100% Offline Capable</h3>
+<p class="font-body-sm text-body-sm text-on-secondary-container/80">Data syncs automatically when a signal is detected.</p>
+</div>
+<!-- Feature 3 -->
+<div class="glass-card rounded-2xl p-8 flex flex-col justify-between overflow-hidden">
+<h3 class="font-label-md text-label-md text-primary uppercase tracking-widest">Patient Records</h3>
+<div class="py-4">
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden mb-2">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-1/2"></div>
+</div>
+</div>
+<p class="font-headline-md text-headline-md text-on-background">Secure Blockchain Storage</p>
+</div>
+<!-- Feature 4 -->
+<div class="md:col-span-2 relative glass-card rounded-2xl overflow-hidden group">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A warm and gentle photograph of a community healthcare worker holding a digital tablet while talking to an elderly woman in a rural, sun-drenched outdoor setting. The lighting is golden and natural, emphasizing trust and community connection. The composition is modern and clean, with a focus on the interaction between human touch and supportive technology. Soft blue and white colors are woven into the clothing and environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB_R1HdmTkrIevmbh9dA9CLmw1A95RgNcCZWss9hErOktEG3bQiTc_4UgqUO0Oz_IQqj1K6CS6v5WqEnVqNVAlRY8zuybGgCgn5u4VcNxSdhRgsKPvsoeFwyc1mD_KiNQLyHfxynGbIPplfaVFtlFpE-hqv6-U0Kc03DUnssLKTHpSx4-WVeTpSK6aiHmMPziIaiL9oA8KUY5o7_9b2_-GV_sWTOtckucwMEKrOXlxAi0fkphlTDgRgiksLt-mpPwQpBxDKSQz4vDU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent p-8 flex flex-col justify-end">
+<h3 class="font-headline-md text-headline-md text-on-background">ASHA Worker Empowerment</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Equipping front-line heroes with tools that make their difficult jobs easier and more effective.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-20 relative overflow-hidden bg-primary">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10">
+<svg fill="white" viewbox="0 0 100 100">
+<path d="M0 0 L100 0 L100 100 Z"></path>
+</svg>
+</div>
+<div class="container mx-auto px-margin-desktop text-center relative z-10">
+<h2 class="font-headline-xl text-headline-xl text-on-primary mb-6">Ready to transform rural healthcare?</h2>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim mb-10 max-w-2xl mx-auto">
+                    Join the Health Seva ecosystem today. Whether you're a patient, a doctor, or an ASHA worker, we have a place for you.
+                </p>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="px-10 py-5 bg-white text-primary rounded-2xl font-label-md text-label-md shadow-xl hover:bg-surface-bright transition-all active:scale-95">
+                        Get Started Now
+                    </button>
+<button class="px-10 py-5 bg-primary-container text-on-primary-container border border-on-primary-container/30 rounded-2xl font-label-md text-label-md hover:bg-primary/80 transition-all">
+                        Learn More
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<footer id="contact" class="bg-surface-container-highest py-16">
+<div class="container mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="health_and_safety">health_and_safety</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">Health Seva</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                        Pioneering the next generation of voice-first medical tools for India's heartland.
+                    </p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-background mb-4 uppercase tracking-wider">Product</h4>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Features</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Voice AI</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-background mb-4 uppercase tracking-wider">Company</h4>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Careers</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#contact">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-background mb-4 uppercase tracking-wider">Legal</h4>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/30 flex flex-col md:row justify-between items-center gap-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Health Seva. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="language">language</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="share">share</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for navbar transparency shift
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

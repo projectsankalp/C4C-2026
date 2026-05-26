@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Community Head Console - HastKala</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg?v=3" />
+    <meta name="theme-color" content="#df2227" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="login-screen" class="login-screen">
+      <section class="login-card">
+        <div class="brand-mark">
+          <img src="logo.svg" alt="HastKala" />
+        </div>
+        <p class="eyebrow">HastKala Community Head</p>
+        <h1>Approve listings, certify members, issue certificates.</h1>
+        <p class="muted">
+          Demo login for district community heads managing artisan onboarding and marketplace
+          quality.
+        </p>
+        <label>
+          Community head name
+          <input id="login-name" type="text" value="Rekha Devi" />
+        </label>
+        <label>
+          Cluster
+          <input id="login-cluster" type="text" value="Dakshina Kannada Federation" />
+        </label>
+        <button class="primary-action" type="button" onclick="login()">Enter Console</button>
+      </section>
+    </div>
+
+    <div id="app" class="app is-hidden">
+      <aside class="sidebar">
+        <div>
+          <div class="sidebar-brand">
+            <div class="brand-mark small">
+              <img src="logo.svg" alt="HastKala" />
+            </div>
+            <div>
+              <strong>HastKala</strong>
+              <span>Approval Console</span>
+            </div>
+          </div>
+
+          <div id="api-pill" class="api-pill">
+            <span class="status-dot"></span>
+            <span id="api-label">Checking API</span>
+          </div>
+
+          <nav class="nav" aria-label="Admin sections">
+            <button class="nav-item" data-view="listings" type="button">
+              <span class="material-symbols-outlined">inventory_2</span>
+              Listing Approvals
+              <b id="listing-count">0</b>
+            </button>
+            <button class="nav-item active" data-view="members" type="button">
+              <span class="material-symbols-outlined">groups</span>
+              Member Approvals
+              <b id="member-count">0</b>
+            </button>
+            <button class="nav-item" data-view="certificates" type="button">
+              <span class="material-symbols-outlined">workspace_premium</span>
+              Certificates
+            </button>
+            <button class="nav-item" data-view="activity" type="button">
+              <span class="material-symbols-outlined">history</span>
+              Audit Trail
+            </button>
+          </nav>
+        </div>
+
+        <div class="head-card">
+          <span class="avatar">RD</span>
+          <div>
+            <strong id="head-name">Rekha Devi</strong>
+            <span id="head-cluster">Dakshina Kannada Federation</span>
+          </div>
+        </div>
+        <button class="logout-action" type="button" onclick="logout()">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
+        </button>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Admin operations</p>
+            <h2 id="page-title">Member approvals</h2>
+            <p id="page-subtitle" class="page-subtitle">
+              Review member evidence, approve certification, and generate certificate records.
+            </p>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-action" type="button" onclick="refreshData()">
+              <span class="material-symbols-outlined">sync</span>
+              Refresh
+            </button>
+            <button class="primary-action compact" type="button" onclick="simulateListing()">
+              <span class="material-symbols-outlined">add_circle</span>
+              Simulate WhatsApp Listing
+            </button>
+          </div>
+        </header>
+
+        <section id="view-members" class="view active">
+          <div class="metric-grid" id="metric-grid"></div>
+          <section class="readiness-panel" aria-label="Certification readiness">
+            <div class="panel-head">
+              <div>
+                <h3>Certification readiness</h3>
+                <p>Resolve missing proof before certificate generation.</p>
+              </div>
+            </div>
+            <div id="readiness-list" class="readiness-list"></div>
+          </section>
+          <div class="toolbar">
+            <input id="member-search" type="search" placeholder="Search member, village, SHG..." />
+            <select id="member-status">
+              <option value="pending">Pending approval</option>
+              <option value="verified">Certified</option>
+              <option value="all">All members</option>
+            </select>
+          </div>
+          <div class="split-layout">
+            <section class="panel flush">
+              <div id="member-table" class="table-list"></div>
+            </section>
+            <aside id="member-detail" class="detail-panel"></aside>
+          </div>
+        </section>
+
+        <section id="view-listings" class="view">
+          <div class="toolbar">
+            <input
+              id="listing-search"
+              type="search"
+              placeholder="Search product, artisan, craft..."
+            />
+            <select id="listing-status">
+              <option value="pending_approval">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+              <option value="all">All</option>
+            </select>
+            <select id="listing-channel">
+              <option value="all">All channels</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="web">Web</option>
+            </select>
+          </div>
+          <div class="split-layout">
+            <section class="panel flush">
+              <div id="listing-table" class="table-list"></div>
+            </section>
+            <aside id="listing-detail" class="detail-panel"></aside>
+          </div>
+        </section>
+
+        <section id="view-certificates" class="view">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Issued Certificates</h3>
+                <p>Community certification codes generated after member approval.</p>
+              </div>
+              <button class="ghost-action" type="button" onclick="exportCertificates()">
+                <span class="material-symbols-outlined">download</span>
+                Export CSV
+              </button>
+            </div>
+            <div id="certificate-list" class="certificate-table"></div>
+          </section>
+        </section>
+
+        <section id="view-activity" class="view">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Approval Audit Trail</h3>
+                <p>Every listing, member, and certificate action is logged here.</p>
+              </div>
+            </div>
+            <div id="activity-list" class="activity-list"></div>
+          </section>
+        </section>
+
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

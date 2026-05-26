@@ -1,0 +1,5 @@
+version: '3.8'
+
+# Local development uses Prisma + SQLite (see backend/.env).
+# No database container is required while building.
+services: {}

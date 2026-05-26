@@ -1,0 +1,122 @@
+{
+  "app_name": "ASDIQA",
+  "login": "Login",
+  "new_screening": "New Screening",
+  "my_patients": "My Patients",
+  "follow_ups": "Follow-ups",
+  "sync_status": "Sync Status",
+  "step": "Step",
+  "next": "Next",
+  "back": "Back",
+  "submit": "Submit",
+  "save": "Save",
+  "yes": "Yes",
+  "no": "No",
+
+  "high_risk": "HIGH RISK",
+  "medium_risk": "MEDIUM RISK",
+  "low_risk": "LOW RISK",
+
+  "refer_phc": "Refer to PHC immediately",
+  "alert_sent": "Alert sent to doctor ✓",
+
+  "patient_info": "Patient Information",
+  "vitals": "Vitals",
+  "symptoms": "Symptoms",
+  "risk_factors": "Risk Factors",
+  "pregnancy": "Pregnancy",
+  "result": "Result",
+
+  "name": "Name",
+  "age": "Age",
+  "gender": "Gender",
+  "village": "Village",
+  "phone": "Phone",
+
+  "blood_pressure": "Blood Pressure",
+  "blood_sugar": "Blood Sugar (Random)",
+  "weight": "Weight (kg)",
+  "height": "Height (cm)",
+  "bmi": "BMI",
+  "waist": "Waist (cm)",
+
+  "frequent_urination": "Frequent urination?",
+  "excessive_thirst": "Excessive thirst?",
+  "blurred_vision": "Blurred vision?",
+  "headache": "Headache / Dizziness?",
+  "fatigue": "Fatigue?",
+  "numbness": "Numbness in hands/feet?",
+
+  "family_diabetes": "Family history of diabetes?",
+  "family_bp": "Family history of BP?",
+  "smoking": "Smoking?",
+  "alcohol": "Alcohol?",
+  "exercise": "Physical activity?",
+  "stress": "Stress level?",
+
+  "pregnant": "Currently pregnant?",
+  "gestational": "History of gestational diabetes?",
+
+  "dashboard": "Dashboard",
+  "alerts": "Alerts",
+  "search": "Search Patients",
+  "villages": "Village Summary",
+  "referrals": "Referrals",
+  "home": "Home",
+
+  "app_subtitle": "Rural Health Screening System",
+
+  "asha_worker": "ASHA",
+  "doctor": "Doctor",
+  "hospital": "Hospital",
+
+  "asha_id": "ASHA Worker ID",
+  "asha_id_placeholder": "e.g. ASHA001",
+
+  "pin": "4-Digit PIN",
+
+  "secure_login": "Secure Login",
+  "authenticating": "Authenticating...",
+
+  "email": "Email Address",
+  "password": "Password",
+
+  "email_placeholder": "doctor@phc.com",
+  "password_placeholder": "Enter password",
+
+  "demo_credentials": "Demo Credentials",
+
+  "login_failed": "Login failed. Check your credentials.",
+
+  "aadhaar": "Aadhaar Number",
+  "optional": "Optional",
+  
+  "aadhaar_optional": "Aadhaar Number (Optional)",
+  
+  "register_continue": "Register Patient & Continue",
+
+  "logout": "Logout",
+  "vital_measurements": "Vital Measurements",
+  "vitals_subtitle": "Enter values using the ASHA kit",
+
+  "glucose_notice": "Blood glucose testing is performed at the PHC for high-risk patients. Record BP, weight, height, and waist here.",
+
+  "blood_pressure_title": "Blood Pressure",
+  "systolic": "Systolic",
+  "diastolic": "Diastolic",
+
+  "physical": "Physical",
+
+  "weight_unit": "kg",
+  "height_unit": "cm",
+  "waist_unit": "cm",
+
+  "back_button": "← Back",
+  "next_step": "Next Step →",
+  "pregnancy_history": "Pregnancy History",
+  "pregnancy_subtitle": "Evaluate gestational risk factors",
+  "currently_pregnant": "Is the patient currently pregnant?",
+  "gestational_history": "History of gestational diabetes?",
+  "not_applicable": "Not Applicable",
+  "pregnancy_not_required": "This section is only required for female patients. You are ready to submit."
+}

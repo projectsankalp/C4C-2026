@@ -1,0 +1,263 @@
+/* KariGhar - Global Styling Design System */
+
+:root {
+  /* HSL Indian Heritage Aesthetic Variables */
+  --primary-terracotta: hsl(14, 73%, 38%);      /* #A83F1B - Warm Clay */
+  --primary-terracotta-hover: hsl(14, 73%, 32%);/* Deeper Clay */
+  --primary-terracotta-light: hsl(14, 73%, 95%);/* Creamy Rose Tint */
+  --secondary-cream: hsl(30, 45%, 96%);        /* #FDF8F4 - Sand Cream Background */
+  --cream-card: hsl(30, 40%, 98%);              /* Pure Antique White Card */
+  --cream-border: hsl(28, 40%, 90%);           /* #F5EAE0 - Delicate Border Separator */
+  --gold-accent: hsl(43, 62%, 50%);            /* #CCA147 - Antique Gold Rating/Stars */
+  --gold-accent-hover: hsl(43, 62%, 40%);
+  --forest-teal: hsl(174, 25%, 35%);           /* #43706B - KariGhar Assistant Panel */
+  --forest-teal-light: hsl(174, 20%, 94%);
+  --warm-charcoal: hsl(24, 15%, 15%);          /* #2D2522 - Primary Typography */
+  --warm-charcoal-muted: hsl(24, 15%, 32%);    /* Muted secondary body text — darkened for readability */
+  --white-pure: hsl(0, 0%, 100%);
+  
+  /* Layout & Utility Tokens */
+  --shadow-premium: 0 16px 48px -16px hsla(24, 30%, 15%, 0.12);
+  --shadow-card: 0 8px 24px -8px hsla(24, 20%, 15%, 0.06);
+  --shadow-hover: 0 20px 40px -10px hsla(14, 40%, 20%, 0.15);
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease;
+  --border-radius-lg: 20px;
+  --border-radius-md: 12px;
+  --border-radius-sm: 8px;
+}
+
+/* Multilingual Font Families Override */
+html[lang="hi"] {
+  --font-serif: 'Noto Serif Devanagari', serif !important;
+  --font-sans: 'Noto Sans Devanagari', sans-serif !important;
+}
+
+html[lang="kn"] {
+  --font-serif: 'Noto Serif Kannada', serif !important;
+  --font-sans: 'Noto Sans Kannada', sans-serif !important;
+}
+
+/* Base Resets & Typography */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--secondary-cream);
+  color: var(--warm-charcoal);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--warm-charcoal);
+  line-height: 1.25;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: var(--transition-smooth);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--secondary-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--cream-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-accent);
+}
+
+/* Custom Text Highlight Selection */
+::selection {
+  background-color: var(--primary-terracotta-light);
+  color: var(--primary-terracotta);
+}
+
+/* Premium Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulseGold {
+  0% { box-shadow: 0 0 0 0 hsla(43, 62%, 50%, 0.4); }
+  70% { box-shadow: 0 0 0 8px hsla(43, 62%, 50%, 0); }
+  100% { box-shadow: 0 0 0 0 hsla(43, 62%, 50%, 0); }
+}
+
+@keyframes typingDots {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.text-center { text-align: center; }
+
+.section-padding {
+  padding: 80px 0;
+}
+
+.serif-title {
+  font-family: var(--font-serif);
+  color: var(--primary-terracotta);
+}
+
+/* Premium Buttons & Interactive Layouts */
+.btn-primary {
+  background-color: var(--primary-terracotta);
+  color: var(--white-pure);
+  padding: 14px 28px;
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: var(--border-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-card);
+}
+.btn-primary:hover {
+  background-color: var(--primary-terracotta-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-secondary {
+  border: 1px solid var(--primary-terracotta);
+  color: var(--primary-terracotta);
+  padding: 14px 28px;
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: var(--border-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-secondary:hover {
+  background-color: var(--primary-terracotta-light);
+  transform: translateY(-2px);
+}
+
+.card-heritage {
+  background: var(--cream-card);
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+.card-heritage:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-premium);
+  border-color: var(--gold-accent);
+}
+
+/* Rating Stars */
+.stars-container {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--gold-accent);
+}
+
+/* Badges styling */
+.badge-eco, .badge-handmade {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+.badge-handmade {
+  background-color: var(--primary-terracotta-light);
+  color: var(--primary-terracotta);
+  border: 1px solid hsla(14, 73%, 38%, 0.2);
+}
+.badge-eco {
+  background-color: var(--forest-teal-light);
+  color: var(--forest-teal);
+  border: 1px solid hsla(174, 25%, 35%, 0.2);
+}
+
+/* Dot typing indicator for chatbot */
+.typing-bubble {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: var(--white-pure);
+  border-radius: 18px;
+  border: 1px solid var(--cream-border);
+}
+.typing-bubble span {
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-terracotta);
+  border-radius: 50%;
+  animation: typingDots 1.4s infinite ease-in-out;
+}
+.typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+.typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ===== GLOBAL READABILITY BOOST =====
+   Prevent any text from being too tiny or too faint sitewide */
+p, span, li, label, small, .product-card-category,
+.product-card-rating, .product-card-artisan-line,
+.filter-checkbox-label, .suggestion-details {
+  min-font-size: 13px; /* progressive enhancement */
+}
+
+/* Ensure muted helper text is always at least 13px */
+[style*="font-size: 12px"],
+[style*="font-size: 11px"],
+[style*="font-size: 10px"] {
+  font-size: 13px !important;
+}

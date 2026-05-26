@@ -1,0 +1,27 @@
+[Unit]
+Description=Hastkala API (Express + Prisma)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hastkala
+Group=hastkala
+WorkingDirectory=/opt/hastkala/api
+EnvironmentFile=/etc/hastkala/api.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+KillSignal=SIGINT
+
+# Hardening
+NoNewPrivileges=yes
+ProtectSystem=full
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/opt/hastkala/api
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,122 @@
+{
+  "app_name": "ಆಸ್ದೀಕಾ",
+  "app_subtitle": "ಗ್ರಾಮೀಣ ಆರೋಗ್ಯ ತಪಾಸಣೆ ವ್ಯವಸ್ಥೆ",
+
+  "login": "ಲಾಗಿನ್",
+  "logout": "ಲಾಗ್‌ಔಟ್",
+
+  "home": "ಮುಖಪುಟ",
+  "dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+  "alerts": "ಅಲರ್ಟ್‌ಗಳು",
+  "search": "ರೋಗಿಗಳನ್ನು ಹುಡುಕಿ",
+  "villages": "ಗ್ರಾಮ ಸಾರಾಂಶ",
+  "referrals": "ರೆಫರಲ್‌ಗಳು",
+
+  "new_screening": "ಹೊಸ ತಪಾಸಣೆ",
+  "my_patients": "ನನ್ನ ರೋಗಿಗಳು",
+  "follow_ups": "ಫಾಲೋ-ಅಪ್",
+  "sync_status": "ಸಿಂಕ್ ಸ್ಥಿತಿ",
+
+  "step": "ಹಂತ",
+  "next": "ಮುಂದೆ",
+  "back": "ಹಿಂದೆ",
+  "submit": "ಸಲ್ಲಿಸಿ",
+  "save": "ಉಳಿಸಿ",
+
+  "yes": "ಹೌದು",
+  "no": "ಇಲ್ಲ",
+
+  "high_risk": "ಅಧಿಕ ಅಪಾಯ",
+  "medium_risk": "ಮಧ್ಯಮ ಅಪಾಯ",
+  "low_risk": "ಕಡಿಮೆ ಅಪಾಯ",
+
+  "refer_phc": "ತಕ್ಷಣ PHC ಗೆ ರೆಫರ್ ಮಾಡಿ",
+  "alert_sent": "ವೈದ್ಯರಿಗೆ ಅಲರ್ಟ್ ಕಳುಹಿಸಲಾಗಿದೆ ✓",
+
+  "patient_info": "ರೋಗಿಯ ಮಾಹಿತಿ",
+  "vitals": "ಆರೋಗ್ಯ ಮಾಪಕಗಳು",
+  "symptoms": "ಲಕ್ಷಣಗಳು",
+  "risk_factors": "ಅಪಾಯ ಅಂಶಗಳು",
+  "pregnancy": "ಗರ್ಭಧಾರಣೆ",
+  "result": "ಫಲಿತಾಂಶ",
+
+  "name": "ಹೆಸರು",
+  "age": "ವಯಸ್ಸು",
+  "gender": "ಲಿಂಗ",
+  "village": "ಗ್ರಾಮ",
+  "phone": "ಫೋನ್",
+
+  "blood_pressure": "ರಕ್ತದೊತ್ತಡ",
+  "blood_sugar": "ರಕ್ತ ಸಕ್ಕರೆ",
+  "weight": "ತೂಕ (ಕೆಜಿ)",
+  "height": "ಎತ್ತರ (ಸೆಂ.ಮೀ)",
+  "bmi": "BMI",
+  "waist": "ಹೊಟ್ಟೆ ಸುತ್ತಳತೆ (ಸೆಂ.ಮೀ)",
+
+  "frequent_urination": "ಆಗಾಗ ಮೂತ್ರವಿಸರ್ಜನೆ?",
+  "excessive_thirst": "ಅತಿಯಾದ ಬಾಯಾರಿಕೆ?",
+  "blurred_vision": "ಮಂದ ದೃಷ್ಟಿ?",
+  "headache": "ತಲೆನೋವು / ತಲೆಸುತ್ತು?",
+  "fatigue": "ಆಯಾಸ?",
+  "numbness": "ಕೈಕಾಲುಗಳಲ್ಲಿ ಮರಗಟ್ಟುವಿಕೆ?",
+
+  "family_diabetes": "ಕುಟುಂಬದಲ್ಲಿ ಮಧುಮೇಹ?",
+  "family_bp": "ಕುಟುಂಬದಲ್ಲಿ BP?",
+  "smoking": "ಧೂಮಪಾನ?",
+  "alcohol": "ಮದ್ಯಪಾನ?",
+  "exercise": "ದೇಹಪಟು ಚಟುವಟಿಕೆ?",
+  "stress": "ಒತ್ತಡದ ಮಟ್ಟ?",
+
+  "pregnant": "ಗರ್ಭಿಣಿಯಾ?",
+  "gestational": "ಗರ್ಭಧಾರಣಾ ಮಧುಮೇಹದ ಇತಿಹಾಸ ಇದೆಯೇ?",
+
+  "asha_worker": "ಆಶಾ",
+  "doctor": "ವೈದ್ಯರು",
+  "hospital": "ಆಸ್ಪತ್ರೆ",
+
+  "asha_id": "ಆಶಾ ಕಾರ್ಯಕರ್ತೆ ಐಡಿ",
+  "asha_id_placeholder": "ಉದಾ: ASHA001",
+
+  "pin": "4 ಅಂಕೆಗಳ ಪಿನ್",
+
+  "secure_login": "ಭದ್ರ ಲಾಗಿನ್",
+  "authenticating": "ದೃಢೀಕರಿಸಲಾಗುತ್ತಿದೆ...",
+
+  "email": "ಇಮೇಲ್ ವಿಳಾಸ",
+  "password": "ಪಾಸ್ವರ್ಡ್",
+
+  "email_placeholder": "doctor@phc.com",
+  "password_placeholder": "ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ",
+
+  "demo_credentials": "ಡೆಮೊ ವಿವರಗಳು",
+  "aadhaar": "ಆಧಾರ್ ಸಂಖ್ಯೆ",
+  "optional": "ವಿಕಲ್ಪ",
+  "aadhaar_optional": "ಆಧಾರ್ ಸಂಖ್ಯೆ (ಐಚ್ಛಿಕ)",
+
+  "register_continue": "ರೋಗಿಯನ್ನು ನೋಂದಣಿ ಮಾಡಿ ಮತ್ತು ಮುಂದುವರಿಸಿ",
+
+  "login_failed": "ಲಾಗಿನ್ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+  "vital_measurements": "ಮುಖ್ಯ ಆರೋಗ್ಯ ಮಾಪನಗಳು",
+  "vitals_subtitle": "ಆಶಾ ಕಿಟ್ ಬಳಸಿ ಮೌಲ್ಯಗಳನ್ನು ನಮೂದಿಸಿ",
+
+  "glucose_notice": "ಹೆಚ್ಚಿನ ಅಪಾಯದ ರೋಗಿಗಳಿಗೆ ರಕ್ತ ಸಕ್ಕರೆ ಪರೀಕ್ಷೆಯನ್ನು PHC ನಲ್ಲಿ ಮಾಡಲಾಗುತ್ತದೆ. ಇಲ್ಲಿ BP, ತೂಕ, ಎತ್ತರ ಮತ್ತು ಹೊಟ್ಟೆ ಸುತ್ತಳತೆಯನ್ನು ದಾಖಲಿಸಿ.",
+
+  "blood_pressure_title": "ರಕ್ತದೊತ್ತಡ",
+  "systolic": "ಸಿಸ್ಟೋಲಿಕ್",
+  "diastolic": "ಡಯಾಸ್ಟೋಲಿಕ್",
+
+  "physical": "ದೇಹದ ಮಾಪನಗಳು",
+
+  "weight_unit": "ಕೆಜಿ",
+  "height_unit": "ಸೆಂ.ಮೀ",
+  "waist_unit": "ಸೆಂ.ಮೀ",
+
+  "back_button": "← ಹಿಂದೆ",
+  "next_step": "ಮುಂದಿನ ಹಂತ →",
+  "pregnancy_history": "ಗರ್ಭಧಾರಣೆಯ ಇತಿಹಾಸ",
+  "pregnancy_subtitle": "ಗರ್ಭಧಾರಣೆಯ ಅಪಾಯ ಅಂಶಗಳನ್ನು ಮೌಲ್ಯಮಾಪನ ಮಾಡಿ",
+  "currently_pregnant": "ರೋಗಿ ಈಗ ಗರ್ಭಿಣಿಯೇ?",
+  "gestational_history": "ಗರ್ಭಧಾರಣೆಯ ಮಧುಮೇಹದ ಇತಿಹಾಸ ಇದೆಯೇ?",
+  "not_applicable": "ಅನ್ವಯಿಸುವುದಿಲ್ಲ",
+  "pregnancy_not_required": "ಈ ವಿಭಾಗವು ಮಹಿಳಾ ರೋಗಿಗಳಿಗೆ ಮಾತ್ರ ಅಗತ್ಯವಿದೆ. ನೀವು ಸಲ್ಲಿಸಲು ಸಿದ್ಧರಾಗಿದ್ದೀರಿ."
+}

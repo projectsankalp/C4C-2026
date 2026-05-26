@@ -1,0 +1,10 @@
+{
+  "name": "greenpath",
+  "version": "1.0.0",
+  "description": "Green Path Node.js app with region lookup, rural destinations, language switching, and section talkback.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "license": "UNLICENSED"
+}

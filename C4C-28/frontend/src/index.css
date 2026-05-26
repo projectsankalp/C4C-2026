@@ -1,0 +1,137 @@
+/* Swachh Vayu Government Design Tokens */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors */
+  --color-primary: #FF6B00; /* Saffron - buttons, headers, nav */
+  --color-primary-dark: #E05E00;
+  --color-primary-light: #FFF3E6;
+  
+  --color-secondary: #1B3A5C; /* Navy - sidebar, footer, text */
+  --color-secondary-dark: #0F2440;
+  --color-secondary-light: #2A5282;
+  
+  --color-accent-green: #138808; /* India Green */
+  
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #F5F5F5;
+  --color-bg-card: #FFFFFF;
+  
+  --color-text: #1A1C1E;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #FFFFFF;
+  
+  --color-border: #D1D5DB;
+  --color-border-light: #E5E7EB;
+  
+  /* Status Colors (AQI) */
+  --color-aqi-good: #16A34A;
+  --color-aqi-satisfactory: #65A30D;
+  --color-aqi-moderate: #F59E0B;
+  --color-aqi-poor: #EA580C;
+  --color-aqi-very-poor: #DC2626;
+  --color-aqi-severe: #7F1D1D;
+
+  /* Typography */
+  --font-family: 'Noto Sans', sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+
+  /* Spacing */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+
+  /* Radii */
+  --radius-sm: 2px;
+  --radius-md: 4px; /* Institutional look uses minimal rounding */
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+
+  /* Shadows (Flat design = minimal shadows) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg-alt);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Utilities */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+.card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+}
+
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-success { color: var(--color-accent-green); }
+.text-error { color: var(--color-aqi-very-poor); }
+
+.bg-primary { background-color: var(--color-primary); color: var(--color-text-inverse); }
+.bg-secondary { background-color: var(--color-secondary); color: var(--color-text-inverse); }
+
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: var(--spacing-2); }
+.gap-4 { gap: var(--spacing-4); }
+.gap-6 { gap: var(--spacing-6); }
+
+/* Typography utilities */
+.h1 { font-size: var(--font-size-3xl); font-weight: 700; color: var(--color-secondary); margin-bottom: var(--spacing-4); }
+.h2 { font-size: var(--font-size-2xl); font-weight: 600; color: var(--color-secondary); margin-bottom: var(--spacing-4); }
+.h3 { font-size: var(--font-size-xl); font-weight: 600; color: var(--color-secondary); margin-bottom: var(--spacing-2); }
+
+/* Leaflet Map overrides for gov style */
+.leaflet-container {
+  font-family: var(--font-family) !important;
+  z-index: 1;
+}

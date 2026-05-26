@@ -1,0 +1,30 @@
+node_modules
+**/node_modules/
+dist
+**/dist/
+.output
+.vinxi
+pnpm-lock.yaml
+package-lock.json
+**/package-lock.json
+bun.lock
+routeTree.gen.ts
+
+# WhatsApp session data (not ours)
+.wwebjs_auth/
+.wwebjs_cache/
+**/.wwebjs_auth/
+**/.wwebjs_cache/
+
+# Vendored UI (read-only third-party copy)
+vendor_ui/
+
+# Static assets / browser bundles served as-is
+apps/wa-bot/src/simulator/public/
+
+# Generated artifacts
+*.tsbuildinfo
+**/*.tsbuildinfo
+eslint-results.json
+lint-detail.txt
+lint-summary.txt

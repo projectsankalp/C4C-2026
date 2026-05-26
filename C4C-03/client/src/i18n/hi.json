@@ -1,0 +1,123 @@
+{
+  "app_name": "अस्दीका",
+  "app_subtitle": "ग्रामीण स्वास्थ्य जांच प्रणाली",
+
+  "login": "लॉगिन",
+  "logout": "लॉगआउट",
+
+  "home": "होम",
+  "dashboard": "डैशबोर्ड",
+  "alerts": "अलर्ट",
+  "search": "मरीज़ खोजें",
+  "villages": "गांव सारांश",
+  "referrals": "रेफरल",
+
+  "new_screening": "नई जांच",
+  "my_patients": "मेरे मरीज़",
+  "follow_ups": "फॉलो-अप",
+  "sync_status": "सिंक स्थिति",
+
+  "step": "चरण",
+  "next": "आगे",
+  "back": "पीछे",
+  "submit": "जमा करें",
+  "save": "सहेजें",
+
+  "yes": "हाँ",
+  "no": "नहीं",
+
+  "high_risk": "उच्च जोखिम",
+  "medium_risk": "मध्यम जोखिम",
+  "low_risk": "कम जोखिम",
+
+  "refer_phc": "तुरंत PHC भेजें",
+  "alert_sent": "डॉक्टर को अलर्ट भेजा गया ✓",
+
+  "patient_info": "मरीज़ की जानकारी",
+  "vitals": "स्वास्थ्य माप",
+  "symptoms": "लक्षण",
+  "risk_factors": "जोखिम कारक",
+  "pregnancy": "गर्भावस्था",
+  "result": "परिणाम",
+
+  "name": "नाम",
+  "age": "उम्र",
+  "gender": "लिंग",
+  "village": "गाँव",
+  "phone": "फ़ोन",
+
+  "blood_pressure": "ब्लड प्रेशर",
+  "blood_sugar": "रक्त शर्करा",
+  "weight": "वजन (किलो)",
+  "height": "ऊंचाई (सेमी)",
+  "bmi": "BMI",
+  "waist": "कमर (सेमी)",
+
+  "frequent_urination": "बार-बार पेशाब?",
+  "excessive_thirst": "बहुत प्यास?",
+  "blurred_vision": "धुंधली दृष्टि?",
+  "headache": "सिरदर्द / चक्कर?",
+  "fatigue": "थकान?",
+  "numbness": "हाथ-पैर में सुन्नपन?",
+
+  "family_diabetes": "परिवार में मधुमेह?",
+  "family_bp": "परिवार में BP?",
+  "smoking": "धूम्रपान?",
+  "alcohol": "शराब?",
+  "exercise": "शारीरिक गतिविधि?",
+  "stress": "तनाव स्तर?",
+
+  "pregnant": "क्या गर्भवती हैं?",
+  "gestational": "गर्भकालीन मधुमेह का इतिहास?",
+
+  "asha_worker": "आशा",
+  "doctor": "डॉक्टर",
+  "hospital": "अस्पताल",
+
+  "asha_id": "आशा कार्यकर्ता आईडी",
+  "asha_id_placeholder": "उदाहरण: ASHA001",
+
+  "pin": "4-अंकों का पिन",
+
+  "secure_login": "सुरक्षित लॉगिन",
+  "authenticating": "प्रमाणीकरण हो रहा है...",
+
+  "email": "ईमेल पता",
+  "password": "पासवर्ड",
+
+  "email_placeholder": "doctor@phc.com",
+  "password_placeholder": "पासवर्ड दर्ज करें",
+
+  "demo_credentials": "डेमो क्रेडेंशियल्स",
+
+  "aadhaar": "आधार संख्या",
+  "optional": "वैकल्पिक",
+  "aadhaar_optional": "आधार संख्या (वैकल्पिक)",
+
+  "register_continue": "मरीज़ पंजीकृत करें और आगे बढ़ें",
+
+  "login_failed": "लॉगिन विफल। कृपया अपनी जानकारी जांचें।",
+  "vital_measurements": "महत्वपूर्ण स्वास्थ्य माप",
+  "vitals_subtitle": "आशा किट का उपयोग करके मान दर्ज करें",
+
+  "glucose_notice": "उच्च जोखिम वाले मरीजों के लिए रक्त शर्करा परीक्षण PHC में किया जाता है। यहाँ BP, वजन, ऊंचाई और कमर दर्ज करें।",
+
+  "blood_pressure_title": "ब्लड प्रेशर",
+  "systolic": "सिस्टोलिक",
+  "diastolic": "डायस्टोलिक",
+
+  "physical": "शारीरिक माप",
+
+  "weight_unit": "किलो",
+  "height_unit": "सेमी",
+  "waist_unit": "सेमी",
+
+  "back_button": "← पीछे",
+  "next_step": "अगला चरण →",
+  "pregnancy_history": "गर्भावस्था इतिहास",
+  "pregnancy_subtitle": "गर्भकालीन जोखिम कारकों का मूल्यांकन करें",
+  "currently_pregnant": "क्या मरीज वर्तमान में गर्भवती है?",
+  "gestational_history": "क्या गर्भकालीन मधुमेह का इतिहास है?",
+  "not_applicable": "लागू नहीं",
+  "pregnancy_not_required": "यह अनुभाग केवल महिला मरीजों के लिए आवश्यक है। आप सबमिट करने के लिए तैयार हैं।"
+}

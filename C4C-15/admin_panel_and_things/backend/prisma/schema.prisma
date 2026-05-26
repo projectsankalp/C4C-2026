@@ -1,0 +1,128 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  username     String?  @unique
+  passwordHash String   @map("password_hash")
+  role         String   // "ADMIN", "DOCTOR", "ASHA"
+  village      String?
+  status       String   @default("ACTIVE") // "ACTIVE", "INACTIVE", "RESTRICTED"
+  phcId        String?  @map("phc_id")
+  phc          PHC?     @relation(fields: [phcId], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  screeningsAsAsha Screening[] @relation("AshaScreenings")
+  doctorFollowups  FollowUp[]  @relation("DoctorFollowups")
+  ashaFollowups    FollowUp[]  @relation("AshaFollowups")
+
+  @@map("users")
+}
+
+model PHC {
+  id        String  @id @default(uuid())
+  name      String
+  district  String
+  state     String
+  active    Boolean @default(true)
+
+  users      User[]
+  screenings Screening[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("phcs")
+}
+
+model Patient {
+  id          String  @id @default(uuid())
+  name        String
+  age         Int
+  gender      String
+  phone       String
+  village     String
+  houseNumber String? @map("house_number")
+
+  screenings Screening[]
+  followups  FollowUp[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_patients")
+}
+
+model Screening {
+  id String @id @default(uuid())
+
+  patientId String  @map("patient_id")
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  ashaId String @map("asha_id")
+  asha   User   @relation("AshaScreenings", fields: [ashaId], references: [id])
+
+  phcId String @map("phc_id")
+  phc   PHC    @relation(fields: [phcId], references: [id])
+
+  bpSystolic  Int @map("bp_systolic")
+  bpDiastolic Int @map("bp_diastolic")
+  sugar       Int
+
+  familyHistory Boolean @default(false) @map("family_history")
+  lowActivity   Boolean @default(false) @map("low_activity")
+  tobaccoUse    Boolean @default(false) @map("tobacco_use")
+  symptoms      String?
+
+  riskLevel   String @map("risk_level")
+  riskReasons String @map("risk_reasons")
+
+  consentGiven Boolean @default(true) @map("consent_given")
+
+  status       String    @default("NEW")
+  doctorNotes  String?   @map("doctor_notes")
+  diagnosis    String?
+  prescription String?
+  resolvedAt   DateTime? @map("resolved_at")
+  resolvedBy   String?   @map("resolved_by")
+
+  followups FollowUp[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_screenings")
+}
+
+model FollowUp {
+  id String @id @default(uuid())
+
+  screeningId String    @map("screening_id")
+  screening   Screening @relation(fields: [screeningId], references: [id])
+
+  patientId String  @map("patient_id")
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  assignedToAshaId String @map("assigned_to_asha_id")
+  assignedToAsha   User   @relation("AshaFollowups", fields: [assignedToAshaId], references: [id])
+
+  doctorId String @map("doctor_id")
+  doctor   User   @relation("DoctorFollowups", fields: [doctorId], references: [id])
+
+  note   String
+  status String @default("PENDING")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_follow_ups")
+}

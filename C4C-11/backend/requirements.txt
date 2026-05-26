@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+httpx
+google-api-python-client
+detoxify
+transformers
+torch
+python-dotenv
+pydantic
+google-generativeai

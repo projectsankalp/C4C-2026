@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Swasthya",
+    "slug": "swasthya",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.swasthya.app"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "swasthya",
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

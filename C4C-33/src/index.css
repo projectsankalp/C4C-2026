@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium Design System Overrides - Warm Sand & Charcoal Minimalist Theme */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #FAF8F5; /* Warm off-white sand */
+    color: #1C1917; /* Deep stone charcoal */
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom Premium Scrollbar matching minimalist theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(120, 113, 108, 0.2);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 113, 108, 0.4);
+  }
+}
+
+@layer utilities {
+  /* Minimalist Premium Card style */
+  .premium-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(231, 229, 228, 0.6); /* border-stone-200/60 */
+    box-shadow: 0 4px 20px -2px rgba(120, 113, 108, 0.04), 0 2px 8px -1px rgba(120, 113, 108, 0.02);
+    border-radius: 24px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .premium-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -4px rgba(120, 113, 108, 0.08), 0 4px 12px -2px rgba(120, 113, 108, 0.04);
+    border-color: rgba(120, 113, 108, 0.2);
+  }
+
+  /* Glassmorphism light styled with warm overlay */
+  .glass-panel {
+    background: rgba(250, 248, 245, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(28, 25, 23, 0.05);
+  }
+
+  .glass-panel-dark {
+    background: rgba(28, 25, 23, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(28, 25, 23, 0.06);
+  }
+  
+  /* Zoom Layout stencils */
+  .zoom-container {
+    overflow: hidden;
+    position: relative;
+  }
+  .zoom-image {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .zoom-container:hover .zoom-image {
+    transform: scale(1.04);
+  }
+}
+
+/* Elegant Title Serif Font */
+.title-serif {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Animations */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.3deg);
+  }
+}
+
+.animate-float-subtle {
+  animation: float-subtle 8s infinite ease-in-out;
+}
+
+/* Premium Audio Waveform Bar animation */
+@keyframes waveform {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-waveform-bar {
+  animation: waveform 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+}

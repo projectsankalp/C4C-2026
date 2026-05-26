@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Air Quality</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #38bdf8;
+
+            /* Strict 6-tier AQI Color Palette */
+            --aqi-good: #10b981;
+            /* 0-50 */
+            --aqi-satisfactory: #84cc16;
+            /* 51-100 */
+            --aqi-moderate: #f59e0b;
+            /* 101-200 */
+            --aqi-poor: #f97316;
+            /* 201-300 */
+            --aqi-very-poor: #ef4444;
+            /* 301-400 */
+            --aqi-severe: #7c2d12;
+            /* 401-500 */
+
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: var(--bg-secondary);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: var(--aqi-good);
+        }
+
+        .live-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--aqi-good);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Split-screen Responsive Layout Container */
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            flex: 1;
+            padding: 2rem;
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* AQI Gauge Scale */
+        .aqi-scale-container {
+            text-align: center;
+            position: relative;
+            margin: auto 0;
+        }
+
+        .aqi-display {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-top: 0.5rem;
+            transition: color 0.4s ease;
+        }
+
+        .aqi-status-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: color 0.4s ease;
+        }
+
+        .scale-bar {
+            height: 12px;
+            background: linear-gradient(to right,
+                    var(--aqi-good) 0% 10%,
+                    var(--aqi-satisfactory) 10% 20%,
+                    var(--aqi-moderate) 20% 40%,
+                    var(--aqi-poor) 40% 60%,
+                    var(--aqi-very-poor) 60% 80%,
+                    var(--aqi-severe) 80% 100%);
+            border-radius: 6px;
+            margin: 2rem 0 0.5rem 0;
+            position: relative;
+        }
+
+        .scale-pointer {
+            position: absolute;
+            top: -6px;
+            left: 0%;
+            width: 24px;
+            height: 24px;
+            background-color: var(--text-main);
+            border: 4px solid var(--bg-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: left 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateX(-12px);
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Interpretation Table Layout */
+        .interpretation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: auto 0;
+        }
+
+        .interpretation-table th {
+            text-align: left;
+            padding: 10px 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-bottom: 2px solid #334155;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .interpretation-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #334155;
+            font-size: 0.95rem;
+        }
+
+        .interpretation-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        /* Custom UI Popup Modal Elements */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #334155;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-message {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-btn {
+            background-color: #334155;
+            color: var(--text-main);
+            border: none;
+            padding: 10px 24px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: #475569;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.6;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-wind"></i> Real time Air Quality
+        </div>
+        <div class="live-status">
+            <div class="live-pulse"></div> Live Tracking Active
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fa-solid fa-gauge-high"></i> Current Air Quality Index (AQI)
+            </div>
+            <div class="aqi-scale-container">
+                <div class="aqi-display" id="aqi-value">--</div>
+                <div class="aqi-status-text" id="aqi-status">Loading...</div>
+
+                <div class="scale-bar">
+                    <div class="scale-pointer" id="aqi-pointer"></div>
+                </div>
+                <div class="scale-labels">
+                    <span>0 (Good)</span>
+                    <span>250 (Poor)</span>
+                    <span>500 (Severe)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fa-solid fa-table-list"></i> AQI Interpretation Reference
+            </div>
+            <table class="interpretation-table">
+                <thead>
+                    <tr>
+                        <th>AQI</th>
+                        <th>Air Quality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>0–50</strong></td>
+                        <td><span class="badge" style="background-color: var(--aqi-good);">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>51–100</strong></td>
+                        <td><span class="badge" style="background-color: var(--aqi-satisfactory);">Satisfactory</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>101–200</strong></td>
+                        <td><span class="badge" style="background-color: var(--aqi-moderate);">Moderate</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>201–300</strong></td>
+                        <td><span class="badge" style="background-color: var(--aqi-poor);">Poor</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>301–400</strong></td>
+                        <td><span class="badge" style="background-color: var(--aqi-very-poor);">Very Poor</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>401–500</strong></td>
+                        <td><span class="badge" style="background-color: var(--aqi-severe);">Severe</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <div class="modal-overlay" id="popup-modal">
+        <div class="modal-box">
+            <div class="modal-icon" id="modal-icon"></div>
+            <div class="modal-title" id="modal-title">System Alert</div>
+            <div class="modal-message" id="modal-message">Notification template body.</div>
+            <button class="modal-btn" onclick="closePopup()">Dismiss</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const aqiValueEl = document.getElementById("aqi-value");
+            const aqiStatusEl = document.getElementById("aqi-status");
+            const aqiPointerEl = document.getElementById("aqi-pointer");
+
+            const modalOverlay = document.getElementById("popup-modal");
+            const modalIcon = document.getElementById("modal-icon");
+            const modalTitle = document.getElementById("modal-title");
+            const modalMessage = document.getElementById("modal-message");
+
+            // Flag state variables to ensure single execution notifications
+            let warningDispatched = false;
+            let messageDispatched = false;
+
+            window.closePopup = function () {
+                modalOverlay.classList.remove("active");
+            };
+
+            // Notification action handlers
+            function triggerWarningNotification() {
+                modalIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                modalIcon.style.color = "var(--aqi-very-poor)";
+                modalTitle.textContent = "AQI Threshold Breached";
+                modalMessage.textContent = "Warning: You reached more than 301-400 AQI.";
+                modalOverlay.classList.add("active");
+            }
+
+            function triggerSevereNotification() {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-radiation"></i>';
+                modalIcon.style.color = "var(--aqi-severe)";
+                modalTitle.textContent = "Critical Emergency Alert";
+                modalMessage.textContent = "The automated safety alert message has been sent successfully.";
+                modalOverlay.classList.add("active");
+            }
+
+            function updateAQIDashboard() {
+                const currentAQI = Math.floor(Math.random() * 501);
+
+                let statusText = "";
+                let statusColor = "";
+                let currentStatusKey = "";
+
+                // Strict 6-tier classification rules
+                if (currentAQI <= 50) {
+                    statusText = "Good";
+                    statusColor = "var(--aqi-good)";
+                    currentStatusKey = "good";
+                } else if (currentAQI <= 100) {
+                    statusText = "Satisfactory";
+                    statusColor = "var(--aqi-satisfactory)";
+                    currentStatusKey = "satisfactory";
+                } else if (currentAQI <= 200) {
+                    statusText = "Moderate";
+                    statusColor = "var(--aqi-moderate)";
+                    currentStatusKey = "moderate";
+                } else if (currentAQI <= 300) {
+                    statusText = "Poor";
+                    statusColor = "var(--aqi-poor)";
+                    currentStatusKey = "poor";
+                } else if (currentAQI <= 400) {
+                    statusText = "Very Poor";
+                    statusColor = "var(--aqi-very-poor)";
+                    currentStatusKey = "very-poor";
+                } else {
+                    statusText = "Severe";
+                    statusColor = "var(--aqi-severe)";
+                    currentStatusKey = "severe";
+                }
+
+                // Map value linearly across the bar (0 to 100%)
+                const percentagePosition = (currentAQI / 500) * 100;
+
+                // Update text and color theme on UI elements
+                aqiValueEl.textContent = currentAQI;
+                aqiValueEl.style.color = statusColor;
+
+                aqiStatusEl.textContent = statusText;
+                aqiStatusEl.style.color = statusColor;
+
+                // Animate pointer to the correct color zone
+                aqiPointerEl.style.left = `${percentagePosition}%`;
+
+                // ==========================================
+                // CONDITIONAL POPUP DISPATCH LOGIC USING FLAGS
+                // ==========================================
+                if (currentStatusKey === "very-poor") {
+                    if (!warningDispatched) {
+                        triggerWarningNotification();
+                        warningDispatched = true;
+                    }
+                    // Reset peer flag if it shifts between alert tiers
+                    messageDispatched = false;
+                }
+                else if (currentStatusKey === "severe") {
+                    if (!messageDispatched) {
+                        triggerSevereNotification();
+                        messageDispatched = true;
+                    }
+                    // Reset peer flag if it shifts between alert tiers
+                    warningDispatched = false;
+                }
+                else {
+                    // Reset all flags when conditions return below critical bounds
+                    warningDispatched = false;
+                    messageDispatched = false;
+                }
+            }
+
+            // Execute immediately on load, then evaluate loop data every 3 seconds
+            updateAQIDashboard();
+            setInterval(updateAQIDashboard, 3000);
+        });
+    </script>
+</body>
+
+</html>

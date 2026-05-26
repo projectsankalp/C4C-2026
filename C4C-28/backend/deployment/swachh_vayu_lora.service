@@ -1,0 +1,17 @@
+[Unit]
+Description=Swachh Vayu LoRa Hardware Listener
+After=network.target swachh_vayu_api.service
+
+[Service]
+# Ensure these paths match your Raspberry Pi setup
+User=pi
+WorkingDirectory=/home/pi/swachh_vayu/backend
+# Assuming you use a virtual environment
+Environment="PATH=/home/pi/swachh_vayu/backend/venv/bin"
+# Run the lora receiver as a background process
+ExecStart=/home/pi/swachh_vayu/backend/venv/bin/python hardware/lora_receiver.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

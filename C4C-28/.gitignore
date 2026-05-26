@@ -1,0 +1,71 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Optional npm cache directory
+.npm
+
+# Output directories
+dist/
+build/
+out/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Virtual Environments (Python)
+.venv/
+venv/
+ENV/
+env/
+pyvenv.cfg
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Gemini / Agentic folders
+.gemini/
+brain/
+.system_generated/
+walkthrough.md
+analysis_results.md
+research_notes.md
+experiment_results.md
+update_gps.py
+clean_villages.py
+fix_all.py
+update_node.py
+
+# Keep databases so judges get the pre-seeded clean data!
+!backend/swachh_vayu.db

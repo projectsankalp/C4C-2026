@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to MindCircle — Anonymous Mental Wellness</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
+  
+  <style>
+    :root {
+      --bg-primary: #F4F6F5;
+      --bg-secondary: #E8EFEF;
+      --accent-primary: #7C9A92;
+      --accent-soft: #B8A9C9;
+      --accent-warm: #E8D5B7;
+      --text-primary: #2D3436;
+      --text-secondary: #636E72;
+      --card-bg: rgba(255, 255, 255, 0.45);
+      --card-border: rgba(255, 255, 255, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Breathtaking Shifting Mesh Background */
+    .mesh-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.6;
+      mix-blend-mode: multiply;
+      animation: float 22s infinite ease-in-out;
+    }
+
+    .blob-1 {
+      width: 450px;
+      height: 450px;
+      background: var(--accent-primary);
+      top: -120px;
+      left: -120px;
+    }
+
+    .blob-2 {
+      width: 550px;
+      height: 550px;
+      background: var(--accent-soft);
+      bottom: -180px;
+      right: -120px;
+      animation-delay: -6s;
+      animation-duration: 28s;
+    }
+
+    .blob-3 {
+      width: 380px;
+      height: 380px;
+      background: var(--accent-warm);
+      top: 35%;
+      left: 55%;
+      animation-delay: -12s;
+      animation-duration: 20s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -60px) scale(1.15); }
+      66% { transform: translate(-30px, 30px) scale(0.9); }
+    }
+
+    /* Premium Glassmorphic Onboarding Panel */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--card-border);
+      border-radius: 40px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 30px 60px rgba(124, 154, 146, 0.12);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      margin: 28px 20px;
+    }
+
+    .step-container {
+      display: none;
+    }
+
+    .step-container.active {
+      display: block;
+      animation: smoothSlideIn 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    }
+
+    @keyframes smoothSlideIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Step Indicator Dots */
+    .steps-progress {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.08);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .step-dot.active {
+      width: 28px;
+      border-radius: 6px;
+      background: var(--accent-primary);
+    }
+
+    .logo-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo-header .icon-wrap {
+      width: 68px;
+      height: 68px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(124, 154, 146, 0.08);
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-header .icon-wrap:hover {
+      transform: rotate(10deg) scale(1.05);
+    }
+
+    .logo-header span {
+      font-size: 38px;
+      color: var(--accent-primary);
+    }
+
+    h2 {
+      font-weight: 800;
+      font-size: 30px;
+      margin-bottom: 10px;
+      letter-spacing: -0.8px;
+      color: var(--text-primary);
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* Elegant Custom Tabs */
+    .tabs-wrapper {
+      display: flex;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 24px;
+      padding: 5px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      padding: 12px 10px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 20px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .tab-item.active {
+      background: #FFFFFF;
+      color: var(--text-primary);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Premium Styled Controls */
+    .form-group {
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 18px;
+      padding: 15px 22px;
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.015);
+    }
+
+    .custom-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 5px rgba(124, 154, 146, 0.18);
+      background: #FFFFFF;
+    }
+
+    /* Nickname generator specific */
+    .nickname-wrap {
+      position: relative;
+    }
+
+    .nickname-wrap .custom-input {
+      padding-right: 55px;
+    }
+
+    .refresh-btn {
+      position: absolute;
+      right: 14px;
+      top: 36px;
+      background: rgba(124, 154, 146, 0.1);
+      border: none;
+      color: var(--accent-primary);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .refresh-btn:hover {
+      background: var(--accent-primary);
+      color: #FFFFFF;
+      transform: rotate(180deg);
+    }
+
+    .refresh-btn span {
+      font-size: 20px;
+    }
+
+    /* Buttons */
+    .btn-action {
+      background: var(--text-primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 22px;
+      padding: 16px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 10px 20px rgba(45, 52, 54, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2.5px);
+      box-shadow: 0 15px 25px rgba(45, 52, 54, 0.2);
+      background: #1d2122;
+    }
+
+    .btn-action:active {
+      transform: translateY(-0.5px);
+    }
+
+    /* Floating navigation back button */
+    .nav-back {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      z-index: 10;
+    }
+
+    .nav-back:hover {
+      background: #FFFFFF;
+      color: var(--text-primary);
+      transform: translateX(-3px);
+    }
+
+    .nav-back span {
+      font-size: 20px;
+    }
+
+    /* Multi-select issue chips */
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .issue-chip {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 24px;
+      padding: 11px 18px;
+      font-size: 14.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .issue-chip:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(124, 154, 146, 0.3);
+      transform: translateY(-1.5px);
+    }
+
+    .issue-chip.selected {
+      background: var(--accent-primary);
+      color: #FFFFFF;
+      border-color: var(--accent-primary);
+      box-shadow: 0 8px 16px rgba(124, 154, 146, 0.2);
+    }
+
+    /* Safety rule toggles styling */
+    .toggle-card {
+      background: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 22px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-card:hover {
+      background: rgba(255, 255, 255, 0.6);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .toggle-text {
+      flex: 1;
+      padding-right: 15px;
+    }
+
+    .toggle-text h4 {
+      margin: 0 0 3px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .toggle-text p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Custom Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 28px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.08);
+      transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: #FFFFFF;
+      transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Custom Dropdown Container */
+    .custom-dropdown-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-dropdown-trigger {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 18px;
+      padding: 15px 22px;
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.015);
+      user-select: none;
+    }
+
+    .custom-dropdown-trigger:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(124, 154, 146, 0.3);
+    }
+
+    .custom-dropdown-container.active .custom-dropdown-trigger {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 5px rgba(124, 154, 146, 0.18);
+      background: #FFFFFF;
+    }
+
+    .dropdown-chevron {
+      font-size: 22px;
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+
+    .custom-dropdown-container.active .dropdown-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Options Panel (Clean & Modern SaaS Style) */
+    .custom-dropdown-options {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+      padding: 6px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .custom-dropdown-container.active .custom-dropdown-options {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .custom-dropdown-option {
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .custom-dropdown-option:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .custom-dropdown-option.selected {
+      background: rgba(124, 154, 146, 0.12);
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating animated meshes -->
+  <div class="mesh-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="glass-card">
+    <!-- Global Navigation Back Button -->
+    <button class="nav-back" id="globalNavBack" aria-label="Back" style="display: none;" onclick="prevStep(currentStep - 1)">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    
+    <!-- Steps Progress Bar -->
+    <div class="steps-progress" id="stepsProgress">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+      <div class="step-dot" id="dot4"></div>
+    </div>
+
+    <!-- Step 1: Login / Register Selection -->
+    <div class="step-container active" id="step1">
+      <div class="logo-header">
+        <img src="essentials/light_logo.png" alt="MentAI Logo" class="theme-logo" data-dark="essentials/dark_logo.png" data-light="essentials/light_logo.png" style="height: 80px; margin: 0 auto 15px auto; display: block;">
+        <p class="subtitle">Your mind matters. Let's look after it</p>
+      </div>
+
+      <div class="tabs-wrapper">
+        <div class="tab-item active" id="tabRegister" onclick="switchAuthMode('register')">New Member</div>
+        <div class="tab-item" id="tabLogin" onclick="switchAuthMode('login')">Return Member</div>
+      </div>
+
+      <!-- Registration Form Flow -->
+      <div id="registerForm">
+        <div class="form-group nickname-wrap">
+          <label for="nicknameInput">Anonymous Nickname</label>
+          <input type="text" id="nicknameInput" class="custom-input" placeholder="Enter or generate a nickname" oninput="checkNicknameAvailability()">
+          <button class="refresh-btn" onclick="generateNickname()" type="button" title="Generate another nickname">
+            <span class="material-symbols-outlined">refresh</span>
+          </button>
+          <small id="nicknameError" style="color: #ff4757; font-size: 13px; display: none; margin-top: 5px; font-weight: 500;"></small>
+        </div>
+        
+        <div class="form-group">
+          <label for="regPass">Set Password</label>
+          <input type="password" id="regPass" class="custom-input" placeholder="Choose a safe password">
+        </div>
+
+        <div class="form-group">
+          <label for="regEmail">Email Address (Optional)</label>
+          <input type="email" id="regEmail" class="custom-input" placeholder="For account recovery only">
+        </div>
+
+        <button class="btn-action w-100 mt-2" onclick="nextStep(2)">
+          <span>Continue Profile Setup</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- Login Form Flow -->
+      <div id="loginForm" style="display: none;">
+        <div class="form-group">
+          <label for="loginId">Nickname or Email</label>
+          <input type="text" id="loginId" class="custom-input" placeholder="e.g. Calm Panda 104">
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPass">Password</label>
+          <input type="password" id="loginPass" class="custom-input" placeholder="Enter your password">
+        </div>
+
+        <button class="btn-action w-100 mt-3" onclick="handleLogin()">
+          <span>Enter Community</span>
+          <span class="material-symbols-outlined">login</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Language & Age -->
+    <div class="step-container" id="step2">
+
+      <div style="margin-top: 25px;">
+        <h2>About You</h2>
+        <p class="subtitle">Entering accurate details enables optimized, tailored peer counseling matching.</p>
+      </div>
+
+      <div class="form-group text-center mb-4">
+        <label style="display: block; margin-bottom: 12px; font-weight: 600;">Profile Picture</label>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+          <!-- Circular Preview -->
+          <div style="position: relative; width: 100px; height: 100px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #7c5cff, #ff007f); box-shadow: 0 8px 24px rgba(124, 92, 255, 0.3);">
+            <img id="profilePreview" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80" alt="Profile Preview" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #121212;">
+            <label for="profileUpload" style="position: absolute; bottom: 0; right: 0; background: #7c5cff; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid #1a1a1a; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="material-symbols-outlined" style="font-size: 18px; margin: 0; line-height: 28px; display: block; text-align: center;">photo_camera</span>
+            </label>
+            <input type="file" id="profileUpload" accept="image/*" style="display: none;" onchange="previewProfilePic(event)">
+          </div>
+          
+          <!-- Preset Options -->
+          <div style="display: flex; gap: 10px; margin-top: 5px;">
+            <img class="preset-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" onclick="selectPresetAvatar(this.src)" style="width: 44px; height: 44px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <img class="preset-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" onclick="selectPresetAvatar(this.src)" style="width: 44px; height: 44px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <img class="preset-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=80&q=80" onclick="selectPresetAvatar(this.src)" style="width: 44px; height: 44px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <img class="preset-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80" onclick="selectPresetAvatar(this.src)" style="width: 44px; height: 44px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Primary Counseling Language</label>
+        <div class="custom-dropdown-container" id="languageDropdownContainer">
+          <div class="custom-dropdown-trigger" id="languageDropdownTrigger">
+            <span class="selected-value">English</span>
+            <span class="material-symbols-outlined dropdown-chevron">expand_more</span>
+          </div>
+          <div class="custom-dropdown-options" id="languageDropdownOptions">
+            <div class="custom-dropdown-option selected" data-value="English">English</div>
+            <div class="custom-dropdown-option" data-value="Hindi">Hindi (à¤¹à¤¿à¤‚à¤¦à¥€)</div>
+            <div class="custom-dropdown-option" data-value="Tamil">Tamil (தமிழ்)</div>
+            <div class="custom-dropdown-option" data-value="Telugu">Telugu (తెలుగు)</div>
+            <div class="custom-dropdown-option" data-value="Marathi">Marathi (à¤®à¤°à¤¾à¤ à¥€)</div>
+          </div>
+          <input type="hidden" id="languageSelect" value="English">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Your Age Range</label>
+        <div class="custom-dropdown-container" id="ageDropdownContainer">
+          <div class="custom-dropdown-trigger" id="ageDropdownTrigger">
+            <span class="selected-value">Young / Youth</span>
+            <span class="material-symbols-outlined dropdown-chevron">expand_more</span>
+          </div>
+          <div class="custom-dropdown-options" id="ageDropdownOptions">
+            <div class="custom-dropdown-option" data-value="Kid">Kid</div>
+            <div class="custom-dropdown-option selected" data-value="Young / Youth">Young / Youth</div>
+            <div class="custom-dropdown-option" data-value="Mature">Mature</div>
+          </div>
+          <input type="hidden" id="ageSelect" value="Young / Youth">
+        </div>
+      </div>
+
+      <button class="btn-action w-100 mt-4" onclick="nextStep(3)">
+        <span>Next Step</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+
+    <!-- Step 3: What brings you here? -->
+    <div class="step-container" id="step3">
+
+      <div style="margin-top: 25px;">
+        <h2>What brings you here?</h2>
+        <p class="subtitle">Select all areas that apply to you. You can adjust this anytime.</p>
+      </div>
+
+      <div class="chips-container" id="issuesContainer">
+        <div class="issue-chip" onclick="toggleChip(this)">😫 Stress & Pressure</div>
+        <div class="issue-chip" onclick="toggleChip(this)">😟 Anxiety & Worry</div>
+        <div class="issue-chip" onclick="toggleChip(this)">ðŸ•Šï¸ Loneliness</div>
+        <div class="issue-chip" onclick="toggleChip(this)">🌙 Sleep Issues</div>
+        <div class="issue-chip" onclick="toggleChip(this)">📚 Study & Academic Stress</div>
+        <div class="issue-chip" onclick="toggleChip(this)">ðŸ  Family Issues</div>
+        <div class="issue-chip" onclick="toggleChip(this)">🌿 Grief & Loss</div>
+        <div class="issue-chip" onclick="toggleChip(this)">🔗 Addiction Recovery</div>
+        <div class="issue-chip" onclick="toggleChip(this)">🌱 Identity & Self-worth</div>
+        <div class="issue-chip" onclick="toggleChip(this)">💭 Not sure yet</div>
+      </div>
+
+      <button class="btn-action w-100" onclick="nextStep(4)">
+        <span>Almost Done</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+
+    <!-- Step 4: Safety Rules -->
+    <div class="step-container" id="step4">
+
+      <div style="margin-top: 25px;">
+        <h2>Your safety, your rules</h2>
+        <p class="subtitle">Customize these trust and privacy toggles at any time in your Settings.</p>
+      </div>
+
+      <div class="toggle-card">
+        <div class="toggle-text">
+          <h4>Wellness nudges</h4>
+          <p>Receive gentle daily check-in reminders</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setNudges" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-card">
+        <div class="toggle-text">
+          <h4>AI safety checks</h4>
+          <p>Let AI gently check in if it detects distress</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setAiSafety" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-card">
+        <div class="toggle-text">
+          <h4>Anonymous DMs</h4>
+          <p>Allow other community members to message you</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setDms">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-card">
+        <div class="toggle-text">
+          <h4>Community-only mode</h4>
+          <p>Stay in communities only, no 1:1 chats</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setCommOnly">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-card">
+        <div class="toggle-text">
+          <h4>Camera & Mic access</h4>
+          <p>Enable video/audio calls and interactive voice therapy</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setCameraMic" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-card">
+        <div class="toggle-text">
+          <h4>Speaker access</h4>
+          <p>Allow audio output for guided wellness sessions</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setSpeaker" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <button class="btn-action w-100 mt-4" onclick="completeRegistration()">
+        <span>Create My Account</span>
+        <span class="material-symbols-outlined">check_circle</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    let currentStep = 1;
+
+    function updateGlobalNavBack(step) {
+      currentStep = step;
+      const globalNavBack = document.getElementById('globalNavBack');
+      if (globalNavBack) {
+        if (currentStep > 1) {
+          globalNavBack.style.display = 'flex';
+        } else {
+          globalNavBack.style.display = 'none';
+        }
+      }
+    }
+
+    // Custom Dropdown UI Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      setupCustomDropdown('languageDropdownContainer', 'languageSelect');
+      setupCustomDropdown('ageDropdownContainer', 'ageSelect');
+    });
+
+    function setupCustomDropdown(containerId, hiddenInputId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const trigger = container.querySelector('.custom-dropdown-trigger');
+      const optionsContainer = container.querySelector('.custom-dropdown-options');
+      const options = container.querySelectorAll('.custom-dropdown-option');
+      const hiddenInput = document.getElementById(hiddenInputId);
+      const selectedValueSpan = trigger.querySelector('.selected-value');
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Close other open dropdowns
+        document.querySelectorAll('.custom-dropdown-container').forEach(c => {
+          if (c !== container) c.classList.remove('active');
+        });
+        container.classList.toggle('active');
+      });
+
+      options.forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const value = opt.getAttribute('data-value');
+          selectedValueSpan.textContent = opt.textContent;
+          hiddenInput.value = value;
+
+          // Trigger optional event listeners or onchange if needed
+          const event = new Event('change');
+          hiddenInput.dispatchEvent(event);
+
+          options.forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+
+          container.classList.remove('active');
+        });
+      });
+
+      // Close when clicking anywhere else
+      document.addEventListener('click', () => {
+        container.classList.remove('active');
+      });
+    }
+
+    // Profile picture selection state
+    let selectedProfilePic = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80";
+
+    function selectPresetAvatar(src) {
+      selectedProfilePic = src;
+      document.getElementById('profilePreview').src = src;
+      
+      // Highlight selected preset
+      document.querySelectorAll('.preset-avatar').forEach(img => {
+        if (img.src === src) {
+          img.style.borderColor = '#7c5cff';
+          img.style.boxShadow = '0 0 10px rgba(124, 92, 255, 0.5)';
+        } else {
+          img.style.borderColor = 'transparent';
+          img.style.boxShadow = 'none';
+        }
+      });
+    }
+
+    function previewProfilePic(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          selectedProfilePic = e.target.result;
+          document.getElementById('profilePreview').src = selectedProfilePic;
+          
+          // Clear active styling from presets
+          document.querySelectorAll('.preset-avatar').forEach(img => {
+            img.style.borderColor = 'transparent';
+            img.style.boxShadow = 'none';
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Premium adjectives and nouns for beautiful nicknames
+    const adjectives = ["Quiet", "Gentle", "Resilient", "Kind", "Calm", "Peaceful", "Radiant", "Graceful", "Wise", "Strong", "Noble", "Serene", "Caring", "Bright", "Brave"];
+    const nouns = ["Warrior", "Seeker", "Wanderer", "Phoenix", "River", "Forest", "Mountain", "Meadow", "Panda", "Koala", "Dove", "Star", "Sailor", "Guardian", "Pathfinder"];
+
+    function checkNicknameAvailability() {
+      const nickname = document.getElementById('nicknameInput').value.trim();
+      const errorEl = document.getElementById('nicknameError');
+      const submitBtn = document.querySelector('[onclick="nextStep(2)"]');
+      
+      if (!nickname) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Nickname cannot be empty.';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.5';
+          submitBtn.style.pointerEvents = 'none';
+        }
+        return;
+      }
+
+      // Get existing users
+      let users = [];
+      const existingUsersStr = localStorage.getItem('mentalHealth_users');
+      if (existingUsersStr) {
+        users = JSON.parse(existingUsersStr);
+      }
+
+      const isTaken = users.some(u => u.nickname.toLowerCase() === nickname.toLowerCase());
+
+      if (isTaken) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'already taken';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.5';
+          submitBtn.style.pointerEvents = 'none';
+        }
+      } else {
+        errorEl.style.display = 'none';
+        errorEl.textContent = '';
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+          submitBtn.style.pointerEvents = 'auto';
+        }
+      }
+    }
+
+    function generateNickname() {
+      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const noun = nouns[Math.floor(Math.random() * nouns.length)];
+      const num = Math.floor(Math.random() * 900) + 100;
+      document.getElementById('nicknameInput').value = `${adj} ${noun} ${num}`;
+      checkNicknameAvailability();
+    }
+
+    // Auto-generate on load
+    window.onload = () => {
+      generateNickname();
+    };
+
+    function switchAuthMode(mode) {
+      const tabRegister = document.getElementById('tabRegister');
+      const tabLogin = document.getElementById('tabLogin');
+      const registerForm = document.getElementById('registerForm');
+      const loginForm = document.getElementById('loginForm');
+      const stepsProgress = document.getElementById('stepsProgress');
+
+      if (mode === 'register') {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        registerForm.style.display = 'block';
+        loginForm.style.display = 'none';
+        stepsProgress.style.display = 'flex';
+      } else {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        stepsProgress.style.display = 'none'; // hide onboarding progress bar on return login
+      }
+    }
+
+    function toggleChip(element) {
+      element.classList.toggle('selected');
+    }
+
+    function updateProgressDots(step) {
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        if (i === step) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      }
+    }
+
+    function nextStep(step) {
+      // Input Validation
+      if (step === 2) {
+        const nickname = document.getElementById('nicknameInput').value.trim();
+        if (!nickname) {
+          alert("Please enter or generate a nickname.");
+          return;
+        }
+
+        // Double check nickname uniqueness in local storage database
+        let users = [];
+        const existingUsersStr = localStorage.getItem('mentalHealth_users');
+        if (existingUsersStr) {
+          users = JSON.parse(existingUsersStr);
+        }
+        const isTaken = users.some(u => u.nickname.toLowerCase() === nickname.toLowerCase());
+        if (isTaken) {
+          alert("This nickname is already taken. Please choose another one.");
+          return;
+        }
+
+        const password = document.getElementById('regPass').value;
+        if (!password || password.trim().length < 4) {
+          alert("Please set a safe password (minimum 4 characters) to secure your account.");
+          return;
+        }
+      }
+
+      document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+      document.getElementById(`step${step}`).classList.add('active');
+      updateProgressDots(step);
+      updateGlobalNavBack(step);
+    }
+
+    function prevStep(step) {
+      document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+      document.getElementById(`step${step}`).classList.add('active');
+      updateProgressDots(step);
+      updateGlobalNavBack(step);
+    }
+
+    async function requestMediaPermissionsAndRedirect(targetUrl) {
+      const cameraMicEnabled = document.getElementById('setCameraMic') ? document.getElementById('setCameraMic').checked : true;
+      const speakerEnabled = document.getElementById('setSpeaker') ? document.getElementById('setSpeaker').checked : true;
+
+      // 1. Request camera and microphone if enabled
+      if (cameraMicEnabled && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          // Stop stream immediately to release hardware
+          stream.getTracks().forEach(track => track.stop());
+        } catch (err) {
+          console.warn("Camera/Mic access was denied or not available:", err);
+        }
+      }
+
+      // 2. Initialize AudioContext for Speaker if enabled
+      if (speakerEnabled) {
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            const ctx = new AudioContextClass();
+            if (ctx.state === 'suspended') {
+              await ctx.resume();
+            }
+          }
+        } catch (err) {
+          console.warn("AudioContext speaker initialization failed:", err);
+        }
+      }
+
+      // 3. Perform redirect
+      window.location.href = targetUrl;
+    }
+
+    function completeRegistration() {
+      const nickname = document.getElementById('nicknameInput').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPass').value;
+      const language = document.getElementById('languageSelect').value;
+      const age = document.getElementById('ageSelect').value;
+
+      // Collect issues
+      const selectedIssues = [];
+      document.querySelectorAll('#issuesContainer .issue-chip.selected').forEach(chip => {
+        selectedIssues.push(chip.textContent.trim());
+      });
+
+      // Collect safety choices
+      const safety = {
+        nudges: document.getElementById('setNudges').checked,
+        aiSafety: document.getElementById('setAiSafety').checked,
+        dms: document.getElementById('setDms').checked,
+        commOnly: document.getElementById('setCommOnly').checked,
+        cameraMic: document.getElementById('setCameraMic') ? document.getElementById('setCameraMic').checked : true,
+        speaker: document.getElementById('setSpeaker') ? document.getElementById('setSpeaker').checked : true
+      };
+
+      // Get existing users or initialize empty array
+      let users = [];
+      const existingUsersStr = localStorage.getItem('mentalHealth_users');
+      if (existingUsersStr) {
+        users = JSON.parse(existingUsersStr);
+      }
+
+      // Check if nickname or email already exists
+      const userExists = users.some(u => 
+        u.nickname.toLowerCase() === nickname.toLowerCase() || 
+        (email && u.email && u.email.toLowerCase() === email.toLowerCase())
+      );
+
+      if (userExists) {
+        alert("This nickname or email is already registered. Please choose another or go back to login.");
+        return;
+      }
+
+      const newUser = {
+        nickname: nickname,
+        email: email || 'Anonymous',
+        password: password, // In a real app, this would be hashed
+        language: language,
+        age: age,
+        issues: selectedIssues,
+        safety: safety,
+        profilePic: selectedProfilePic
+      };
+
+      // Save complete account data
+      users.push(newUser);
+      localStorage.setItem('mentalHealth_users', JSON.stringify(users));
+      
+      // Set active session
+      localStorage.setItem('mentalHealth_currentUser', JSON.stringify({
+        ...newUser,
+        isLoggedIn: true
+      }));
+
+      // Redirect directly to the dashboard after requesting permissions
+      requestMediaPermissionsAndRedirect('seeker.html');
+    }
+
+    function handleLogin() {
+      const loginId = document.getElementById('loginId').value;
+      const loginPass = document.getElementById('loginPass').value;
+
+      if (!loginId.trim() || !loginPass.trim()) {
+        alert("Please enter both your Nickname/Email and password.");
+        return;
+      }
+
+      // Check if there are any registered users
+      const existingUsersStr = localStorage.getItem('mentalHealth_users');
+      if (!existingUsersStr) {
+        alert("Account not found. Please register as a new member first.");
+        return;
+      }
+
+      const users = JSON.parse(existingUsersStr);
+      
+      // Find the user in the "database"
+      const user = users.find(u => 
+        (u.nickname.toLowerCase() === loginId.trim().toLowerCase() || 
+         u.email.toLowerCase() === loginId.trim().toLowerCase())
+      );
+
+      if (!user) {
+        alert("Account not found. Please check your Nickname/Email or register as a new member.");
+        return;
+      }
+
+      if (user.password !== loginPass) {
+        alert("Incorrect password. Please try again.");
+        return;
+      }
+
+      // Login successful, set active session
+      localStorage.setItem('mentalHealth_currentUser', JSON.stringify({
+        ...user,
+        isLoggedIn: true
+      }));
+
+      requestMediaPermissionsAndRedirect('seeker.html');
+    }
+  </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const previewContainer = document.getElementById('previewContainer');
+    if (!previewContainer) return;
+
+    // Handle File Upload Previews
+    const fileUpload = document.getElementById("fileUpload");
+    if (fileUpload) {
+      fileUpload.addEventListener("change", (e) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+        
+        Array.from(files).forEach(file => {
+          const item = document.createElement('div');
+          item.className = 'preview-item';
+          
+          const removeBtn = document.createElement('div');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '&times;';
+          removeBtn.onclick = () => item.remove();
+          
+          if (file.type.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            item.appendChild(img);
+          } else {
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined';
+            icon.textContent = 'description';
+            item.appendChild(icon);
+          }
+          
+          item.appendChild(removeBtn);
+          previewContainer.appendChild(item);
+        });
+      });
+    }
+
+    // Handle AI Generate Image
+    const popupMenu = document.getElementById('popupMenu');
+    const aiGenBtn = Array.from(document.querySelectorAll('.popup-menu li')).find(li => li.textContent.includes('AI Generate Image'));
+    
+    if (aiGenBtn) {
+      aiGenBtn.addEventListener('click', () => {
+        // Clear previous UI if any
+        const existingUI = previewContainer.querySelector('.ai-gen-ui');
+        if (existingUI) existingUI.remove();
+
+        const ui = document.createElement('div');
+        ui.className = 'ai-gen-ui';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Describe the image you want...';
+        
+        const controls = document.createElement('div');
+        controls.className = 'ai-gen-controls';
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">close</span> Cancel';
+        closeBtn.style.background = 'rgba(255, 71, 87, 0.9)';
+        closeBtn.onclick = () => ui.remove();
+
+        const genBtn = document.createElement('button');
+        genBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">auto_awesome</span> Generate';
+        genBtn.onclick = () => {
+          if (!input.value.trim()) return;
+          genBtn.innerHTML = 'Generating...';
+          genBtn.disabled = true;
+          
+          // Show preview item after generation mock delay
+          setTimeout(() => {
+            ui.remove();
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            const img = document.createElement('img');
+            img.src = 'https://images.unsplash.com/photo-1698047976856-d7c71ba76e3c?auto=format&fit=crop&w=150&q=80';
+            
+            const removeBtn = document.createElement('div');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.onclick = () => item.remove();
+            
+            item.appendChild(img);
+            item.appendChild(removeBtn);
+            previewContainer.appendChild(item);
+          }, 1500);
+        };
+
+        controls.appendChild(closeBtn);
+        controls.appendChild(genBtn);
+        ui.appendChild(input);
+        ui.appendChild(controls);
+        
+        previewContainer.appendChild(ui);
+        
+        // Focus the input
+        setTimeout(() => input.focus(), 100);
+        
+        // Close menu
+        if (popupMenu) popupMenu.style.display = 'none';
+      });
+    }
+  });
+  </script>
+</body>
+</html>
+

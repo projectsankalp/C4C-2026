@@ -1,0 +1,588 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Meet | User Directory</title>
+
+    <!-- Theme CSS links from seeker.html -->
+    <link rel="stylesheet" href="land.css">
+    <link rel="stylesheet" href="face.css">
+    <link rel="stylesheet" href="div-design.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <style>
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-bar:focus {
+            border-color: #6d590f;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .action-btn {
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .btn-call {
+            background: #322402;
+            color: #000;
+        }
+
+        .btn-call:hover {
+            background: #837509;
+            transform: scale(1.05);
+        }
+
+        .btn-knock {
+            background: #744504;
+            color: #fff;
+        }
+
+        .btn-knock:hover {
+            background: #492e04;
+            transform: scale(0.95);
+        }
+
+        .btn-schedule {
+            background: #563903;
+            color: #fff;
+        }
+
+        .btn-schedule:hover {
+            background: #604305;
+            transform: scale(0.95);
+        }
+
+        .btn-pending {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .btn-pending:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .call-box {
+            background: #1a1523;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .call-box h2 {
+            margin-top: 15px;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .accept-btn {
+            background: #4ade80;
+            color: #000;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+            transition: 0.2s;
+        }
+
+        .accept-btn:hover {
+            background: #22c55e;
+            transform: scale(1.05);
+        }
+
+        .reject-btn {
+            background: #ef4444;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+            transition: 0.2s;
+        }
+
+        .reject-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        /* Adjust layout to match theme */
+        .gapp {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .user-card-wrap {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body class="dark" style="min-height: 100vh; display: flex; flex-direction: column;">
+
+    <!-- Simplified Navbar -->
+    <nav style="position: relative; margin-bottom: 20px;">
+        <button id="leftNavBtn" class="logo-left-wrap" aria-label="Open Navigation" onclick="window.history.back()"
+            style="background: none; border: none; cursor: pointer;">
+            <span class="material-symbols-outlined" style="font-size: 30px; color: white;">arrow_back</span>
+        </button>
+        <div class="pdd-header-wrap" id="headerWrap">
+            <div style="position:relative;">
+                <button class="action-btn" onclick="toggleDarkMode()"
+                    style="background: none; border: none; cursor: pointer; justify-content: center; padding: 0 15px;">
+                    <span class="material-symbols-outlined" id="theme-icon"
+                        style="font-size: 30px; color: var(--text-color, white);">wb_sunny</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="gapp clr-shift-title text-center">
+        <h1>User Directory</h1>
+        <p style="color: var(--muted, #aaa); margin-top: 10px;">Logged in as: <span id="myRoleText"></span></p>
+    </div>
+
+    <div class="container flex-grow-1" style="max-width: 1200px; margin-bottom: 50px;">
+        <div class="row">
+            <div class="col-12 text-center" style="margin-bottom: 40px;">
+                <input type="text" id="searchInput" class="search-bar w-100" style="max-width: 500px;"
+                    placeholder="Search for users..." onkeyup="filterUsers()">
+            </div>
+        </div>
+
+        <div class="row" id="userContainer">
+            <!-- Dynamic Users Injected Here -->
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="incomingCallModal" class="modal-overlay">
+        <div class="call-box">
+            <span class="material-symbols-outlined" style="font-size: 60px; color: #4ade80;">ring_volume</span>
+            <h2 id="callerNameText">Incoming Call...</h2>
+            <div class="call-actions">
+                <button class="reject-btn"
+                    onclick="document.getElementById('incomingCallModal').style.display='none'">Decline</button>
+                <button class="accept-btn" id="acceptCallBtn">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+
+    <script>
+        // --- Dark / Light Mode Logic ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("theme");
+            const body = document.body;
+            const icon = document.getElementById("theme-icon");
+
+            if (savedTheme === "light") {
+                body.classList.remove("dark");
+                if (icon) {
+                    icon.textContent = "dark_mode";
+                    icon.style.color = "black";
+                }
+            } else {
+                body.classList.add("dark");
+                if (icon) {
+                    icon.textContent = "wb_sunny";
+                    icon.style.color = "white";
+                }
+            }
+        });
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const icon = document.getElementById("theme-icon");
+
+            if (body.classList.contains("dark")) {
+                body.classList.remove("dark");
+                if (icon) {
+                    icon.textContent = "dark_mode";
+                    icon.style.color = "black";
+                }
+                localStorage.setItem("theme", "light");
+            } else {
+                body.classList.add("dark");
+                if (icon) {
+                    icon.textContent = "wb_sunny";
+                    icon.style.color = "white";
+                }
+                localStorage.setItem("theme", "dark");
+            }
+        }
+    </script>
+
+    <script>
+        const userString = localStorage.getItem("hiringUser");
+        let myUserId, myRole, myName, myEmail;
+        if (userString) {
+            const localUser = JSON.parse(userString);
+            myUserId = localUser.id;
+            myRole = localUser.role;
+            myName = localUser.full_name;
+            myEmail = localUser.email;
+        } else {
+            myUserId = localStorage.getItem("userId");
+            myRole = localStorage.getItem("userRole");
+            myName = localStorage.getItem("userName");
+            myEmail = localStorage.getItem("userEmail") || "sooo@email";
+        }
+
+        document.getElementById('myRoleText').innerText = (myRole || "Guest").toUpperCase();
+
+        async function fetchAndRenderUsers() {
+            if (!myUserId) {
+                document.getElementById('userContainer').innerHTML = `
+                    <div class="col-12" style="display: flex; justify-content: center; margin-top: 50px;">
+                        <div style="background: rgba(176, 38, 255, 0.05); border: 1px solid rgba(176, 38, 255, 0.2); border-radius: 20px; padding: 50px 30px; text-align: center; max-width: 400px; width: 100%; backdrop-filter: blur(10px);">
+                            <span class="material-symbols-outlined" style="font-size: 60px; color: #b026ff; margin-bottom: 20px;">account_circle</span>
+                            <h3 style="color: white; font-weight: bold; margin-bottom: 10px;">Authentication Required</h3>
+                            <p style="color: #aaa; font-size: 15px; margin-bottom: 25px;">Please sign in to your account to view the user directory and interact with others.</p>
+                            <a href="hiring-login.html" style="text-decoration: none; display: block;">
+                                <button class="action-btn" style="background: linear-gradient(135deg, #6a11cb, #ff007f); color: white; width: 100%; border-radius: 30px; padding: 12px; font-size: 16px; margin: 0;">
+                                    Sign In / Register
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/users');
+                const data = await response.json();
+
+                const requestsResponse = await fetch(`http://127.0.0.1:5000/api/requests/${myUserId}`);
+                const allRequests = await requestsResponse.json();
+
+                const container = document.getElementById('userContainer');
+                container.innerHTML = '';
+
+                data.users.forEach(user => {
+                    if (user.id === myUserId || user.email === myEmail || user.email === "sooo@email") return;
+
+                    let status = 'none';
+                    let roomId = null;
+
+                    const relatedReq = allRequests.find(r =>
+                        (r.sender_id === myUserId && r.receiver_id === user.id) ||
+                        (r.receiver_id === myUserId && r.sender_id === user.id)
+                    );
+
+                    if (relatedReq) {
+                        status = relatedReq.status;
+                        roomId = relatedReq.room_id;
+
+                        if (status === 'pending') {
+                            if (relatedReq.receiver_id === myUserId) {
+                                status = 'incoming_pending';
+                            } else {
+                                status = 'outgoing_pending';
+                            }
+                        }
+                    }
+
+                    let buttonHtml = '';
+
+                    if (status === 'accepted') {
+                        // For demonstration, roomID from DB or fallback
+                        const fallbackRoomId = roomId || Math.floor(Math.random() * 1000000).toString();
+                        buttonHtml = `
+                            <button class="action-btn btn-schedule flex-fill justify-content-center" onclick="scheduleMeeting('${user.id}')" title="Schedule">
+                                <span class="material-symbols-outlined">calendar_month</span> Schedule
+                            </button>
+                            <button class="action-btn btn-call flex-fill justify-content-center" onclick="window.location.href='https://sadathali26.github.io/adeeba/videocall.html?roomID=${fallbackRoomId}'">
+                                <span class="material-symbols-outlined">video_camera_front</span> Join Meet
+                            </button>
+                        `;
+                    }
+                    else if (status === 'outgoing_pending') {
+                        buttonHtml = `
+                            <button id="knock-btn-${user.id}" class="action-btn btn-pending w-100 justify-content-center" onclick="undoKnock('${user.id}')">
+                                <span class="material-symbols-outlined">hourglass_empty</span> Pending
+                            </button>
+                        `;
+                    }
+                    else if (status === 'incoming_pending') {
+                        buttonHtml = `
+                            <button class="action-btn w-100 justify-content-center" style="background: rgba(255,255,255,0.1); color: #aaa;" disabled title="Respond in the Notifications page">
+                                <span class="material-symbols-outlined">mail_lock</span> Check Notifications
+                            </button>
+                        `;
+                    }
+                   else {
+    // This handles the default state where no request has been sent yet
+    buttonHtml = `
+        <button id="call-btn-${user.id}" class="action-btn btn-knock w-100 justify-content-center" 
+            onclick="window.location.href='https://sadathali26.github.io/sahyadri/videocall.html'">
+            <span class="material-symbols-outlined">call</span> Call
+        </button>
+    `;
+}
+
+                    const card = document.createElement('div');
+                    card.className = 'col-12 col-md-6 col-lg-4 mb-4 user-card-wrap';
+                    card.dataset.name = (user.name || "").toLowerCase();
+
+                    const innerCardHtml = `
+                        <div class="box divs flex-fill divpadding w-100" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div class="meta" style="margin-bottom: 20px;">
+                                <div class="meta-top clr-shift">
+                                    <span class="material-symbols-outlined">person</span>
+                                    <span class="source" style="text-transform: capitalize;">${user.role || 'User'}</span>
+                                </div>
+                                <div class="title clr-shift-title" style="font-size: 1.5rem; margin-top: 10px;">${user.name}</div>
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap: wrap; margin-top: auto;">
+                                ${buttonHtml}
+                            </div>
+                        </div>
+                    `;
+
+                    card.innerHTML = innerCardHtml;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Failed to load user data:", error);
+            }
+        }
+
+        fetchAndRenderUsers();
+
+        function filterUsers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.user-card-wrap').forEach(card => {
+                card.style.display = card.dataset.name.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        const socket = io('http://127.0.0.1:5000');
+        let pendingKnockerId = null;
+
+        socket.on('connect', () => {
+            if (myUserId) socket.emit('register_user', { user_id: myUserId });
+        });
+
+        async function sendKnock(targetUserId) {
+            const btn = document.getElementById(`knock-btn-${targetUserId}`);
+            if (btn) {
+                btn.className = "action-btn btn-pending w-100 justify-content-center";
+                btn.innerHTML = `<span class="material-symbols-outlined">hourglass_empty</span> Pending`;
+                btn.onclick = function () { undoKnock(targetUserId) };
+                btn.disabled = false;
+            }
+
+            try {
+                await fetch('http://127.0.0.1:5000/api/request/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sender_id: myUserId, receiver_id: targetUserId })
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        async function undoKnock(targetUserId) {
+            const btn = document.getElementById(`knock-btn-${targetUserId}`);
+            if (btn) {
+                btn.className = "action-btn btn-knock w-100 justify-content-center";
+                btn.innerHTML = `<span class="material-symbols-outlined">waving_hand</span> Request Meet`;
+                btn.onclick = function () { sendKnock(targetUserId) };
+                btn.disabled = false;
+            }
+
+            try {
+                await fetch('http://127.0.0.1:5000/api/request/undo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sender_id: myUserId, receiver_id: targetUserId })
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        // Keep socket connected to receive immediate UI refresh pings
+        socket.on('incoming_knock', () => { fetchAndRenderUsers(); });
+        socket.on('request_accepted', () => { fetchAndRenderUsers(); });
+
+
+        function initiateCall(targetUserId) {
+            const roomID = Math.floor(Math.random() * 1000000).toString();
+            socket.emit('call_request', { target_user: targetUserId, room_id: roomID, caller_name: myName });
+            window.location.href = `https://sadathali26.github.io/adeeba/videocall.html?roomID=${roomID}`;
+        }
+
+        socket.on('incoming_call', (data) => {
+            document.getElementById('callerNameText').innerText = `${data.caller_name} is calling...`;
+            document.getElementById('incomingCallModal').style.display = 'flex';
+            document.getElementById('acceptCallBtn').onclick = function () {
+                window.location.href = `https://sadathali26.github.io/adeeba/videocall.html?roomID=${data.room_id}`;
+            };
+        });
+
+        function scheduleMeeting(targetUserId) {
+            alert("This will open a calendar to schedule a meeting!");
+        }
+    </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const previewContainer = document.getElementById('previewContainer');
+    if (!previewContainer) return;
+
+    // Handle File Upload Previews
+    const fileUpload = document.getElementById("fileUpload");
+    if (fileUpload) {
+      fileUpload.addEventListener("change", (e) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+        
+        Array.from(files).forEach(file => {
+          const item = document.createElement('div');
+          item.className = 'preview-item';
+          
+          const removeBtn = document.createElement('div');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '&times;';
+          removeBtn.onclick = () => item.remove();
+          
+          if (file.type.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            item.appendChild(img);
+          } else {
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined';
+            icon.textContent = 'description';
+            item.appendChild(icon);
+          }
+          
+          item.appendChild(removeBtn);
+          previewContainer.appendChild(item);
+        });
+      });
+    }
+
+    // Handle AI Generate Image
+    const popupMenu = document.getElementById('popupMenu');
+    const aiGenBtn = Array.from(document.querySelectorAll('.popup-menu li')).find(li => li.textContent.includes('AI Generate Image'));
+    
+    if (aiGenBtn) {
+      aiGenBtn.addEventListener('click', () => {
+        // Clear previous UI if any
+        const existingUI = previewContainer.querySelector('.ai-gen-ui');
+        if (existingUI) existingUI.remove();
+
+        const ui = document.createElement('div');
+        ui.className = 'ai-gen-ui';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Describe the image you want...';
+        
+        const controls = document.createElement('div');
+        controls.className = 'ai-gen-controls';
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">close</span> Cancel';
+        closeBtn.style.background = 'rgba(255, 71, 87, 0.9)';
+        closeBtn.onclick = () => ui.remove();
+
+        const genBtn = document.createElement('button');
+        genBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">auto_awesome</span> Generate';
+        genBtn.onclick = () => {
+          if (!input.value.trim()) return;
+          genBtn.innerHTML = 'Generating...';
+          genBtn.disabled = true;
+          
+          // Show preview item after generation mock delay
+          setTimeout(() => {
+            ui.remove();
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            const img = document.createElement('img');
+            img.src = 'https://images.unsplash.com/photo-1698047976856-d7c71ba76e3c?auto=format&fit=crop&w=150&q=80';
+            
+            const removeBtn = document.createElement('div');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.onclick = () => item.remove();
+            
+            item.appendChild(img);
+            item.appendChild(removeBtn);
+            previewContainer.appendChild(item);
+          }, 1500);
+        };
+
+        controls.appendChild(closeBtn);
+        controls.appendChild(genBtn);
+        ui.appendChild(input);
+        ui.appendChild(controls);
+        
+        previewContainer.appendChild(ui);
+        
+        // Focus the input
+        setTimeout(() => input.focus(), 100);
+        
+        // Close menu
+        if (popupMenu) popupMenu.style.display = 'none';
+      });
+    }
+  });
+  </script>
+</body>
+
+</html>

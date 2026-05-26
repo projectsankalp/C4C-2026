@@ -1,0 +1,290 @@
+/* KariGhar - Header Navbar & Suggestion Overlay Styling */
+
+.header-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(253, 248, 244, 0.85); /* Sand cream with opacity */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--cream-border);
+  transition: var(--transition-smooth);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0 40px;
+}
+
+/* Brand Logo */
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary-terracotta);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-logo span {
+  color: var(--gold-accent);
+}
+.nav-logo:hover {
+  transform: scale(1.02);
+}
+
+/* Nav Links Menu */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--warm-charcoal);
+  padding: 8px 0;
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-terracotta);
+  transition: var(--transition-smooth);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+.nav-link:hover {
+  color: var(--primary-terracotta);
+}
+
+/* Interactive Search Bar wrapper */
+.nav-search-wrapper {
+  position: relative;
+  width: 260px;
+}
+
+.nav-search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--cream-card);
+  border: 1px solid var(--cream-border);
+  padding: 8px 16px;
+  border-radius: 30px;
+  transition: var(--transition-smooth);
+  width: 100%;
+}
+.nav-search-bar:focus-within {
+  border-color: var(--primary-terracotta);
+  box-shadow: 0 0 0 3px var(--primary-terracotta-light);
+  width: 290px;
+}
+.nav-search-bar input {
+  border: none;
+  background: transparent;
+  color: var(--warm-charcoal);
+  font-size: 15px;
+  width: 100%;
+  margin-left: 8px;
+}
+.nav-search-bar input::placeholder {
+  color: var(--warm-charcoal-muted);
+}
+.nav-search-bar svg {
+  color: var(--warm-charcoal-muted);
+  transition: var(--transition-fast);
+}
+.nav-search-bar:focus-within svg {
+  color: var(--primary-terracotta);
+}
+
+/* Live Search Suggestions Dropdown Overlay */
+.search-suggestions-overlay {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 320px;
+  background: var(--white-pure);
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-premium);
+  overflow: hidden;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 1100;
+}
+
+.suggestion-header {
+  padding: 12px 16px;
+  background: var(--secondary-cream);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--warm-charcoal-muted);
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--cream-border);
+}
+
+.suggestion-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--cream-border);
+  transition: var(--transition-fast);
+}
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+.suggestion-item:hover {
+  background-color: var(--primary-terracotta-light);
+}
+
+.suggestion-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--border-radius-sm);
+  object-fit: cover;
+  border: 1px solid var(--cream-border);
+}
+
+.suggestion-details {
+  flex: 1;
+}
+
+.suggestion-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--warm-charcoal);
+  margin-bottom: 2px;
+}
+
+.suggestion-price {
+  font-size: 13px;
+  color: var(--primary-terracotta);
+  font-weight: 500;
+}
+
+/* Nav Actions Container */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-btn-icon {
+  position: relative;
+  font-size: 22px;
+  color: var(--warm-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+}
+.nav-btn-icon:hover {
+  background-color: var(--primary-terracotta-light);
+  color: var(--primary-terracotta);
+}
+
+.nav-cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: var(--primary-terracotta);
+  color: var(--white-pure);
+  font-size: 11px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--secondary-cream);
+  animation: pulseGold 2s infinite;
+}
+
+.nav-profile-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--cream-border);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+.nav-profile-avatar:hover {
+  border-color: var(--primary-terracotta);
+  transform: scale(1.05);
+}
+
+.nav-hamburger-btn {
+  display: none;
+  font-size: 22px;
+  color: var(--warm-charcoal);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+.nav-hamburger-btn:hover {
+  background-color: var(--primary-terracotta-light);
+  color: var(--primary-terracotta);
+}
+
+/* Mobile Responsiveness for Header */
+@media (max-width: 1024px) {
+  .nav-hamburger-btn {
+    display: flex;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 300px;
+    height: calc(100vh - 80px);
+    background: var(--cream-card);
+    border-right: 1px solid var(--cream-border);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 30px;
+    gap: 28px;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-premium);
+    z-index: 1001;
+  }
+  
+  .nav-menu.mobile-open {
+    left: 0;
+  }
+  
+  .nav-search-wrapper {
+    display: none;
+  }
+}

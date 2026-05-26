@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HastKala BolKeBecho — WhatsApp Simulator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="phone">
+      <header class="topbar">
+        <div class="avatar">HK</div>
+        <div class="meta">
+          <div class="name">HastKala BolKeBecho</div>
+          <div class="status">
+            <span class="dot"></span>
+            <span id="connection-status">connected · simulator</span>
+          </div>
+        </div>
+        <button id="reset-btn" class="topbar-btn" title="Reset session">⟳</button>
+      </header>
+
+      <main id="chat" class="chat" aria-live="polite"></main>
+
+      <div class="quick-row" id="quick-row">
+        <button class="chip" data-quick="hi">hi</button>
+        <button class="chip" data-quick="MENU">MENU</button>
+        <button class="chip" data-quick="HELP">HELP</button>
+        <button class="chip" data-quick="LANGUAGE">LANGUAGE</button>
+        <button class="chip" data-quick="STATUS">STATUS</button>
+        <button class="chip" data-quick="RESET">RESET</button>
+      </div>
+
+      <form id="composer" class="composer">
+        <button type="button" id="image-btn" class="composer-btn" title="Send a product photo">📷</button>
+        <button type="button" id="audio-btn" class="composer-btn" title="Send a voice note">🎙️</button>
+        <input
+          id="composer-input"
+          name="message"
+          type="text"
+          placeholder="Type a message…"
+          autocomplete="off"
+        />
+        <button type="submit" class="composer-send" title="Send">▶</button>
+      </form>
+
+      <footer class="footer-note">
+        Simulator mode — uses the same backend as the real WhatsApp bot.
+      </footer>
+    </div>
+
+    <aside class="side">
+      <h2>Demo controls</h2>
+      <p class="hint">
+        This simulator drives the same conversation engine as the real WhatsApp bot.
+        Use it as a backup if Open-WA is offline during demo.
+      </p>
+
+      <button id="run-demo-btn" class="primary-btn">▶ Run full demo (one-click)</button>
+
+      <label>
+        Phone (your demo identity)
+        <input id="phone-input" type="text" value="919876543210" />
+      </label>
+
+      <h3>Suggested flow</h3>
+      <ol class="flow">
+        <li>Type <strong>hi</strong> to start</li>
+        <li>Reply <strong>1</strong> for English</li>
+        <li>Reply <strong>1</strong> for Seller</li>
+        <li>Continue through onboarding</li>
+        <li>Pick <strong>1. Add Product</strong></li>
+      </ol>
+
+      <h3>State</h3>
+      <pre id="state-readout">IDLE</pre>
+
+      <h3>Live sessions</h3>
+      <div id="sessions-list" class="sessions-list">
+        <div class="muted-line">Loading…</div>
+      </div>
+
+      <h3>Last draft</h3>
+      <div id="last-draft" class="last-draft muted-line">No draft yet</div>
+    </aside>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

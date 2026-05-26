@@ -1,0 +1,1954 @@
+ACKNOWLEDGMENT
+
+I would like to acknowledge the grave issue of bullying and its detrimental effects on individuals.
+Bullying  encompasses  repeated  acts  of  aggression,  including  verbal,  physical,  and  social
+behavior,  with  the  intention  to  inflict  physical,  social,  or  psychological  harm.  It  is  important  to
+recognize that bullying can occur both in person and online, utilizing various digital platforms and
+devices.
+
+The  National  Commission  for  Protection  of  Child  Rights  (NCPCR)  has  been  actively  working  to
+ensure the safety of children in both physical and digital environments. In line with this objective,
+the  Commission  is  pleased  to  present  the  "Preventing  Bullying  and  Cyberbullying:  Guidelines  to
+Schools." These guidelines aim to serve as a comprehensive resource for schools, enabling them
+to  prevent,  prohibit,  and  address  incidents  of  bullying  that  occur  within  their  premises  or  online
+spaces frequented by children.
+
+I  express  my  sincere  appreciation  for  the  Ministry  of  Education  (MOE)  for  their  unwavering
+commitment  to  enhancing  the  safety  and  security  of  children  within  educational  institutions.
+Additionally,  I  would  like  to  acknowledge  the  invaluable  contribution  of  the  Central  Board  of
+Secondary Education (CBSE) in supporting children who have been subjected to bullying through
+the establishment of mandatory Anti-Bullying Committees (ABCs) in schools.
+
+Furthermore,  I  extend  my  gratitude  to  the  former  Ministry  of  Human  Resource  Development
+(MHRD)  for  their  dedicated  efforts  in  preventing  bullying,  particularly  in  residential  schools,  by
+implementing Anti-Ragging Committees (ARCs) to address and mitigate incidents of bullying.
+
+I  would  also  like  to  express  my  heartfelt  thanks  to  Ms.  Chitra  Iyer,  CEO  and  co-founder  of
+Space2Grow,  for  her  technical  assistance  and  expert  input  in  the  development  of  these
+guidelines.  My  thanks  to  Space2Grow  for  designing  the  document  to  enable  Schools  to  adopt
+this  seamlessly.  Furthermore,  I  am  grateful  to  Dr.  Geetanjali  Kumar  from  Aakar  Wellness  and
+Counselling Centre for her invaluable support in the context of this guideline development.
+
+Last  but  not  the  least,  I  wish  to  convey  my  sincere  appreciation  to  my  esteemed  colleagues  at
+NCPCR:  Dr.  Divya  Gupta  (Member,  Child  Health,  Care,  Welfare),  Ms.  Preeti  Bharadwaj  Dalal
+(Member, Law Relating to Children), Ms. Rupali Banerjee Singh (Member Secretary), Dr. Madhulika
+Sharma  (Principal  Reserach  and  Technical  Expert)  and  Ms.  Mahima  Lal  (Consultant).  Their
+invaluable contributions have greatly enriched the development of these guidelines.
+
+Priyank Kanoongo
+(Chairperson, NCPCR)
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+02
+
+TABLE OF CONTENTS
+
+ABBREVIATIONS USED IN THE GUIDELINES
+INTRODUCTION
+
+1. DEFINITIONS
+    1.1 Types of Bullying
+2. POSSIBLE CAUSES OF BULLYING
+3. IDENTIFYING SPACES WHERE BULLYING CAN TAKE PLACE
+4. IDENTIFYING SPACES WHERE CYBERBULLYING CAN TAKE PLACE
+5. TELL TALE SIGNS TO IDENTIFY VICTIMS OF BULLYING
+     5.1.  Signs Identifying Victims of  Bullying
+     5.2. Signs Identifying Victims of Cyberbullying
+     5.3. Signs to Identify a Child Who Could be a Bully
+6. REPORTING
+     6.1.  Protection of Children from Sexual Offences (POCSO) Act, 2012 
+     6.2. The Juvenile Justice (Care and Protection of Children) Act, 2015
+     6.3. Reporting Cases of Cyberbullying
+     6.4. School Management
+7. STRATEGIES: PREVENTION OF BULLYING AND CYBERBULLYING
+     7.1.  In School
+     7.2. In Playgrounds, Cafeterias, Buses
+     7.3. At Home
+     7.4. Online Spaces
+8. RECOMMENDATIONS FOR TEACHERS AND CAREGIVERS
+     8.1.  Encourage Disclosure - For Counsellors and Teachers  
+9. DOs AND DON’Ts: SOME QUICK TIPS
+     9.1.  Bullying
+          9.1.1.  DOs for Teachers
+          9.1.2. DON'Ts for Teachers / School Management and Authority
+     9.2.  Cyberbullying
+          9.2.1.  DOs for Teachers / School Management and Authority
+          9.2.2. DON'Ts for Teachers / School Management and Authority
+
+4
+
+5
+
+7
+8
+9
+11
+12
+13
+13
+14
+16
+17
+17
+18
+18
+21
+25
+25
+28
+
+28
+29
+30
+
+30
+33
+33
+33
+35
+37
+37
+
+38
+
+"The photos used in the document are free of copyrights and meant for educational use"
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+03
+
+ABBREVIATIONS USED IN THE GUIDELINES
+
+Abbreviation 
+
+ABC
+ARC
+CBSE                          
+CCTV                         
+CCL                          
+CNCP                  
+CWC                   
+CWPO                
+IPC                          
+IT Act                         
+JJ Act                        
+JJB                            
+MHRD                        
+MOE                       
+NCPCR
+POCSO Act
+SCPCR
+SEL
+SJPU
+
+Meaning
+Anti-Bullying Committee
+Anti-Ragging Committee
+Central Board of Secondary Education
+Closed Circuit Television
+Child in Conflict with Law
+Child in Need of Care and Protection
+Child Welfare Committee
+Child Welfare Police Officer
+Indian Penal Code
+Information Technology (IT) Act, 2000
+Juvenile Justice (Care and Protection of Children) Act, 2015
+Juvenile Justice Board
+Ministry of Human Resource Development
+Ministry of Education
+National Commission for Protection of Child Right
+Protection of Children Against Sexual Offences (POCSO) Act, 2012
+State Commission for Protection of Child Right 
+Social Emotional Learning
+Special Juvenile Police Unit
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
+18.
+19.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+04
+
+INTRODUCTION
+
+in 
+
+its  different 
+
+forms  has  been  a  common
+Bullying 
+phenomenon  in  schools,  universities,  workplaces  and  even
+outside  the  confines  of  these  traditional  boundaries  -  in  play
+areas, neighbourhoods, etc., anywhere students interface with
+people  or  peers.  While  the  reasons  for  bullies  to  engage  in
+such behaviour are many, it is established that such actions of
+deliberate harm and humiliation often cause its victims to deal
+with  negative  physical,  social,  emotional,  academic  and
+mental health issues. 
+
+As  per  the  NCPCR’s  National  Report  on  Safe  and  Secure
+School  Environment  2019-20,  approximately  90%  of  schools
+discourage and/or actively prohibit all forms of bullying. Along
+the  same  lines,  88%  of  schools  said  that  they  have  a  low
+tolerance 
+incidents  of  bullying,  harassment,  and
+discrimination  against  students  based  on  factors  such  as
+caste, religion, gender etc.  But the question is are we able to
+identify bullying?
+
+for 
+
+90%
+schools
+
+Discourage and/or
+actively prohibit all
+forms of bullying
+
+Despite these efforts at the school level, in India, there are no laws that
+could  handle  bullying  in  schools.  In  other  words,  bullying  is  not
+technically  illegal.  However,  if  an  individual  commits  an  act  of  bullying,
+causing the victim to die by suicide, the accused bully will be liable for
+abetment  of  suicide  under  Section  306  of  the  Indian  Penal  Code  (IPC),
+1860.  The  Indian  legal  framework  covers  within  its  ambit  options  to
+prosecute  aspects  of  physical  and  cyberbullying  largely  under  the
+Indian  Penal  Code,  the  Information  Technology  (IT)  Act  2000,  the
+Protection of Children from Sexual Offences (POCSO) Act, 2012 and the
+Juvenile Justice (Care and Protection of Childre) Act, 2015. 
+
+However, due to the significant surge in bullying incidents, particularly in
+Indian boarding schools, the Ministry of Human Resource Development
+(MHRD,  now  Ministry  of  Education)  had 
+initiated  Anti-Ragging
+Committees (ARCs) to address and mitigate the prevalence of bullying.
+Also,  the  Central  Board  of  Secondary  Education  (CBSE)  mandates
+schools  to  set  up  Anti  Bullying  Committees  (ABCs)  to  provide  children
+the  support  required,  in  case  they  are  bullied.  These  committees  are
+dedicated  to  penalising  students  engaged  in  bullying  activities  or
+behaviours,  and  severe  cases  may  result  in  expulsion  from  the
+institution. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+05
+
+Increasingly, it’s being noticed and evidenced that bullying, just as an act, has several mental health
+consequences (detailed in this guideline) that lead to varied negative impact on children, and their
+overall development.
+
+Recognising  this,  and  creating  safe  learning  spaces  and  environment  for  children,  this  guideline
+mandates recognising bullying in schools and immediate spaces like playgrounds, buses, tutorials
+etc  and  ensures  redressal  and  actions  to  protect  children  who  have  been  victims  of  bullying  and
+further prevent bullying as essential aspects.
+
+Other significant literature dealing with bullying and cyberbullying include:
+
+Guidelines on School Safety and Security issued by the Ministry of Education.
+https://dsel.education.gov.in/sites/default/files/2021-10/guidelines_sss.pdf 
+
+Manual on Safety and Security of Children in Schools, covering aspects of
+bullying and suggestions to deal with them, by NCPCR
+https://ncpcr.gov.in/public/uploads/165650439662bc404c9314e_Manual%20on
+%20Safety%20and%20Security%20of%20Children%20in%20Schools%20(Sep%20
+2021).pdf 
+
+Safe Online Learning in Times of COVID 19, developed by NCERT and UNESCO, on
+staying safe online and dealing with online harassment.
+https://unesdoc.unesco.org/ark:/48223/pf0000373605
+
+The  following  guidelines  aim  to  facilitate  teachers,  parents,  and  caregivers  in  identifying  spaces
+where  bullying  and  cyberbullying  can  take  place,  telltale  signs  to  identify  bullied  victims  and
+handling  situations  of  bullying.  The  aim  is  to  provide  this  as  a  one-stop  guideline  to  ensure  the
+redressal and prevention of bullying. It also enunciates practical strategies to encourage disclosure
+by  victims  of  bullying  and  provides  suggestions  for  the  creation  of  safe  spaces  in  schools  and
+homes.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+06
+
+1. DEFINITIONS
+
+This  guideline  recognises  and  addresses  both  bullying  in  the  physical  spaces  as  well  as  online
+space.  Bullying  is  a  persistent  pattern  of  threatening,  harassing,  or  aggressive  behaviour  directed
+toward another person or persons who are perceived as smaller, weaker, or less powerful. Bullying
+is also called harassment.¹
+
+What is bullying and what are its implications?
+
+Definition:  Bullying  can  be  defined  as  an  act  of  aggressive  physical  or  social  behaviour,
+intentionally  and  repeatedly  meted  out  by  an  individual  or  a  group  towards  another  person(s)
+which  causes  harm  or  discomfort.  It  often  involves  an  imbalance  of  power  between  the
+perpetrator and the victim, in which the victim is unable to stop it from happening. Bullying can
+be repetitive over time, and it can have immediate, medium, and long-term physical, mental, and
+psychological impacts on the bully and the bullied.
+
+Effect of bullying on a child:
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+The victim would isolate themselves or resort to self-harm.
+
+Bullying disrupts any chance to learn new things and form
+new relationships.
+
+A child might suffer from anxiety, panic attacks, obsessive-
+compulsive disorder, and other social phobias.
+
+A child’s self-esteem and self-confidence could be
+damaged beyond repair.
+
+A child who gets bullied may have anti-social behaviour,
+substance abuse, and even become aggressive.
+
+The child may show signs of depression and would want to
+avoid going to any place that makes them uncomfortable.
+
+The child might have "school refusal behaviour"  (avoiding
+school)
+
+(1) https://www.encyclopedia.com/social-sciences-and-law/education/education-terms-and-concepts/bullying#A
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+07
+
+1.1. TYPES OF BULLYING
+
+Physical
+It  includes  fighting,  kicking,  pushing,  slapping,  spitting,  damaging  belongings,  and
+other harm to the body. 
+
+Verbal
+It includes abusing, writing, or speaking cruel words to others, name calling, making
+fun of others, taunting, and teasing. 
+
+Psychological
+It includes spreading rumours, destroying social relationships, social exclusion, and
+intimidation.  Emotionally  hurting  the  person  and  their  sentiments  also  comes  under
+this category. It is also known as social bullying.
+
+Cyber
+Cyber  Bullying  includes  the  use  of  electronic  communication  to  bully  a  person,
+typically  by  sending  messages  of  an  intimidating  or  threatening  nature.  It  can  also
+include  sharing  personal  or  private  information  about  someone  else  causing
+embarrassment or humiliation.
+
+Body Shaming - As an example of Bullying
+Body  shaming  is  the  act  of  making  negative  comments  about  a  person's  physical
+appearance, which can involve criticising either one's own body or someone else's.
+The  commentary  can  be  about  a  person's  body  size,  age,  hair,  clothing,  food
+choices,  and  perceived  level  of  attractiveness.  This  can  take  the  form  of    verbal,
+psychological or even within the online space as cyber bullying.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+08
+
+2. POSSIBLE CAUSES OF BULLYING
+
+It is widely known that no one is born with a behaviour that characterises bullying, however, under
+certain conditions, anyone can learn and acquire the characteristics of a bully behaviour. 
+
+Some of the frequent causes include:
+
+01
+
+The  emergence  of  aggressive  and  bullying
+behaviour portrayed through the media.
+
+02 Sensing a lack of attention at home or having a
+negative relationship with their parents.
+
+03 Experiencing  aggressive  behaviour  or  harsh
+
+parenting styles at home
+
+04 When  students  feel  vulnerable,  powerless,
+and lack self-esteem, they look for other ways
+to  gain  power  and  exercise  control  over
+others.
+
+05 Jealousy and attention-seeking.
+
+06 Inadequate  emotional  and  psychological
+
+safety.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+09
+
+07 Lack  of  awareness  of  the  real  harmful  impact  of
+
+bullying on victims.
+
+08 Most  children  who  engage  in  bullying  behavior
+have, in fact, been bullied themselves in the past. 
+
+09 They  join  a  group  of  bullies  in  an  effort  to  gain
+attention from others, be accepted by them.
+
+10
+
+11
+
+Bullies  lack  the  ability  to  manage  their  emotions
+effectively,  resulting  in  their  tendency  to  engage
+in bullying behavior, causing distress to others
+
+They  resort  to  bullying  as  they  mimic  others  and
+seek  to  display  dominance  or  impress  their
+peers.
+
+12 To  show  their  dominance  and  popularity  in
+
+school or other spaces.
+
+13 They  experience  unhappiness  in  their  own
+lives,  engage  in  frequent  comparisons,  and
+struggle with low self-esteem.
+
+Psychosocial Aspect
+
+Insufficient education and awareness about the consequences of bullying can hinder efforts to
+prevent and address it effectively.
+
+Individuals  who  struggle  with  social  skills,  such  as  communication,  conflict  resolution,  or
+empathy, may resort to bullying as a maladaptive way to interact with others.
+
+Bullying  often  occurs  when  there  is  a  perceived  power  imbalance  between  the  bully  and  the
+victim, such as differences in physical strength, popularity, or social status.
+
+Bullies  may continue their behaviour if they receive positive reinforcement, such as attention
+or admiration, for their actions.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+10
+
+3. IDENTIFYING SPACES WHERE 
+BULLYING CAN TAKE PLACE
+
+The  act  of  bullying  cannot  be  confined  to  a  particular  space  but  can  happen  across  places,
+situations, and locations. 
+
+01 PLAYGROUNDS
+
+02 CLASSROOMS
+
+03 BETWEEN
+CLASSES
+
+Concealed or hidden away from
+constant  supervision,  coupled
+levels,
+with 
+high 
+playgrounds 
+become
+vulnerable  places  for  bullying
+to take place.
+
+noise 
+
+to  be 
+
+the  most
+Reported 
+prevalent  place 
+for  bullying
+among  children,  despite  the
+presence  of  teachers.  Bullying
+can  be  carried  out  subtly
+(gestures,  passing  notes,  etc.)
+during classes and in intervals
+
+and 
+
+locker
+Restrooms,  hallways, 
+areas, 
+changing
+dormitories  (in  residential  and
+non  residential  schools)  that
+are not aptly monitored.
+
+04 TO AND FROM
+SCHOOL
+
+05 TUTORING
+CENTRES
+
+06 OTHER PLACES
+
+Students  walking  to  and  from
+school  or  within 
+transport
+(buses,  vans,  etc.)  are  reported
+to  be  prime 
+for
+bullying.
+
+locations 
+
+Tutoring  centres  that  are  not
+formally  recognised  may  not
+adult
+under 
+be 
+always 
+supervision,  making 
+them
+vulnerable  places  for  bullying
+from  other
+to 
+tutors
+the 
+students 
+themselves.
+
+take  place 
+
+and 
+
+Areas  outside  school  premises
+within  the  community  at  large
+that  are  not  supervised  by
+become
+authorities 
+vulnerable 
+where
+children  of  the  local  school  or
+neighbourhood  display  bullying
+behaviour with each other. 
+
+can 
+places 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+11
+
+4. IDENTIFYING SPACES WHERE
+CYBERBULLYING CAN TAKE PLACE
+
+Cyberbullying  can  occur  through  text  messages,  apps,  social  media,  gaming,  edtech/online
+learning  platforms,  etc.  where  people  can  view,  participate  in,  or  share  content.  They  include
+sending, posting, or sharing negative, harmful, false, or mean content. It is important to note that
+cyberbullying  can  occur  in  any  online  space  where  people  interact,  and  new  platforms  may
+emerge over time as technology evolves.
+
+Some  examples  include  bullying  and  harassing  the  victim  by  posting  private  or  embarrassing
+photos of others online or sending them; starting a website that rates someone’s appearance or
+popularity; verbally abusing other players on gaming platforms; creating fake profiles to ridicule
+someone;  spreading  gossip,  secrets,  or  rumours  about  another  to  harm  their  reputation.  The
+content part of the offence could be treated as beyond just bullying - including sharing sexually
+explicit content, and offensive pictures as well.
+
+01 EDTECH / ONLINE LEARNING
+PLATFORMS
+
+02 SOCIAL MEDIA
+
+tutoring,
+Platforms  used  by  students 
+training,  or  learning  can  be  used  by  other
+students  or 
+for
+cyberbullying.
+
+tutors  as  a  medium 
+
+for 
+
+Children  are  active  users  of  social  media
+platforms 
+like  Facebook,  Twitter,  YouTube,
+Snapchat,  etc.,  making  them  susceptible  to
+cyberbullying  by  perpetrators  that  may  be
+known or unknown to the victim.
+
+03 INSTANT MESSAGING
+PLATFORMS
+
+04 ONLINE GAMING
+
+Facebook
+like  WhatsApp, 
+Platforms 
+Messenger,  Telegram,  online  forums  etc.  are
+mediums  used  by  perpetrators  (known  and
+unknown)  to  bully  susceptible  victims  through
+personal messages or group messages. 
+
+With  the  availability  of  increased  interactions
+between players (known and unknown), gaming
+platforms  are  widely  used  by  bullies  to  hail
+verbal  abuses  and  threats,  grossly  impacting
+unsuspecting victims.
+
+With the influence of peers and general curiosity, children are active users of online platforms for
+e-learning,  social  media  and  online  gaming.  Online  platforms  offer  anonymity  to  their  users,
+making them a widely used medium to bully victims while being able to hide behind a screen and
+get away with the consequences of the act. Cyberbullying is likely to be accompanied by some
+form of physical bullying as well.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+12
+
+5. TELL TALE SIGNS TO IDENTIFY VICTIMS
+OF BULLYING
+
+5.1. SIGNS IDENTIFYING VICTIMS OF  BULLYING
+
+01
+
+Signs of Physical Bullying
+
+This  may  include  having  unexplained  bruises,  returning  home  with  lost  or  damaged  belongings,  or
+returning home unusually hungry.
+
+02
+
+Signs of Emotional Bullying and Behavioural Signs
+
+Children  who  have  been  emotionally  bullied  may  experience  a  decline  in  academic  performance.  They
+may avoid going to school, or adopt an alternate route to and from school. They might refuse to take the
+bus/train to school, or often feel ill when they wake up in the morning. They might experience distressed
+sleep  and  alterations  in  their  sleep  patterns.  Additionally,  frequent  crying,  anger  and  mood  swings  may
+be observed. They might often target their siblings when they feel irritable. They may become withdrawn,
+isolate themselves, or resort to self-harm. Some children may also experience frequent stammering due
+to the stress. Oftentimes, they may avoid talking about their days and what might be going wrong. 
+
+03
+
+Psychosocial Signs
+
+In  younger  children  (Pre  teens)  -  Younger  children  may  experience  nightmares  and  sleep  issues.  They
+might  retreat  to  child  behaviours  such  as  bedwetting  and  thumb  sucking.  Furthermore,  they  might
+develop a unique or new fear of certain people or places and resist undressing for baths.
+
+Adult-like sexual activities with toys, objects or other children
+
+In  older  children    (Teens)-  Older  children  may  appear  distracted  or  aloof  at  odd  moments.  They  might
+exhibit frequent and sudden mood swings, fury, fear, insecurity, or withdrawal. They might have frequent
+stomach  aches  and  illnesses  for  no  apparent  reason.  They  may  suddenly  have  money,  toys,  or  gifts
+without  any  particular  reason.  Additionally,  they  may  exhibit  adult-like  sexual  behaviours,  language,  and
+knowledge, and act mature for their age.
+
+04
+
+Other subtle signs
+
+Children who are being bullied are often by themselves or left out of friendship groups at school. They
+may often prefer being alone and occupied, instead of being part of friend groups. They are frequently
+the object of ridicule, teasing, imitating, or mocking at school. This may lead to feeling insecure, and they
+may  be  unable  to  speak  out  in  classes  due  to  fear  and  lack  of  confidence.  In  addition  to  psychosocial
+and emotional trauma, children who are bullied are also at an increased risk of substance abuse. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+13
+
+5.2. SIGNS IDENTIFYING VICTIMS OF CYBERBULLYING
+
+A child victim of cyberbullying may exhibit one or more of the following signs:
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Secretive behavior: Quickly switches screens or hides their
+device when parents are close by
+
+Uses devices for long hours into the night
+
+Avoids discussions on online activities
+
+Increasingly isolated from family and social circles
+
+Seems  to  be  using  multiple  accounts  online  or  an  account
+that is not their own
+
+Increased behavioural issues/disciplinary actions
+
+Emotional  changes  and  mood  swings  showing  signs  of
+depression, anxiety, anger outbursts, etc. 
+
+08
+
+Overly  concerned  with  popularity  and  presence  in  a  social
+circle
+
+increasing 
+
+insensitivity  or  callousness
+
+09
+
+10
+
+Demonstrating 
+towards peers
+
+Disturbed sleep
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+14
+
+Additionally,  children  increasingly  dependent  on  the  internet  or  beginning  to  develop  a
+digital addiction are highly susceptible to online abuse. Some of these include:
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+08
+
+Inability to control screen usage.
+
+Loss of interest in physical activities as opposed to online
+activities.
+
+Preoccupied thoughts of online presence.
+
+interactions  beginning  to 
+
+Digital 
+aspects of physical socialisation with family and friends.
+
+interfere  with  other
+
+Showing  withdrawal  symptoms  -  Irritable,  mood  swings  or
+anger outburst when screen time is curbed.
+
+Secretive about online presence, interactions and usage.
+
+Digital interactions serve as mood moderators.
+
+Regular and trusted interactions with adults online
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+15
+
+5.3.  SIGNS TO IDENTIFY A CHILD WHO COULD BE A BULLY
+
+The  following  indicators  could  point  to  a  child  who  displays  a  bully  behaviour
+amongst peers:
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+08
+
+09
+
+Getting into verbal or physical fights.
+
+Associating with children who are bullies.
+
+Increased aggressive behaviour.
+
+Frequent detention or visits to the Principal.
+
+Have new belongings or extra money, with no explanation where they came from.
+
+Blaming other children for their problems.
+
+Worrying about how popular they are or how they appear to other people.
+
+Not taking responsibility for their actions.
+
+Showing off power and security for elder friends, parents and other adults.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+16
+
+6. REPORTING
+
+India does not have a special law that specifically deals with the issue of bullying. However, certain
+aspects of bullying are punishable under various laws - depending on the consequences. Therefore
+schools and actions by the school administration plays an important role in addressing Bullying.
+
+6.1.  PROTECTION OF CHILDREN FROM SEXUAL OFFENCES (POCSO) ACT, 2012 
+
+The Act prosecutes sexual crimes against children under the age of 18 years. Cases of bullying
+that involve ingredients of sexual harassment can be prosecuted under this Act. 
+
+Reporting procedure under the Act
+
+The case must be reported to the Special Juvenile Police Unit (SJPU) or the local police.
+
+The police or the SJPU must then record the report in writing, ascribe an entry number, read
+the report over to the informant for verification, and enter it in a book
+
+A FIR must be registered and its copy must be handed to the informant free of charge.
+
+If a case is reported by a child, it must be recorded verbatim and in simple language so that
+the child understands what is being recorded. 
+
+A child’s statement must be recorded at his or her residence or a place or at a place of his or
+her choice. 
+
+Under no circumstances can a child be detained in the police station. 
+The  statement  must  be  recorded  by  a  woman  police  officer  not  below  the  rank  of  a  Sub-
+inspector. 
+
+The statement must be recorded in the presence of parents or any other person in whom the
+child trusts or has confidence.
+
+The  police  officer  must  seek  the  assistance  of  a  qualified  special  educator  or  a  person
+familiar  with  the  manner  of  communication  of  the  child,  while  recording  the  statement  of  a
+child with mental or physical disability.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+17
+
+6.2.  THE JUVENILE JUSTICE (CARE AND PROTECTION OF CHILDREN) ACT, 2015
+
+The  Act  consolidates  the  law  relating  to  Child  in  Conflict  with  Law  (CCL)  and  Child  in  Need  of
+Care and Protection (CNCP). In extreme cases, where it is decided that a bully (CCL, in this case)
+requires  to  be  reported,  the  procedure  established  under  this  Act  will  be  followed  through  the
+Juvenile Justice Board (JJB) (under Section 10 (1) of the JJ Act)
+
+Reporting procedure under the Act
+
+Inquiry of the bully (CCL) will be done by the JJB under procedures listed in Chapter IV - Section
+17(1)  of  the  JJ  Act.    In  case,  the  JJB,  through  inquiry  finds  that  the  bully  (the  CCL)  is  in  need  of
+care and protection, it will refer the case to the CWC with appropriate directions under Section
+17 (2) of the Act. In case of the child is bullied - will be provided care and support through the
+Child Welfare Committee (CWC) if produced at the CWC as CNCP.
+
+Child Welfare Committee (CWC)
+
+The  CWC  is  established  by  the  State  Government  under  the  Juvenile  Justice  Act  in  each
+district  to  provide  assistance  to  children  who  are  in  need  of  protection.  Any  person  or
+children themselves can call at toll free number 1098 and can freely access the Child line
+services.  Together  with  various  government  and  non-government  agencies  rescue
+processes, counselling, medical treatment and rehabilitation are done so that the needs of
+the  child  can  be  fully  addressed.  If  anyone  sees  any  child  being  abused  or  bullied  or  any
+parents  whose  child  is  being  bullied  and  do  not  know  what  to  do  and  which  authority  to
+contact, then just reach out to POCSO e-Box of NCPCR or call on toll free number 1098.
+
+6.3.  REPORTING CASES OF CYBERBULLYING
+
+Cyber  bullying  in  the  context  of  children  can  involve  aspects  of  cyber  stalking,  sexual
+harassment, violation of privacy, identity theft, hacking, or even circulation of child sexual abuse
+material. 
+
+The Information Technology (IT) Act, 2000
+
+is the primary legal instrument that deals with prosecuting cybercrimes. This Act, when read
+with  the  Indian  Penal  Code  addresses  elements  of  cybercrimes  while  the  Protection  of
+Children  from  Sexual  Offences  (POCSO)  Act,  2012,  addresses  cyber  sexual  offences
+concerning  minors.  Child  perpetrators  are  treated  as  ‘Child  in  conflict  with  Law’  under  the
+Juvenile Justice (Care and Protection of Children) Act, 2015. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+18
+
+Common legal provisions include the following:
+
+Offence
+
+Penal Provisions
+
+Cyber Bullying
+
+IPC Sec. 503, 506, 507
+
+Cyber Stalking
+
+IPC Sec. 354D, 509
+POCSO Sec. 11 (iv)
+
+Identity Theft
+
+ITA Sec. 66C
+
+Violation of privacy
+
+Hacking 
+
+Child Sexual Abuse Material
+
+Sexual Harassment
+
+ITA Sec. 66E, 72
+POCSO Sec. 23
+
+ITA Sec. 43, 66
+
+POCSO Sec 11 (v) & (vi), 13 – 15
+ITA Sec. 66E, 67
+IPC Sec. 292, 354A(1)(iii), 354C
+
+POCSO Sec. 11
+IPC Sec.354A, 509B
+
+Besides  reporting  the  incident  on  the  concerned  website,  a  complaint  of  cyberbullying
+against a child can be filed in the following ways:
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+19
+
+01
+Direct Reporting
+by Child
+
+02
+Teachers / School
+Committee
+
+Reporting Forum
+
+National Cyber Crime Portal
+
+POCSO e-Box
+
+NCPCR eBaalnidan Portal
+
+Childline 1098
+
+Reporting Forum
+
+Local Police
+
+POCSO e-Box
+
+NCPCR eBaalnidan Portal
+
+Childline 1098
+
+03
+Parents / Guardians
+/ Trusted Adults
+
+Incident in School
+
+Report to School
+Management
+
+Outside School
+
+Collect Screenshots 
+and evidence
+
+Report on
+Platform
+
+Reporting Forum
+
+National Cyber Crime Portal
+
+POCSO e-Box
+
+NCPCR eBaalnidan Portal
+
+Local Police or Cyber Police
+
+Childline 1098
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+20
+
+6.4.  SCHOOL MANAGEMENT
+
+As  per  the  guidelines  by  CBSE,  Schools  are  required  to  take  proactive  measures  to  prevent
+Bullying(https://cbseacademic.nic.in/web_material/Circulars/2015/17_Prevention%20of%20Bullyin
+g%20&%20Ragging%20in%20Schools.pdf), the responsibility of preventing any undesirable aspect
+of  bullying  rests  jointly  and  also  individually  on  all  stakeholders,  which  includes  the  head  of  the
+institution,  teacher,  non-teaching  staff,  students,  parents  and  local  community.  A  systematic
+response to the bullying problem is needed within the schools. 
+
+A Zero Tolerance for Bullying (How to share the message in schools)
+
+The following actions must be taken by the school to prevent bullying in terms of messaging:
+
+01
+
+The  message  that  “Bullying  is  strictly  prohibited  inside  the  school
+premises  and  no  such  act  will  go  unnoticed  or  unpunished”  may  be
+clearly stated in the school prospectus and other guidelines circulated
+by the school. 
+
+02
+
+Schools  must  create  an  amiable  environment  and  positive  school
+climate  where  learning  can  take  place  peacefully.  They  must  build  a
+trusting, respectful relationship among students, school administration
+and  families.  They  should  provide  a  confidential  way  for  students  to
+report about any incident which is of concern to them. 
+
+Procedures and Structures for Addressing a Case of Bullying
+
+The following actions must be taken by the school management in terms of procedures and
+structural changes:
+
+01
+
+Appointment  of  a  Counsellor  towards  addressing  the  occurrence  of  acts  of  bullying  is
+essential both in the case of non -residential and residential schools. Residential schools
+especially due to the amount of time spent together by students, make it essential that
+Counsellors  and  Wardens  in  boarding  and  residential  schools  need  to  be  sensitised  to
+interaction.  They  should  be  empathetic  and
+the  changing  dynamics  of  student 
+approachable so that students can confide in them. The school management may appoint
+Counsellors,  School  Doctors,  Senior  Teachers  and  Parent  representatives.    They  must  
+address  the  cases  of  bullying  in  a  non-threatening/polite  manner  to  the  victim,  their
+parents  and  also  to  the  accused  Bully.  In  case  of  government  schools  -  options  from  
+schemes  such  as  Ayushman  Bharat,  Counsellors  from  Rashtriya  Kishore  Swasthya
+Karyakram (RKSK) can be accessed. Sharing the Minutes of Meetings with parents during
+PTM is essential for keeping parents informed.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+21
+
+02
+
+reach  out  and  share 
+
+Children should be aware of the presence of counsellors/ teachers to whom
+their  bullying  experience.  Complete
+they  can 
+confidentiality  should  be  maintained  about  the  incident.  Teachers  should
+inform the parent, and let them know that investigation will be done and action
+will be taken, meanwhile the child should be provided counselling.
+
+03
+
+Additionally,  structures  and  procedures  must  be  established  to  provide
+accessible, confidential, secure and effective means of reporting incidents of
+bullying, for victims and for bystanders who are aware of it taking place and to
+identify  and  manage  incidents  of  bullying,  including  appropriate  counselling
+and sanctions/ punishments on those engaged in bullying. 
+
+04
+
+An Anti- Bullying Committee (ABC) may be constituted in school, comprising of
+Vice-  Principal,  a  Senior 
+teacher,  School  Doctor,  Counsellor,  PTA
+representative,  School  Management  representative,  Legal  representative,
+Peer  Educators,  and  some  relevant  members  not  related  to  the  school  to
+ensure  neutrality  In  the  redressal  process.    The  minutes  of  the  meeting  shall
+be shared with School Management Committee and with the Parents Teachers
+association. The roles and responsibilities of the Committee would include
+
+development and review of School Bullying Prevention Plan,
+
+development and implementing bullying prevention programmes.
+
+developing training programmes for staff, students, and parents,
+
+creating awareness through various programmes
+
+being vigilant and observing signs of bullying and responding quickly
+and sensitively
+
+names  and  contact  numbers  of  members  of  the  committee  should
+be clearly displayed everywhere in the school premises, etc.
+
+05
+
+It  is  recommended  that  there  be  a  graded  response  system  to  address  the
+cases of bullying and a clear cut process needs to be followed by schools as
+there might be cases which deserve utmost attention and stringent action. The
+responsibility  and  authority  of  school  administration  must  be  defined.  The
+implications of neglect must also be clearly defined. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+22
+
+06
+
+School’s  decision,  taken  after  following  process  of  fair  investigation,  should
+not be ordinarily challengeable. Comprehensive guidelines may be developed
+for  School  Management  which  includes  the  various  actions  and  penalties
+which may be taken by the School.
+
+07 Based on observations and understanding the seriousness of the misconduct,
+
+some  measures  like Warnings,  Counselling  and  Training  programs  to  prevent
+such behaviours can be taken.
+
+*  Any  kind  of  action  to  support  prevention  of  bullying  should  be  supported
+with counselling for the victim and the child who has bullied.
+
+Post Case Identification -  Steps to be taken
+
+The  following  actions  must  be  taken  by  the  school  management  after  a  case  of  bullying
+has been identified:
+
+01
+
+It is the responsibility of the school that the post-bullying atmosphere is
+calmed down. The school must be cautious that the victim or the child
+who  displayed  bully  behaviour  is  not  branded  and  he/she  might  be
+given  opportunities  for  change.  It  is  important  to  engage  all  students,
+teaching  and  non-teaching  staff  and  parents  in  the  effort  against
+bullying  on  a  continual  basis,  as  part  of  the  moral  and  administrative
+fabric  of  the  school.  Most  importantly  the  victim  should  be  provided
+counselling services.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+23
+
+02
+
+Children  should  have  the  right  to  report  bullying  in  any  safe  space,
+whether it be at school or with their parents, regardless of the location.
+If  the  bullying  involves  the  same  set  of  school  children  from  the  same
+school, regardless of jurisdiction, it is the responsibility of the school to
+address the issue and take appropriate action. The school will be held
+accountable for addressing bullying within their community.
+
+03
+
+Regardless  of  whether  the  children  involved  attend  the  same  school,
+different  schools,  or  are  not  in  school  at  all,  it  is  crucial  that  children
+have the right to report incidents of bullying to counsellors, teachers, or
+their  parents.  If  children  are  being  bullied  outside  of  school,  parents
+should be provided with sufficient information from school authorities to
+help  support  their  child,  or  they  should  have  access  to  information  on
+Child  Welfare  Committees  (CWCs)  within  their  jurisdiction  to  seek
+immediate help or support.
+
+In any case where a child is a victim of bullying, schools, CWCs, or parents should take
+immediate action by providing counselling services to the affected child and report the
+case  to  the  regulatory  authorities  like  SCPCRs,  NCPCR,  to  the  CWC  or  directly  to  law
+enforcement agencies.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+24
+
+7. STRATEGIES : PREVENTION OF BULLYING AND
+CYBER BULLYING
+
+7.1. IN SCHOOL
+
+01
+
+Set Policies & Rules³
+
+The message, “ Bullying is strictly prohibited inside the school premises and no such
+act will go unnoticed or unpunished” may be clearly stated in the school prospectus
+and  other  guidelines  circulated  by  the  school.⁴  It  must  also  be  posted  around  the
+campuses to serve as a reminder to students. School staff can help prevent bullying
+by  establishing  and  enforcing  school  rules  and  policies  that  clearly  describe  how
+students are expected to treat each other. Consequences for violations of the rules
+should be clearly defined as well.  
+
+Schools  must  make  sure  school  rules  and  policies  are  consistent  with  state  laws
+and  the  school  district  rules  and  policies.  It  is  important  to  include  school  staff,
+parents, and students when developing rules and policies and train school staff on
+enforcing school rules and policies. 
+
+Include  awareness  programs  for  the  students  and  staff  on  the  emotional  and
+legal  consequences  for  both  the  victims  and  the  bullies  through  short  films,
+role plays, etc. 
+
+Train  students  on  empathy,  understanding  emotions,  and  responsible  online
+behaviour.
+
+Emphasise  the 
+environment, promoting empathy and respect among students and staff.
+
+importance  of  creating  a  safe  and  supportive  school
+
+Integrate social-emotional learning (SEL) programs into the curriculum, focusing
+on  developing  skills  such  as  empathy,  conflict  resolution,  assertiveness,  and
+emotional regulation.
+
+Encourage  students  to  intervene  and  support  victims,  promoting  a  culture
+where bystanders actively speak out against bullying and cyberbullying.
+
+(3) https://www.stopbullying.gov/prevention/rules
+
+(4) https://cbseacademic.nic.in/web_material/Circulars/2015/17_Prevention%20of%20Bullying%20&%20Ragging%20in%20Schools.pdf
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+25
+
+Ensure  that  schools  have  access  to  qualified  counsellors  who  can  provide
+emotional support to students who have experienced bullying or cyberbullying.
+
+Train  counsellors  to  address  the  psychosocial  consequences  of  bullying  and
+cyberbullying  effectively,  providing  trauma-informed  care  and  evidence-based
+interventions.
+
+Implement  peer  support  programs  where  older  students  can  mentor  younger
+relationships,  and  providing  a  supportive
+students, 
+environment.
+
+fostering  positive 
+
+02
+
+Establish a Reporting System⁵
+
+To  establish  an  efficient  reporting  system,  schools  can  haveclear  procedures  for
+reporting, and install complaint boxes in different areas of the school. Furthermore,
+schools can use anonymous reporting tools like suggestion boxes or hotlines where
+students can send text messages or leave voicemails.
+
+03
+
+Create a Holistic approach⁶
+
+Get everyone on board
+This  means  getting  the  entire  school  -  teachers,  administrators,  and  the
+students,  to  agree  to  make  the  school  a  bully-free  zone.  Staff  indirectly
+involved  in  the  school,  such  as  bus  drivers,  need  to  support  and  receive
+training on anti-bullying measures.
+
+Promoting Inclusion
+Creating  an  anti-bullying  program  may  involve  lessons  enabling  children  to
+learn  more  about  other  kids,  especially  those  who  come  from  different
+backgrounds, identities, ethnicities, and cultures, or different learning styles or
+abilities.  
+
+Engage Parents as Partners
+Facilitating regular and effective communication between schools and parents
+to create awareness and sensitize them on the zero-tolerance policy against
+bullying  in  schools;  processes  and  redressal  mechanisms;  and  disciplinary
+actions taken in incidents of bullying to prevent parental denial.
+
+(5) https://www.stopbullying.gov/prevention/rules
+(6) MoE Guidelines on school safety and security
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+26
+
+04
+
+Create a school safety team 
+
+Schools can create Anti-Ragging Committees and Anti-Bullying Committees ideally
+made  up  of  an  administrator,  counsellor,  teachers,  parents,  and  responsible
+students  and  identifying  a  lead  person  to  deal  with  bullying  prevention  and  school
+safety.⁷ 
+
+05
+
+Create greater surveillance⁸
+
+look 
+
+into  enhancing  the  monitoring  of  spaces  by  additional
+Schools  must 
+staff/adults,  using  enhanced  security  techniques  including  CCTVs  and  closely
+monitoring bullying “hot spots” in and around the school establishment.
+
+06
+
+Safe schools are characterised by the following features:
+
+A zero-tolerance policy for bullying prevention
+
+CCTV  coverage  of  all  areas  including  nooks  and  corners  of  the  school  is
+suggested.
+
+For schools having CCTV, monitoring CCTV footage every week and storage
+of CCTV footage for atleast 30 days 
+
+Regular good touch bad touch sessions with children
+
+Regular training and sensitization of all staff
+
+Background and Police verification of all support staff and in case of doubt, for
+teaching staff .
+
+(7) Guidelines for prevention of bullying and Ragging in Schools, CBSE
+(8) Manual on Safety and Security in Schools, NCPCR
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+27
+
+7.2. IN PLAYGROUNDS, CAFETERIAS, BUSES
+
+In order to monitor and prevent bullying, 
+
+schools  can  assign  teachers/supervisors  to  the  playground,
+buses and cafeterias along with attendants. 
+additionally, at least one teacher should be interacting with the
+kids during each recess. 
+teachers  and  attendants  should  take  students  from  schools  to
+bus lines. This will ensure proper decorum in the school bus. 
+there  should  be  at  least  one  teacher/staff  to  accompany
+students  during  their  rides  on  school  buses.  Staff  to  be  trained
+to  identify  bullying  and  report  to  the  concerned  committee  in
+school. 
+transport should also have posters that share numbers children
+can reach out to if they are bullied.
+additionally,  the  play  areas  should  be  designed  in  a  way  that
+keeps  children  of  different  age  groups  separated  on  the
+playground. 
+installation  of  CCTV  cameras  in  playgrounds,  cafeterias,  and
+buses  is  suggested,  to  identify  and  monitor  any  bullying
+behaviour.
+
+The  activities  in  the  playground  should  also  be  organised  in  a
+manner  that  the  students  are  not  conflicting  with  each  other.
+Schools  should  ensure  that  there  are  plenty  of  supplies  and
+resources for the students since scarcity can often lead to bullying
+behaviours as children may fight over limited resources.
+
+7.3. AT HOME 
+
+Parents or guardians must ensure that they discuss various activities
+that  happen  at  school  regularly.  In  case  of  an  instance  of  bullying,
+guardians/parents must -
+
+create a safe space for the child to share how the incident made
+them feel. 
+create  a  list  of  safe  contacts  for  the  child,  which  may  make  the
+child feel protected and safe in case of such incidents. 
+additionally,  parents/guardians  can  ensure  that  there  is  a  safe
+space or corner within the home where the child could relax and
+feel safe. 
+their  rooms  and  shared  spaces  at  home  can  be  decorated  with
+posters containing positive messages and images. Teachers and
+head teachers must promote creating safe spaces for children at
+home.
+
+Since  family  members  are  in  constant  contact  with  the  child,  it  is
+important  for  the  family  members  to  understand  the  big  picture  and
+learn about bullying, its signs and impacts.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+28
+
+This can also help them to create a safety plan with their children that includes constructive strategies
+like  having  a  buddy  system.  In  order  to  protect  children  from  cyberbullying,  parents/guardians  must
+also regularly monitor their children’s online activities. This will help them understand any behavioural
+changes  that  are  noticed  in  their  children.  It  is  important  to  provide  children  with  nurturing  and  safe
+spaces  at  home  that  encourage  them  to  spend  time  with  positive  friends,  take  part  in  activities  that
+they enjoy, and reassure them that it is safe to open up about any negative experiences at home.
+
+7.4. ONLINE SPACES
+
+01
+
+Need for awareness and confidence to report matters
+
+It is imperative that children are made aware of the right to seek redressal available
+to  them  against  perpetrators  of  cyber  bullying.  The  child  must  feel  confident  to
+inform his/her caregivers or trusted adults or teachers. It is therefore a need of the
+hour to make children aware of the provisions available to them. 
+
+Confiscation  of  personal  devices  is  never  a  long  term  solution  for  dealing  with
+cyberbullying.  It  would  only  create  fear  in  the  minds  of  children,  preventing  them
+from confiding in their parents. Instead, efforts must be made to teach children to
+trust  the  system  and  to  create  awareness  of  legal  redressal  measures  so  that
+children  are  made  aware  of  where  to  report  in  case  they  encounter  an
+uncomfortable experience online.
+
+02
+
+Training
+
+Students  need  to  be  educated  on  digital  safety  and  online  etiquette  through
+mediums of workshops, lectures or any formal training. These forums can also help
+children  orient  towards  tolerance  and  empathy  in  the  digital  world,  strengthened
+through social-emotional learning. 
+
+03
+
+Focusing on mental health
+
+Studies  have  found  a  link  between  cyber  abuse,  symptoms  of  depression  and  a
+general dissatisfaction with life. Cyberbullying degrades a child’s self-esteem and
+generates feelings of loneliness, maladjustment, causing a victim to feel victimised
+much  after  the  incident  of  abuse  takes  place.  It  is  therefore  imperative  to  create
+resilience among students through cyberbullying prevention initiatives, using social
+and family support and confidence building. This encouragement could contribute
+to developing resilience among students, supporting recovery from trauma. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+29
+
+8. RECOMMENDATIONS FOR TEACHERS
+AND CAREGIVERS
+
+8.1. ENCOURAGE DISCLOSURE - FOR COUNSELLORS AND TEACHERS
+
+Teachers  and  counsellors  can  help  support  the
+child  by  providing  a  safe  space  for  them  to  talk
+about  bullying.  It  is  important  that  they  actively
+listen  to  the  child.  They  should  maintain  proper
+body 
+language  that  conveys  that  they  are
+listening  to  the  child  and  can  help  them.
+Reassuring  and  believing  what  the  child  has  to
+say  is  crucial.  They  must  tell  the  child  that  they
+(teachers  and  counsellors)  will  do  everything  to
+ensure  the  child’s  safety.  Conveying  statements
+such  as  “You  were  right  to  tell  me”,  reassuring
+them  for  speaking  out  and  letting  the  child  know
+that  it  was  brave  of  them  to  share  about  difficult
+subjects (no matter how minimal) will assist them
+in their healing  journey.  
+
+it’s 
+
+Throughout  the  process, 
+important  for
+teachers  and  counsellors  to  be  honest  with
+their  concern  for  children.  Open  and  general
+questions  may  help  children  to  describe  and
+elaborate  on  their  experiences,  feelings,  and
+thoughts.  On  the  other  hand,  leading  questions
+and  repetitive  questions  can  often  colour  their
+responses,  and  make  them  feel  that  they  are
+being  pushed  to  respond  in  a  certain  way.  
+Letting  them  express  themselves  completely
+without  trying  to  fill  in  words,  or  finishing  their
+assumptions,  will
+sentences  or  making 
+contribute  to  making  them  feel  safe.  The  child
+should feel cared for and reassured that sharing
+these  experiences  would  in  no  way  alter  their
+relationships negatively. 
+
+Once  the  teachers  or  counsellors  know  about
+the  situation,  they  must  distinguish  between
+what  the  child  has  actually  said  and  the
+conclusions they reach. They must take proper
+steps  to  ensure  the  physical  safety  and
+psychological  well-being  of  the  child.  It  is
+important to not let personal bias take over, and
+ensure accuracy while reporting bullying.
+
+Primary  caregivers  such  as  parents,  teachers,
+and  counsellors  may  be  provided  periodic
+training to enable them to identify the early and
+tell-tale  signs  of  bullying,  which  will  empower
+them  to  adequately  support  children  who
+disclose such incidents. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+30
+
+Hearing a Disclosure
+
+Don't presume they were bullied by just one person
+
+Don't presume that they are no longer in contact with their abuser(s)
+
+It may have been a traumatic experience, so accept
+
+Acknowledge the disclosure and accept what they say
+
+Do not try to gather all the details
+
+Assess - is it an issue that they need help with?
+
+Assess - is this the right time to deal with it?
+
+Check who would they like to receive help from?
+
+Recording brief details accurately
+
+Responding to their confidentiality requests in case records 
+
+At the end of the
+disclosure
+
+Reassure the child that it was right to tell you but do not promise total
+confidentiality
+
+Let them know what you are going to do next and how important it to
+act
+
+Immediately seek help, and report to the authorities for support
+
+Write down accurately what the young person has told you. 
+
+Records should be detailed and accurate. 
+
+Sign and date your notes.
+
+Keep all notes in a secure place for an indefinite period.
+
+These are essential in helping school/ Social Services/ the
+Police decide what is best for the child, and as evidence if
+necessary
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+31
+
+Few helping words
+
+‘I believe you ‘I am going to  to help you'
+
+ ‘I will help you ‘I am glad that you told me
+
+‘You are not to blame ‘You did the right thing by telling me
+
+Say I cannot keep this a secret, but I won’t tell anyone except for
+those who must know, to help (doctors, police)
+
+Things not to say or do
+
+Don't confront the offender in the loved one's presence. 
+
+Don't blame the child.
+
+Do not make promises you cannot keep
+
+Avoid these
+statements
+
+‘You should have informed your experience to someone earlier when it
+happened’
+
+‘I can’t believe it! I’m shocked!’
+
+‘Oh that explains a lot’
+
+‘No not...he’s a friend of mine’
+
+‘I won’t tell anyone else’
+
+‘Why? How? When? Where? Who?’ doubt the child’s disclosure
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+32
+
+9. DOs AND DON’Ts : SOME QUICK TIPS
+
+9.1. BULLYING
+
+9.1.1. DOs For Teachers
+
+Listen and focus on the student - Learn what’s been
+going on and show you want to help.
+
+Assure the child that bullying is not their fault. 
+
+Know  that  kids  who  are  bullied  may  struggle  with
+talking about it - Consider referring them to a school
+counsellor, psychologist
+
+Show kids that bullying is taken seriously
+
+Calmly tell the child that bullying will not be tolerated. 
+Model 
+problem.
+Be non-judgemental and accepting
+
+respectful  behaviour  when  addressing 
+
+the
+
+Use  consequences  to  teach  -  Consequences  that  involve
+learning or building empathy can help prevent future bullying.
+The child who bullied can:
+
+Lead a class discussion about how to be a good friend.
+Write  a  story  about  the  effects  of  bullying  or  benefits  of
+teamwork.
+Role-play  a  scenario  or  make  a  presentation  about  the
+importance of respecting others, the negative effects of gossip,
+or how to cooperate.
+Do a project about civil rights and bullying.
+Read a book about bullying.
+
+Help students understand bullying - Students who know what
+bullying is can better identify it. They can talk about bullying
+if  it  happens  to  them  or  others.  Encourage  kids  to  speak  if
+they  are  bullied  or  see  others  being  bullied.  Teachers  can
+give  comfort,  support,  and  advice,  even  if  they  can’t  solve
+the problem directly. Encourage the child to report bullying if
+it happens.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+33
+
+ 
+Talk about how to stand up to kids who bully.
+
+Give  tips,  like  using  humour  and  saying  “stop”
+directly and confidently. 
+
+Discuss  what  to  do  if  those  actions  fail,  such  as
+walking away.
+
+Talk  about  strategies  for  staying  safe,  such  as
+staying near adults or groups of other kids.
+
+Show others how to be kind and respectful.
+
+Kids learn from adults’ actions.
+By  treating  others  with  kindness  and  respect,  adults
+show  the  kids  in  their  lives  that  there  is  no  place  for
+bullying
+Even  if  it  seems  like  they  are  not  paying  attention,  kids
+are watching how adults behave
+
+Advancing social and emotional learning in classrooms
+
+Social and emotional learning (SEL) involves teaching skills of self-awareness, self-management,
+social awareness, responsible decision making, and relationship management.
+SEL  improves  students'  emotional  well-being,  self-regulation,  classroom  relationships,  and  kind
+and helpful behaviour. 
+It  reduces  a  range  of  problems  like  anxiety,  emotional  distress,  and  depression;  reduces
+disruptive behaviours like conflicts, aggression, bullying, anger, and hostile attribution bias; 
+It improves academic achievement, creativity, and leadership.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+34
+
+Hold Classroom Meetings
+
+Classroom  meetings  provide  a  forum  for  students  to  talk  about  school-related  issues.  These
+meetings can help teachers stay informed about what is going on. Make sure:
+
+Kids feel free to discuss issues without fear.
+
+Start the conversation.
+
+Concentrate on specific issues, such as bullying or respectful behaviour.
+
+Use open-ended questions or prompts, such as:
+
+Share an example of a student who helped someone at school this week.
+
+Without naming names, share an example of someone who made another student feel bad.
+
+What did students nearby do? What did you do? Did you want to do something different—why or
+
+why not?
+
+If  you  could  describe  the  perfect  response  to  the  situation,  what  would  it  be?  How  difficult  or
+
+simple would it be to accomplish? Why?
+
+How can adults help?
+
+End the meeting with a reminder that it is everyone’s job to make school a positive place to learn
+
+9.1.2. DON’Ts for Teachers/School Management and Authority
+
+Don’t Dismiss
+
+Don’t make it Worse
+
+Sadly, there are some instinctive responses that can actually worsen bullying situations. 
+Some teachers are tempted to step in to stop a situation by asking a child who is obviously being
+taunted, “Are you okay? Is s/he bothering you?” 
+While intended to give the vulnerable child a voice, this type of on-the-spot intervention leaves the
+bullied child with virtually no choice but to say, “No, I’m okay.” 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+35
+
+Don’t Use Peer Mediation
+
+While school-based peer mediation programs can teach valuable
+skills  for  conflict  resolution  and  respectful  problem-solving,  in
+bullying dynamics, it can become a platform for peer domination. 
+When  kids  who  bully  gain  the  opportunity  to  outtalk  and  outwit
+their  less  articulate  targets  in  front  of  trained  peer  mediators,
+school counsellors, and teachers, they are empowered. 
+Vulnerable kids are further diminished.
+
+Don’t Label
+
+Bullies  and  victims  come  in  all  genders  and  ages,  shapes  and
+sizes.
+They  come  from  troubled  families  and  nurturing  ones,  wealthy
+backgrounds and low socio-economic statuses. 
+Stop  placing  them  in  harmful,  self-fulfilling  categories  such  as
+“problem-child,”  or  “bully”  and  begin  to  view  them  as  young
+people who deserve to be taught better ways to behave.
+
+Don’t Deny
+
+Do not turn a blind eye to the problem of bullying.
+When there is denial of the problem, kids cannot be safe. 
+They  cannot  learn  and  they  cannot  develop  skills  for  managing  the  conflict  that  is  an  inevitable
+part of being human.
+Avoid  strategies  that  don’t  work  or  have  negative  consequences.⁹  Suspending  or  expelling
+students who bully does not reduce bullying behaviour. Students and teachers may be less likely
+to report and address bullying if suspension or expulsion is the consequence.
+Conflict  resolution  does  not  work.  Facing  those  who  have  bullied  may  further  upset  kids  who
+have been bullied.
+Group treatment for students who bully doesn’t work. Group members tend to reinforce bullying
+behaviour in each other.
+
+(9) https://www.stopbullying.gov/prevention/support-kids-involved 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+36
+
+9.2. CYBERBULLYING
+
+9.2.1. DOs for Teachers/School Management and Authority
+
+Schools must make efforts in ensuring that their staff is
+digitally  literate.  Understanding  the  risk  involved  while
+accessing  virtual  platforms  help  teachers  in  turn  teach
+students about digital etiquette. 
+
+Raise  awareness  about  online  risks  and  dangers,  the
+psychological  and  legal  consequences  of  bullying
+online.
+
+Conduct  gender  sensitization  training  for  staff  and
+students each academic year. 
+
+Train  and  encourage  students  to  report  inappropriate
+online  interactions  they  encounter  to  their  parents,
+teachers or counsellors. 
+
+Encourage  children  who  have  witnessed  offences
+among  their  peers  to  report  these  offences,  even  if  it
+hasn’t directly affected them. 
+
+Initiate  surveys  that  allow  children  to  speak  about
+offences  anonymously.  This  would  encourage  children
+to be open about what they have experienced online. 
+
+Establish  internet  safety  protocols  within  educational
+institutions. 
+
+Set  boundaries  with  students  and  teach  students  of
+boundaries. 
+
+Listen  without  bias  and  judgement.  Avoid  blaming,
+accusing  or  belittling  them  when  they  approach  you
+with  a  problem  .  Be  especially  protective  of  children
+with learning difficulties, special needs or disabilities. 
+
+Respect the child’s privacy. 
+
+Invest  in  strong  network  security  systems  and  set  up
+automatic antivirus softwares and operating systems.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+37
+
+Encourage Children to¹⁰
+
+Be respectful in all online interactions. 
+Create strong passwords and frequently change them to prevent misuse by another. 
+Communicate only with known people
+Block any person trying to bother them and report them. 
+Read privacy settings carefully on social networking sites
+Be  vigilant  about  posting  photographs,  videos  and  sensitive  information  on  websites  as  they
+leave digital footprints. 
+To report any unauthorised activity on their accounts 
+To use secure and legal sites to play games, read, watch content, etc. 
+Teach children how to report bullying online on the concerned platform. 
+Talk to trusted adults regarding any bullying incident
+Use only verified softwares and programs
+
+9.2.2. DON’Ts for Children (What Teachers/School Management and Authority Should
+Encourage)
+
+Given that teachers and parents play a significant role in the lives of the students, it is necessary
+to  exercise  supervision  when  children  access  the  internet.  Teachers,  parents  and  caregivers
+must encourage children to exercise the following cautions- 
+
+Do not reveal passwords to anyone other than
+parent or guardian.
+
+Do  not  reveal  personal  information  like  age,
+address,  phone  number,  school  name,  etc.
+online.
+
+Do  not  post  a  friend’s  information  online,
+which could put them at risk. 
+
+Do  not  post  anything  that  would  hurt  others
+feelings.
+
+Do  not  forward  anything  they  read  on  social
+media  without  verifying  it  from  a  trusted
+source. 
+
+Do  not  leave  an  account  unattended  after
+logging  in.  Always  remember  to  log  out  of
+accounts. 
+
+(10) Safe Online Learning in times of COVID-19, by NCERT and UNESCO
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+38
+
+Do  not  share  images  of  self,  videos  or  audio  clips  with  personal  or  inappropriate
+content to self or anyone. 
+
+Do not use personal devices - USBs or harddrives on public computers or networks.
+
+Do not open suspicious links and attachments on social networking sites. 
+
+Avoid making friendships with strangers on social media platforms 
+
+Do not respond to bullying, obscene or offensive messages but save the evidence to
+share with trusted adults.
+
+Do not engage in risky behaviour online like sharing or writing hateful material, posting
+or distributing sexual images. 
+
+Do not create fake profiles for yourself or others on any social networking site.
+
+Do not indulge in abusive language and name calling while on online gaming platforms. 
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+39
+
+BULLYING
+
+AFFECTS EVERYONE
+
+VICTIMS
+
+BULLIES
+
+BYSTANDERS
+
+Child has bad grades.
+
+Child disrespects adults.
+
+Child may be involved in
+wrongful activities like
+vandalism, dropping out of
+school, smoking, taking
+drugs or alcohol.
+
+Child is most likely to be
+caught for criminal behavior.
+
+Child feels angry and
+helpless for not knowing
+what to do.
+
+Child has nightmares about
+being the next target.
+
+Child feels guilty for not
+taking action.
+
+Child is afraid of certain
+areas in school.
+
+Child refuses to attend
+school - claims to have
+headaches, stomach pains,
+poor appetite, and loss of
+sleep
+
+Child has lower grades after
+losing interest in schoolwork.
+
+Child doesn't mix much with
+friends.
+
+Child has mood swings:
+depression, irritability,
+unhappiness, anger.
+
+Child may lose personal
+belongings to the bullies.
+
+Child may have cuts,
+scratches or bruises.
+
+Preventing Bullying and Cyberbullying | Guidelines for Schools
+
+40
+
+

@@ -1,0 +1,21 @@
+# HaathSe KritiCam Backend — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# ── Core API Framework ──────────────────────────────
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+
+# ── AI / LLM ────────────────────────────────────────
+openai==1.54.4          # GPT-4o Vision & Structured Outputs
+
+# ── Database ─────────────────────────────────────────
+supabase==2.10.0        # Supabase Python client (PostgreSQL)
+
+# ── File Handling ─────────────────────────────────────
+python-multipart==0.0.12  # Enables UploadFile in FastAPI
+
+# ── Config / Environment ──────────────────────────────
+python-dotenv==1.0.1
+
+# ── Data Validation ───────────────────────────────────
+pydantic==2.10.3        # Comes with FastAPI but pinned for safety

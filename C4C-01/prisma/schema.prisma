@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PATIENT
+  CAREGIVER
+  FOUNDATION_WORKER
+  ADMIN
+}
+
+enum Permission {
+  VIEW_ONLY
+  TRIAGE
+  FULL
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  name            String
+  passwordHash    String
+  role            Role
+  age             Int?
+  gender          String?
+  knownConditions String[]        @default([])
+  medications     String[]        @default([])
+  allergies       String[]        @default([])
+  location        String?
+  relation        String?
+  asPatientLinks   CaregiverLink[] @relation("patient")
+  asCaregiverLinks CaregiverLink[] @relation("caregiver")
+  generatedCodes   LinkCode[]
+  triages          Triage[]
+  reports          Report[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model LinkCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  patient   User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId String
+  expiresAt DateTime
+  redeemed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  @@index([code])
+}
+
+model CaregiverLink {
+  id          String     @id @default(cuid())
+  patient     User       @relation("patient", fields: [patientId], references: [id], onDelete: Cascade)
+  patientId   String
+  caregiver   User       @relation("caregiver", fields: [caregiverId], references: [id], onDelete: Cascade)
+  caregiverId String
+  permission  Permission @default(VIEW_ONLY)
+  createdAt   DateTime   @default(now())
+  @@unique([patientId, caregiverId])
+  @@index([caregiverId])
+  @@index([patientId])
+}
+
+model Triage {
+  id             String   @id @default(cuid())
+  patient        User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId      String
+  severity       String
+  symptoms       String[] @default([])
+  vitals         Json?
+  doctorBriefing String?
+  requestId      String?
+  createdAt      DateTime @default(now())
+  @@index([patientId, createdAt])
+}
+
+enum ReportKind {
+  PDF
+  VOICE
+}
+
+model Report {
+  id         String     @id @default(cuid())
+  patient    User       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId  String
+  kind       ReportKind
+  filename   String?
+  rawText    String     @db.Text
+  symptoms   String[]   @default([])
+  modifiers  String[]   @default([])
+  labFlags   Json?
+  language   String?
+  createdAt  DateTime   @default(now())
+  @@index([patientId, createdAt])
+}

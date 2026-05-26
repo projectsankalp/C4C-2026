@@ -1,0 +1,8 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+allowBuilds:
+  msgpackr-extract: set this to true or false
+  protobufjs: set this to true or false
+minimumReleaseAgeExclude:
+  - '@babel/runtime@7.29.7'

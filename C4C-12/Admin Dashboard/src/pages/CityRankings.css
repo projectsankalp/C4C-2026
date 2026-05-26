@@ -1,0 +1,60 @@
+/**
+ * GraamSehat Admin Dashboard - City Rankings CSS
+ * Location: /src/pages/CityRankings.css
+ */
+
+.city-rankings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rankings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.rankings-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rankings-search-bar {
+  max-width: 400px;
+  width: 100%;
+}
+
+.rankings-legend {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius);
+}
+
+.legend-pills {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+}
+
+.legend-lbl {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.legend-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+}
+
+.rankings-grid {
+  width: 100%;
+}

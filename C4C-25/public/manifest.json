@@ -1,0 +1,9 @@
+{
+  "name": "Green Path",
+  "short_name": "Green Path",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eaf6e6",
+  "theme_color": "#3e7b35",
+  "description": "Green Path location and sustainable route helper"
+}

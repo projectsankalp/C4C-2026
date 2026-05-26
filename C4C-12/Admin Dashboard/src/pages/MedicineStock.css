@@ -1,0 +1,108 @@
+/**
+ * GraamSehat Admin Dashboard - Medicine Stock CSS
+ * Location: /src/pages/MedicineStock.css
+ */
+
+.medicine-stock-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  height: 100%;
+}
+
+.district-summaries-section, .asha-stock-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.district-summaries-section h3, .asha-stock-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+/* District summary cards */
+.district-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.summary-card {
+  padding: 1.25rem;
+  background-color: #F8FAFC;
+}
+.summary-card:hover {
+  transform: none;
+}
+
+.summary-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.375rem;
+}
+.summary-card-header h4 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.summary-worker-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+}
+
+.summary-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.stock-line {
+  display: flex;
+  justify-content: space-between;
+}
+.stock-line strong {
+  color: var(--text-main);
+}
+
+.summary-card-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+/* Critical cells and alerts */
+.critical-warning-icon {
+  color: var(--risk-red);
+}
+
+.stock-value {
+  font-weight: 500;
+}
+
+.critical-alert {
+  color: var(--risk-red) !important;
+  font-weight: 700 !important;
+  background-color: var(--risk-red-bg);
+}
+
+.row-critical-alert {
+  border-left: 3px solid var(--risk-red) !important;
+}
+.row-critical-alert:hover {
+  background-color: var(--risk-red-bg) !important;
+}

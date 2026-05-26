@@ -1,0 +1,801 @@
+
+================================================================================
+FILE: 01_Problem_Statement.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Problem Statement Document
+Document 01
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Purpose
+This document defines the exact problem AIRWATCH solves and frames it for technical development, hackathon judging, and real rural deployment.
+Exact Problem
+Large rural populations in India are exposed to poor air quality caused by biomass burning, industrial pollution, crop residue burning, household smoke, and waste burning. Most villages do not have affordable monitoring infrastructure, public warning systems, or localized awareness tools.
+Root Causes
+High cost of official monitoring stations
+Low internet availability in rural regions
+Limited awareness of AQI and health risks
+No village-level historic pollution data
+Language barriers in public warnings
+Lack of community incentives to reduce pollution
+Expected Outcomes
+Enable low-cost air quality monitoring
+Provide real-time environmental insights
+Generate local alerts and awareness
+Support data-driven decisions by panchayats and administrators
+Work effectively in low-connectivity regions
+Target Users
+
+Success Statement
+AIRWATCH succeeds when a village can detect harmful pollution locally, alert residents without internet dependency, and use quarterly rankings to encourage cleaner practices.
+
+[TABLE 1]
+Stakeholder | Need
+Villagers | Understand air safety in local language
+Panchayat/Admin | Monitor village-wide pollution
+Schools | Protect children during high AQI events
+Farmers | Awareness during crop residue burning periods
+Government bodies | Aggregated village-level data and rankings
+
+
+================================================================================
+FILE: 02_Project_Proposal.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Project Proposal Document
+Document 02
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Executive Summary
+AIRWATCH is a low-cost IoT and AI platform for rural air quality monitoring. It combines ESP32 sensor nodes, LoRa wireless communication, Raspberry Pi dashboard, GSM alerts, Sarvam AI multilingual support, and village-level clean-air competition.
+Project Objectives
+Build distributed sensor nodes for air-quality monitoring
+Transmit node readings through LoRa without internet
+Run a Raspberry Pi hub for dashboard, storage, prediction, and alerts
+Register users with mobile number and preferred language
+Send SMS and voice alerts in regional language
+Provide admin map-based node installation
+Rank villages quarterly for clean-air rewards
+Proposed Modules
+
+Innovation
+Offline-first rural design
+Local-language voice alerts
+Governance dashboard instead of only sensor display
+Gamified village ranking for behavior change
+Map-based node installation and heatmaps
+Scope
+The prototype focuses on MQ135-based air-quality indication, LoRa node communication, dashboard visualization, emergency alerts, multilingual interface, and admin operations. PM2.5 sensors and solar power are future upgrades.
+
+[TABLE 1]
+Module | Description
+Sensor Node | MQ135, LCD, LED, buzzer, LoRa on ESP32
+Central Hub | Raspberry Pi receiving LoRa packets and hosting dashboard
+Alert System | GSM SMS plus voice alert layer
+Multilingual Layer | Sarvam AI translation and voice support
+Admin Platform | Node map, users, analytics, broadcasts
+Ranking System | Quarterly village AQI competition and rewards
+
+
+================================================================================
+FILE: 04_System_Architecture.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+System Architecture Document
+Document 04
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Architecture Diagram
+ESP32 Nodes -> LoRa -> Raspberry Pi Hub -> Flask Dashboard -> SQLite -> Alerts / AI / Rankings
+Local: LCD + LED + Buzzer
+Remote: Website + SMS + Voice Alerts
+Layers
+
+Packet Flow
+Sensor node reads MQ135 value
+ESP32 categorizes status
+LCD, LED, buzzer update locally
+ESP32 sends JSON packet through LoRa
+Raspberry Pi receives packet and stores reading
+Dashboard updates live cards and graphs
+Alert engine checks threshold
+GSM/Sarvam AI sends emergency notification
+Offline Operation
+The ESP32 nodes work without internet. The Raspberry Pi can create a local WiFi hotspot, allowing phones to open the dashboard using a local IP address. GSM is only required for SMS delivery when cellular network is available.
+
+[TABLE 1]
+Layer | Responsibility
+Sensing Layer | MQ135 sensor reads air-quality signal
+Edge Layer | ESP32 calculates status and triggers local alerts
+Communication Layer | LoRa packet transmission to hub
+Gateway Layer | Raspberry Pi receives, validates, stores data
+Application Layer | Dashboard, maps, rankings, reports
+AI Layer | AQI prediction and Sarvam AI language services
+Alert Layer | LCD, LED, buzzer, SMS, voice alert
+
+
+================================================================================
+FILE: 05_Hardware_Design.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Hardware Design Document
+Document 05
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Available Hardware
+
+ESP32 Pin Plan
+
+Power Notes
+LoRa module must use 3.3V only.
+MQ135 works better on 5V/VIN, but ESP32 ADC input must remain within safe voltage.
+GSM module must use external 3.7V to 4.2V supply with common ground.
+LEDs require 220 ohm resistors. 220 ohm color code is red-red-brown-gold.
+Raspberry Pi Connections
+
+
+[TABLE 1]
+Component | Usage
+ESP32 | Sensor node controller
+MQ135 | Air pollution indicator
+LoRa SX1278 TX/RX | Long-range rural communication
+16x2 LCD | Local AQI display
+Red/Yellow/Green LEDs | Visual AQI status
+Buzzer | Emergency sound alert
+3.7V battery | Portable node power
+Raspberry Pi | Central hub and web server
+GSM module | SMS alerts
+
+
+[TABLE 2]
+Device | Connection
+MQ135 AOUT | GPIO34
+Green LED | GPIO12 through 220 ohm resistor
+Yellow LED | GPIO13 through 220 ohm resistor
+Red LED | GPIO14 through 220 ohm resistor
+Buzzer + | GPIO27 or GPIO26
+LoRa SCK/MISO/MOSI | GPIO18/GPIO19/GPIO23
+LoRa NSS/RST/DIO0 | GPIO5/GPIO25/GPIO26 (Updated to avoid I2C SCL/SDA conflict)
+
+[TABLE 2B] ESP8266 NodeMCU Pin Configuration (Wi-Fi Connected Node)
+Component | NodeMCU Pin | ESP8266 GPIO | Purpose
+MQ135 AOUT | A0 | ADC0 | Analog gas sensor reading
+16x2 LCD SDA | D2 | GPIO 4 | Hardware I2C SDA data
+16x2 LCD SCL | D1 | GPIO 5 | Hardware I2C SCL clock
+Green LED | D5 | GPIO 14 | Via 220 ohm resistor
+Yellow LED | D6 | GPIO 12 | Via 220 ohm resistor
+Red LED | D7 | GPIO 13 | Via 220 ohm resistor
+Buzzer + | D8 | GPIO 15 | Active high sound alarm
+VCC / GND | VIN / GND | - | Share 5V/GND power rails
+
+
+
+[TABLE 3]
+Module | Pi Pins
+LoRa VCC/GND | 3.3V and GND
+LoRa SPI | GPIO11 SCK, GPIO9 MISO, GPIO10 MOSI
+LoRa NSS/RST/DIO0 | GPIO8 or GPIO7, GPIO25, GPIO24
+GSM TX/RX | Pi RX GPIO15, Pi TX GPIO14 with voltage divider
+GSM Power | External battery/supply, common GND with Pi
+
+
+================================================================================
+FILE: 07_Database_Design.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Database Design Document
+Document 07
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Database Overview
+SQLite is used for the prototype because it is lightweight and works offline on Raspberry Pi. It can later be migrated to PostgreSQL or cloud database.
+
+Relationships
+One village has many users.
+One village has many nodes.
+One node has many readings.
+Alerts may belong to a node and optionally to a user.
+Rankings are calculated per village per quarter.
+Sample SQL Schema
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password_hash TEXT, mobile TEXT, village_id INTEGER, preferred_language TEXT, role TEXT);
+CREATE TABLE nodes (id INTEGER PRIMARY KEY AUTOINCREMENT, node_code TEXT UNIQUE, village_id INTEGER, location_name TEXT, latitude REAL, longitude REAL, status TEXT);
+CREATE TABLE readings (id INTEGER PRIMARY KEY AUTOINCREMENT, node_id INTEGER, mq135_value INTEGER, aqi_value INTEGER, category TEXT, battery INTEGER, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);
+
+[TABLE 1]
+Table | Fields
+users | id, name, email, password_hash, mobile, village_id, preferred_language, role, created_at
+villages | id, name, district, state, default_language
+nodes | id, node_code, village_id, location_name, latitude, longitude, status, installed_at
+readings | id, node_id, mq135_value, aqi_value, category, battery, timestamp
+alerts | id, node_id, user_id, alert_type, language, message, delivery_status, timestamp
+rankings | id, village_id, quarter, avg_aqi, improvement_percent, rank, reward_status
+
+
+================================================================================
+FILE: 09_API_Documentation.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+API Documentation
+Document 09
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+API Overview
+APIs connect frontend pages, hardware data ingestion, alerts, users, maps, and rankings.
+
+Sample Reading Payload
+{"node_id":"NODE_01","mq135":720,"aqi":286,"category":"Poor","battery":78,"timestamp":"2026-05-25T10:42:00"}
+Security Rules
+Only admins can add nodes and send broadcasts.
+Users can update only their own profile and language.
+Node ingestion should validate node_id and packet format.
+Passwords must be hashed.
+
+[TABLE 1]
+Endpoint | Method | Purpose
+/api/auth/register | POST | Register user
+/api/auth/login | POST | Login user/admin
+/api/nodes | GET/POST | List or add nodes
+/api/nodes/<id>/location | PUT | Update map coordinates
+/api/readings | POST | Insert LoRa node reading
+/api/dashboard/live | GET | Live dashboard data
+/api/alerts/send | POST | Manual emergency broadcast
+/api/rankings/quarterly | GET | Village ranking leaderboard
+/api/language/set | POST | Update preferred language
+
+
+================================================================================
+FILE: 10_LoRa_Protocol.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+LoRa Communication Protocol
+Document 10
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Purpose
+LoRa enables long-range, low-power, low-cost communication from ESP32 nodes to Raspberry Pi hub without internet or SIM cards.
+Packet Format
+NODE_ID|MQ135|AQI|CATEGORY|BATTERY|TIMESTAMP
+Example: NODE_01|720|286|Poor|78|10:42
+Transmission Rules
+Send packet every 30 to 60 seconds during demo.
+Use shorter interval only for live demonstration.
+Include node ID in every packet.
+Retry once if ACK is not received, if ACK feature is implemented.
+Use checks to ignore corrupted or incomplete packets.
+Receiver Behavior
+Listen continuously
+Decode packet
+Validate node ID
+Store reading in database
+Update node last_seen time
+Trigger alert if threshold crossed
+Frequency Note
+Use the frequency supported by the available LoRa module. Keep transmitter and receiver frequency, bandwidth, spreading factor, and sync word identical.
+
+================================================================================
+FILE: 11_AI_Model_Document (1).docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+AI and Prediction Model Document
+Document 11
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+AQI Prediction Goal
+The prediction module estimates future AQI risk using recent readings and time-based patterns. It improves early warning rather than replacing sensor measurement.
+Inputs and Output
+
+Algorithm Options
+Rule-based prediction for early prototype
+Moving average and trend slope for simple risk estimate
+Random Forest Regressor after enough data is collected
+Risk Logic
+if current_aqi > 300 or predicted_aqi > 300: risk = "High"
+elif current_aqi > 200 or trend_is_rising: risk = "Medium"
+else: risk = "Low"
+Dashboard Output
+Predicted AQI after 1 hour
+Risk level
+Recommended action
+Confidence label such as Low/Medium/High
+
+[TABLE 1]
+Input | Description
+Current AQI | Latest computed AQI
+Recent trend | Last 30 to 60 minutes of readings
+Hour of day | Cooking/smoke pattern indicator
+Day/season | Burning and weather pattern indicator
+Humidity if available | Sensor correction factor
+
+
+================================================================================
+FILE: 11_AI_Model_Document.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+AI and Prediction Model Document
+Document 11
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+AQI Prediction Goal
+The prediction module estimates future AQI risk using recent readings and time-based patterns. It improves early warning rather than replacing sensor measurement.
+Inputs and Output
+
+Algorithm Options
+Rule-based prediction for early prototype
+Moving average and trend slope for simple risk estimate
+Random Forest Regressor after enough data is collected
+Risk Logic
+if current_aqi > 300 or predicted_aqi > 300: risk = "High"
+elif current_aqi > 200 or trend_is_rising: risk = "Medium"
+else: risk = "Low"
+Dashboard Output
+Predicted AQI after 1 hour
+Risk level
+Recommended action
+Confidence label such as Low/Medium/High
+
+[TABLE 1]
+Input | Description
+Current AQI | Latest computed AQI
+Recent trend | Last 30 to 60 minutes of readings
+Hour of day | Cooking/smoke pattern indicator
+Day/season | Burning and weather pattern indicator
+Humidity if available | Sensor correction factor
+
+
+================================================================================
+FILE: 12_SarvamAI_Integration.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Sarvam AI Integration Document
+Document 12
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Purpose
+Sarvam AI integration provides multilingual translation, voice alerts, and voice replies so AIRWATCH can serve users in regional Indian languages.
+Supported UI Languages
+English
+Hindi
+Marathi
+Kannada
+Tamil
+Telugu
+Bengali
+Gujarati
+Punjabi
+Malayalam
+Odia
+Assamese
+Workflows
+
+Emergency Message Template
+AIRWATCH ALERT: Air quality in your area is dangerous. AQI is {aqi}. Please stay indoors and avoid outdoor activity.
+Fallback Strategy
+Keep pre-written alert templates for major languages.
+If AI service is unavailable, send SMS in default village language.
+Local LCD, LED, and buzzer continue working offline.
+
+[TABLE 1]
+Workflow | Steps
+Multilingual UI | User selects language, UI strings load in that language
+SMS Translation | Alert text generated in English, translated to user preference, sent by GSM
+Voice Alert | Emergency text translated, converted to speech, played on phone or web
+Voice Replier | User asks AQI question, system replies in preferred language
+
+
+================================================================================
+FILE: 13_Security_Authentication.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Security and Authentication Document
+Document 13
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Security Goals
+Protect user mobile numbers and login credentials
+Prevent unauthorized emergency broadcasts
+Prevent fake node data injection
+Maintain admin-only access for installation and rankings
+Authentication
+Email and password login
+Password hashing using bcrypt or werkzeug security
+Session/JWT based access
+Role field: user or admin
+Authorization
+
+Data Privacy
+Mobile numbers are used only for alert delivery. Users should be informed during registration that they are opting in to emergency AQI alerts.
+Threats and Controls
+
+
+[TABLE 1]
+Action | Allowed Role
+View own dashboard | User/Admin
+Add node | Admin only
+Edit node location | Admin only
+Send broadcast | Admin only
+View all users | Admin only
+Update own language/mobile | Logged-in user
+
+
+[TABLE 2]
+Threat | Control
+Fake admin login | Strong password and role checks
+Fake LoRa packet | Node ID whitelist and checksum
+SMS misuse | Admin action logs
+Data loss | SQLite backup/export
+
+
+================================================================================
+FILE: 14_Testing_Document.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Testing Document
+Document 14
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Testing Strategy
+Testing covers hardware, firmware, communication, dashboard, database, alerts, multilingual features, and end-to-end demo flow.
+
+End-to-End Demo Test
+Start Raspberry Pi hub
+Start ESP32 node
+Open dashboard on phone
+Expose MQ135 to smoke source safely
+Confirm LCD/LED/buzzer reaction
+Confirm LoRa packet reception
+Confirm dashboard update
+Confirm SMS/voice alert flow
+Acceptance Criteria
+At least one node sends live reading successfully
+Dashboard is accessible on phone
+Alert triggers when threshold is crossed
+Admin can add node location
+Language preference changes visible UI text
+
+[TABLE 1]
+Test Case | Expected Result
+MQ135 read test | Analog value changes when exposed to smoke
+LED status test | Green/yellow/red changes by AQI range
+Buzzer test | Buzzer activates on high AQI
+LCD test | AQI and status displayed
+LoRa test | Packet received at Raspberry Pi
+Database test | Reading stored with timestamp
+Dashboard test | Live AQI updates
+SMS test | GSM sends alert to registered number
+Language test | UI and alert change by selected language
+Admin map test | Node location saved and displayed
+
+
+================================================================================
+FILE: 15_Deployment_Guide.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Deployment Guide
+Document 15
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Deployment Overview
+Deployment involves preparing Raspberry Pi, flashing ESP32 firmware, configuring LoRa, enabling GSM, creating database, and launching dashboard.
+Raspberry Pi Setup
+Install Raspberry Pi OS
+Enable SPI and UART using raspi-config
+Install Python packages
+Create project folder
+Run database initialization
+Start Flask dashboard
+Configure hotspot if offline demo is needed
+ESP32 Setup
+Install Arduino IDE
+Install ESP32 board package
+Install LoRa and LiquidCrystal libraries
+Connect ESP32 through USB
+Upload node firmware
+Verify serial monitor output
+Service Startup
+python3 hub/lora_receiver.py
+python3 hub/app.py
+Offline Hotspot
+Raspberry Pi can create AIRWATCH_LOCAL WiFi. Users connect to this hotspot and open the dashboard using the Pi local IP address.
+Field Installation
+Place node in ventilated but rain-protected location
+Avoid direct water exposure
+Assign node ID and map location in admin dashboard
+Test LoRa link before final mounting
+
+================================================================================
+FILE: 16_User_Manual.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+User Manual
+Document 16
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+User Registration
+Open AIRWATCH website
+Select preferred language
+Create account using email and password
+Enter mobile number and village
+Choose SMS, voice alert, or both
+Using Dashboard
+View current AQI
+Read safety advice
+Check nearby node status
+View alert history
+Change language anytime
+Understanding AQI
+
+Emergency Alerts
+When AQI crosses danger levels, users receive SMS or voice alert in their selected language. Local node LED and buzzer may also activate.
+
+[TABLE 1]
+Status | Meaning | Action
+Good | Air is safe | Normal activity
+Moderate | Sensitive people should be careful | Reduce long outdoor exposure
+Poor | Air may affect health | Avoid outdoor activity
+Hazardous | Dangerous air | Stay indoors and follow alerts
+
+
+================================================================================
+FILE: 17_Admin_Manual.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Admin Manual
+Document 17
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Admin Responsibilities
+Install and register nodes
+Monitor live AQI dashboard
+Manage users and mobile numbers
+Send emergency broadcasts
+Review alert logs
+Manage village rankings
+Adding Node on Map
+Login as admin
+Open Nodes page
+Click Add Node
+Enter node code and location name
+Drop pin on map or enter coordinates
+Save and verify node appears on map
+Emergency Broadcast
+Open Alerts page
+Select village or area
+Choose SMS, voice, or both
+Enter message or use template
+Select language mode: auto by user preference
+Send broadcast and check delivery logs
+Ranking Management
+At the end of each quarter, the system calculates village average AQI, improvement percentage, and rank. Admin can export rankings and reward eligibility reports.
+
+================================================================================
+FILE: 18_Feasibility_Study.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Feasibility Study
+Document 18
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Technical Feasibility
+The solution is technically feasible using available low-cost hardware. ESP32 supports analog input and LoRa integration. Raspberry Pi can run Flask, SQLite, local dashboard, and alert services.
+Economic Feasibility
+The prototype uses affordable components. A village can deploy multiple nodes at low cost compared with official monitoring stations. Existing phones can access the dashboard through browser.
+Operational Feasibility
+Local LCD, LEDs, and buzzer require no smartphone
+Admin dashboard supports centralized monitoring
+Language support improves adoption
+LoRa reduces recurring connectivity costs
+Risks
+
+Conclusion
+AIRWATCH is feasible for hackathon prototype and can scale into a rural environmental governance platform with sensor upgrades and solar power.
+
+[TABLE 1]
+Risk | Mitigation
+MQ135 accuracy limitations | Clearly label prototype as indicative and add PMS5003 later
+GSM power instability | Use external 4V supply with common ground
+Internet unavailability | Use Pi local hotspot and offline dashboard
+AI service unavailable | Use stored translated templates
+
+
+================================================================================
+FILE: 19_Project_Roadmap.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Project Roadmap
+Document 19
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Development Phases
+
+MVP Priority
+Sensor reading
+LCD/LED/buzzer alert
+LoRa transmission
+Raspberry Pi receiver
+Dashboard live AQI
+SMS alert
+Admin node map
+Multilingual UI
+Future Roadmap
+PMS5003 PM2.5 sensor
+Solar charging
+GPS modules
+Mobile app
+Government integration
+Cloud analytics
+
+[TABLE 1]
+Phase | Tasks
+Phase 1 Planning | Finalize SRS, architecture, database, UI wireframes
+Phase 2 Hardware | ESP32 node wiring, MQ135 reading, LCD, LED, buzzer
+Phase 3 Communication | LoRa TX/RX integration with Raspberry Pi
+Phase 4 Backend | Flask APIs, SQLite database, alert engine
+Phase 5 Dashboard | Live AQI UI, map, graphs, admin pages
+Phase 6 AI/Language | Prediction, Sarvam AI translation, voice flow
+Phase 7 Testing | End-to-end demo and bug fixing
+Phase 8 Presentation | PPT, demo video, report, pitch
+
+
+================================================================================
+FILE: 20_Final_Presentation_Structure.docx
+================================================================================
+
+AIRWATCH
+Rural Environmental Intelligence and Air Quality Governance Platform
+
+Final Presentation Structure
+Document 20
+Prepared for pre-coding planning, implementation readiness, and project evaluation.
+
+Final Presentation Flow
+
+Winning Demo Script
+Start by showing live dashboard, then expose MQ135 to smoke safely, show LED/buzzer/LCD reaction, show LoRa packet reaching Pi, dashboard update, and SMS/voice alert.
+Pitch Lines
+AIRWATCH does not just detect pollution - it speaks to every villager in their own language.
+AIRWATCH does not only measure air - it motivates villages to compete for cleaner air.
+Designed for Bharat: offline, low-cost, multilingual, and community-driven.
+
+[TABLE 1]
+Slide | Content
+1 | Title, tagline, team
+2 | Problem: Rural Air Quality Blindspot
+3 | Impact and why it matters
+4 | Solution overview
+5 | System architecture
+6 | Hardware prototype
+7 | Dashboard and admin panel
+8 | Sarvam AI multilingual alerts
+9 | Village rankings and government rewards
+10 | Demo flow and impact
+11 | Business/scaling model
+12 | Future scope and closing line
+
+
+================================================================================
+FILE: AIRWATCH_Comprehensive_Documentation.docx
+================================================================================
+
+AIRWATCH - Comprehensive Project Documentation
+1. Problem Statement
+Rural India lacks affordable and scalable air quality monitoring systems. AIRWATCH addresses this through IoT, AI, LoRa communication, multilingual alerts, and community participation.
+2. Project Proposal
+AIRWATCH is a rural environmental intelligence platform using ESP32 nodes, Raspberry Pi hub, GSM alerts, LoRa networking, Sarvam AI multilingual support, and AQI governance systems.
+3. Software Requirement Specification (SRS)
+Defines all functional and non-functional requirements, user roles, APIs, hardware requirements, software stack, authentication, multilingual support, and system workflows.
+4. System Architecture
+ESP32 nodes collect AQI data → LoRa communication → Raspberry Pi hub → Dashboard → AI prediction → GSM/Sarvam AI alerts.
+5. Hardware Design
+ESP32, MQ135, LoRa SX1278, LCD 16x2, LEDs, buzzer, GSM module, Raspberry Pi, rechargeable battery.
+6. Software Architecture
+Frontend: HTML/CSS/JS. Backend: Flask + Python. Database: SQLite. AI: Scikit-learn. Maps: Leaflet.js.
+7. Database Design
+Users, Nodes, AQI Readings, Alerts, Rankings, and Language Preferences tables with relationships.
+8. UI/UX Design
+Multilingual dashboard with AQI heatmaps, live monitoring cards, rankings, alerts, village competition, and admin panel.
+9. API Documentation
+Endpoints for login, node registration, AQI upload, alert generation, user registration, rankings, and multilingual notifications.
+10. LoRa Communication Protocol
+Defines packet format, node communication intervals, retries, ACK mechanism, and offline buffering.
+11. AI & Prediction Model
+AQI prediction using Random Forest/Time-series analysis based on pollution trends, humidity, and historical data.
+12. Sarvam AI Integration
+Supports regional-language translation, voice alerts, voice assistant replies, and multilingual UI rendering.
+13. Security & Authentication
+Admin/user authentication, encrypted credentials, GSM verification, role-based access control.
+14. Testing Documentation
+Hardware testing, AQI calibration, LoRa communication testing, dashboard validation, multilingual testing.
+15. Deployment Guide
+Raspberry Pi setup, Flask deployment, ESP32 flashing, hotspot setup, and LoRa receiver configuration.
+16. User Manual
+Explains registration, AQI viewing, alerts, language selection, and safety recommendations.
+17. Admin Manual
+Explains node installation, map configuration, emergency broadcasts, rankings, and analytics.
+18. Feasibility Study
+Technical, economic, operational, and deployment feasibility analysis for rural India.
+19. Project Roadmap
+Planning, hardware integration, backend development, dashboard creation, AI training, testing, deployment.
+20. Final Presentation Structure
+Problem → Solution → Architecture → Hardware → Dashboard → AI → Demo → Impact → Future Scope.
+Complete Feature List
+Real-time AQI monitoring
+ESP32 distributed sensor nodes
+LoRa long-range communication
+Offline Raspberry Pi hotspot dashboard
+SMS emergency alerts
+Voice alerts in regional languages
+Sarvam AI multilingual integration
+Village AQI competition system
+Government reward ecosystem
+AI AQI prediction
+Heatmap visualization
+Admin monitoring dashboard
+User registration with mobile number
+Community participation system
+Node location mapping
+Technology Stack
+ESP32
+Raspberry Pi 4
+MQ135
+LoRa SX1278
+SIM800L GSM
+Flask
+SQLite
+Python
+Chart.js
+Leaflet.js
+Scikit-learn
+Sarvam AI
+Conclusion
+AIRWATCH is a scalable rural environmental intelligence and governance platform that combines IoT, AI, multilingual accessibility, and community participation to solve the rural air-quality blindspot problem in India.

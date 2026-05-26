@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Seva | Vitals & Diabetes Detection</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/custom.css" />
+  <style>
+    .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(227,242,253,0.8); box-shadow: 0 4px 12px rgba(25,118,210,0.08); }
+    .chart-box { height: 220px; }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<aside class="fixed left-0 top-0 h-screen w-[280px] flex flex-col py-6 bg-surface border-r border-outline-variant/30 z-50">
+  <div class="px-6 mb-10">
+    <h1 class="font-bold text-primary text-xl">Health Seva</h1>
+    <p class="text-sm text-on-surface-variant">Healthcare Portal</p>
+  </div>
+  <nav class="flex-1 space-y-1">
+    <a href="/dashboard/user" class="text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 px-4 py-3 flex items-center gap-3">
+      <span class="material-symbols-outlined">dashboard</span><span class="font-label-md">Dashboard</span>
+    </a>
+    <a href="/dashboard/vitals" class="bg-secondary-container text-on-secondary-container rounded-full mx-2 px-4 py-3 flex items-center gap-3">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">vital_signs</span><span class="font-label-md">Vitals</span>
+    </a>
+    <a href="/dashboard/user" class="text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 px-4 py-3 flex items-center gap-3">
+      <span class="material-symbols-outlined">analytics</span><span class="font-label-md">Reports</span>
+    </a>
+    <a href="/dashboard/user" class="text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 px-4 py-3 flex items-center gap-3">
+      <span class="material-symbols-outlined">smart_toy</span><span class="font-label-md">AI Assistant</span>
+    </a>
+    <a href="#" class="text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 px-4 py-3 flex items-center gap-3">
+      <span class="material-symbols-outlined">settings</span><span class="font-label-md">Settings</span>
+    </a>
+  </nav>
+  <div class="px-4 mt-auto mb-6">
+    <button class="w-full bg-error text-white py-3 rounded-xl flex items-center justify-center gap-2 font-label-md">
+      <span class="material-symbols-outlined">emergency</span> Emergency Alert
+    </button>
+  </div>
+  <div class="border-t border-outline-variant/30 pt-4 px-2 space-y-1">
+    <a href="#" class="text-on-surface-variant rounded-full px-4 py-2 flex items-center gap-3"><span class="material-symbols-outlined">help</span><span class="text-sm">Help</span></a>
+    <a href="#" id="logoutBtn" class="text-on-surface-variant rounded-full px-4 py-2 flex items-center gap-3"><span class="material-symbols-outlined">logout</span><span class="text-sm">Logout</span></a>
+  </div>
+</aside>
+
+<header class="sticky top-0 z-40 ml-[280px] h-16 bg-surface/80 backdrop-blur border-b border-outline-variant/20 flex items-center justify-between px-8">
+  <div>
+    <h2 class="font-headline-md text-primary">Diabetes Detection & Vitals</h2>
+    <p class="text-sm text-on-surface-variant">Enter your health metrics for AI-powered risk analysis</p>
+  </div>
+  <div class="flex items-center gap-3">
+    <a href="/dashboard/user" class="text-primary font-label-md hover:underline flex items-center gap-1">
+      <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
+    </a>
+    <div class="flex items-center gap-3 border-l pl-4 border-outline-variant/30">
+      <div class="text-right">
+        <p id="userProfileName" class="font-label-md">User</p>
+        <p class="text-xs text-on-surface-variant">Patient</p>
+      </div>
+      <button type="button" id="profileBtn" class="w-10 h-10 rounded-full border-2 border-primary/30 bg-primary-fixed flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary">
+        <img id="profileAvatarImg" class="hidden w-full h-full object-cover" alt="Profile" />
+        <span id="profileAvatarIcon" class="material-symbols-outlined text-primary">person</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="ml-[280px] p-8 pb-16 max-w-6xl">
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <!-- Form -->
+    <section class="glass-card rounded-2xl p-8">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="material-symbols-outlined text-primary text-4xl">biotech</span>
+        <div>
+          <h3 class="font-headline-md text-xl">Health Assessment Form</h3>
+          <p class="text-sm text-on-surface-variant">All fields help improve prediction accuracy</p>
+        </div>
+      </div>
+      <form id="diabetesForm" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label class="font-label-md text-on-surface-variant" for="v_name">Full Name</label>
+            <input id="v_name" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="text" placeholder="Your name" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_age">Age</label>
+            <input id="v_age" required min="1" max="120" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 45" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_gender">Gender</label>
+            <select id="v_gender" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_blood_group">Blood Group</label>
+            <select id="v_blood_group" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="A+">A+</option><option value="A-">A-</option>
+              <option value="B+">B+</option><option value="B-">B-</option>
+              <option value="AB+">AB+</option><option value="AB-">AB-</option>
+              <option value="O+">O+</option><option value="O-">O-</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_weight">Weight (kg)</label>
+            <input id="v_weight" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" step="0.1" placeholder="e.g. 70" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_height">Height (cm)</label>
+            <input id="v_height" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 165" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_bp">Blood Pressure (Systolic)</label>
+            <input id="v_bp" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 120" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_glucose">Glucose Level (mg/dL)</label>
+            <input id="v_glucose" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 110" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_family_history">Family History of Diabetes</label>
+            <select id="v_family_history" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="no">No</option><option value="yes">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_smoking">Smoking Status</label>
+            <select id="v_smoking" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="no">Non-smoker</option><option value="yes">Smoker</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-label-md text-on-surface-variant" for="v_activity">Physical Activity</label>
+            <select id="v_activity" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="high">High (daily exercise)</option>
+              <option value="moderate">Moderate (3–4 days/week)</option>
+              <option value="low">Low (1–2 days/week)</option>
+              <option value="sedentary">Sedentary</option>
+            </select>
+          </div>
+        </div>
+        <button id="analyzeBtn" type="submit" class="w-full py-4 bg-primary text-white rounded-xl font-label-md shadow-lg hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">analytics</span> Analyze Health Status
+        </button>
+      </form>
+    </section>
+
+    <div class="space-y-6">
+    <section id="resultsPanel" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-8 text-center">
+        <p class="text-sm text-on-surface-variant uppercase tracking-wider mb-2">Diabetes Risk Score</p>
+        <div class="relative w-48 h-48 mx-auto mb-4">
+          <canvas id="riskChart"></canvas>
+          <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <span id="resultScore" class="text-3xl font-bold text-primary">0%</span>
+          </div>
+        </div>
+        <span id="resultLevel" class="inline-block px-4 py-1 rounded-full text-sm font-label-md bg-primary-fixed text-primary">—</span>
+        <p id="resultDesc" class="mt-4 text-body-sm text-on-surface-variant max-w-md mx-auto"></p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <h4 class="font-label-md mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary">monitoring</span> Health Statistics</h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">BMI</p><p id="statBmi" class="font-label-md mt-1">—</p></div>
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">Glucose</p><p id="statGlucose" class="font-label-md mt-1">—</p></div>
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">Blood Pressure</p><p id="statBp" class="font-label-md mt-1">—</p></div>
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">Age</p><p id="statAge" class="font-label-md mt-1">—</p></div>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <h4 class="font-label-md mb-3">Risk Factor Breakdown</h4>
+        <div class="chart-box"><canvas id="factorChart"></canvas></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-card rounded-2xl p-6">
+          <h4 class="font-label-md mb-3 text-primary">Recommendations</h4>
+          <ul id="recommendationsList" class="space-y-2"></ul>
+        </div>
+        <div class="glass-card rounded-2xl p-6">
+          <h4 class="font-label-md mb-3 text-secondary">Lifestyle Suggestions</h4>
+          <ul id="lifestyleList" class="space-y-2"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultsHint" class="glass-card rounded-2xl p-12 flex flex-col items-center justify-center text-center text-on-surface-variant min-h-[400px]">
+      <span class="material-symbols-outlined text-6xl text-outline mb-4">insights</span>
+      <h3 class="font-headline-md text-on-surface mb-2">Results will appear here</h3>
+      <p class="text-body-sm max-w-xs">Fill in the form and click <strong>Analyze Health Status</strong> to see your diabetes risk score, charts, and personalized guidance.</p>
+    </section>
+    </div>
+  </div>
+</main>
+
+<div id="profileModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-primary">Edit Profile</h3>
+<button type="button" id="profileModalClose" class="p-2 rounded-full hover:bg-gray-100"><span class="material-symbols-outlined">close</span></button>
+</div>
+<form id="profileForm" class="space-y-5">
+<div class="flex flex-col items-center gap-3">
+<img id="profilePreview" class="hidden w-24 h-24 rounded-full object-cover border-2 border-primary" alt="" />
+<label class="cursor-pointer px-4 py-2 bg-blue-100 text-primary rounded-full text-sm font-medium">Upload Photo
+<input id="profilePhotoInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" /></label>
+</div>
+<div><label class="text-sm font-medium" for="profileNameInput">Full Name</label>
+<input id="profileNameInput" type="text" required class="mt-1 w-full rounded-xl border p-3" /></div>
+<button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium">Save Changes</button>
+</form>
+</div>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/user-profile.js"></script>
+<script src="/js/user-vitals.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Make sidebar tabs change color when active to match the theme
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('aside nav a');
+    
+    // Add click listeners for SPA feel
+    navLinks.forEach(link => {
+        // Set initial active state based on URL
+        const href = link.getAttribute('href');
+        const isActive = href === currentPath || (currentPath === '/dashboard/vitals' && href === '/dashboard/vitals');
+        
+        if (isActive) {
+            link.classList.add('bg-secondary-container', 'text-on-secondary-container');
+            link.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+        } else {
+            link.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+            link.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+        }
+        
+        // Handle click to update active state immediately before navigation
+        link.addEventListener('click', function(e) {
+            // Remove active from all
+            navLinks.forEach(l => {
+                l.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+                l.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+            });
+            // Add active to clicked
+            this.classList.add('bg-secondary-container', 'text-on-secondary-container');
+      <div class="text-right">
+        <p id="userProfileName" class="font-label-md">User</p>
+        <p class="text-xs text-on-surface-variant">Patient</p>
+      </div>
+      <button type="button" id="profileBtn" class="w-10 h-10 rounded-full border-2 border-primary/30 bg-primary-fixed flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary">
+        <img id="profileAvatarImg" class="hidden w-full h-full object-cover" alt="Profile" />
+        <span id="profileAvatarIcon" class="material-symbols-outlined text-primary">person</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="ml-[280px] p-8 pb-16 max-w-6xl">
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <!-- Form -->
+    <section class="glass-card rounded-2xl p-8">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="material-symbols-outlined text-primary text-4xl">biotech</span>
+        <div>
+          <h3 class="font-headline-md text-xl">Health Assessment Form</h3>
+          <p class="text-sm text-on-surface-variant">All fields help improve prediction accuracy</p>
+        </div>
+      </div>
+      <form id="diabetesForm" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label class="font-label-md text-on-surface-variant" for="v_name">Full Name</label>
+            <input id="v_name" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="text" placeholder="Your name" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_age">Age</label>
+            <input id="v_age" required min="1" max="120" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 45" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_gender">Gender</label>
+            <select id="v_gender" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_blood_group">Blood Group</label>
+            <select id="v_blood_group" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="A+">A+</option><option value="A-">A-</option>
+              <option value="B+">B+</option><option value="B-">B-</option>
+              <option value="AB+">AB+</option><option value="AB-">AB-</option>
+              <option value="O+">O+</option><option value="O-">O-</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_weight">Weight (kg)</label>
+            <input id="v_weight" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" step="0.1" placeholder="e.g. 70" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_height">Height (cm)</label>
+            <input id="v_height" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 165" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_bp">Blood Pressure (Systolic)</label>
+            <input id="v_bp" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 120" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_glucose">Glucose Level (mg/dL)</label>
+            <input id="v_glucose" required class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary" type="number" placeholder="e.g. 110" />
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_family_history">Family History of Diabetes</label>
+            <select id="v_family_history" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="no">No</option><option value="yes">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-label-md text-on-surface-variant" for="v_smoking">Smoking Status</label>
+            <select id="v_smoking" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="no">Non-smoker</option><option value="yes">Smoker</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-label-md text-on-surface-variant" for="v_activity">Physical Activity</label>
+            <select id="v_activity" class="mt-1 w-full rounded-xl bg-surface-container-low border-none p-3 focus:ring-2 focus:ring-primary">
+              <option value="high">High (daily exercise)</option>
+              <option value="moderate">Moderate (3–4 days/week)</option>
+              <option value="low">Low (1–2 days/week)</option>
+              <option value="sedentary">Sedentary</option>
+            </select>
+          </div>
+        </div>
+        <button id="analyzeBtn" type="submit" class="w-full py-4 bg-primary text-white rounded-xl font-label-md shadow-lg hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">analytics</span> Analyze Health Status
+        </button>
+      </form>
+    </section>
+
+    <div class="space-y-6">
+    <section id="resultsPanel" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-8 text-center">
+        <p class="text-sm text-on-surface-variant uppercase tracking-wider mb-2">Diabetes Risk Score</p>
+        <div class="relative w-48 h-48 mx-auto mb-4">
+          <canvas id="riskChart"></canvas>
+          <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <span id="resultScore" class="text-3xl font-bold text-primary">0%</span>
+          </div>
+        </div>
+        <span id="resultLevel" class="inline-block px-4 py-1 rounded-full text-sm font-label-md bg-primary-fixed text-primary">—</span>
+        <p id="resultDesc" class="mt-4 text-body-sm text-on-surface-variant max-w-md mx-auto"></p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <h4 class="font-label-md mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary">monitoring</span> Health Statistics</h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">BMI</p><p id="statBmi" class="font-label-md mt-1">—</p></div>
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">Glucose</p><p id="statGlucose" class="font-label-md mt-1">—</p></div>
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">Blood Pressure</p><p id="statBp" class="font-label-md mt-1">—</p></div>
+          <div class="p-4 bg-surface-container-low rounded-xl"><p class="text-xs text-on-surface-variant">Age</p><p id="statAge" class="font-label-md mt-1">—</p></div>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <h4 class="font-label-md mb-3">Risk Factor Breakdown</h4>
+        <div class="chart-box"><canvas id="factorChart"></canvas></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-card rounded-2xl p-6">
+          <h4 class="font-label-md mb-3 text-primary">Recommendations</h4>
+          <ul id="recommendationsList" class="space-y-2"></ul>
+        </div>
+        <div class="glass-card rounded-2xl p-6">
+          <h4 class="font-label-md mb-3 text-secondary">Lifestyle Suggestions</h4>
+          <ul id="lifestyleList" class="space-y-2"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultsHint" class="glass-card rounded-2xl p-12 flex flex-col items-center justify-center text-center text-on-surface-variant min-h-[400px]">
+      <span class="material-symbols-outlined text-6xl text-outline mb-4">insights</span>
+      <h3 class="font-headline-md text-on-surface mb-2">Results will appear here</h3>
+      <p class="text-body-sm max-w-xs">Fill in the form and click <strong>Analyze Health Status</strong> to see your diabetes risk score, charts, and personalized guidance.</p>
+    </section>
+    </div>
+  </div>
+</main>
+
+<div id="profileModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-primary">Edit Profile</h3>
+<button type="button" id="profileModalClose" class="p-2 rounded-full hover:bg-gray-100"><span class="material-symbols-outlined">close</span></button>
+</div>
+<form id="profileForm" class="space-y-5">
+<div class="flex flex-col items-center gap-3">
+<img id="profilePreview" class="hidden w-24 h-24 rounded-full object-cover border-2 border-primary" alt="" />
+<label class="cursor-pointer px-4 py-2 bg-blue-100 text-primary rounded-full text-sm font-medium">Upload Photo
+<input id="profilePhotoInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" /></label>
+</div>
+<div><label class="text-sm font-medium" for="profileNameInput">Full Name</label>
+<input id="profileNameInput" type="text" required class="mt-1 w-full rounded-xl border p-3" /></div>
+<button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium">Save Changes</button>
+</form>
+</div>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/user-profile.js"></script>
+<script src="/js/user-vitals.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Make sidebar tabs change color when active to match the theme
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('aside nav a');
+    
+    // Add click listeners for SPA feel
+    navLinks.forEach(link => {
+        // Set initial active state based on URL
+        const href = link.getAttribute('href');
+        const isActive = href === currentPath || (currentPath === '/dashboard/vitals' && href === '/dashboard/vitals');
+        
+        if (isActive) {
+            link.classList.add('bg-secondary-container', 'text-on-secondary-container');
+            link.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+        } else {
+            link.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+            link.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+        }
+        
+        // Handle click to update active state immediately before navigation
+        link.addEventListener('click', function(e) {
+            // Remove active from all
+            navLinks.forEach(l => {
+                l.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+                l.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+            });
+            // Add active to clicked
+            this.classList.add('bg-secondary-container', 'text-on-secondary-container');
+            this.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+        });
+    });
+});
+</script>
+<!-- Floating AI Bot -->
+<button class="fixed bottom-6 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center z-50 group" onclick="document.getElementById('aiModal').classList.remove('hidden')">
+  <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">smart_toy</span>
+</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4 backdrop-blur-sm" onclick="if(event.target===this) this.classList.add('hidden')">
+  <div class="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col border border-outline-variant/30">
+    <div class="flex justify-between items-center p-6 border-b border-outline-variant/20 bg-primary/5">
+      <h3 class="font-headline-md text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined">smart_toy</span> AI Assistant
+      </h3>
+      <button type="button" onclick="document.getElementById('aiModal').classList.add('hidden')" class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="flex border-b border-outline-variant/20 px-6">
+      <button id="aiTabDoc" class="py-3 px-4 border-b-2 border-primary font-label-md text-primary" onclick="switchAITab('doc')">Document Analysis</button>
+      <button id="aiTabAudio" class="py-3 px-4 border-b-2 border-transparent font-label-md text-on-surface-variant hover:text-primary transition-colors" onclick="switchAITab('audio')">Audio Translation</button>
+    </div>
+
+    <div class="p-6 overflow-y-auto flex-1 bg-surface">
+      <!-- Doc Tab -->
+      <div id="aiContentDoc" class="space-y-6">
+        <p class="text-body-sm text-on-surface-variant">Upload a DOCX conversation file. Our AI will analyze symptoms, detect hidden risks, and generate a medical report.</p>
+        <div class="flex items-center gap-3">
+          <input type="file" id="aiDocInput" accept=".docx" class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-fixed file:text-on-primary-fixed hover:file:bg-primary-fixed-dim transition-colors cursor-pointer"/>
+          <button onclick="analyzeDoc()" id="aiDocBtn" class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md shadow-md hover:opacity-90 flex items-center gap-2 whitespace-nowrap">
+            <span class="material-symbols-outlined text-sm">analytics</span> Analyze
+          </button>
+        </div>
+        <div id="aiDocLoading" class="hidden text-center py-8">
+          <span class="material-symbols-outlined animate-spin text-4xl text-primary mb-2">progress_activity</span>
+          <p class="text-body-sm text-primary animate-pulse">AI is reading the document and reasoning... (this may take up to 30 seconds)</p>
+        </div>
+        <div id="aiDocResult" class="hidden space-y-4">
+          <!-- Results rendered here -->
+        </div>
+      </div>
+
+      <!-- Audio Tab -->
+      <div id="aiContentAudio" class="hidden space-y-6">
+        <p class="text-body-sm text-on-surface-variant">Upload an Audio file (MP3/WAV). Our AI will transcribe the voice and translate it into a DOCX report (English, Hindi, Kannada).</p>
+        <div class="flex items-center gap-3">
+          <input type="file" id="aiAudioInput" accept="audio/*" class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-secondary-container file:text-on-secondary-container hover:file:opacity-90 transition-colors cursor-pointer"/>
+          <button onclick="translateAudio()" id="aiAudioBtn" class="bg-secondary text-on-secondary px-6 py-2 rounded-full font-label-md shadow-md hover:opacity-90 flex items-center gap-2 whitespace-nowrap">
+            <span class="material-symbols-outlined text-sm">translate</span> Translate
+          </button>
+        </div>
+        <div id="aiAudioLoading" class="hidden text-center py-8">
+          <span class="material-symbols-outlined animate-spin text-4xl text-secondary mb-2">progress_activity</span>
+          <p class="text-body-sm text-secondary animate-pulse">Whisper AI is transcribing and translating... (this may take a few minutes for the first run)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchAITab(tab) {
+  const docTab = document.getElementById('aiTabDoc');
+  const audioTab = document.getElementById('aiTabAudio');
+  const docContent = document.getElementById('aiContentDoc');
+  const audioContent = document.getElementById('aiContentAudio');
+  
+  if (tab === 'doc') {
+    docTab.className = "py-3 px-4 border-b-2 border-primary font-label-md text-primary";
+    audioTab.className = "py-3 px-4 border-b-2 border-transparent font-label-md text-on-surface-variant hover:text-primary transition-colors";
+    docContent.classList.remove('hidden');
+    audioContent.classList.add('hidden');
+  } else {
+    audioTab.className = "py-3 px-4 border-b-2 border-secondary font-label-md text-secondary";
+    docTab.className = "py-3 px-4 border-b-2 border-transparent font-label-md text-on-surface-variant hover:text-primary transition-colors";
+    audioContent.classList.remove('hidden');
+    docContent.classList.add('hidden');
+  }
+}
+
+async function analyzeDoc() {
+  const fileInput = document.getElementById('aiDocInput');
+  if (!fileInput.files.length) return alert('Please select a .docx file first.');
+  
+  const loading = document.getElementById('aiDocLoading');
+  const result = document.getElementById('aiDocResult');
+  const btn = document.getElementById('aiDocBtn');
+  
+  loading.classList.remove('hidden');
+  result.classList.add('hidden');
+  btn.disabled = true;
+  
+  const formData = new FormData();
+  formData.append('file', fileInput.files[0]);
+  
+  try {
+    const response = await fetch('/api/v1/ai/analyze-document', { method: 'POST', body: formData });
+    if (!response.ok) throw new Error(await response.text());
+    const data = await response.json();
+    
+    const analysis = data.analysis;
+    const summary = data.summary;
+    const ml = data.ml_prediction;
+    
+    let html = `
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="glass-card p-4 rounded-xl border border-primary/20 bg-primary/5 text-center shadow-sm">
+          <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">Overall Risk Score</p>
+          <p class="text-3xl font-bold text-primary">${analysis.overall_risk_score}/100</p>
+        </div>
+        <div class="glass-card p-4 rounded-xl border border-secondary/20 bg-secondary/5 text-center shadow-sm">
+          <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">ML Prediction</p>
+          <p class="text-3xl font-bold text-secondary">${ml}</p>
+        </div>
+      </div>
+      
+      <div class="glass-card p-5 rounded-xl border border-outline-variant/30 mb-4 bg-surface shadow-sm">
+        <h4 class="font-label-md text-primary mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">psychology</span> AI Medical Summary</h4>
+        <p class="text-body-sm text-on-surface mb-3"><strong>Explanation:</strong> ${summary.explanation}</p>
+        <p class="text-body-sm text-on-surface mb-3"><strong>Reasoning:</strong> ${summary.reasoning}</p>
+        <div class="text-body-sm text-on-surface">
+          <strong>Recommendations:</strong>
+          <ul class="list-disc pl-5 mt-1 space-y-1">
+            ${(summary.recommendations || []).map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <h4 class="font-label-md text-on-surface mb-2">Detected Symptoms & AI Reasoning</h4>
+      <div class="space-y-3">
+        ${(analysis.symptoms || []).map(s => `
+          <div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/20 shadow-sm">
+            <div class="flex justify-between items-start mb-1">
+              <span class="font-label-md">"${s.original_text}" <span class="text-on-surface-variant font-normal">→ ${s.normalized_symptom}</span></span>
+              <span class="text-xs px-2 py-0.5 rounded-full ${s.severity === 'high' ? 'bg-error/20 text-error' : (s.severity === 'moderate' ? 'bg-[#fff3cd] text-[#856404]' : 'bg-secondary-container text-on-secondary-container')}">${s.severity}</span>
+            </div>
+            <p class="text-xs text-on-surface-variant mb-2">${s.inferred_meaning}</p>
+            <div class="flex gap-4 text-[11px] text-on-surface-variant">
+              <span>Diabetes: <strong class="text-on-surface">${s.diabetes_association}%</strong></span>
+              <span>Hypertension: <strong class="text-on-surface">${s.hypertension_association}%</strong></span>
+              <span>Confidence: <strong class="text-on-surface">${s.confidence_score}%</strong></span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    result.innerHTML = html;
+    result.classList.remove('hidden');
+    
+  } catch (e) {
+    alert('Error analyzing document: ' + e.message);
+  } finally {
+    loading.classList.add('hidden');
+    btn.disabled = false;
+  }
+}
+
+async function translateAudio() {
+  const fileInput = document.getElementById('aiAudioInput');
+  if (!fileInput.files.length) return alert('Please select an audio file first.');
+  
+  const loading = document.getElementById('aiAudioLoading');
+  const btn = document.getElementById('aiAudioBtn');
+  
+  loading.classList.remove('hidden');
+  btn.disabled = true;
+  
+  const formData = new FormData();
+  formData.append('file', fileInput.files[0]);
+  
+  try {
+    const response = await fetch('/api/v1/ai/translate-audio', { method: 'POST', body: formData });
+    if (!response.ok) throw new Error(await response.text());
+    
+    // Download the file
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "Translated_Output.docx";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+    
+    alert('Translation complete! Document downloaded.');
+    
+  } catch (e) {
+    alert('Error translating audio: ' + e.message);
+  } finally {
+    loading.classList.add('hidden');
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

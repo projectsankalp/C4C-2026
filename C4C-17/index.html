@@ -1,0 +1,896 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p50:#FBEAF0;--p100:#F4C0D1;--p200:#ED93B1;--p400:#D4537E;--p600:#993556;
+  --t50:#E1F5EE;--t100:#9FE1CB;--t400:#1D9E75;--t600:#0F6E56;
+  --a50:#FAEEDA;--a100:#FAC775;--a400:#BA7517;--a600:#854F0B;
+  --pu50:#EEEDFE;--pu100:#CECBF6;--pu400:#7F77DD;--pu600:#534AB7;
+  --co50:#FAECE7;--co100:#F5C4B3;--co400:#D85A30;
+}
+#wrap{font-family:'Nunito',sans-serif;max-width:400px;margin:0 auto;background:var(--color-background-secondary);border-radius:24px;padding:12px;}
+#phone{width:100%;height:700px;border-radius:18px;overflow:hidden;position:relative;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);}
+#slider{display:flex;position:absolute;top:0;left:0;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.scr{width:376px;height:700px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;}
+.scr-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;}
+
+/* SPLASH */
+#sc0{background:linear-gradient(160deg,#FBEAF0,#E1F5EE);align-items:center;justify-content:center;gap:18px;text-align:center;padding:40px 32px;}
+.blossom{width:80px;height:80px;border-radius:50%;background:var(--p400);display:flex;align-items:center;justify-content:center;font-size:40px;animation:pu 2s infinite ease-in-out;}
+@keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.stitle{font-family:'Baloo 2',sans-serif;font-size:36px;font-weight:800;color:var(--p600);}
+.stag{font-size:14px;color:var(--p400);font-weight:600;}
+.ssub{font-size:13px;color:#888;line-height:1.6;max-width:230px;}
+.dots{display:flex;gap:8px;margin-top:32px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--p200);animation:db 1.5s infinite;}
+.dot:nth-child(2){animation-delay:.3s}.dot:nth-child(3){animation-delay:.6s}
+@keyframes db{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* LANG */
+#sc1{padding:36px 22px;gap:28px;}
+.lhd{text-align:center;}
+.lhd h2{font-family:'Baloo 2',sans-serif;font-size:21px;font-weight:800;color:var(--color-text-primary);}
+.lhd p{font-size:12px;color:var(--color-text-secondary);margin-top:6px;}
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.lbtn{border:1.5px solid var(--p100);background:var(--p50);border-radius:16px;padding:20px 10px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .2s;}
+.lbtn:hover{border-color:var(--p400);transform:translateY(-2px);}
+.lchar{font-size:22px;font-weight:800;color:var(--p600);}
+.lname{font-size:12px;color:var(--p400);}
+.lnote{font-size:11px;color:var(--color-text-secondary);text-align:center;}
+
+/* HOME HEADER */
+.hhdr{background:linear-gradient(135deg,#FBEAF0,#E1F5EE);padding:20px 18px 16px;flex-shrink:0;}
+.htop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.hgreet{font-size:11px;color:var(--p400);font-weight:700;}
+.htitle{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:800;color:var(--p600);}
+.ltag{font-size:11px;background:var(--p100);color:var(--p600);border-radius:20px;padding:5px 12px;font-weight:700;cursor:pointer;}
+.dmsg{background:white;border-radius:12px;padding:13px 14px;border-left:4px solid var(--p400);display:flex;gap:10px;align-items:flex-start;}
+.dicon{font-size:18px;flex-shrink:0;}
+.dtxt{font-size:12px;color:var(--color-text-primary);font-weight:600;line-height:1.5;}
+.mdots{display:flex;gap:5px;margin-top:7px;}
+.mdot{width:5px;height:5px;border-radius:50%;background:var(--p200);cursor:pointer;transition:background .2s;}
+.mdot.on{background:var(--p400);}
+.sbar{margin:0 18px;margin-top:-8px;background:white;border-radius:10px;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.slbl{font-size:11px;color:var(--color-text-secondary);flex-shrink:0;}
+.strk{flex:1;height:6px;background:var(--t50);border-radius:3px;overflow:hidden;}
+.sfil{height:100%;background:var(--t400);border-radius:3px;transition:width .4s;}
+.snum{font-size:13px;font-weight:700;color:var(--t400);flex-shrink:0;}
+.fscroll{padding:12px 16px 16px;overflow-y:auto;flex:1;}
+.slabel{font-size:10px;font-weight:700;color:var(--color-text-secondary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.fc{border-radius:14px;padding:14px 12px;cursor:pointer;border:1.5px solid transparent;display:flex;flex-direction:column;gap:8px;transition:all .2s;}
+.fc:hover{transform:translateY(-2px);}
+.fc.pk{background:var(--p50);border-color:var(--p100);}
+.fc.tl{background:var(--t50);border-color:var(--t100);}
+.fc.am{background:var(--a50);border-color:var(--a100);}
+.fc.pu{background:var(--pu50);border-color:var(--pu100);}
+.fc.co{background:var(--co50);border-color:var(--co100);}
+.fi{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;}
+.fc.pk .fi{background:var(--p100);}
+.fc.tl .fi{background:var(--t100);}
+.fc.am .fi{background:var(--a100);}
+.fc.pu .fi{background:var(--pu100);}
+.fc.co .fi{background:var(--co100);}
+.ftitle{font-size:12px;font-weight:700;line-height:1.3;}
+.fc.pk .ftitle{color:var(--p600);}
+.fc.tl .ftitle{color:var(--t600);}
+.fc.am .ftitle{color:var(--a600);}
+.fc.pu .ftitle{color:var(--pu600);}
+.fc.co .ftitle{color:var(--co400);}
+.fsub{font-size:10px;color:var(--color-text-secondary);line-height:1.4;}
+.fc-wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:12px;}
+
+/* INNER */
+.ihdr{padding:16px 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid var(--color-border-tertiary);flex-shrink:0;}
+.bk{width:32px;height:32px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--color-text-secondary);flex-shrink:0;}
+.ihdr-txt h3{font-size:14px;font-weight:700;color:var(--color-text-primary);}
+.ihdr-txt p{font-size:11px;color:var(--color-text-secondary);}
+.notice{background:var(--p50);border-left:3px solid var(--p400);padding:10px 12px;font-size:12px;color:var(--p600);font-weight:600;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.ropt{border:1.5px solid var(--color-border-tertiary);border-radius:12px;padding:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ropt:hover,.ropt.sel{border-color:var(--p400);background:var(--p50);}
+.ricon{width:38px;height:38px;border-radius:10px;background:var(--p50);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.rt h4{font-size:13px;font-weight:700;color:var(--color-text-primary);}
+.rt p{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.sbtn{background:var(--p400);color:white;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:'Nunito',sans-serif;transition:background .2s;flex-shrink:0;}
+.sbtn:hover{background:var(--p600);}
+.tokcard{background:var(--t50);border:1.5px solid var(--t100);border-radius:12px;padding:16px;text-align:center;display:none;flex-shrink:0;}
+.tokcard.show{display:block;}
+.toklbl{font-size:11px;color:var(--t400);font-weight:700;margin-bottom:5px;}
+.toknum{font-size:32px;font-weight:800;color:var(--t600);letter-spacing:4px;}
+.tokdesc{font-size:11px;color:var(--color-text-secondary);margin-top:5px;}
+.hyg{background:var(--t50);border:1.5px solid var(--t100);border-radius:14px;padding:16px;text-align:center;flex-shrink:0;}
+.hygbig{font-size:44px;font-weight:800;color:var(--t600);}
+.hyglbl{font-size:11px;color:var(--t400);font-weight:700;margin-bottom:4px;}
+.hygsub{font-size:11px;color:var(--color-text-secondary);}
+.icard{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.il{display:flex;align-items:center;gap:10px;}
+.iico{font-size:20px;width:32px;text-align:center;}
+.iname{font-size:13px;font-weight:600;color:var(--color-text-primary);}
+.isub{font-size:10px;color:var(--color-text-secondary);}
+.stog{display:flex;gap:4px;}
+.stb{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.stb.ok{background:var(--t50);border-color:var(--t400);}
+.stb.warn{background:var(--a50);border-color:var(--a400);}
+.stb.bad{background:#FCEBEB;border-color:#E24B4A;}
+.mcard{border-radius:14px;overflow:hidden;border:0.5px solid var(--color-border-tertiary);flex-shrink:0;}
+.mtop{background:#FCEBEB;padding:12px 14px;}
+.mlbl{font-size:10px;font-weight:700;color:#A32D2D;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;}
+.mtxt{font-size:13px;font-weight:600;color:#501313;line-height:1.4;}
+.mbot{background:var(--t50);padding:12px 14px;}
+.trlbl{font-size:10px;font-weight:700;color:var(--t600);letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;}
+.trtxt{font-size:13px;font-weight:500;color:var(--t600);line-height:1.4;}
+.atabs{display:flex;gap:7px;flex-wrap:wrap;flex-shrink:0;}
+.atab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;transition:all .2s;}
+.atab.on{background:var(--pu50);border-color:var(--pu400);color:var(--pu600);}
+.acard{background:var(--pu50);border:1.5px solid var(--pu100);border-radius:12px;padding:13px;flex-shrink:0;}
+.acard h4{font-size:13px;font-weight:700;color:var(--pu600);margin-bottom:4px;}
+.acard p{font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+.qopt{border:1.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px;cursor:pointer;font-size:12px;color:var(--color-text-primary);font-weight:600;transition:all .2s;flex-shrink:0;}
+.qopt:hover{border-color:var(--p400);background:var(--p50);}
+.qans{background:var(--color-background-secondary);padding:12px;font-size:12px;color:var(--color-text-primary);line-height:1.6;border-left:3px solid var(--p400);display:none;flex-shrink:0;}
+.qans.show{display:block;}
+.qta{border:1.5px solid var(--color-border-tertiary);border-radius:10px;padding:10px 12px;font-size:12px;font-family:'Nunito',sans-serif;background:var(--color-background-primary);color:var(--color-text-primary);resize:none;min-height:65px;outline:none;width:100%;}
+.qta:focus{border-color:var(--p400);}
+.qsbtn{background:var(--p400);color:white;border:none;border-radius:10px;padding:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;width:100%;}
+</style>
+
+<!-- <h2 class="sr-only">HerSync — Offline-First Menstrual Support System for Rural Schools</h2> -->
+
+<div id="wrap">
+<div id="phone">
+<div id="slider">
+
+<!-- SCREEN 0: SPLASH -->
+<div class="scr" id="sc0">
+  <div class="blossom">🌸</div>
+  <div><div class="stitle">HerSync</div><div class="stag">Breaking Silence. Building Support.</div></div>
+  <div class="ssub">A safe, anonymous support system for menstrual health in rural schools.</div>
+  <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+
+<!-- SCREEN 1: LANGUAGE -->
+<div class="scr" id="sc1">
+  <div class="lhd">
+    <div style="font-size:28px;margin-bottom:8px">🌸</div>
+    <h2>Choose your language</h2>
+    <p>भाषा चुनें · ഭാഷ തിരഞ്ഞെടുക്കുക · மொழியை தேர்ந்தெடு</p>
+  </div>
+  <div class="lgrid">
+    <button class="lbtn" onclick="setLang('EN')"><span class="lchar">En</span><span class="lname">English</span></button>
+    <button class="lbtn" onclick="setLang('HI')"><span class="lchar">हि</span><span class="lname">हिंदी</span></button>
+    <button class="lbtn" onclick="setLang('ML')"><span class="lchar">മ</span><span class="lname">മലയാളം</span></button>
+    <button class="lbtn" onclick="setLang('TA')"><span class="lchar">த</span><span class="lname">தமிழ்</span></button>
+  </div>
+  <div class="lnote">Your privacy is protected. No login required. Works offline.</div>
+</div>
+
+<!-- SCREEN 2: HOME -->
+<div class="scr" id="sc2">
+  <div class="hhdr">
+    <div class="htop">
+      <div><div class="hgreet">Good morning 🌸</div><div class="htitle">HerSync</div></div>
+      <div class="ltag" id="ltag" onclick="go(1)">EN</div>
+    </div>
+    <div class="dmsg">
+      <div class="dicon">💬</div>
+      <div>
+        <div class="dtxt" id="dtxt">Periods are natural, not shameful. Every person who menstruates deserves support.</div>
+        <div class="mdots">
+          <div class="mdot on" onclick="setMsg(0)"></div>
+          <div class="mdot" onclick="setMsg(1)"></div>
+          <div class="mdot" onclick="setMsg(2)"></div>
+          <div class="mdot" onclick="setMsg(3)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sbar">
+    <div class="slbl">Hygiene score</div>
+    <div class="strk"><div class="sfil" id="sfil" style="width:72%"></div></div>
+    <div class="snum" id="snum">72%</div>
+  </div>
+  <div class="fscroll">
+    <div class="slabel" style="margin-top:12px">Support & access</div>
+    <div class="fgrid">
+      <div class="fc pk" onclick="go(3)"><div class="fi">📦</div><div class="ftitle">Anonymous Request</div><div class="fsub">Request pads or report issues privately</div></div>
+      <div class="fc tl" onclick="go(4)"><div class="fi">🚦</div><div class="ftitle">Facility Status</div><div class="fsub">Monitor water, stock & sanitation</div></div>
+    </div>
+    <div class="slabel">Awareness</div>
+    <div class="fgrid">
+      <div class="fc am" onclick="go(5)"><div class="fi">💡</div><div class="ftitle">Myth vs Truth</div><div class="fsub">Break stigma with facts</div></div>
+      <div class="fc pu" onclick="go(6)"><div class="fi">🤝</div><div class="ftitle">For Everyone</div><div class="fsub">Boys, teachers & community</div></div>
+    </div>
+    <div class="slabel">Emotional support</div>
+    <div class="fgrid">
+      <div class="fc co fc-wide" onclick="go(7)"><div class="fi">💬</div><div><div class="ftitle" style="color:var(--co400)">Safe Questions</div><div class="fsub">Ask anything, anonymously. No judgment.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 3: ANON REQUEST -->
+<div class="scr" id="sc3">
+  <div class="ihdr">
+    <div class="bk" onclick="go(2)">←</div>
+    <div class="ihdr-txt"><h3>Anonymous Request</h3><p>Your identity is never recorded</p></div>
+  </div>
+  <div class="scr-body">
+    <div class="notice"><i class="ti ti-shield" aria-hidden="true" style="font-size:16px;flex-shrink:0"></i>Completely anonymous — no name, no ID needed.</div>
+    <div class="ropt" onclick="selReq(this,'pad')"><div class="ricon">📦</div><div class="rt"><h4>Request sanitary pads</h4><p>Pad stock empty or running low</p></div></div>
+    <div class="ropt" onclick="selReq(this,'water')"><div class="ricon">💧</div><div class="rt"><h4>No water available</h4><p>Water supply issue in washroom</p></div></div>
+    <div class="ropt" onclick="selReq(this,'bin')"><div class="ricon">🗑️</div><div class="rt"><h4>No disposal bin</h4><p>Disposal bin missing or full</p></div></div>
+    <div class="ropt" onclick="selReq(this,'toilet')"><div class="ricon">🚽</div><div class="rt"><h4>Toilet condition issue</h4><p>Toilet not clean or usable</p></div></div>
+    <!-- <div class="tokcard" id="tok">
+      <div class="toklbl">Your anonymous request token</div>
+      <div class="toknum" id="toknum">—</div>
+      <div class="tokdesc">Show this to your counselor. No personal details shared.</div>
+    </div> -->
+    <div id="req-done" style="display:none;background:var(--t50);border:1.5px solid var(--t100);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:700;color:var(--t600);">
+  ✅ Request sent. Someone will take care of it.
+</div>
+    
+    <button class="sbtn" onclick="submitReq()">Send Request Anonymously</button>
+  </div>
+</div>
+
+<!-- SCREEN 4: FACILITY STATUS -->
+<div class="scr" id="sc4">
+  <div class="ihdr">
+    <div class="bk" onclick="go(2)">←</div>
+    <div class="ihdr-txt"><h3>Facility Status</h3><p>Tap to update each facility</p></div>
+  </div>
+  <div class="scr-body" id="infra-body"></div>
+  <!-- Add at the bottom of sc4's scr-body, after the infra-body div: -->
+<div style="text-align:center;margin-top:8px;">
+  <div onclick="go(8)" style="font-size:11px;color:var(--color-text-secondary);cursor:pointer;text-decoration:underline;">Admin? Login to edit</div>
+</div>
+</div>
+
+<!-- SCREEN 5: MYTH VS TRUTH -->
+<div class="scr" id="sc5">
+  <div class="ihdr">
+    <div class="bk" onclick="go(2)">←</div>
+    <div class="ihdr-txt"><h3>Myth vs Truth</h3><p>Breaking stigma with facts</p></div>
+  </div>
+  <div class="scr-body" id="myth-body"></div>
+</div>
+
+<!-- SCREEN 6: FOR EVERYONE -->
+<div class="scr" id="sc6">
+  <div class="ihdr">
+    <div class="bk" onclick="go(2)">←</div>
+    <div class="ihdr-txt"><h3>For Everyone</h3><p>Awareness for the whole school</p></div>
+  </div>
+  <div class="scr-body">
+    <div class="atabs">
+      <div class="atab on" onclick="setAud(this,'boys')">For boys</div>
+      <div class="atab" onclick="setAud(this,'teachers')">For teachers</div>
+      <div class="atab" onclick="setAud(this,'community')">Community</div>
+    </div>
+    <div id="aud-body" style="display:flex;flex-direction:column;gap:10px;"></div>
+  </div>
+</div>
+
+<!-- SCREEN 7: SAFE QUESTIONS -->
+<div class="scr" id="sc7">
+  <div class="ihdr">
+    <div class="bk" onclick="go(2)">←</div>
+    <div class="ihdr-txt"><h3>Safe Questions</h3><p>Ask anything, anonymously</p></div>
+  </div>
+  <div class="scr-body">
+    <div class="notice"><i class="ti ti-heart" aria-hidden="true" style="font-size:16px;flex-shrink:0"></i>No judgment. Your question is safe and private.</div>
+    <div id="q-body" style="display:flex;flex-direction:column;gap:8px;"></div>
+    <div style="display:flex;flex-direction:column;gap:7px;margin-top:4px;">
+      <div style="font-size:11px;color:var(--color-text-secondary);">Or type your own question</div>
+      <textarea class="qta" id="cq" placeholder="What's on your mind?"></textarea>
+      <button class="qsbtn" onclick="submitCQ()">Ask Anonymously</button>
+    </div>
+    <div class="qans" id="cqans"></div>
+  </div>
+</div>
+
+<!-- SCREEN 8: ADMIN LOGIN -->
+<div class="scr" id="sc8">
+  <div class="ihdr">
+    <div class="bk" onclick="go(4)">←</div>
+    <div class="ihdr-txt"><h3>Admin Login</h3><p>School staff only</p></div>
+  </div>
+  <div class="scr-body" style="justify-content:center;">
+    <div style="text-align:center;font-size:40px;margin-bottom:8px;">🔒</div>
+    <div style="text-align:center;font-size:14px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;">Staff Access Only</div>
+    <div style="text-align:center;font-size:12px;color:var(--color-text-secondary);margin-bottom:24px;">Facility status can only be updated by school admin or teachers.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <input id="admin-pass" type="password" placeholder="Enter admin password" style="border:1.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;font-size:13px;font-family:'Nunito',sans-serif;outline:none;width:100%;background:var(--color-background-primary);color:var(--color-text-primary);" />
+      <div id="login-err" style="display:none;font-size:12px;color:#E24B4A;text-align:center;font-weight:600;">Incorrect password. Please try again.</div>
+      <button class="sbtn" onclick="adminLogin()">Login as Admin</button>
+    </div>
+  </div>
+</div>
+
+
+</div>
+</div>
+</div>
+
+<script>
+var W = 376;
+var slider = document.getElementById('slider');
+var cur = 0;
+var isAdmin = false;
+var LANG = {
+  EN: {
+    greet: 'Good morning 🌸',
+    appname: 'HerSync',
+    hygiene: 'Hygiene score',
+    sec1: 'Support & access',
+    sec2: 'Awareness',
+    sec3: 'Emotional support',
+    f1title: 'Anonymous Request', f1sub: 'Request pads or report issues privately',
+    f2title: 'Facility Status', f2sub: 'Monitor water, stock & sanitation',
+    f3title: 'Myth vs Truth', f3sub: 'Break stigma with facts',
+    f4title: 'For Everyone', f4sub: 'Boys, teachers & community',
+    f5title: 'Safe Questions', f5sub: 'Ask anything, anonymously. No judgment.',
+    msgs: [
+      "Periods are natural, not shameful. Every person who menstruates deserves support.",
+      "Menstrual health is normal health. Staying comfortable is your right.",
+      "Supporting girls during menstruation is an act of respect and care.",
+      "You are not alone. This school is a safe space for everyone."
+    ],
+    anonTitle: 'Anonymous Request', anonSub: 'Your identity is never recorded',
+    anonNotice: 'Completely anonymous — no name, no ID needed.',
+    r1h: 'Request sanitary pads', r1p: 'Pad stock empty or running low',
+    r2h: 'No water available', r2p: 'Water supply issue in washroom',
+    r3h: 'No disposal bin', r3p: 'Disposal bin missing or full',
+    r4h: 'Toilet condition issue', r4p: 'Toilet not clean or usable',
+    sendBtn: 'Send Request Anonymously',
+    reqDone: '✅ Request sent. Someone will take care of it.',
+    infraTitle: 'Facility Status', infraSub: 'Tap to update each facility',
+    hygReadiness: 'School Hygiene Readiness', hygBased: 'Based on 4 facility indicators',
+    i1: 'Water availability', i2: 'Disposal bin', i3: 'Pad stock', i4: 'Toilet condition',
+    tapUpdate: 'Tap to update', statusTxt: ['Not available','Low / limited','Available'],
+    adminEdit: '🔒 Admin? Login to edit status', adminLogout: '🔓 Logout from Admin',
+    mythTitle: 'Myth vs Truth', mythSub: 'Breaking stigma with facts',
+    myths: [
+      {m:"You cannot exercise or play sports during your period.", t:"You absolutely can! Light movement often reduces cramps. Stay active."},
+      {m:"Periods are dirty or impure.", t:"Menstruation is a natural biological process — completely clean and normal."},
+      {m:"You should not visit religious places during your period.", t:"This is a cultural belief, not a medical fact. Your body is not impure."},
+      {m:"Eating sour food during periods is harmful.", t:"No scientific evidence supports this. Eat what makes you comfortable."},
+      {m:"Talking about periods in school is inappropriate.", t:"Menstrual health education helps everyone. Let's talk about it openly."}
+    ],
+    everyTitle: 'For Everyone', everySub: 'Awareness for the whole school',
+    audTabs: ['For boys','For teachers','Community'],
+    aware: {
+      boys: [
+        {t:"Respect, always", b:"If a classmate is uncomfortable, be kind. Teasing about periods is harmful and hurts real people."},
+        {t:"Don't make it weird", b:"Periods are a normal body function. Treating it as normal makes school safer for everyone."},
+        {t:"Be a helper", b:"If someone needs to visit the nurse discreetly, support them without questions."}
+      ],
+      teachers: [
+        {t:"Create a safe classroom", b:"Allow students to leave discreetly without explaining. Trust and privacy matter deeply."},
+        {t:"Stock the basics", b:"Keep extra pads in a private space in your classroom. It can make a huge difference."},
+        {t:"Talk openly", b:"Normalize menstrual health in class. Silence teaches shame; openness teaches respect."}
+      ],
+      community: [
+        {t:"Infrastructure matters", b:"Clean water, functional toilets, and disposal bins are rights for every student."},
+        {t:"Support girls staying in school", b:"Period poverty is a dropout risk. Donate pads and advocate for school health budgets."},
+        {t:"Break the silence at home", b:"When families talk openly about menstruation, girls feel safer at school and in life."}
+      ]
+    },
+    safeTitle: 'Safe Questions', safeSub: 'Ask anything, anonymously',
+    safeNotice: 'No judgment. Your question is safe and private.',
+    qs: [
+      {q:"Is period pain normal?", a:"Yes! Mild to moderate cramps are very common and normal. A warm cloth on the lower abdomen, light walking, and rest usually help. If pain is very severe, speak with a health worker."},
+      {q:"What if boys tease me?", a:"Teasing about periods is not okay and is a form of disrespect. You can report it to a trusted teacher. Schools should be safe for everyone."},
+      {q:"How do I manage periods in school?", a:"Carry extra pads, know where the school supply is, and don't hesitate to ask a female teacher discreetly. You can also use this app to make an anonymous request."},
+      {q:"How long does a period last?", a:"Usually 2–7 days. Every person is different and that is completely normal. Track your cycle so you can be prepared each month."}
+    ],
+    qPlaceholder: "What's on your mind?",
+    qAskBtn: 'Ask Anonymously',
+    qDoneMsg: "Thank you for sharing. Your question has been recorded anonymously. A trusted counselor will respond when available. You are not alone."
+  },
+
+  HI: {
+    greet: 'सुप्रभात 🌸',
+    appname: 'HerSync',
+    hygiene: 'स्वच्छता स्कोर',
+    sec1: 'सहायता और पहुँच',
+    sec2: 'जागरूकता',
+    sec3: 'भावनात्मक सहायता',
+    f1title: 'गुमनाम अनुरोध', f1sub: 'पैड माँगें या समस्या रिपोर्ट करें',
+    f2title: 'सुविधा स्थिति', f2sub: 'पानी, स्टॉक और स्वच्छता देखें',
+    f3title: 'मिथक बनाम सच', f3sub: 'तथ्यों से कलंक तोड़ें',
+    f4title: 'सभी के लिए', f4sub: 'लड़के, शिक्षक और समुदाय',
+    f5title: 'सुरक्षित प्रश्न', f5sub: 'कुछ भी पूछें, गुमनाम रूप से।',
+    msgs: [
+      "माहवारी स्वाभाविक है, शर्म की बात नहीं। हर लड़की को सहायता मिलनी चाहिए।",
+      "मासिक स्वास्थ्य सामान्य स्वास्थ्य है। आरामदायक रहना आपका अधिकार है।",
+      "माहवारी में लड़कियों का साथ देना सम्मान की निशानी है।",
+      "आप अकेली नहीं हैं। यह स्कूल सबके लिए सुरक्षित जगह है।"
+    ],
+    anonTitle: 'गुमनाम अनुरोध', anonSub: 'आपकी पहचान कभी दर्ज नहीं होगी',
+    anonNotice: 'पूरी तरह गुमनाम — कोई नाम, कोई ID नहीं।',
+    r1h: 'सैनिटरी पैड माँगें', r1p: 'पैड स्टॉक खाली या कम है',
+    r2h: 'पानी उपलब्ध नहीं', r2p: 'शौचालय में पानी की समस्या',
+    r3h: 'डिस्पोजल बिन नहीं', r3p: 'बिन गायब है या भरा हुआ है',
+    r4h: 'शौचालय की स्थिति खराब', r4p: 'शौचालय साफ नहीं या उपयोग योग्य नहीं',
+    sendBtn: 'गुमनाम अनुरोध भेजें',
+    reqDone: '✅ अनुरोध भेजा गया। कोई इसका ध्यान रखेगा।',
+    infraTitle: 'सुविधा स्थिति', infraSub: 'स्थिति देखें',
+    hygReadiness: 'स्कूल स्वच्छता तैयारी', hygBased: '4 सुविधा संकेतकों पर आधारित',
+    i1: 'पानी की उपलब्धता', i2: 'डिस्पोजल बिन', i3: 'पैड स्टॉक', i4: 'शौचालय की स्थिति',
+    tapUpdate: 'अपडेट करें', statusTxt: ['उपलब्ध नहीं','कम / सीमित','उपलब्ध'],
+    adminEdit: '🔒 एडमिन? स्थिति बदलने के लिए लॉगिन करें', adminLogout: '🔓 एडमिन से लॉगआउट करें',
+    mythTitle: 'मिथक बनाम सच', mythSub: 'तथ्यों से कलंक तोड़ें',
+    myths: [
+      {m:"माहवारी के दौरान व्यायाम या खेल नहीं करना चाहिए।", t:"बिल्कुल कर सकती हैं! हल्की गतिविधि से दर्द कम होता है। सक्रिय रहें।"},
+      {m:"माहवारी गंदी या अपवित्र होती है।", t:"माहवारी एक प्राकृतिक जैविक प्रक्रिया है — पूरी तरह स्वच्छ और सामान्य।"},
+      {m:"माहवारी में धार्मिक स्थानों पर नहीं जाना चाहिए।", t:"यह एक सांस्कृतिक विश्वास है, चिकित्सा तथ्य नहीं। आपका शरीर अपवित्र नहीं है।"},
+      {m:"माहवारी में खट्टा खाना हानिकारक होता है।", t:"इसका कोई वैज्ञानिक प्रमाण नहीं है। जो आरामदायक लगे वो खाएं।"},
+      {m:"स्कूल में माहवारी के बारे में बात करना अनुचित है।", t:"मासिक स्वास्थ्य शिक्षा सबके लिए जरूरी है। खुलकर बात करें।"}
+    ],
+    everyTitle: 'सभी के लिए', everySub: 'पूरे स्कूल समुदाय के लिए जागरूकता',
+    audTabs: ['लड़कों के लिए','शिक्षकों के लिए','समुदाय'],
+    aware: {
+      boys: [
+        {t:"सम्मान, हमेशा", b:"अगर कोई सहपाठी असहज हो, तो दयालु रहें। माहवारी पर छेड़खानी हानिकारक और दर्दनाक है।"},
+        {t:"इसे अजीब मत बनाएं", b:"माहवारी एक सामान्य शारीरिक प्रक्रिया है। इसे सामान्य मानने से स्कूल सबके लिए सुरक्षित बनता है।"},
+        {t:"मददगार बनें", b:"अगर कोई चुपचाप नर्स के पास जाना चाहे, तो बिना सवाल के साथ दें।"}
+      ],
+      teachers: [
+        {t:"सुरक्षित कक्षा बनाएं", b:"छात्राओं को बिना कारण बताए जाने दें। विश्वास और गोपनीयता बहुत जरूरी है।"},
+        {t:"जरूरी सामान रखें", b:"अपनी कक्षा में एक निजी जगह पर अतिरिक्त पैड रखें। यह बड़ा फर्क कर सकता है।"},
+        {t:"खुलकर बात करें", b:"कक्षा में मासिक स्वास्थ्य को सामान्य बनाएं। चुप्पी शर्म सिखाती है, खुलापन सम्मान।"}
+      ],
+      community: [
+        {t:"बुनियादी ढांचा जरूरी है", b:"साफ पानी, कार्यशील शौचालय और डिस्पोजल बिन हर छात्र का अधिकार है।"},
+        {t:"लड़कियों को स्कूल में रखें", b:"पैड की कमी स्कूल छोड़ने का कारण बन सकती है। पैड दान करें और स्वास्थ्य बजट का समर्थन करें।"},
+        {t:"घर में चुप्पी तोड़ें", b:"जब परिवार माहवारी पर खुलकर बात करता है, तो लड़कियाँ स्कूल में ज्यादा सुरक्षित महसूस करती हैं।"}
+      ]
+    },
+    safeTitle: 'सुरक्षित प्रश्न', safeSub: 'कुछ भी पूछें, गुमनाम रूप से',
+    safeNotice: 'कोई निर्णय नहीं। आपका प्रश्न सुरक्षित और निजी है।',
+    qs: [
+      {q:"क्या माहवारी का दर्द सामान्य है?", a:"हाँ! हल्की से मध्यम ऐंठन बहुत सामान्य है। पेट के निचले हिस्से पर गर्म कपड़ा, हल्की सैर और आराम मदद करता है। अगर दर्द बहुत तेज हो तो स्वास्थ्य कर्मी से मिलें।"},
+      {q:"अगर लड़के छेड़खानी करें तो?", a:"माहवारी पर छेड़खानी गलत और अपमानजनक है। आप किसी विश्वसनीय शिक्षक को बता सकती हैं। स्कूल सबके लिए सुरक्षित होना चाहिए।"},
+      {q:"स्कूल में माहवारी कैसे संभालें?", a:"अतिरिक्त पैड साथ रखें, स्कूल की पैड सप्लाई कहाँ है यह जानें, और जरूरत पड़ने पर किसी महिला शिक्षक से चुपचाप मदद माँगें।"},
+      {q:"माहवारी कितने दिन रहती है?", a:"आमतौर पर 2–7 दिन। हर व्यक्ति अलग होता है और यह पूरी तरह सामान्य है। हर महीने तैयार रहने के लिए अपना चक्र ट्रैक करें।"}
+    ],
+    qPlaceholder: "आपके मन में क्या है?",
+    qAskBtn: 'गुमनाम रूप से पूछें',
+    qDoneMsg: "साझा करने के लिए धन्यवाद। आपका प्रश्न गुमनाम रूप से दर्ज हो गया है। एक विश्वसनीय परामर्शदाता जल्द जवाब देंगे। आप अकेली नहीं हैं।"
+  },
+
+  ML: {
+    greet: 'സുപ്രഭാതം 🌸',
+    appname: 'HerSync',
+    hygiene: 'ശുചിത്വ സ്കോർ',
+    sec1: 'സഹായവും പ്രവേശനവും',
+    sec2: 'അവബോധം',
+    sec3: 'വൈകാരിക പിന്തുണ',
+    f1title: 'അജ്ഞാത അഭ്യർഥന', f1sub: 'പാഡ് ആവശ്യപ്പെടുക അല്ലെങ്കിൽ പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക',
+    f2title: 'സൗകര്യ നില', f2sub: 'വെള്ളം, സ്റ്റോക്ക്, ശുചിത്വം നിരീക്ഷിക്കുക',
+    f3title: 'മിഥ്യ vs സത്യം', f3sub: 'വസ്തുതകളിലൂടെ കളങ്കം തകർക്കുക',
+    f4title: 'എല്ലാവർക്കും', f4sub: 'ആൺകുട്ടികൾ, അദ്ധ്യാപകർ, സമൂഹം',
+    f5title: 'സുരക്ഷിത ചോദ്യങ്ങൾ', f5sub: 'എന്തും ചോദിക്കാം, അജ്ഞാതമായി.',
+    msgs: [
+      "ആർത്തവം സ്വാഭാവികമാണ്, ലജ്ജിക്കേണ്ടതില്ല. ആർത്തവമുള്ള എല്ലാവർക്കും പിന്തുണ അർഹതപ്പെട്ടതാണ്.",
+      "ആർത്തവ ആരോഗ്യം സാധാരണ ആരോഗ്യമാണ്. സുഖമായിരിക്കുക നിങ്ങളുടെ അവകാശമാണ്.",
+      "ആർത്തവ സമയത്ത് പെൺകുട്ടികളെ പിന്തുണയ്ക്കുന്നത് ബഹുമാനത്തിന്റെ പ്രകടനമാണ്.",
+      "നിങ്ങൾ ഒറ്റയ്ക്കല്ല. ഈ സ്കൂൾ എല്ലാവർക്കും സുരക്ഷിതമായ ഒരിടമാണ്."
+    ],
+    anonTitle: 'അജ്ഞാത അഭ്യർഥന', anonSub: 'നിങ്ങളുടെ ഐഡൻ്റിറ്റി ഒരിക്കലും രേഖപ്പെടുത്തില്ല',
+    anonNotice: 'പൂർണ്ണമായും അജ്ഞാതം — പേരോ ID യോ ആവശ്യമില്ല.',
+    r1h: 'സാനിറ്ററി പാഡ് ആവശ്യപ്പെടുക', r1p: 'പാഡ് സ്റ്റോക്ക് തീർന്നു അല്ലെങ്കിൽ കുറവാണ്',
+    r2h: 'വെള്ളം ലഭ്യമല്ല', r2p: 'ടോയ്‌ലറ്റിൽ വെള്ളം ലഭ്യമല്ല',
+    r3h: 'ഡിസ്പോസൽ ബിൻ ഇല്ല', r3p: 'ബിൻ കാണുന്നില്ല അല്ലെങ്കിൽ നിറഞ്ഞിരിക്കുന്നു',
+    r4h: 'ടോയ്‌ലറ്റ് അവസ്ഥ മോശം', r4p: 'ടോയ്‌ലറ്റ് വൃത്തിയില്ല അല്ലെങ്കിൽ ഉപയോഗിക്കാൻ കഴിയില്ല',
+    sendBtn: 'അജ്ഞാതമായി അഭ്യർഥന അയയ്ക്കുക',
+    reqDone: '✅ അഭ്യർഥന അയച്ചു. ആരെങ്കിലും ശ്രദ്ധിക്കും.',
+    infraTitle: 'സൗകര്യ നില', infraSub: 'നിലവിലെ സൗകര്യ അവസ്ഥ',
+    hygReadiness: 'സ്കൂൾ ശുചിത്വ സജ്ജത', hygBased: '4 സൗകര്യ സൂചകങ്ങളെ അടിസ്ഥാനമാക്കി',
+    i1: 'വെള്ളത്തിന്റെ ലഭ്യത', i2: 'ഡിസ്പോസൽ ബിൻ', i3: 'പാഡ് സ്റ്റോക്ക്', i4: 'ടോയ്‌ലറ്റ് അവസ്ഥ',
+    tapUpdate: 'അപ്ഡേറ്റ് ചെയ്യുക', statusTxt: ['ലഭ്യമല്ല','കുറവ് / പരിമിതം','ലഭ്യമാണ്'],
+    adminEdit: '🔒 അഡ്മിൻ? നില മാറ്റാൻ ലോഗിൻ ചെയ്യുക', adminLogout: '🔓 അഡ്മിൻ ലോഗൗട്ട്',
+    mythTitle: 'മിഥ്യ vs സത്യം', mythSub: 'വസ്തുതകളിലൂടെ കളങ്കം തകർക്കുക',
+    myths: [
+      {m:"ആർത്തവ സമയത്ത് വ്യായാമം ചെയ്യാനോ കളിക്കാനോ പാടില്ല.", t:"തീർച്ചയായും ആകാം! ലഘുവായ ചലനം വേദന കുറയ്ക്കും. സജീവമായിരിക്കൂ."},
+      {m:"ആർത്തവം അശുദ്ധമാണ്.", t:"ആർത്തവം ഒരു സ്വാഭാവിക ജൈവ പ്രക്രിയയാണ് — പൂർണ്ണമായും ശുദ്ധവും സാധാരണവുമാണ്."},
+      {m:"ആർത്തവ സമയത്ത് ആരാധനാലയങ്ങളിൽ പോകരുത്.", t:"ഇത് ഒരു സാംസ്കാരിക വിശ്വാസമാണ്, വൈദ്യശാസ്ത്ര വസ്തുതയല്ല. നിങ്ങളുടെ ശരീരം അശുദ്ധമല്ല."},
+      {m:"ആർത്തവ സമയത്ത് പുളിച്ച ഭക്ഷണം കഴിക്കരുത്.", t:"ഇതിന് ശാസ്ത്രീയ തെളിവൊന്നുമില്ല. സുഖകരമായത് കഴിക്കൂ."},
+      {m:"സ്കൂളിൽ ആർത്തവത്തെക്കുറിച്ച് സംസാരിക്കുന്നത് ശരിയല്ല.", t:"ആർത്തവ ആരോഗ്യ വിദ്യാഭ്യാസം എല്ലാവർക്കും ഉപകാരപ്രദമാണ്. തുറന്നു സംസാരിക്കാം."}
+    ],
+    everyTitle: 'എല്ലാവർക്കും', everySub: 'മുഴുവൻ സ്കൂൾ സമൂഹത്തിനും അവബോധം',
+    audTabs: ['ആൺകുട്ടികൾക്ക്','അദ്ധ്യാപകർക്ക്','സമൂഹം'],
+    aware: {
+      boys: [
+        {t:"എപ്പോഴും ബഹുമാനം", b:"സഹപാഠി അസ്വസ്ഥയാണെങ്കിൽ ദയയോടെ പെരുമാറുക. ആർത്തവത്തെക്കുറിച്ച് കളിയാക്കൽ വേദനാജനകവും ഹാനികരവുമാണ്."},
+        {t:"ഇതിനെ അസ്വഭാവികമാക്കരുത്", b:"ആർത്തവം ഒരു സാധാരണ ശാരീരിക പ്രക്രിയയാണ്. ഇതിനെ സാധാരണമായി കാണുന്നത് സ്കൂളിനെ എല്ലാവർക്കും സുരക്ഷിതമാക്കുന്നു."},
+        {t:"സഹായകനാകൂ", b:"ആരെങ്കിലും നഴ്‌സിന്റെ അടുത്ത് പോകണമെങ്കിൽ ചോദ്യങ്ങളില്ലാതെ സഹായിക്കൂ."}
+      ],
+      teachers: [
+        {t:"സുരക്ഷിതമായ ക്ലാസ്സ്മുറി ഉണ്ടാക്കൂ", b:"വിദ്യാർഥിനികളെ കാരണം പറയാതെ പോകാൻ അനുവദിക്കൂ. വിശ്വാസവും സ്വകാര്യതയും പ്രധാനമാണ്."},
+        {t:"അടിസ്ഥാന സാധനങ്ങൾ സൂക്ഷിക്കൂ", b:"ക്ലാസ്സ്മുറിയിൽ ഒരു സ്വകാര്യ ഇടത്ത് അധിക പാഡ് സൂക്ഷിക്കൂ. ഇത് വലിയ വ്യത്യാസം ഉണ്ടാക്കും."},
+        {t:"തുറന്നു സംസാരിക്കൂ", b:"ക്ലാസ്സിൽ ആർത്തവ ആരോഗ്യം സാധാരണമാക്കൂ. മൗനം ലജ്ജ പഠിപ്പിക്കുന്നു; തുറന്നു പറയൽ ബഹുമാനം പഠിപ്പിക്കുന്നു."}
+      ],
+      community: [
+        {t:"അടിസ്ഥാന സൗകര്യങ്ങൾ പ്രധാനമാണ്", b:"ശുദ്ധജലം, ശരിയായ ടോയ്‌ലറ്റ്, ഡിസ്പോസൽ ബിൻ — ഇവ എല്ലാ വിദ്യാർഥിയുടെയും അവകാശമാണ്."},
+        {t:"പെൺകുട്ടികൾ സ്കൂളിൽ തുടരട്ടെ", b:"പാഡ് ലഭ്യമല്ലാത്തത് സ്കൂൾ ഉപേക്ഷിക്കാനുള്ള കാരണമാകാം. പാഡ് ദാനം ചെയ്യൂ, ആരോഗ്യ ബജറ്റ് പിന്തുണയ്ക്കൂ."},
+        {t:"വീട്ടിൽ നിശ്ശബ്ദത തകർക്കൂ", b:"കുടുംബം ആർത്തവത്തെക്കുറിച്ച് തുറന്നു സംസാരിക്കുമ്പോൾ പെൺകുട്ടികൾ സ്കൂളിൽ കൂടുതൽ സുരക്ഷിതരായി അനുഭവിക്കുന്നു."}
+      ]
+    },
+    safeTitle: 'സുരക്ഷിത ചോദ്യങ്ങൾ', safeSub: 'എന്തും ചോദിക്കാം, അജ്ഞാതമായി',
+    safeNotice: 'വിധിക്കില്ല. നിങ്ങളുടെ ചോദ്യം സുരക്ഷിതവും സ്വകാര്യവുമാണ്.',
+    qs: [
+      {q:"ആർത്തവ വേദന സാധാരണമാണോ?", a:"അതെ! ലഘുവായ മുതൽ മിതമായ വരെ ഉള്ള വേദന വളരെ സാധാരണമാണ്. ചൂടുള്ള തുണി വയ്ക്കൽ, ലഘു നടത്തം, വിശ്രമം സഹായിക്കും. വേദന കൂടുതലാണെങ്കിൽ ആരോഗ്യ പ്രവർത്തകനെ കാണൂ."},
+      {q:"ആൺകുട്ടികൾ കളിയാക്കിയാൽ?", a:"ആർത്തവത്തെക്കുറിച്ച് കളിയാക്കൽ ശരിയല്ല, അത് അപമാനമാണ്. നിങ്ങൾക്ക് വിശ്വസ്തനായ അദ്ധ്യാപകനോട് പറയാം. സ്കൂൾ എല്ലാവർക്കും സുരക്ഷിതമായിരിക്കണം."},
+      {q:"സ്കൂളിൽ ആർത്തവം എങ്ങനെ നിയന്ത്രിക്കാം?", a:"അധിക പാഡ് കൂടെ കൊണ്ടുനടക്കൂ, സ്കൂളിൽ പാഡ് എവിടെ കിട്ടുമെന്ന് അറിഞ്ഞിരിക്കൂ, ആവശ്യമെങ്കിൽ ഒരു വനിതാ അദ്ധ്യാപകയോട് ശാന്തമായി സഹായം ചോദിക്കൂ."},
+      {q:"ആർത്തവം എത്ര ദിവസം നീണ്ടുനിൽക്കും?", a:"സാധാരണ 2–7 ദിവസം. ഓരോ വ്യക്തിയും വ്യത്യസ്തമാണ്, ഇത് പൂർണ്ണമായും സാധാരണമാണ്. എല്ലാ മാസവും തയ്യാറാകാൻ നിങ്ങളുടെ ചക്രം ട്രാക്ക് ചെയ്യൂ."}
+    ],
+    qPlaceholder: "നിങ്ങളുടെ മനസ്സിൽ എന്താണ്?",
+    qAskBtn: 'അജ്ഞാതമായി ചോദിക്കൂ',
+    qDoneMsg: "പങ്കുവെച്ചതിന് നന്ദി. നിങ്ങളുടെ ചോദ്യം അജ്ഞാതമായി രേഖപ്പെടുത്തിയിട്ടുണ്ട്. ഒരു വിശ്വസ്ത കൗൺസലർ ഉടൻ മറുപടി നൽകും. നിങ്ങൾ ഒറ്റയ്ക്കല്ല."
+  },
+
+  TA: {
+    greet: 'காலை வணக்கம் 🌸',
+    appname: 'HerSync',
+    hygiene: 'சுகாதார மதிப்பெண்',
+    sec1: 'ஆதரவு மற்றும் அணுகல்',
+    sec2: 'விழிப்புணர்வு',
+    sec3: 'உணர்வு ஆதரவு',
+    f1title: 'அநாமதேய கோரிக்கை', f1sub: 'பட்கள் கேக்கவும் அல்லது பிரச்சினை தெரிவிக்கவும்',
+    f2title: 'வசதி நிலை', f2sub: 'தண்ணீர், இருப்பு மற்றும் சுகாதாரம் கண்காணிக்கவும்',
+    f3title: 'மூடநம்பிக்கை vs உண்மை', f3sub: 'உண்மைகளால் களங்கத்தை உடைக்கவும்',
+    f4title: 'அனைவருக்கும்', f4sub: 'ஆண்கள், ஆசிரியர்கள் மற்றும் சமூகம்',
+    f5title: 'பாதுகாப்பான கேள்விகள்', f5sub: 'எதையும் கேளுங்கள், அநாமதேயமாக.',
+    msgs: [
+      "மாதவிடாய் இயற்கையானது, வெட்கப்படுவதற்கில்லை. மாதவிடாய் உள்ள ஒவ்வொருவரும் ஆதரவுக்கு தகுதியானவர்.",
+      "மாதவிடாய் ஆரோக்கியம் சாதாரண ஆரோக்கியம். வசதியாக இருப்பது உங்கள் உரிமை.",
+      "மாதவிடாய் நேரத்தில் பெண்களை ஆதரிப்பது மரியாதையின் அடையாளம்.",
+      "நீங்கள் தனியில்லை. இந்த பள்ளி அனைவருக்கும் பாதுகாப்பான இடம்."
+    ],
+    anonTitle: 'அநாமதேய கோரிக்கை', anonSub: 'உங்கள் அடையாளம் பதிவு செய்யப்படாது',
+    anonNotice: 'முழுமையான அநாமதேயம் — பெயர் அல்லது ID தேவையில்லை.',
+    r1h: 'சானிட்டரி பட்கள் கேக்கவும்', r1p: 'பட் இருப்பு காலியாக அல்லது குறைவாக உள்ளது',
+    r2h: 'தண்ணீர் கிடைக்கவில்லை', r2p: 'கழிப்பறையில் தண்ணீர் பிரச்சினை',
+    r3h: 'டிஸ்போசல் பின் இல்லை', r3p: 'பின் இல்லை அல்லது நிரம்பியுள்ளது',
+    r4h: 'கழிப்பறை நிலை மோசம்', r4p: 'கழிப்பறை சுத்தமில்லை அல்லது பயன்படுத்த முடியாது',
+    sendBtn: 'அநாமதேயமாக கோரிக்கை அனுப்பவும்',
+    reqDone: '✅ கோரிக்கை அனுப்பப்பட்டது. யாரோ கவனிப்பார்கள்.',
+    infraTitle: 'வசதி நிலை', infraSub: 'தற்போதைய வசதி நிலை',
+    hygReadiness: 'பள்ளி சுகாதார தயார்நிலை', hygBased: '4 வசதி குறிகாட்டிகளின் அடிப்படையில்',
+    i1: 'தண்ணீர் கிடைக்கும் தன்மை', i2: 'டிஸ்போசல் பின்', i3: 'பட் இருப்பு', i4: 'கழிப்பறை நிலை',
+    tapUpdate: 'புதுப்பிக்கவும்', statusTxt: ['கிடைக்கவில்லை','குறைவு / கட்டுப்பாடு','கிடைக்கிறது'],
+    adminEdit: '🔒 நிர்வாகி? நிலை மாற்ற உள்நுழையவும்', adminLogout: '🔓 நிர்வாகியிலிருந்து வெளியேறு',
+    mythTitle: 'மூடநம்பிக்கை vs உண்மை', mythSub: 'உண்மைகளால் களங்கத்தை உடைக்கவும்',
+    myths: [
+      {m:"மாதவிடாய் நேரத்தில் உடற்பயிற்சி அல்லது விளையாட்டு கூடாது.", t:"நிச்சயமாக கூடும்! லேசான அசைவு வலியை குறைக்கும். சுறுசுறுப்பாக இருங்கள்."},
+      {m:"மாதவிடாய் அசுத்தமானது.", t:"மாதவிடாய் ஒரு இயற்கையான உயிரியல் செயல்முறை — முழுமையான சுத்தமான மற்றும் சாதாரணமானது."},
+      {m:"மாதவிடாய் நேரத்தில் கோயிலுக்கு போகக் கூடாது.", t:"இது ஒரு கலாச்சார நம்பிக்கை, மருத்துவ உண்மை அல்ல. உங்கள் உடல் அசுத்தமில்லை."},
+      {m:"மாதவிடாய் நேரத்தில் புளிப்பான உணவு தீங்கானது.", t:"இதற்கு எந்த அறிவியல் ஆதாரமும் இல்லை. வசதியான உணவை சாப்பிடுங்கள்."},
+      {m:"பள்ளியில் மாதவிடாய் பற்றி பேசுவது தவறு.", t:"மாதவிடாய் ஆரோக்கிய கல்வி அனைவருக்கும் உதவும். திறந்து பேசுவோம்."}
+    ],
+    everyTitle: 'அனைவருக்கும்', everySub: 'முழு பள்ளி சமூகத்திற்கும் விழிப்புணர்வு',
+    audTabs: ['ஆண்களுக்கு','ஆசிரியர்களுக்கு','சமூகம்'],
+    aware: {
+      boys: [
+        {t:"எப்போதும் மரியாதை", b:"சக மாணவி அசௌகரியமாக இருந்தால் அன்பாக இருங்கள். மாதவிடாய் பற்றி கேலி செய்வது தீங்கானது."},
+        {t:"இதை விசித்திரமாக்காதீர்கள்", b:"மாதவிடாய் ஒரு சாதாரண உடல் செயல்முறை. இதை சாதாரணமாக நடத்துவது பள்ளியை அனைவருக்கும் பாதுகாப்பானதாக்கும்."},
+        {t:"உதவியாளராக இருங்கள்", b:"யாரேனும் நர்சிடம் போக வேண்டுமென்றால் கேள்விகள் இல்லாமல் ஆதரவளியுங்கள்."}
+      ],
+      teachers: [
+        {t:"பாதுகாப்பான வகுப்பறை உருவாக்குங்கள்", b:"மாணவிகளை காரணம் சொல்லாமல் போக அனுமதியுங்கள். நம்பிக்கையும் தனியுரிமையும் முக்கியம்."},
+        {t:"அடிப்படை பொருட்கள் வைத்திருங்கள்", b:"வகுப்பறையில் தனியான இடத்தில் கூடுதல் பட்கள் வைத்திருங்கள். இது பெரிய மாற்றத்தை ஏற்படுத்தும்."},
+        {t:"திறந்து பேசுங்கள்", b:"வகுப்பில் மாதவிடாய் ஆரோக்கியத்தை சாதாரணமாக்குங்கள். மௌனம் வெட்கத்தை கற்பிக்கிறது; திறந்து பேசுவது மரியாதை கற்பிக்கிறது."}
+      ],
+      community: [
+        {t:"உள்கட்டமைப்பு முக்கியம்", b:"தூய்மையான தண்ணீர், செயல்படும் கழிப்பறைகள், டிஸ்போசல் பின் — இவை ஒவ்வொரு மாணவரின் உரிமை."},
+        {t:"பெண்கள் பள்ளியில் தொடர வேண்டும்", b:"பட் இல்லாமை பள்ளி விடும் காரணமாகலாம். பட்கள் தானம் செய்யுங்கள், ஆரோக்கிய பட்ஜெட்டை ஆதரியுங்கள்."},
+        {t:"வீட்டில் மௌனத்தை உடையுங்கள்", b:"குடும்பம் மாதவிடாய் பற்றி திறந்து பேசும்போது பெண்கள் பள்ளியில் அதிக பாதுகாப்பாக உணர்கிறார்கள்."}
+      ]
+    },
+    safeTitle: 'பாதுகாப்பான கேள்விகள்', safeSub: 'எதையும் கேளுங்கள், அநாமதேயமாக',
+    safeNotice: 'தீர்ப்பில்லை. உங்கள் கேள்வி பாதுகாப்பானது மற்றும் தனிப்பட்டது.',
+    qs: [
+      {q:"மாதவிடாய் வலி சாதாரணமா?", a:"ஆம்! லேசான முதல் மிதமான வலி மிகவும் சாதாரணமானது. வயிற்றில் சூடான துணி வைப்பது, லேசான நடை, ஓய்வு உதவும். வலி மிகவும் அதிகமாக இருந்தால் மருத்துவரிடம் செல்லுங்கள்."},
+      {q:"ஆண்கள் கேலி செய்தால்?", a:"மாதவிடாய் பற்றி கேலி செய்வது தவறானது மற்றும் அவமானகரமானது. நம்பகமான ஆசிரியரிடம் தெரிவிக்கலாம். பள்ளி அனைவருக்கும் பாதுகாப்பானதாக இருக்க வேண்டும்."},
+      {q:"பள்ளியில் மாதவிடாயை எப்படி நிர்வகிப்பது?", a:"கூடுதல் பட்கள் வைத்திருங்கள், பள்ளியில் பட் எங்கு கிடைக்கும் என்று தெரிந்துகொள்ளுங்கள், தேவைப்பட்டால் பெண் ஆசிரியரிடம் அமைதியாக உதவி கேளுங்கள்."},
+      {q:"மாதவிடாய் எத்தனை நாள் இருக்கும்?", a:"பொதுவாக 2–7 நாட்கள். ஒவ்வொரு நபரும் வேறுபட்டவர், இது முழுமையான சாதாரணமானது. ஒவ்வொரு மாதமும் தயாராக இருக்க உங்கள் சுழற்சியை கண்காணியுங்கள்."}
+    ],
+    qPlaceholder: "உங்கள் மனதில் என்ன இருக்கிறது?",
+    qAskBtn: 'அநாமதேயமாக கேளுங்கள்',
+    qDoneMsg: "பகிர்ந்தமைக்கு நன்றி. உங்கள் கேள்வி அநாமதேயமாக பதிவு செய்யப்பட்டது. நம்பகமான ஆலோசகர் விரைவில் பதிலளிப்பார். நீங்கள் தனியில்லை."
+  }
+
+
+
+
+};
+
+
+
+
+var curLang = 'EN';
+
+function go(n) {
+  cur = n;
+  slider.style.transform = 'translateX(' + (-n * W) + 'px)';
+  if (n === 4) renderInfra();
+  if (n === 5) renderMyth();
+  if (n === 6) renderAud('boys');
+  if (n === 7) renderQs();
+}
+
+var MSGS = [
+  "Periods are natural, not shameful. Every person who menstruates deserves support.",
+  "Menstrual health is normal health. Staying comfortable is your right.",
+  "Supporting girls during menstruation is an act of respect and care.",
+  "You are not alone. This school is a safe space for everyone."
+];
+var mi = 0;
+function setMsg(i) {
+  mi = i;
+  document.getElementById('dtxt').textContent = MSGS[i];
+  var dots = document.querySelectorAll('.mdot');
+  for (var j = 0; j < dots.length; j++) dots[j].classList.toggle('on', j === i);
+}
+setInterval(function(){ setMsg((mi + 1) % MSGS.length); }, 5000);
+
+// function setLang(tag) {
+//   document.getElementById('ltag').textContent = tag;
+//   go(2);
+// }
+function setLang(tag) {
+  curLang = tag;
+  var displayTag = {EN:'EN', HI:'हि', ML:'മ', TA:'த'};
+  document.getElementById('ltag').textContent = displayTag[tag] || tag;
+  applyLang(tag);
+  go(2);
+}
+
+function applyLang(tag) {
+  var L = LANG[tag] || LANG['EN'];
+  // Header
+  document.getElementById('dtxt').textContent = L.msgs[mi];
+  document.querySelector('.hgreet').textContent = L.greet;
+  document.querySelector('.htitle').textContent = L.appname;
+  document.querySelector('.slbl').textContent = L.hygiene;
+  // Section labels
+  var slabels = document.querySelectorAll('.slabel');
+  slabels[0].textContent = L.sec1;
+  slabels[1].textContent = L.sec2;
+  slabels[2].textContent = L.sec3;
+  // Feature cards
+  var ftitles = document.querySelectorAll('.ftitle');
+  var fsubs = document.querySelectorAll('.fsub');
+  ftitles[0].textContent = L.f1title; fsubs[0].textContent = L.f1sub;
+  ftitles[1].textContent = L.f2title; fsubs[1].textContent = L.f2sub;
+  ftitles[2].textContent = L.f3title; fsubs[2].textContent = L.f3sub;
+  ftitles[3].textContent = L.f4title; fsubs[3].textContent = L.f4sub;
+  ftitles[4].textContent = L.f5title; fsubs[4].textContent = L.f5sub;
+  // Anon screen
+  document.querySelector('#sc3 .ihdr-txt h3').textContent = L.anonTitle;
+  document.querySelector('#sc3 .ihdr-txt p').textContent = L.anonSub;
+  document.querySelector('#sc3 .notice').textContent = L.anonNotice;
+  var rh = document.querySelectorAll('.rt h4');
+  var rp = document.querySelectorAll('.rt p');
+  rh[0].textContent = L.r1h; rp[0].textContent = L.r1p;
+  rh[1].textContent = L.r2h; rp[1].textContent = L.r2p;
+  rh[2].textContent = L.r3h; rp[2].textContent = L.r3p;
+  rh[3].textContent = L.r4h; rp[3].textContent = L.r4p;
+  document.querySelector('.sbtn').textContent = L.sendBtn;
+  document.getElementById('req-done').textContent = L.reqDone;
+  // Infra screen
+  document.querySelector('#sc4 .ihdr-txt h3').textContent = L.infraTitle;
+  document.querySelector('#sc4 .ihdr-txt p').textContent = L.infraSub;
+  // Myth screen
+  document.querySelector('#sc5 .ihdr-txt h3').textContent = L.mythTitle;
+  document.querySelector('#sc5 .ihdr-txt p').textContent = L.mythSub;
+  // Everyone screen
+  document.querySelector('#sc6 .ihdr-txt h3').textContent = L.everyTitle;
+  document.querySelector('#sc6 .ihdr-txt p').textContent = L.everySub;
+  var atabs = document.querySelectorAll('.atab');
+  for (var i = 0; i < atabs.length; i++) atabs[i].textContent = L.audTabs[i];
+  // Safe Q screen
+  document.querySelector('#sc7 .ihdr-txt h3').textContent = L.safeTitle;
+  document.querySelector('#sc7 .ihdr-txt p').textContent = L.safeSub;
+  document.querySelector('#sc7 .notice').textContent = L.safeNotice;
+  document.getElementById('cq').placeholder = L.qPlaceholder;
+  document.querySelector('.qsbtn').textContent = L.qAskBtn;
+  // Update data arrays so renders use correct language
+  MSGS = L.msgs;
+  AWARE = L.aware;
+  QS = L.qs;
+}
+
+var selKey = null;
+function selReq(el, k) {
+  selKey = k;
+  var opts = document.querySelectorAll('.ropt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.remove('sel');
+  el.classList.add('sel');
+  document.getElementById('tok').classList.remove('show');
+}
+function submitReq() {
+  if (!selKey) { alert('Please select a request type first.'); return; }
+  var opts = document.querySelectorAll('.ropt');
+  for (var i = 0; i < opts.length; i++) opts[i].classList.remove('sel');
+  selKey = null;
+  document.getElementById('req-done').style.display = 'block';
+}
+
+var INFRA = [
+  {icon:'💧', name:'Water availability', s:2},
+  {icon:'🗑️', name:'Disposal bin', s:2},
+  {icon:'📦', name:'Pad stock', s:1},
+  {icon:'🚽', name:'Toilet condition', s:2}
+];
+function calcPct() {
+  var total = 0;
+  for (var i = 0; i < INFRA.length; i++) total += INFRA[i].s;
+  return Math.round((total / (INFRA.length * 2)) * 100);
+}
+function setInfra(idx, val) {
+  INFRA[idx].s = val;
+  renderInfra();
+}
+// function renderInfra() {
+//   var b = document.getElementById('infra-body');
+//   var pct = calcPct();
+//   var html = '<div class="hyg"><div class="hyglbl">School Hygiene Readiness</div><div class="hygbig">' + pct + '%</div><div class="hygsub">Based on 4 facility indicators</div></div>';
+//   for (var i = 0; i < INFRA.length; i++) {
+//     var it = INFRA[i];
+//     html += '<div class="icard"><div class="il"><div class="iico">' + it.icon + '</div><div><div class="iname">' + it.name + '</div><div class="isub">Tap to update</div></div></div><div class="stog">';
+//     html += '<button class="stb' + (it.s===2?' ok':'') + '" onclick="setInfra(' + i + ',2)">✅</button>';
+//     html += '<button class="stb' + (it.s===1?' warn':'') + '" onclick="setInfra(' + i + ',1)">⚠️</button>';
+//     html += '<button class="stb' + (it.s===0?' bad':'') + '" onclick="setInfra(' + i + ',0)">❌</button>';
+//     html += '</div></div>';
+//   }
+//   b.innerHTML = html;
+//   document.getElementById('sfil').style.width = pct + '%';
+//   document.getElementById('snum').textContent = pct + '%';
+// }
+
+function renderInfra() {
+  var b = document.getElementById('infra-body');
+  var pct = calcPct();
+  var statusIcon = ['❌','⚠️','✅'];
+  var statusText = ['Not available','Low / limited','Available'];
+  var html = '<div class="hyg"><div class="hyglbl">School Hygiene Readiness</div><div class="hygbig">' + pct + '%</div><div class="hygsub">Based on 4 facility indicators</div></div>';
+  for (var i = 0; i < INFRA.length; i++) {
+    var it = INFRA[i];
+    if (isAdmin) {
+      html += '<div class="icard"><div class="il"><div class="iico">' + it.icon + '</div><div><div class="iname">' + it.name + '</div><div class="isub">Tap to update</div></div></div><div class="stog">';
+      html += '<button class="stb' + (it.s===2?' ok':'') + '" onclick="setInfra(' + i + ',2)">✅</button>';
+      html += '<button class="stb' + (it.s===1?' warn':'') + '" onclick="setInfra(' + i + ',1)">⚠️</button>';
+      html += '<button class="stb' + (it.s===0?' bad':'') + '" onclick="setInfra(' + i + ',0)">❌</button>';
+      html += '</div></div>';
+    } else {
+      html += '<div class="icard"><div class="il"><div class="iico">' + it.icon + '</div><div><div class="iname">' + it.name + '</div><div class="isub">' + statusText[it.s] + '</div></div></div><div style="font-size:22px;">' + statusIcon[it.s] + '</div></div>';
+    }
+  }
+
+
+  if (isAdmin) {
+  html += '<div style="text-align:center;margin-top:4px;"><div onclick="adminLogout()" style="font-size:11px;color:#E24B4A;cursor:pointer;font-weight:700;">🔓 Logout from Admin</div></div>';
+} else {
+  html += '<div style="text-align:center;margin-top:4px;"><div onclick="go(8)" style="font-size:11px;color:var(--color-text-secondary);cursor:pointer;text-decoration:underline;">🔒 Admin? Login to edit status</div></div>';
+}
+  b.innerHTML = html;
+  document.getElementById('sfil').style.width = pct + '%';
+  document.getElementById('snum').textContent = pct + '%';
+}
+
+var MYTHS = [
+  {m:"You cannot exercise or play sports during your period.", t:"You absolutely can! Light movement often reduces cramps. Stay active."},
+  {m:"Periods are dirty or impure.", t:"Menstruation is a natural biological process — completely clean and normal."},
+  {m:"You should not visit religious places during your period.", t:"This is a cultural belief, not a medical fact. Your body is not impure."},
+  {m:"Eating sour food during periods is harmful.", t:"No scientific evidence supports this. Eat what makes you comfortable."},
+  {m:"Talking about periods in school is inappropriate.", t:"Menstrual health education helps everyone. Let's talk about it openly."}
+];
+// function renderMyth() {
+//   var html = '';
+//   for (var i = 0; i < MYTHS.length; i++) {
+//     html += '<div class="mcard"><div class="mtop"><div class="mlbl">Myth</div><div class="mtxt">' + MYTHS[i].m + '</div></div><div class="mbot"><div class="trlbl">Truth</div><div class="trtxt">' + MYTHS[i].t + '</div></div></div>';
+//   }
+//   document.getElementById('myth-body').innerHTML = html;
+// }
+function renderMyth() {
+  var myths = (LANG[curLang] || LANG['EN']).myths;
+  var html = '';
+  for (var i = 0; i < myths.length; i++) {
+    html += '<div class="mcard"><div class="mtop"><div class="mlbl">Myth</div><div class="mtxt">' + myths[i].m + '</div></div><div class="mbot"><div class="trlbl">Truth</div><div class="trtxt">' + myths[i].t + '</div></div></div>';
+  }
+  document.getElementById('myth-body').innerHTML = html;
+}
+
+var AWARE = {
+  boys: [
+    {t:"Respect, always", b:"If a classmate is uncomfortable, be kind. Teasing about periods is harmful and hurts real people."},
+    {t:"Don't make it weird", b:"Periods are a normal body function. Treating it as normal makes school safer for everyone."},
+    {t:"Be a helper", b:"If someone needs to visit the nurse discreetly, support them without questions."}
+  ],
+  teachers: [
+    {t:"Create a safe classroom", b:"Allow students to leave discreetly without explaining. Trust and privacy matter deeply."},
+    {t:"Stock the basics", b:"Keep extra pads in a private space in your classroom. It can make a huge difference."},
+    {t:"Talk openly", b:"Normalize menstrual health in class. Silence teaches shame; openness teaches respect."}
+  ],
+  community: [
+    {t:"Infrastructure matters", b:"Clean water, functional toilets, and disposal bins are rights for every student."},
+    {t:"Support girls staying in school", b:"Period poverty is a dropout risk. Donate pads and advocate for school health budgets."},
+    {t:"Break the silence at home", b:"When families talk openly about menstruation, girls feel safer at school and in life."}
+  ]
+};
+function setAud(el, k) {
+  var tabs = document.querySelectorAll('.atab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
+  el.classList.add('on');
+  renderAud(k);
+}
+function renderAud(k) {
+  var items = AWARE[k] || [];
+  var html = '';
+  for (var i = 0; i < items.length; i++) {
+    html += '<div class="acard"><h4>' + items[i].t + '</h4><p>' + items[i].b + '</p></div>';
+  }
+  document.getElementById('aud-body').innerHTML = html;
+}
+
+var QS = [
+  {q:"Is period pain normal?", a:"Yes! Mild to moderate cramps are very common and normal. A warm cloth on the lower abdomen, light walking, and rest usually help. If pain is very severe, speak with a health worker."},
+  {q:"What if boys tease me?", a:"Teasing about periods is not okay and is a form of disrespect. You can report it to a trusted teacher. Schools should be safe for everyone."},
+  {q:"How do I manage periods in school?", a:"Carry extra pads, know where the school supply is, and don't hesitate to ask a female teacher discreetly. You can also use this app to make an anonymous request."},
+  {q:"How long does a period last?", a:"Usually 2–7 days. Every person is different and that is completely normal. Track your cycle so you can be prepared each month."}
+];
+function renderQs() {
+  var b = document.getElementById('q-body');
+  b.innerHTML = '';
+  for (var i = 0; i < QS.length; i++) {
+    (function(item) {
+      var wrap = document.createElement('div');
+      var q = document.createElement('div');
+      q.className = 'qopt';
+      q.textContent = item.q;
+      var a = document.createElement('div');
+      a.className = 'qans';
+      a.textContent = item.a;
+      q.onclick = function() {
+        var all = document.querySelectorAll('.qans');
+        for (var j = 0; j < all.length; j++) all[j].classList.remove('show');
+        a.classList.toggle('show');
+      };
+      wrap.appendChild(q);
+      wrap.appendChild(a);
+      b.appendChild(wrap);
+    })(QS[i]);
+  }
+}
+function submitCQ() {
+  var q = document.getElementById('cq').value.trim();
+  if (!q) return;
+  var a = document.getElementById('cqans');
+  a.textContent = (LANG[curLang] || LANG['EN']).qDoneMsg;
+  a.classList.add('show');
+}
+
+
+setTimeout(function(){ go(1); }, 2200);
+
+function adminLogin() {
+  var pass = document.getElementById('admin-pass').value;
+  if (pass === 'hersync123') {
+    isAdmin = true;
+    document.getElementById('admin-pass').value = '';
+    document.getElementById('login-err').style.display = 'none';
+    go(4);
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  isAdmin = false;
+  renderInfra();
+}
+
+</script>

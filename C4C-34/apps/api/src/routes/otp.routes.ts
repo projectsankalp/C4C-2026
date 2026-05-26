@@ -1,0 +1,9 @@
+import { Router } from "express";
+import { OtpController } from "../controllers/otp.controller";
+
+const router = Router();
+
+router.post("/send", OtpController.sendOtp);
+router.post("/verify", OtpController.verifyOtp);
+
+export default router;

@@ -1,0 +1,377 @@
+[
+  {
+    "label": "ஆந்திரப் பிரதேசம்",
+    "value": "andhra_pradesh",
+    "capital": "அமராவதி",
+    "supportFocus": "விவசாயம், உணவு பதப்படுத்துதல், உற்பத்தி, MSMEகள், மின்னணுவியல்",
+    "description": "ஆந்திரப் பிரதேசம் தொழில்துறை ஊக்கத்தொகைகள், தொடக்கத் திட்டங்கள் மற்றும் திறன் மேம்பாட்டு முயற்சிகள் மூலம் MSMEகள், உணவு பதப்படுத்தும் பிரிவுகள், பெண் தொழில்முனைவோர் மற்றும் உற்பத்தி வணிகங்களை ஆதரிக்கிறது.",
+    "infoLink": "https://www.apindustries.gov.in/",
+    "schemes": [
+      "YSR Cheyutha",
+      "AP MSME Development Policy",
+      "YSR Asara"
+    ]
+  },
+  {
+    "label": "அருணாச்சல பிரதேசம்",
+    "value": "arunachal_pradesh",
+    "capital": "இட்டாநகர்",
+    "supportFocus": "கைவினைப் பொருட்கள், சுற்றுலா, விவசாயம், பழங்குடியினர் தொழில்முனைவு",
+    "description": "அருணாச்சலப் பிரதேசம் பழங்குடியின வணிகங்கள், கைவினைப் பொருட்கள், சுற்றுச்சூழல் சுற்றுலா மற்றும் விவசாயம் சார்ந்த தொழில்களை அரசாங்க ஆதரவு மற்றும் கிராமப்புற மேம்பாட்டுத் திட்டங்கள் மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://industries.arunachal.gov.in/",
+    "schemes": [
+      "Deen Dayal Upadhyaya Swavalamban Yojana",
+      "Arunachal Pradesh Startup Policy"
+    ]
+  },
+  {
+    "label": "அசாம்",
+    "value": "assam",
+    "capital": "டிஸ்பூர்",
+    "supportFocus": "தேயிலை தொழில், கைவினைப் பொருட்கள், சுற்றுலா, விவசாயம், MSMEகள்",
+    "description": "அஸ்ஸாம் தேயிலை உற்பத்தி, கைவினைப் பொருட்கள், சுற்றுலா, விவசாயம் மற்றும் பெண்கள் தலைமையிலான MSME களுக்கு நிதி உதவி மற்றும் தொழில் முனைவோர் திட்டங்களின் மூலம் ஆதரவை வழங்குகிறது.",
+    "infoLink": "https://industries.assam.gov.in/",
+    "schemes": [
+      "Assam Startup Policy",
+      "SVAYEM Scheme"
+    ]
+  },
+  {
+    "label": "பீகார்",
+    "value": "bihar",
+    "capital": "பாட்னா",
+    "supportFocus": "கிராமப்புற தொழில்முனைவு, விவசாயம், உணவு பதப்படுத்துதல், MSMEகள்",
+    "description": "பீகார் கிராமப்புற நிறுவனங்கள், பெண் தொழில்முனைவோர், உணவு பதப்படுத்தும் தொழில்கள் மற்றும் ஸ்டார்ட்அப்களை மானியங்கள், கடன்கள் மற்றும் வேலைவாய்ப்பு உருவாக்கும் திட்டங்கள் மூலம் ஆதரிக்கிறது.",
+    "infoLink": "https://industries.bihar.gov.in/",
+    "schemes": [
+      "Bihar Startup Policy",
+      "Mukhyamantri Udyami Yojana"
+    ]
+  },
+  {
+    "label": "சத்தீஸ்கர்",
+    "value": "chhattisgarh",
+    "capital": "ராய்பூர்",
+    "supportFocus": "சுரங்கம், கைவினைப் பொருட்கள், பழங்குடியினர் தொழில்கள், உணவு பதப்படுத்துதல்",
+    "description": "சத்தீஸ்கர் MSMEகள், பழங்குடியினர் தொழில்முனைவு, காடு சார்ந்த தொழில்கள் மற்றும் உணவு பதப்படுத்தும் தொழில்களை தொழில்துறை ஊக்குவிப்பு மற்றும் பயிற்சி திட்டங்கள் மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://industries.cg.gov.in/",
+    "schemes": [
+      "CG Startup Policy",
+      "Mukhyamantri Yuva Swarozgar Yojana"
+    ]
+  },
+  {
+    "label": "கோவா",
+    "value": "goa",
+    "capital": "பனாஜி",
+    "supportFocus": "சுற்றுலா, விருந்தோம்பல், தொடக்க நிறுவனங்கள், கைவினைப் பொருட்கள்",
+    "description": "கோவா சுற்றுலா வணிகங்கள், விருந்தோம்பல் தொடக்கங்கள், கைவினைப்பொருட்கள் மற்றும் பெண்கள் தலைமையிலான நிறுவனங்களை ஸ்டார்ட்அப் ஆதரவு மற்றும் சுற்றுலா ஊக்குவிப்பு மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://goa.gov.in/department/industries/",
+    "schemes": [
+      "Goa Startup Policy",
+      "Chief Minister Rojgar Yojana"
+    ]
+  },
+  {
+    "label": "குஜராத்",
+    "value": "gujarat",
+    "capital": "காந்திநகர்",
+    "supportFocus": "உற்பத்தி, ஜவுளி, ஏற்றுமதி, தொடக்க நிறுவனங்கள், MSMEகள்",
+    "description": "உற்பத்தி, ஏற்றுமதி, ஜவுளி மற்றும் பெண்கள் தொழில்முனைவோருக்கு விரிவான ஆதரவுடன் இந்தியாவின் வலிமையான தொழில்துறை மாநிலங்களில் குஜராத் ஒன்றாகும்.",
+    "infoLink": "https://industriescomm.gujarat.gov.in/",
+    "schemes": [
+      "Gujarat Industrial Policy",
+      "iCreate Startup Support"
+    ]
+  },
+  {
+    "label": "ஹரியானா",
+    "value": "haryana",
+    "capital": "சண்டிகர்",
+    "supportFocus": "ஆட்டோமொபைல் உற்பத்தி, ஸ்டார்ட்அப்கள், விவசாயம், MSMEகள்",
+    "description": "புதுமை மற்றும் MSME-ஐ மையமாகக் கொண்ட முன்முயற்சிகள் மூலம் ஸ்டார்ட்அப்கள், தொழில்துறை உற்பத்திகள், விவசாய வணிகங்கள் மற்றும் பெண் தொழில்முனைவோர்களை ஹரியானா ஆதரிக்கிறது.",
+    "infoLink": "https://industriesharyana.gov.in/",
+    "schemes": [
+      "Haryana Startup Policy",
+      "Padma Scheme"
+    ]
+  },
+  {
+    "label": "ஹிமாச்சல பிரதேசம்",
+    "value": "himachal_pradesh",
+    "capital": "சிம்லா",
+    "supportFocus": "சுற்றுலா, கைவினைப் பொருட்கள், உணவு பதப்படுத்துதல், விவசாயம்",
+    "description": "இமாச்சலப் பிரதேசம் சுற்றுச்சூழல் சுற்றுலா, கைவினைப் பொருட்கள், உணவு பதப்படுத்துதல் மற்றும் கிராமப்புற தொழில்முனைவு ஆகியவற்றை MSME மற்றும் சுற்றுலா ஆதரவு திட்டங்கள் மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://emerginghimachal.hp.gov.in/",
+    "schemes": [
+      "Himachal Pradesh Startup Scheme",
+      "Mukhyamantri Swavalamban Yojana"
+    ]
+  },
+  {
+    "label": "ஜார்கண்ட்",
+    "value": "jharkhand",
+    "capital": "ராஞ்சி",
+    "supportFocus": "சுரங்கம், பழங்குடியினர் தொழில்முனைவு, MSMEகள், கைவினைப் பொருட்கள்",
+    "description": "ஜார்கண்ட் MSMEகள், சுரங்கம் தொடர்பான தொழில்கள், பழங்குடியினர் வணிகங்கள் மற்றும் பெண் தொழில்முனைவோருக்கு நிதி உதவி மற்றும் திறன் மேம்பாடு மூலம் ஆதரவளிக்கிறது.",
+    "infoLink": "https://industries.jharkhand.gov.in/",
+    "schemes": [
+      "Jharkhand Startup Policy",
+      "Mukhyamantri Rojgar Srijan Yojana"
+    ]
+  },
+  {
+    "label": "கர்நாடகா",
+    "value": "karnataka",
+    "capital": "பெங்களூரு",
+    "supportFocus": "ஸ்டார்ட்அப், பயோடெக்னாலஜி, பெண்கள் தொழில்முனைவு, உற்பத்தி",
+    "description": "MSMEகள், பெண்கள் தலைமையிலான நிறுவனங்கள், உணவு பதப்படுத்துதல் மற்றும் தொழில்நுட்ப வணிகங்களுக்கான ஆதரவுடன் இந்தியாவின் வலிமையான தொடக்க மற்றும் கண்டுபிடிப்பு சுற்றுச்சூழல் அமைப்புகளில் ஒன்றை கர்நாடகா கொண்டுள்ளது.",
+    "infoLink": "https://startup.karnataka.gov.in/",
+    "schemes": [
+      "Elevate Karnataka",
+      "Karnataka Startup Policy",
+      "MSME Subsidy Schemes"
+    ]
+  },
+  {
+    "label": "கேரளா",
+    "value": "kerala",
+    "capital": "திருவனந்தபுரம்",
+    "supportFocus": "சுற்றுலா, தொடக்க நிறுவனங்கள், பெண்கள் தொழில்முனைவு, MSMEகள்",
+    "description": "கேரளா தொடக்கநிலைகள், சுற்றுலா வணிகங்கள், தென்னை நார் தொழில்கள் மற்றும் பெண்கள் தலைமையிலான நிறுவனங்களை அடைகாத்தல் மற்றும் நிதி உதவி மூலம் தீவிரமாக ஊக்குவிக்கிறது.",
+    "infoLink": "https://startupmission.kerala.gov.in/",
+    "schemes": [
+      "Kerala Startup Mission",
+      "WE Mission"
+    ]
+  },
+  {
+    "label": "மத்திய பிரதேசம்",
+    "value": "madhya_pradesh",
+    "capital": "போபால்",
+    "supportFocus": "உற்பத்தி, விவசாயம், உணவு பதப்படுத்துதல், MSMEகள்",
+    "description": "மத்தியப் பிரதேசம் தொழில்துறை வளர்ச்சி, உணவு பதப்படுத்துதல், கிராமப்புற வணிகங்கள் மற்றும் MSMEகளுக்கு மானியங்கள் மற்றும் தொழில்முனைவுத் திட்டங்கள் மூலம் ஆதரவளிக்கிறது.",
+    "infoLink": "https://invest.mp.gov.in/",
+    "schemes": [
+      "Mukhyamantri Udyam Kranti Yojana",
+      "MP Startup Policy"
+    ]
+  },
+  {
+    "label": "மகாராஷ்டிரா",
+    "value": "maharashtra",
+    "capital": "மும்பை",
+    "supportFocus": "தொழில்துறை வளர்ச்சி, ஸ்டார்ட்அப்கள், உற்பத்தி, பெண்கள் தொழில்முனைவு",
+    "description": "மகாராஷ்டிரா, ஸ்டார்ட்அப்கள், MSMEகள், தொழில்துறை வணிகங்கள் மற்றும் பெண் தொழில்முனைவோருக்கு மாநில ஆதரவு நிதி மற்றும் மானிய முயற்சிகள் மூலம் விரிவான ஆதரவை வழங்குகிறது.",
+    "infoLink": "https://industry.maharashtra.gov.in/",
+    "schemes": [
+      "CMEGP",
+      "Maharashtra Startup Policy"
+    ]
+  },
+  {
+    "label": "மணிப்பூர்",
+    "value": "manipur",
+    "capital": "இம்பால்",
+    "supportFocus": "கைவினைப் பொருட்கள், கைத்தறி, சுற்றுலா, பெண்கள் தொழில்முனைவு",
+    "description": "மணிப்பூர் பெண்கள் தலைமையிலான நிறுவனங்கள், கைவினைப் பொருட்கள், கைத்தறி தொழில்கள் மற்றும் சுற்றுலா தொடர்பான தொழில்முனைவு ஆகியவற்றை ஊக்குவிக்கிறது.",
+    "infoLink": "https://manipur.gov.in/",
+    "schemes": [
+      "Startup Manipur",
+      "Handloom Promotion Schemes"
+    ]
+  },
+  {
+    "label": "மேகாலயா",
+    "value": "meghalaya",
+    "capital": "ஷில்லாங்",
+    "supportFocus": "சுற்றுலா, கைவினைப் பொருட்கள், விவசாயம், ஸ்டார்ட்அப்கள்",
+    "description": "தொழில்முனைவோர் மேம்பாட்டு முயற்சிகள் மூலம் சுற்றுச்சூழல் சுற்றுலா, விவசாயம், கைவினைப்பொருட்கள் மற்றும் உள்ளூர் தொடக்கங்களை மேகாலயா ஆதரிக்கிறது.",
+    "infoLink": "https://megeducation.gov.in/",
+    "schemes": [
+      "Meghalaya Startup Policy"
+    ]
+  },
+  {
+    "label": "மிசோரம்",
+    "value": "mizoram",
+    "capital": "ஐஸ்வால்",
+    "supportFocus": "மூங்கில் தொழில், கைவினைப் பொருட்கள், விவசாயம், MSMEகள்",
+    "description": "மிசோரம் மூங்கில் சார்ந்த தொழில்கள், கைவினைப்பொருட்கள், உணவு பதப்படுத்துதல் மற்றும் கிராமப்புற தொழில்முனைவு ஆகியவற்றை ஊக்குவிக்கிறது.",
+    "infoLink": "https://mizoram.gov.in/",
+    "schemes": [
+      "Bamboo Development Programs"
+    ]
+  },
+  {
+    "label": "நாகாலாந்து",
+    "value": "nagaland",
+    "capital": "கோஹிமா",
+    "supportFocus": "கைவினைப் பொருட்கள், சுற்றுலா, பழங்குடியினர் தொழில்முனைவு",
+    "description": "நாகாலாந்து பழங்குடி தொழில்முனைவோர், சுற்றுலா வணிகங்கள் மற்றும் கைவினைத் தொழில்கள் தொடக்க மற்றும் வாழ்வாதாரத் திட்டங்கள் மூலம் ஆதரிக்கிறது.",
+    "infoLink": "https://investmentdevelopmentauthority.com/",
+    "schemes": [
+      "Nagaland Startup Policy"
+    ]
+  },
+  {
+    "label": "ஒடிசா",
+    "value": "odisha",
+    "capital": "புவனேஸ்வர்",
+    "supportFocus": "சுரங்கம், கைவினைப் பொருட்கள், ஜவுளி, MSMEகள்",
+    "description": "ஒடிசா MSMEகள், ஜவுளி, கைவினைப்பொருட்கள், பெண்கள் தொழில்முனைவு மற்றும் தொழில்துறை வளர்ச்சியை ஸ்டார்ட்அப் மற்றும் மானிய திட்டங்கள் மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://msme.odisha.gov.in/",
+    "schemes": [
+      "Odisha Startup Policy",
+      "Mission Shakti"
+    ]
+  },
+  {
+    "label": "பஞ்சாப்",
+    "value": "punjab",
+    "capital": "சண்டிகர்",
+    "supportFocus": "விவசாயம், உணவு பதப்படுத்துதல், உற்பத்தி, MSMEகள்",
+    "description": "பஞ்சாப் உணவு பதப்படுத்துதல், விவசாய வணிகங்கள், உற்பத்தி மற்றும் தொழில்துறை மற்றும் MSME திட்டங்கள் மூலம் பெண்கள் தலைமையிலான நிறுவனங்களை ஆதரிக்கிறது.",
+    "infoLink": "https://pbindustries.gov.in/",
+    "schemes": [
+      "Punjab Startup Policy"
+    ]
+  },
+  {
+    "label": "ராஜஸ்தான்",
+    "value": "rajasthan",
+    "capital": "ஜெய்ப்பூர்",
+    "supportFocus": "கைவினைப் பொருட்கள், சுற்றுலா, ஜவுளி, MSMEகள்",
+    "description": "ராஜஸ்தான் கைவினைப் பொருட்கள், சுற்றுலா, ஜவுளித் தொழில்கள் மற்றும் பெண்கள் தொழில்முனைவோரை ஸ்டார்ட்அப் மற்றும் கிராமப்புற மேம்பாட்டு முயற்சிகள் மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://industries.rajasthan.gov.in/",
+    "schemes": [
+      "iStart Rajasthan",
+      "Rajasthan MSME Policy"
+    ]
+  },
+  {
+    "label": "சிக்கிம்",
+    "value": "sikkim",
+    "capital": "காங்டாக்",
+    "supportFocus": "இயற்கை விவசாயம், சுற்றுலா, கைவினைப் பொருட்கள்",
+    "description": "சிக்கிம் இயற்கை விவசாயம், சுற்றுச்சூழல் சுற்றுலா, கைவினைப்பொருட்கள் மற்றும் நிலையான தொழில்முனைவு முயற்சிகளை ஆதரிக்கிறது.",
+    "infoLink": "https://sikkim.gov.in/",
+    "schemes": [
+      "Organic Farming Support Programs"
+    ]
+  },
+  {
+    "label": "தமிழ்நாடு",
+    "value": "tamil_nadu",
+    "capital": "சென்னை",
+    "supportFocus": "உற்பத்தி, ஜவுளி, மின்னணுவியல், பெண்கள் தலைமையிலான நிறுவனங்கள்",
+    "description": "தமிழ்நாடு வலுவான தொழில்துறை உள்கட்டமைப்பு மற்றும் ஜவுளி, மின்னணுவியல், MSMEகள் மற்றும் பெண்கள் தொழில்முனைவோர் முயற்சிகளுக்கு ஆதரவை வழங்குகிறது.",
+    "infoLink": "https://www.msmeonline.tn.gov.in/",
+    "schemes": [
+      "NEEDS Scheme",
+      "Tamil Nadu Startup Mission"
+    ]
+  },
+  {
+    "label": "தெலுங்கானா",
+    "value": "telangana",
+    "capital": "ஹைதராபாத்",
+    "supportFocus": "தொழில்நுட்ப தொடக்கங்கள், கண்டுபிடிப்புகள், MSMEகள், பெண் தொழில்முனைவோர்",
+    "description": "புதுமை, பெண்கள் தொழில்முனைவு மற்றும் MSME மேம்பாட்டிற்கான ஆதரவுடன் தெலுங்கானா வேகமாக வளர்ந்து வரும் ஸ்டார்ட்அப் சுற்றுச்சூழல் அமைப்பைக் கொண்டுள்ளது.",
+    "infoLink": "https://t-hub.co/",
+    "schemes": [
+      "WE Hub",
+      "T-Hub"
+    ]
+  },
+  {
+    "label": "திரிபுரா",
+    "value": "tripura",
+    "capital": "அகர்தலா",
+    "supportFocus": "மூங்கில் தொழில், கைவினைப் பொருட்கள், விவசாயம்",
+    "description": "திரிபுரா MSME மற்றும் வாழ்வாதாரத் திட்டங்கள் மூலம் மூங்கில் தொழில்கள், விவசாயம், உணவு பதப்படுத்துதல் மற்றும் கிராமப்புற தொழில்முனைவு ஆகியவற்றை ஆதரிக்கிறது.",
+    "infoLink": "https://industries.tripura.gov.in/",
+    "schemes": [
+      "Tripura Industrial Investment Policy"
+    ]
+  },
+  {
+    "label": "உத்தரப்பிரதேசம்",
+    "value": "uttar_pradesh",
+    "capital": "லக்னோ",
+    "supportFocus": "உற்பத்தி, MSMEகள், கைவினைப் பொருட்கள், ஸ்டார்ட்அப்கள்",
+    "description": "உத்தரபிரதேசம் கைவினைப்பொருட்கள், உற்பத்தி, ODOP வணிகங்கள் மற்றும் பெண்கள் தொழில்முனைவு ஆகியவற்றில் கவனம் செலுத்தி விரிவான MSME ஆதரவைக் கொண்டுள்ளது.",
+    "infoLink": "https://upsdc.gov.in/",
+    "schemes": [
+      "ODOP",
+      "UP Startup Policy"
+    ]
+  },
+  {
+    "label": "உத்தரகாண்ட்",
+    "value": "uttarakhand",
+    "capital": "டேராடூன்",
+    "supportFocus": "சுற்றுலா, மூலிகைப் பொருட்கள், கைவினைப் பொருட்கள், MSMEகள்",
+    "description": "உத்தரகாண்ட் சுற்றுலா, மூலிகைத் தொழில்கள், கைவினைப் பொருட்கள் மற்றும் பெண்கள் தலைமையிலான MSMEகளை தொழில் முனைவோர் ஆதரவு முயற்சிகள் மூலம் ஊக்குவிக்கிறது.",
+    "infoLink": "https://industries.uk.gov.in/",
+    "schemes": [
+      "Startup Uttarakhand"
+    ]
+  },
+  {
+    "label": "மேற்கு வங்காளம்",
+    "value": "west_bengal",
+    "capital": "கொல்கத்தா",
+    "supportFocus": "கைவினைப் பொருட்கள், ஜவுளி, MSMEகள், ஸ்டார்ட்அப்கள்",
+    "description": "மேற்கு வங்கம் MSMEகள், கைவினைப்பொருட்கள், ஜவுளி வணிகங்கள் மற்றும் பெண் தொழில்முனைவோர்களுக்கு தொழில்துறை மற்றும் தொடக்கக் கொள்கைகள் மூலம் ஆதரவளிக்கிறது.",
+    "infoLink": "https://wbindustries.gov.in/",
+    "schemes": [
+      "Banglashree",
+      "Startup Bengal"
+    ]
+  },
+  {
+    "label": "டெல்லி",
+    "value": "delhi",
+    "capital": "புது டெல்லி",
+    "supportFocus": "தொடக்கங்கள், சேவைகள், தொழில்நுட்பம், சில்லறை விற்பனை",
+    "description": "புதுமை மற்றும் MSME முன்முயற்சிகள் மூலம் ஸ்டார்ட்அப்கள், சேவை சார்ந்த வணிகங்கள், சில்லறை வணிக நிறுவனங்கள் மற்றும் பெண் தொழில்முனைவோர் ஆகியோரை டெல்லி ஆதரிக்கிறது.",
+    "infoLink": "https://dsiidc.org/",
+    "schemes": [
+      "Delhi Startup Policy"
+    ]
+  },
+  {
+    "label": "ஜம்மு & காஷ்மீர்",
+    "value": "jammu_kashmir",
+    "capital": "ஸ்ரீநகர் / ஜம்மு",
+    "supportFocus": "கைவினைப் பொருட்கள், சுற்றுலா, விவசாயம், MSMEகள்",
+    "description": "ஜம்மு & காஷ்மீர் வாழ்வாதாரம் மற்றும் MSME ஆதரவு திட்டங்கள் மூலம் கைவினைப்பொருட்கள், சுற்றுலா, தோட்டக்கலை மற்றும் பெண்கள் தொழில்முனைவு ஆகியவற்றை ஊக்குவிக்கிறது.",
+    "infoLink": "https://www.jkindustriescommerce.nic.in/",
+    "schemes": [
+      "JK Startup Policy"
+    ]
+  },
+  {
+    "label": "லடாக்",
+    "value": "ladakh",
+    "capital": "லே",
+    "supportFocus": "சுற்றுலா, கைவினைப் பொருட்கள், சுற்றுச்சூழல் வணிகங்கள்",
+    "description": "லடாக் சுற்றுலா, சுற்றுச்சூழல் நட்பு வணிகங்கள், கைவினைப்பொருட்கள் மற்றும் நிலையான தொழில்முனைவு முயற்சிகளை ஆதரிக்கிறது.",
+    "infoLink": "https://ladakh.nic.in/",
+    "schemes": [
+      "Tourism Entrepreneurship Support"
+    ]
+  },
+  {
+    "label": "புதுச்சேரி",
+    "value": "puducherry",
+    "capital": "புதுச்சேரி",
+    "supportFocus": "சுற்றுலா, MSMEகள், உற்பத்தி",
+    "description": "புதுச்சேரி சுற்றுலா வணிகங்கள், MSMEகள், சிறு உற்பத்தி பிரிவுகள் மற்றும் பெண் தொழில் முனைவோர்களுக்கு ஆதரவளிக்கிறது.",
+    "infoLink": "https://www.py.gov.in/",
+    "schemes": [
+      "Puducherry Startup Policy"
+    ]
+  }
+]

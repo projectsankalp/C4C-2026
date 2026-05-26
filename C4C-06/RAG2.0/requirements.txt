@@ -1,0 +1,15 @@
+pinecone
+sentence-transformers
+groq
+python-dotenv
+pytesseract
+pdf2image
+pdfminer.six
+pillow
+python-docx
+python-pptx
+numpy
+torch
+transformers
+flask
+SpeechRecognition

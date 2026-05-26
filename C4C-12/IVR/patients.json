@@ -1,0 +1,193 @@
+[
+  {
+    "id": "GS-100001",
+    "numericId": "100001",
+    "name": "Lakshmi Devi",
+    "age": 48,
+    "gender": "Female",
+    "village": "Kalladka",
+    "phone": "9876543210",
+    "familyPhone": "9876543211",
+    "familyHistoryDiabetes": true,
+    "familyHistoryHypertension": false,
+    "onMedication": true,
+    "riskLevel": "HIGH",
+    "latestScreening": {
+      "systolicBP": 158,
+      "diastolicBP": 96,
+      "glucose": 224,
+      "idrsScore": 68,
+      "bpClassification": "Stage 2 Hypertension",
+      "glucoseClassification": "Diabetic range",
+      "reasons": [
+        "BP 158/96 - Stage 2 Hypertension",
+        "Glucose 224 mg/dL - Diabetic range",
+        "IDRS Score 68 - High diabetes risk"
+      ],
+      "recommendation": "Visit Bantuwal Primary Health Centre within two weeks. Please restrict sugar and salt intake."
+    }
+  },
+  {
+    "id": "GS-100002",
+    "numericId": "100002",
+    "name": "Ramesh Kumar",
+    "age": 52,
+    "gender": "Male",
+    "village": "Bantwal",
+    "phone": "9845012345",
+    "familyPhone": "",
+    "familyHistoryDiabetes": false,
+    "familyHistoryHypertension": true,
+    "onMedication": false,
+    "riskLevel": "MODERATE",
+    "latestScreening": {
+      "systolicBP": 134,
+      "diastolicBP": 86,
+      "glucose": 112,
+      "idrsScore": 42,
+      "bpClassification": "Stage 1 Hypertension",
+      "glucoseClassification": "Prediabetes range",
+      "reasons": [
+        "BP 134/86 - Stage 1 Hypertension",
+        "Glucose 112 mg/dL - Prediabetic range"
+      ],
+      "recommendation": "Adopt lifestyle changes, practice daily walking, and repeat screening in six months."
+    }
+  },
+  {
+    "id": "GS-100003",
+    "numericId": "100003",
+    "name": "Salma Begum",
+    "age": 34,
+    "gender": "Female",
+    "village": "Puttur",
+    "phone": "9740123456",
+    "familyPhone": "",
+    "familyHistoryDiabetes": false,
+    "familyHistoryHypertension": false,
+    "onMedication": false,
+    "riskLevel": "LOW",
+    "latestScreening": {
+      "systolicBP": 116,
+      "diastolicBP": 74,
+      "glucose": 88,
+      "idrsScore": 18,
+      "bpClassification": "Normal",
+      "glucoseClassification": "Normal range",
+      "reasons": [
+        "BP 116/74 - Normal",
+        "Glucose 88 mg/dL - Normal"
+      ],
+      "recommendation": "Your health metrics look great. Continue eating fresh vegetables and undergo checkup again in one year."
+    }
+  },
+  {
+    "id": "GS-100004",
+    "numericId": "100004",
+    "name": "Govind Rao",
+    "age": 61,
+    "gender": "Male",
+    "village": "Sullia",
+    "phone": "9632012345",
+    "familyPhone": "",
+    "familyHistoryDiabetes": true,
+    "familyHistoryHypertension": true,
+    "onMedication": true,
+    "riskLevel": "VERY_HIGH",
+    "latestScreening": {
+      "systolicBP": 162,
+      "diastolicBP": 100,
+      "glucose": 198,
+      "idrsScore": 72,
+      "bpClassification": "Stage 2 Hypertension",
+      "glucoseClassification": "Diabetic range",
+      "reasons": [
+        "BP 162/100 - Stage 2 Hypertension",
+        "Glucose 198 mg/dL - Diabetic range",
+        "IDRS Score 72 - Very High risk"
+      ],
+      "recommendation": "Please visit your nearest hospital or Primary Health Centre today. This is urgent."
+    }
+  },
+  {
+    "id": "GS-100005",
+    "numericId": "100005",
+    "name": "Meena Patel",
+    "age": 45,
+    "gender": "Female",
+    "village": "Moodabidri",
+    "phone": "9521012345",
+    "familyPhone": "",
+    "familyHistoryDiabetes": true,
+    "familyHistoryHypertension": false,
+    "onMedication": false,
+    "riskLevel": "MODERATE",
+    "latestScreening": {
+      "systolicBP": 130,
+      "diastolicBP": 84,
+      "glucose": 118,
+      "idrsScore": 38,
+      "bpClassification": "Stage 1 Hypertension",
+      "glucoseClassification": "Prediabetes range",
+      "reasons": [
+        "BP 130/84 - Stage 1 Hypertension",
+        "Glucose 118 mg/dL - Prediabetic range"
+      ],
+      "recommendation": "Reduce fried foods and pickles. Follow up with your village health worker in three months."
+    }
+  },
+  {
+    "id": "GS-100006",
+    "numericId": "100006",
+    "name": "Suresh Shetty",
+    "age": 38,
+    "gender": "Male",
+    "village": "Mangalore",
+    "phone": "9410123456",
+    "familyPhone": "",
+    "familyHistoryDiabetes": false,
+    "familyHistoryHypertension": false,
+    "onMedication": false,
+    "riskLevel": "LOW",
+    "latestScreening": {
+      "systolicBP": 118,
+      "diastolicBP": 78,
+      "glucose": 94,
+      "idrsScore": 22,
+      "bpClassification": "Normal",
+      "glucoseClassification": "Normal range",
+      "reasons": [
+        "BP 118/78 - Normal",
+        "Glucose 94 mg/dL - Normal"
+      ],
+      "recommendation": "You are healthy. Maintain regular exercise and undergo checkup again in one year."
+    }
+  },
+  {
+    "id": "GS-685586",
+    "numericId": "685586",
+    "name": "Anita Devi",
+    "age": 45,
+    "gender": "Female",
+    "village": "kalladka",
+    "phone": "6363926491",
+    "familyPhone": "",
+    "familyHistoryDiabetes": false,
+    "familyHistoryHypertension": false,
+    "onMedication": false,
+    "riskLevel": "HIGH",
+    "latestScreening": {
+      "systolicBP": 180,
+      "diastolicBP": 110,
+      "glucose": 200,
+      "idrsScore": 40,
+      "bpClassification": "Stage 1 Hypertension",
+      "glucoseClassification": "Diabetic range",
+      "reasons": [
+        "BP 180/110 - Stage 1 Hypertension",
+        "Glucose 200 mg/dL - Diabetic range"
+      ],
+      "recommendation": "visit the nearest bantwal PHC within a week. restrict sugars and high sodium intake"
+    }
+  }
+]

@@ -1,0 +1,1623 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Journal — MindCircle</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f4ece4;
+      --bg-secondary: #f8f4e8;
+      --bg-card: rgba(255, 255, 255, 0.6);
+      --text-primary: #2c2c2c;
+      --text-secondary: #6b6b6b;
+      --text-muted: #9e9e9e;
+      --accent-warm: #d4a574;
+      --accent-purple: #7c5cff;
+      --accent-coral: #ff6b6b;
+      --accent-sage: #8fbc8f;
+      --accent-sky: #87ceeb;
+      --border-color: rgba(0,0,0,0.06);
+      --shadow-soft: 0 8px 32px rgba(0,0,0,0.08);
+      --shadow-card: 0 4px 20px rgba(0,0,0,0.06);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+
+    body.dark {
+      --bg-primary: #1a1523;
+      --bg-secondary: #161221;
+      --bg-card: rgba(30, 25, 40, 0.6);
+      --text-primary: #f0e6d3;
+      --text-secondary: #b8b0a8;
+      --text-muted: #7a7a7a;
+      --border-color: rgba(255,255,255,0.06);
+      --shadow-soft: 0 8px 32px rgba(0,0,0,0.4);
+      --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary), #faf2e9, #f5eedf);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-primary);
+      transition: background 0.8s ease, color 0.5s ease;
+      overflow-x: hidden;
+    }
+
+    body.dark {
+      background: linear-gradient(135deg, #1f121f, #1c1620, #161221, #1a111d, #180e0f);
+    }
+
+    /* Fade at bottom */
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: 0; left: 0;
+      width: 100%; height: 150px;
+      background: linear-gradient(to top, var(--bg-primary), transparent);
+      pointer-events: none;
+      z-index: 1;
+      transition: background 0.8s ease;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(244, 236, 228, 0.7);
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.5s ease;
+    }
+
+    body.dark .nav-bar {
+      background: rgba(26, 21, 35, 0.7);
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-logo {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .nav-logo:hover { transform: scale(1.1); }
+
+    .nav-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-card);
+    }
+    .nav-btn:hover {
+      transform: scale(1.1);
+      background: var(--accent-warm);
+      color: white;
+    }
+
+    /* ===== MAIN LAYOUT ===== */
+    .journal-app {
+      padding-top: 90px;
+      padding-bottom: 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .journal-hero {
+      text-align: center;
+      padding: 40px 20px 30px;
+      margin-bottom: 30px;
+    }
+
+    .journal-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-warm));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .journal-hero p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-top: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .date-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* ===== MOOD TRACKER ===== */
+    .mood-section {
+      margin-bottom: 30px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 12px;
+    }
+
+    .mood-item {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 20px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: var(--shadow-card);
+    }
+
+    .mood-item:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mood-item.selected {
+      border-color: var(--accent-warm);
+      background: rgba(212, 165, 116, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .mood-emoji {
+      font-size: 36px;
+      margin-bottom: 8px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .mood-item:hover .mood-emoji { transform: scale(1.2); }
+
+    .mood-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .mood-item.selected .mood-label {
+      color: var(--accent-warm);
+    }
+
+    /* ===== JOURNAL EDITOR ===== */
+    .editor-container {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      margin-bottom: 30px;
+      transition: all 0.5s ease;
+    }
+
+    .editor-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(0,0,0,0.02);
+    }
+
+    body.dark .editor-tabs {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .editor-tab {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .editor-tab:hover {
+      color: var(--text-secondary);
+      background: rgba(0,0,0,0.02);
+    }
+
+    .editor-tab.active {
+      color: var(--accent-warm);
+    }
+
+    .editor-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: var(--accent-warm);
+      border-radius: 3px 3px 0 0;
+    }
+
+    .editor-body {
+      padding: 24px;
+      min-height: 300px;
+    }
+
+    /* Text Editor */
+    .text-editor {
+      width: 100%;
+      min-height: 280px;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-primary);
+      resize: vertical;
+      padding: 8px;
+    }
+
+    .text-editor::placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Drawing Canvas */
+    .drawing-area {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .drawing-area.active {
+      display: flex;
+    }
+
+    .canvas-container {
+      position: relative;
+      background: white;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    #drawingCanvas {
+      display: block;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .drawing-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px;
+      background: rgba(0,0,0,0.02);
+      border-radius: var(--radius-sm);
+    }
+
+    body.dark .drawing-tools {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tool-btn {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      color: var(--text-secondary);
+    }
+
+    .tool-btn:hover {
+      border-color: var(--accent-warm);
+      transform: scale(1.1);
+    }
+
+    .tool-btn.active {
+      background: var(--accent-warm);
+      color: white;
+      border-color: var(--accent-warm);
+    }
+
+    .color-picker {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 3px solid var(--border-color);
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    .color-picker:hover { transform: scale(1.15); }
+    .color-picker input {
+      width: 150%; height: 150%;
+      transform: translate(-15%, -15%);
+      border: none;
+      cursor: pointer;
+    }
+
+    .brush-size {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brush-size input[type="range"] {
+      width: 80px;
+      accent-color: var(--accent-warm);
+    }
+
+    .brush-preview {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    /* ===== PROMPTS ===== */
+    .prompts-section {
+      margin-bottom: 30px;
+    }
+
+    .prompts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .prompt-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      box-shadow: var(--shadow-card);
+    }
+
+    .prompt-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-soft);
+      border-color: var(--accent-warm);
+    }
+
+    .prompt-card .material-symbols-outlined {
+      font-size: 24px;
+      color: var(--accent-warm);
+      margin-bottom: 10px;
+    }
+
+    .prompt-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== SAVE BUTTON ===== */
+    .save-section {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--accent-warm), #c9956b);
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(212, 165, 116, 0.35);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(212, 165, 116, 0.45);
+    }
+
+    .btn-secondary-custom {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary-custom:hover {
+      background: rgba(212, 165, 116, 0.1);
+      border-color: var(--accent-warm);
+      color: var(--accent-warm);
+    }
+
+    /* ===== ENTRIES FEED ===== */
+    .entries-section {
+      margin-bottom: 40px;
+    }
+
+    .entries-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .entries-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .entries-count {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+
+    .entries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .entry-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--accent-warm);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .entry-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .entry-card:hover::before {
+      opacity: 1;
+    }
+
+    .entry-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .entry-date {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+
+    .entry-mood {
+      font-size: 22px;
+    }
+
+    .entry-preview {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .entry-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .entry-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(212, 165, 116, 0.12);
+      color: var(--accent-warm);
+    }
+
+    .entry-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .entry-card:hover .entry-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .entry-action-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .entry-action-btn:hover {
+      background: rgba(255, 71, 87, 0.1);
+      border-color: #ff4757;
+      color: #ff4757;
+    }
+
+    .entry-action-btn.edit:hover {
+      background: rgba(124, 92, 255, 0.1);
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state .material-symbols-outlined {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+
+    .empty-state h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    /* ===== VIEW MODAL ===== */
+    .view-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .view-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .view-modal-content {
+      background: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 700px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+
+    .view-modal.show .view-modal-content {
+      transform: scale(1);
+    }
+
+    .view-modal-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .view-modal-close:hover {
+      background: #ff4757;
+      color: white;
+    }
+
+    .view-modal-body {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.9;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+    }
+
+    .view-modal-image {
+      width: 100%;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* ===== STREAK COUNTER ===== */
+    .streak-widget {
+      background: linear-gradient(135deg, rgba(212, 165, 116, 0.15), rgba(124, 92, 255, 0.08));
+      border: 1px solid rgba(212, 165, 116, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .streak-info h3 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .streak-info p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .streak-days {
+      display: flex;
+      gap: 8px;
+    }
+
+    .streak-day {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 2px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .streak-day.completed {
+      background: var(--accent-warm);
+      color: white;
+      border-color: var(--accent-warm);
+      box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+    }
+
+    .streak-day.today {
+      border-color: var(--accent-warm);
+      color: var(--accent-warm);
+      animation: pulse-ring 2s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(212, 165, 116, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0); }
+    }
+
+    /* ===== TOAST ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    .toast-msg {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
+      margin-top: 10px;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-10px) scale(0.95); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .journal-app { padding-left: 16px; padding-right: 16px; }
+      .nav-bar { padding: 0 16px; height: 60px; }
+      .journal-hero h1 { font-size: 36px; }
+      .entries-grid { grid-template-columns: 1fr; }
+      .mood-grid { grid-template-columns: repeat(3, 1fr); }
+      .view-modal-content { padding: 24px; }
+      .streak-widget { flex-direction: column; text-align: center; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; opacity: 0.3; }
+  </style>
+<base target="_blank">
+</head>
+
+<body class="dark">
+
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <div class="nav-left">
+      <button class="nav-btn" onclick="window.location.href='redirect.html'" title="Back to Home">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=100&q=80" alt="Logo" class="nav-logo">
+      <span class="nav-title">Daily Journal</span>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn" onclick="toggleDarkMode()" title="Toggle Theme">
+        <span class="material-symbols-outlined" id="themeIcon">wb_sunny</span>
+      </button>
+      <button class="nav-btn" onclick="exportEntries()" title="Export Journals">
+        <span class="material-symbols-outlined">download</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="journal-app">
+
+    <!-- Hero -->
+    <section class="journal-hero">
+      <h1>Your Safe Space</h1>
+      <p>Express yourself freely. Write, draw, and reflect — every entry is a step toward healing.</p>
+      <div class="date-badge" id="currentDate">
+        <span class="material-symbols-outlined" style="font-size:18px;">calendar_today</span>
+        <span id="dateText">Loading...</span>
+      </div>
+    </section>
+
+    <!-- Streak Widget -->
+    <div class="streak-widget">
+      <div class="streak-info">
+        <h3>🔥 <span id="streakCount">3</span> Day Streak</h3>
+        <p>Keep journaling daily to maintain your streak and build a healthy habit.</p>
+      </div>
+      <div class="streak-days" id="streakDays">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Mood Tracker -->
+    <section class="mood-section">
+      <div class="section-label">
+        <span class="material-symbols-outlined" style="font-size:18px;">mood</span>
+        How are you feeling today?
+      </div>
+      <div class="mood-grid" id="moodGrid">
+        <div class="mood-item" data-mood="amazing" data-emoji="🤩">
+          <span class="mood-emoji">🤩</span>
+          <span class="mood-label">Amazing</span>
+        </div>
+        <div class="mood-item" data-mood="good" data-emoji="😊">
+          <span class="mood-emoji">😊</span>
+          <span class="mood-label">Good</span>
+        </div>
+        <div class="mood-item" data-mood="okay" data-emoji="😐">
+          <span class="mood-emoji">😐</span>
+          <span class="mood-label">Okay</span>
+        </div>
+        <div class="mood-item" data-mood="anxious" data-emoji="😰">
+          <span class="mood-emoji">😰</span>
+          <span class="mood-label">Anxious</span>
+        </div>
+        <div class="mood-item" data-mood="sad" data-emoji="😢">
+          <span class="mood-emoji">😢</span>
+          <span class="mood-label">Sad</span>
+        </div>
+        <div class="mood-item" data-mood="angry" data-emoji="😤">
+          <span class="mood-emoji">😤</span>
+          <span class="mood-label">Angry</span>
+        </div>
+        <div class="mood-item" data-mood="tired" data-emoji="😴">
+          <span class="mood-emoji">😴</span>
+          <span class="mood-label">Tired</span>
+        </div>
+        <div class="mood-item" data-mood="grateful" data-emoji="🙏">
+          <span class="mood-emoji">🙏</span>
+          <span class="mood-label">Grateful</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Writing Prompts -->
+    <section class="prompts-section">
+      <div class="section-label">
+        <span class="material-symbols-outlined" style="font-size:18px;">lightbulb</span>
+        Need inspiration?
+      </div>
+      <div class="prompts-grid" id="promptsGrid">
+        <div class="prompt-card" data-prompt="What are three things that made you smile today, no matter how small?">
+          <span class="material-symbols-outlined">wb_sunny</span>
+          <div class="prompt-text">What are three things that made you smile today?</div>
+        </div>
+        <div class="prompt-card" data-prompt="Describe a moment today when you felt at peace. What did it look like, sound like, feel like?">
+          <span class="material-symbols-outlined">self_improvement</span>
+          <div class="prompt-text">Describe a moment today when you felt at peace.</div>
+        </div>
+        <div class="prompt-card" data-prompt="If your anxiety had a color and a shape today, what would it be? Draw or describe it.">
+          <span class="material-symbols-outlined">palette</span>
+          <div class="prompt-text">If your anxiety had a color and shape, what would it be?</div>
+        </div>
+        <div class="prompt-card" data-prompt="Write a letter to your future self. What do you want them to remember about today?">
+          <span class="material-symbols-outlined">mail</span>
+          <div class="prompt-text">Write a letter to your future self about today.</div>
+        </div>
+        <div class="prompt-card" data-prompt="What is one boundary you set today that you're proud of?">
+          <span class="material-symbols-outlined">shield</span>
+          <div class="prompt-text">What boundary did you set today that you're proud of?</div>
+        </div>
+        <div class="prompt-card" data-prompt="Draw or describe your safe place. What makes it feel safe?">
+          <span class="material-symbols-outlined">home</span>
+          <div class="prompt-text">Draw or describe your safe place.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editor -->
+    <div class="editor-container">
+      <div class="editor-tabs">
+        <button class="editor-tab active" data-tab="write">
+          <span class="material-symbols-outlined">edit_note</span>
+          Write
+        </button>
+        <button class="editor-tab" data-tab="draw">
+          <span class="material-symbols-outlined">brush</span>
+          Draw
+        </button>
+      </div>
+
+      <div class="editor-body">
+        <!-- Text Editor -->
+        <div class="text-editor-area" id="textArea">
+          <textarea class="text-editor" id="journalText" placeholder="Start writing your thoughts here...
+
+There is no right or wrong way to journal. Just let your thoughts flow."></textarea>
+        </div>
+
+        <!-- Drawing Canvas -->
+        <div class="drawing-area" id="drawArea">
+          <div class="canvas-container">
+            <canvas id="drawingCanvas" width="700" height="400"></canvas>
+          </div>
+          <div class="drawing-tools">
+            <div class="tool-group">
+              <button class="tool-btn active" data-tool="pen" title="Pen">
+                <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
+              </button>
+              <button class="tool-btn" data-tool="eraser" title="Eraser">
+                <span class="material-symbols-outlined" style="font-size:18px;">ink_eraser</span>
+              </button>
+              <button class="tool-btn" onclick="clearCanvas()" title="Clear All">
+                <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
+              </button>
+              <button class="tool-btn" onclick="undoStroke()" title="Undo">
+                <span class="material-symbols-outlined" style="font-size:18px;">undo</span>
+              </button>
+            </div>
+            <div class="tool-group">
+              <div class="color-picker" title="Brush Color">
+                <input type="color" id="brushColor" value="#2c2c2c">
+              </div>
+            </div>
+            <div class="tool-group brush-size">
+              <span class="material-symbols-outlined" style="font-size:16px; color:var(--text-muted);">line_weight</span>
+              <input type="range" id="brushSize" min="1" max="20" value="3">
+              <div class="brush-preview" id="brushPreview"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Actions -->
+    <div class="save-section">
+      <button class="btn-primary-custom" onclick="saveEntry()">
+        <span class="material-symbols-outlined">save</span>
+        Save Journal Entry
+      </button>
+      <button class="btn-secondary-custom" onclick="clearEditor()">
+        <span class="material-symbols-outlined">refresh</span>
+        Start Fresh
+      </button>
+    </div>
+
+    <!-- Entries Feed -->
+    <section class="entries-section">
+      <div class="entries-header">
+        <h2 class="entries-title">Your Journey</h2>
+        <span class="entries-count" id="entriesCount">0 entries</span>
+      </div>
+      <div class="entries-grid" id="entriesGrid">
+        <!-- Entries rendered by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- View Modal -->
+  <div class="view-modal" id="viewModal">
+    <div class="view-modal-content">
+      <button class="view-modal-close" onclick="closeViewModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div id="viewModalBody">
+        <!-- Content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // ============================
+    // STATE & DATA
+    // ============================
+    let selectedMood = null;
+    let currentTab = 'write';
+    let entries = JSON.parse(localStorage.getItem('mindcircle_journal_entries')) || [];
+    let canvasStrokes = [];
+    let currentStroke = [];
+    let isDrawing = false;
+    let currentTool = 'pen';
+
+    // ============================
+    // DATE DISPLAY
+    // ============================
+    function updateDate() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('dateText').textContent = now.toLocaleDateString('en-US', options);
+    }
+    updateDate();
+
+    // ============================
+    // DARK MODE
+    // ============================
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const icon = document.getElementById('themeIcon');
+      icon.textContent = document.body.classList.contains('dark') ? 'wb_sunny' : 'dark_mode';
+      localStorage.setItem('mindcircle_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    // Load saved theme
+    if (localStorage.getItem('mindcircle_theme') === 'light') {
+      document.body.classList.remove('dark');
+      document.getElementById('themeIcon').textContent = 'dark_mode';
+    }
+
+    // ============================
+    // MOOD SELECTION
+    // ============================
+    document.querySelectorAll('.mood-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.mood-item').forEach(m => m.classList.remove('selected'));
+        item.classList.add('selected');
+        selectedMood = {
+          mood: item.dataset.mood,
+          emoji: item.dataset.emoji
+        };
+      });
+    });
+
+    // ============================
+    // PROMPTS
+    // ============================
+    document.querySelectorAll('.prompt-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const prompt = card.dataset.prompt;
+        const textarea = document.getElementById('journalText');
+        textarea.value = prompt + '
+
+';
+        textarea.focus();
+        showToast('Prompt added to editor ✨');
+      });
+    });
+
+    // ============================
+    // EDITOR TABS
+    // ============================
+    document.querySelectorAll('.editor-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentTab = tab.dataset.tab;
+
+        if (currentTab === 'write') {
+          document.getElementById('textArea').style.display = 'block';
+          document.getElementById('drawArea').classList.remove('active');
+        } else {
+          document.getElementById('textArea').style.display = 'none';
+          document.getElementById('drawArea').classList.add('active');
+          resizeCanvas();
+        }
+      });
+    });
+
+    // ============================
+    // CANVAS DRAWING
+    // ============================
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    let brushColor = '#2c2c2c';
+    let brushSize = 3;
+
+    function resizeCanvas() {
+      const container = canvas.parentElement;
+      const rect = container.getBoundingClientRect();
+      canvas.width = rect.width - 4;
+      canvas.height = 400;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      const pos = getPos(e);
+      currentStroke = [{ x: pos.x, y: pos.y, color: currentTool === 'eraser' ? '#ffffff' : brushColor, size: brushSize, tool: currentTool }];
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      currentStroke.push({ x: pos.x, y: pos.y, color: currentTool === 'eraser' ? '#ffffff' : brushColor, size: brushSize, tool: currentTool });
+
+      ctx.globalCompositeOperation = currentTool === 'eraser' ? 'destination-out' : 'source-over';
+      ctx.strokeStyle = currentTool === 'eraser' ? 'rgba(0,0,0,1)' : brushColor;
+      ctx.lineWidth = brushSize;
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      e.preventDefault();
+    }
+
+    function endDraw() {
+      if (isDrawing && currentStroke.length > 0) {
+        canvasStrokes.push([...currentStroke]);
+      }
+      isDrawing = false;
+      currentStroke = [];
+      ctx.beginPath();
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseout', endDraw);
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    canvas.addEventListener('touchend', endDraw);
+
+    // Tools
+    document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tool-btn[data-tool]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTool = btn.dataset.tool;
+      });
+    });
+
+    document.getElementById('brushColor').addEventListener('input', (e) => {
+      brushColor = e.target.value;
+      document.getElementById('brushPreview').style.background = brushColor;
+    });
+
+    document.getElementById('brushSize').addEventListener('input', (e) => {
+      brushSize = parseInt(e.target.value);
+      document.getElementById('brushPreview').style.width = brushSize + 'px';
+      document.getElementById('brushPreview').style.height = brushSize + 'px';
+    });
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvasStrokes = [];
+      showToast('Canvas cleared 🎨');
+    }
+
+    function undoStroke() {
+      if (canvasStrokes.length === 0) return;
+      canvasStrokes.pop();
+      redrawCanvas();
+      showToast('Undo ↩️');
+    }
+
+    function redrawCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvasStrokes.forEach(stroke => {
+        if (stroke.length < 2) return;
+        ctx.beginPath();
+        ctx.moveTo(stroke[0].x, stroke[0].y);
+        for (let i = 1; i < stroke.length; i++) {
+          const point = stroke[i];
+          ctx.globalCompositeOperation = point.tool === 'eraser' ? 'destination-out' : 'source-over';
+          ctx.strokeStyle = point.tool === 'eraser' ? 'rgba(0,0,0,1)' : point.color;
+          ctx.lineWidth = point.size;
+          ctx.lineTo(point.x, point.y);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(point.x, point.y);
+        }
+      });
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    window.addEventListener('resize', () => {
+      if (currentTab === 'draw') resizeCanvas();
+    });
+
+    // ============================
+    // SAVE ENTRY
+    // ============================
+    function saveEntry() {
+      const text = document.getElementById('journalText').value.trim();
+      const hasDrawing = canvasStrokes.length > 0;
+
+      if (!text && !hasDrawing && !selectedMood) {
+        showToast('Please write something, draw, or select a mood first 💭');
+        return;
+      }
+
+      let drawingData = null;
+      if (hasDrawing) {
+        drawingData = canvas.toDataURL('image/png');
+      }
+
+      const entry = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        text: text,
+        mood: selectedMood,
+        drawing: drawingData,
+        tags: generateTags(text, selectedMood)
+      };
+
+      entries.unshift(entry);
+      localStorage.setItem('mindcircle_journal_entries', JSON.stringify(entries));
+
+      // Update streak
+      updateStreak();
+
+      renderEntries();
+      clearEditor();
+      showToast('Journal saved successfully! 🌟');
+    }
+
+    function generateTags(text, mood) {
+      const tags = [];
+      if (mood) tags.push(mood.mood);
+
+      const keywords = {
+        'grateful': ['gratitude', 'thankful', 'blessed'],
+        'anxiety': ['anxious', 'worried', 'nervous', 'panic'],
+        'happy': ['happy', 'joy', 'excited', 'wonderful'],
+        'sad': ['sad', 'lonely', 'empty', 'hurt'],
+        'growth': ['learned', 'growth', 'improve', 'better'],
+        'sleep': ['sleep', 'rest', 'tired', 'exhausted']
+      };
+
+      const lowerText = text.toLowerCase();
+      for (const [tag, words] of Object.entries(keywords)) {
+        if (words.some(w => lowerText.includes(w))) {
+          tags.push(tag);
+        }
+      }
+
+      return [...new Set(tags)].slice(0, 3);
+    }
+
+    function clearEditor() {
+      document.getElementById('journalText').value = '';
+      clearCanvas();
+      document.querySelectorAll('.mood-item').forEach(m => m.classList.remove('selected'));
+      selectedMood = null;
+      canvasStrokes = [];
+    }
+
+    // ============================
+    // RENDER ENTRIES
+    // ============================
+    function renderEntries() {
+      const grid = document.getElementById('entriesGrid');
+      const countEl = document.getElementById('entriesCount');
+
+      countEl.textContent = `${entries.length} entry${entries.length !== 1 ? 'ies' : 'y'}`;
+
+      if (entries.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <span class="material-symbols-outlined">auto_stories</span>
+            <h3>Your journal is empty</h3>
+            <p>Start writing your first entry above. Every word is a step forward.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = entries.map(entry => {
+        const date = new Date(entry.date);
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const preview = entry.text ? entry.text.substring(0, 120) + (entry.text.length > 120 ? '...' : '') : '(Drawing only)';
+        const moodEmoji = entry.mood ? entry.mood.emoji : '';
+
+        return `
+          <div class="entry-card" onclick="openEntry(${entry.id})">
+            <div class="entry-header">
+              <span class="entry-date">${dateStr} · ${timeStr}</span>
+              <span class="entry-mood">${moodEmoji}</span>
+            </div>
+            <div class="entry-preview">${escapeHtml(preview)}</div>
+            <div class="entry-tags">
+              ${entry.tags.map(tag => `<span class="entry-tag">${tag}</span>`).join('')}
+            </div>
+            <div class="entry-actions" onclick="event.stopPropagation()">
+              <button class="entry-action-btn edit" onclick="editEntry(${entry.id})" title="Edit">
+                <span class="material-symbols-outlined" style="font-size:16px;">edit</span>
+              </button>
+              <button class="entry-action-btn" onclick="deleteEntry(${entry.id})" title="Delete">
+                <span class="material-symbols-outlined" style="font-size:16px;">delete</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ============================
+    // ENTRY ACTIONS
+    // ============================
+    function openEntry(id) {
+      const entry = entries.find(e => e.id === id);
+      if (!entry) return;
+
+      const date = new Date(entry.date);
+      const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+      let content = `
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <span style="font-size:32px;">${entry.mood ? entry.mood.emoji : '📝'}</span>
+          <div>
+            <div style="font-family: var(--font-serif); font-size: 24px; font-weight: 700;">${dateStr}</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+              ${entry.tags.map(t => `<span style="background: rgba(212,165,116,0.15); padding: 2px 10px; border-radius: 10px; margin-right: 6px;">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (entry.drawing) {
+        content += `<img src="${entry.drawing}" class="view-modal-image" alt="Drawing">`;
+      }
+
+      if (entry.text) {
+        content += `<div class="view-modal-body">${escapeHtml(entry.text)}</div>`;
+      }
+
+      document.getElementById('viewModalBody').innerHTML = content;
+      document.getElementById('viewModal').classList.add('show');
+    }
+
+    function closeViewModal() {
+      document.getElementById('viewModal').classList.remove('show');
+    }
+
+    function editEntry(id) {
+      const entry = entries.find(e => e.id === id);
+      if (!entry) return;
+
+      document.getElementById('journalText').value = entry.text || '';
+
+      if (entry.mood) {
+        document.querySelectorAll('.mood-item').forEach(m => {
+          m.classList.toggle('selected', m.dataset.mood === entry.mood.mood);
+        });
+        selectedMood = entry.mood;
+      }
+
+      // Remove old entry
+      entries = entries.filter(e => e.id !== id);
+      localStorage.setItem('mindcircle_journal_entries', JSON.stringify(entries));
+      renderEntries();
+
+      showToast('Entry loaded for editing ✏️');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteEntry(id) {
+      if (!confirm('Are you sure you want to delete this entry? This cannot be undone.')) return;
+      entries = entries.filter(e => e.id !== id);
+      localStorage.setItem('mindcircle_journal_entries', JSON.stringify(entries));
+      renderEntries();
+      showToast('Entry deleted 🗑️');
+    }
+
+    // ============================
+    // STREAK
+    // ============================
+    function updateStreak() {
+      const today = new Date().toDateString();
+      let streakData = JSON.parse(localStorage.getItem('mindcircle_streak')) || { count: 0, lastDate: null, history: [] };
+
+      if (streakData.lastDate !== today) {
+        const lastDate = streakData.lastDate ? new Date(streakData.lastDate) : null;
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        if (lastDate && lastDate.toDateString() === yesterday.toDateString()) {
+          streakData.count++;
+        } else if (!lastDate || lastDate.toDateString() !== today) {
+          streakData.count = 1;
+        }
+
+        streakData.lastDate = today;
+        streakData.history.push(today);
+        if (streakData.history.length > 30) streakData.history.shift();
+
+        localStorage.setItem('mindcircle_streak', JSON.stringify(streakData));
+      }
+
+      renderStreak(streakData);
+    }
+
+    function renderStreak(streakData) {
+      document.getElementById('streakCount').textContent = streakData.count;
+
+      const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+      const today = new Date().getDay();
+      const container = document.getElementById('streakDays');
+
+      container.innerHTML = days.map((d, i) => {
+        const dayDate = new Date();
+        dayDate.setDate(dayDate.getDate() - (today - i));
+        const dateStr = dayDate.toDateString();
+        const isCompleted = streakData.history.includes(dateStr);
+        const isToday = i === today;
+
+        return `<div class="streak-day ${isCompleted ? 'completed' : ''} ${isToday ? 'today' : ''}">${d}</div>`;
+      }).join('');
+    }
+
+    // ============================
+    // EXPORT
+    // ============================
+    function exportEntries() {
+      if (entries.length === 0) {
+        showToast('No entries to export yet 📭');
+        return;
+      }
+
+      let markdown = '# My MindCircle Journal\n\n';
+      entries.forEach(entry => {
+        const date = new Date(entry.date);
+        markdown += `## ${date.toLocaleDateString()} ${entry.mood ? entry.mood.emoji : ''}\n\n`;
+        if (entry.text) markdown += `${entry.text}\n\n`;
+        if (entry.drawing) markdown += `*[Drawing attached]*\n\n`;
+        markdown += `---\n\n`;
+      });
+
+      const blob = new Blob([markdown], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mindcircle-journal-${new Date().toISOString().split('T')[0]}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Journal exported! 📥');
+    }
+
+    // ============================
+    // TOAST
+    // ============================
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // ============================
+    // INIT
+    // ============================
+    const savedStreak = JSON.parse(localStorage.getItem('mindcircle_streak')) || { count: 0, lastDate: null, history: [] };
+    renderStreak(savedStreak);
+    renderEntries();
+    resizeCanvas();
+
+    // Close modal on backdrop click
+    document.getElementById('viewModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('viewModal')) closeViewModal();
+    });
+  </script>
+</body>
+</html>

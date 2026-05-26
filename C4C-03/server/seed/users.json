@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Sunita Rao",
+    "role": "asha",
+    "ashaId": "ASHA001",
+    "pin": "1234",
+    "village": "Karkala",
+    "phone": "9876500001",
+    "district": "Dakshina Kannada"
+  },
+  {
+    "name": "Meena Shetty",
+    "role": "asha",
+    "ashaId": "ASHA002",
+    "pin": "1234",
+    "village": "Ullal",
+    "phone": "9876500002",
+    "district": "Dakshina Kannada"
+  },
+  {
+    "name": "Dr. Rajesh Kumar",
+    "role": "doctor",
+    "email": "doctor@phc.com",
+    "password": "doctor123",
+    "phone": "9876500003"
+  },
+  {
+    "name": "District Hospital Admin",
+    "role": "hospital",
+    "email": "hospital@chc.com",
+    "password": "hospital123",
+    "phone": "9876500004"
+  }
+]

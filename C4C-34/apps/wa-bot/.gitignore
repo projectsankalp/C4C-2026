@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+npm-debug.log*
+# Open-WA session data — never commit. Contains WhatsApp session tokens.
+session/
+.wwebjs_auth/
+.wwebjs_cache/
+.tokens.json
+*.session.data.json
+session.data.json
+HASTKALA_DEMO*
+WhatsApp*
+# OS
+.DS_Store
+Thumbs.db
+# Editor
+.vscode/
+.idea/
+
+# managed
+**.data.json
+**.node-persist**
+**_IGNORE_**
+# end managed

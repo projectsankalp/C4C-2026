@@ -1,0 +1,100 @@
+/**
+ * GraamSehat Admin Dashboard - Lost & Found Card CSS
+ * Location: /src/components/LostFoundCard.css
+ */
+
+.lost-found-card {
+  padding: 1.5rem;
+  border-left: 4px solid var(--risk-red) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lost-found-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--risk-red);
+  background-color: var(--risk-red-bg);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  align-self: flex-start;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.lost-found-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+.patient-avatar-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.patient-icon {
+  color: var(--text-muted);
+}
+
+.patient-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.patient-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.lost-found-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.lost-found-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.detail-icon {
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.highlight-text {
+  font-size: 1.125rem;
+  color: var(--primary-dark) !important;
+  letter-spacing: 0.5px;
+}

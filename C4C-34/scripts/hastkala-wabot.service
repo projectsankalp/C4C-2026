@@ -1,0 +1,32 @@
+[Unit]
+Description=Hastkala WhatsApp Bot (whatsapp-web.js + Chromium)
+After=network-online.target hastkala-api.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hastkala
+Group=hastkala
+WorkingDirectory=/opt/hastkala/wabot
+EnvironmentFile=/etc/hastkala/wabot.env
+Environment=PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+Environment=CHROME_PATH=/usr/bin/chromium-browser
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+KillSignal=SIGINT
+TimeoutStartSec=120
+
+# Need write access to keep wwebjs auth/cache state and puppeteer cache
+ReadWritePaths=/opt/hastkala/wabot /opt/hastkala/wabot-state /home/hastkala/.config /home/hastkala/.cache
+
+# Hardening
+NoNewPrivileges=yes
+ProtectSystem=full
+# ProtectHome would block puppeteer's ~/.config access; keep relaxed
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=Swachh Vayu Flask API Service
+After=network.target
+
+[Service]
+# Ensure these paths match your Raspberry Pi setup
+User=pi
+WorkingDirectory=/home/pi/swachh_vayu/backend
+# Assuming you use a virtual environment
+Environment="PATH=/home/pi/swachh_vayu/backend/venv/bin"
+# Run with Gunicorn instead of flask run for production stability
+ExecStart=/home/pi/swachh_vayu/backend/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,448 @@
+/* =======================
+   GLOBAL RESET
+======================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* =======================
+   BACKGROUND ANIMATION
+======================= */
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #0b3d2e, #000, #14532d, #000);
+    background-size: 400% 400%;
+    animation: moveBG 10s ease infinite;
+    z-index: -2;
+}
+
+@keyframes moveBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* =======================
+   LOGIN PAGE
+======================= */
+body.login {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+}
+
+.login-card {
+    width: 340px;
+    padding: 35px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+.login-card h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.login-card p {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+.login-card input:focus {
+    transform: scale(1.03);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-card button:hover {
+    transform: scale(1.05);
+    background: #16a34a;
+}
+
+/* =======================
+   DASHBOARD
+======================= */
+body.dashboard {
+    color: white;
+    min-height: 100vh;
+}
+
+.topbar {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+}
+
+.dashboard-container {
+    padding: 20px;
+}
+
+.hero-card {
+    text-align: center;
+    padding: 30px;
+    margin: 20px auto;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    padding: 25px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* =======================
+   LIVE AQI PAGE
+======================= */
+
+.live-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    gap: 20px;
+}
+
+.aqi-circle {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.aqi-circle h1 {
+    font-size: 50px;
+}
+
+.aqi-circle p {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.status-card {
+    padding: 20px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+}
+
+.alert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+}
+
+.alert-box {
+    width: 350px;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.8s ease;
+    transition: 0.4s;
+}
+
+/* ALERT COLORS */
+.alert-box.green {
+    border: 2px solid lightgreen;
+    box-shadow: 0 0 20px lightgreen;
+}
+
+.alert-box.yellow {
+    border: 2px solid yellow;
+    box-shadow: 0 0 20px yellow;
+}
+
+.alert-box.red {
+    border: 2px solid red;
+    box-shadow: 0 0 25px red;
+}
+
+/* TEXT STYLING */
+#alertTitle {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+#alertMsg {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.report-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+}
+
+.report-card {
+    width: 90%;
+    max-width: 700px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.awareness-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.eco-card {
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.eco-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* =======================
+   STATUS COLORS
+======================= */
+.green {
+    border: 4px solid lightgreen;
+    box-shadow: 0 0 20px lightgreen;
+    color: lightgreen;
+}
+
+.yellow {
+    border: 4px solid yellow;
+    box-shadow: 0 0 20px yellow;
+    color: yellow;
+}
+
+.red {
+    border: 4px solid red;
+    box-shadow: 0 0 25px red;
+    color: red;
+}
+
+/* =======================
+   ANIMATIONS
+======================= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* =======================
+   NAV (COMMON)
+======================= */
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.nav button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.link {
+    margin-top: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #90ee90;
+    transition: 0.3s;
+}
+
+.link:hover {
+    transform: scale(1.05);
+    color: white;
+}
+
+.awareness-hero {
+/* =======================
+   BIG ECO CARDS
+======================= */
+.big-card {
+    overflow: hidden;
+    padding: 0;
+    transition: 0.4s;
+}
+
+.big-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.big-card h2 {
+    font-size: 28px;
+    margin-top: 20px;
+    padding: 0 20px;
+    color: lightgreen;
+}
+
+.big-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 15px 20px;
+}
+
+.big-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 25px lightgreen;
+}
+
+/* =======================
+   PROCESS STEPS
+======================= */
+.steps {
+    padding: 20px;
+    text-align: left;
+}
+
+.steps h3 {
+    margin-bottom: 10px;
+    color: yellow;
+}
+
+.steps ul {
+    list-style: none;
+}
+
+.steps ul li {
+    margin: 10px 0;
+    font-size: 15px;
+    padding-left: 5px;
+}
+    /* =======================
+   PROCESS STEPS
+======================= */
+    .steps {
+        padding: 20px;
+        text-align: left;
+    }
+
+    .steps h3 {
+        margin-bottom: 10px;
+        color: yellow;
+    }
+
+    .steps ul {
+        list-style: none;
+    }
+
+    .steps ul li {
+        margin: 10px 0;
+        font-size: 15px;
+        padding-left: 5px;
+    }

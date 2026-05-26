@@ -1,0 +1,2 @@
+// mapsService placeholder
+module.exports = {};

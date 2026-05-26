@@ -1,0 +1,245 @@
+/**
+ * GraamSehat Admin Dashboard - Overview CSS
+ * Location: /src/pages/Overview.css
+ */
+
+.overview-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.overview-header {
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Stat Cards Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Grid Rows Layout */
+.overview-row {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Row 2: 50% Map | 25% Donut | 25% Recent High Risk */
+.row-three-panels {
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+.panel-title-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.panel-title-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.panel-map {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-risk-donut {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Recent High-Risk Patient List */
+.panel-recent-high {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-patients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  max-height: 280px;
+  padding-right: 0.25rem;
+}
+
+.patient-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem;
+  border-radius: var(--radius-sm);
+  background-color: #F8FAFC;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.patient-list-item:hover {
+  background-color: var(--risk-red-bg);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.patient-item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--risk-red);
+  flex-shrink: 0;
+}
+
+.patient-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.patient-item-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patient-item-location {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patient-item-arrow {
+  color: var(--text-muted);
+}
+.patient-list-item:hover .patient-item-arrow {
+  color: var(--risk-red);
+  transform: translateX(2px);
+  transition: var(--transition);
+}
+
+/* Row 3: 60% Line Chart | 40% Bar Chart */
+.row-two-panels {
+  grid-template-columns: 3fr 2fr;
+}
+
+/* Row 4: Alerts Box Grid */
+.row-alerts {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.alert-panel-box {
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important; /* full bleeding card */
+  overflow: hidden;
+  height: 250px;
+}
+
+.alert-box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  color: white;
+}
+.alert-box-header h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.header-red {
+  background-color: var(--risk-red);
+}
+.header-yellow {
+  background-color: var(--risk-yellow);
+}
+.header-gray {
+  background-color: var(--text-muted);
+}
+
+.alert-box-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 1rem;
+}
+
+.alert-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.25rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.alert-item-row:hover {
+  background-color: #F8FAFC;
+  padding-left: 0.5rem;
+}
+.alert-item-row:last-child {
+  border-bottom: none;
+}
+
+.alert-item-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.alert-item-txt strong {
+  font-size: 0.8125rem;
+  color: var(--text-main);
+}
+.alert-item-txt span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.alert-item-loc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.empty-panel-text, .alert-empty-msg {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1200px) {
+  .row-three-panels {
+    grid-template-columns: 1fr;
+  }
+  .panel-map {
+    height: 400px;
+  }
+}
+
+@media (max-width: 900px) {
+  .row-two-panels {
+    grid-template-columns: 1fr;
+  }
+}

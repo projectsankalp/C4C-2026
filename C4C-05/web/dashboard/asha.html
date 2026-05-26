@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Seva - ASHA Worker Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .glass-card { background: rgba(255,255,255,0.65); backdrop-filter: blur(14px); border: 1px solid rgba(227,242,253,1); box-shadow: 0 4px 16px rgba(25,118,210,0.08); }
+  body { background: linear-gradient(135deg,#f0f4ff 0%,#f7f9fb 60%,#eaf5f0 100%); scroll-behavior: smooth; min-height: 100vh; }
+
+  /* Nav active */
+  .nav-item { @apply text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all cursor-pointer; }
+  .nav-item.active { @apply bg-secondary-container text-on-secondary-container; }
+
+  /* Family Tree */
+  .family-tree { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .tree-level { display: flex; gap: 24px; justify-content: center; position: relative; }
+  .tree-level::before { content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 2px; height: 20px; background: #c1c6d4; }
+  .tree-root::before { display: none; }
+  .tree-connector { width: 2px; height: 24px; background: #c1c6d4; margin: 0 auto; }
+  .tree-h-line { height: 2px; background: #c1c6d4; position: absolute; top: -20px; }
+  .tree-group { display: flex; flex-direction: column; align-items: center; }
+  .tree-siblings { display: flex; gap: 16px; position: relative; }
+  .tree-siblings::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: calc(50% - 0px);
+    width: 2px;
+    height: 20px;
+    background: #c1c6d4;
+  }
+  .tree-node {
+    display: flex; flex-direction: column; align-items: center; cursor: pointer;
+    transition: transform 0.18s;
+  }
+  .tree-node:hover { transform: translateY(-3px); }
+  .node-card {
+    width: 100px; padding: 10px 8px; border-radius: 16px; text-align: center;
+    border: 2px solid transparent; transition: box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .node-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.14); }
+  .node-card.risk-high { background: #ffdad6; border-color: #ba1a1a; }
+  .node-card.risk-medium { background: #fff3cd; border-color: #e6a817; }
+  .node-card.risk-low { background: #d4edda; border-color: #1b6d24; }
+  .node-avatar { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+  .node-name { font-size: 11px; font-weight: 600; line-height: 1.2; margin-bottom: 2px; }
+  .node-rel { font-size: 10px; opacity: 0.7; }
+  .node-risk-dot { width: 8px; height: 8px; border-radius: 50%; margin: 4px auto 0; }
+
+  /* Bar chart */
+  .bar-chart-bar { transition: height 0.5s cubic-bezier(.4,0,.2,1); }
+
+  /* Modal */
+  .modal-backdrop { animation: fadeIn 0.15s ease; }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .modal-content { animation: slideUp 0.2s cubic-bezier(.4,0,.2,1); }
+  @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+  /* Profile dropdown */
+  .profile-dropdown { animation: fadeIn 0.15s ease; transform-origin: top right; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #c1c6d4; border-radius: 3px; }
+
+  /* CSS Hierarchical Tree */
+  .css-tree * { margin: 0; padding: 0; box-sizing: border-box; }
+  .css-tree ul { padding-top: 20px; position: relative; display: flex; justify-content: center; }
+  .css-tree li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 8px 0 8px; display: flex; flex-direction: column; align-items: center; }
+  .css-tree li::before, .css-tree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #c1c6d4; width: 50%; height: 20px; }
+  .css-tree li::after { right: auto; left: 50%; border-left: 2px solid #c1c6d4; }
+  .css-tree li:only-child::after, .css-tree li:only-child::before { display: none; }
+  .css-tree li:only-child { padding-top: 0; }
+  .css-tree li:first-child::before, .css-tree li:last-child::after { border: 0 none; }
+  .css-tree li:last-child::before { border-right: 2px solid #c1c6d4; border-radius: 0 5px 0 0; }
+  .css-tree li:first-child::after { border-radius: 5px 0 0 0; }
+  .css-tree ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #c1c6d4; width: 0; height: 20px; transform: translateX(-50%); }
+  .css-tree li > .tree-node { display: inline-block; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-error-container":"#93000a","on-surface-variant":"#414752","tertiary-fixed-dim":"#bac9d3",
+          "on-background":"#191c1e","secondary-fixed-dim":"#88d982","primary-container":"#1976d2",
+          "on-surface":"#191c1e","inverse-primary":"#a5c8ff","secondary-fixed":"#a3f69c",
+          "primary":"#005dac","outline-variant":"#c1c6d4","on-tertiary-container":"#fdfdff",
+          "surface-container-low":"#f2f4f6","on-tertiary":"#ffffff","secondary-container":"#a0f399",
+          "surface-variant":"#e0e3e5","surface-bright":"#f7f9fb","surface-container-high":"#e6e8ea",
+          "surface-tint":"#005faf","on-primary":"#ffffff","on-secondary-fixed-variant":"#005312",
+          "surface":"#f7f9fb","outline":"#717783","surface-container-highest":"#e0e3e5",
+          "on-secondary-container":"#217128","surface-container-lowest":"#ffffff",
+          "tertiary-container":"#697781","surface-dim":"#d8dadc","primary-fixed-dim":"#a5c8ff",
+          "surface-container":"#eceef0","primary-fixed":"#d4e3ff","secondary":"#1b6d24",
+          "on-tertiary-fixed-variant":"#3b4951","tertiary":"#505e68","error":"#ba1a1a",
+          "on-error":"#ffffff","tertiary-fixed":"#d6e5ef","on-secondary-fixed":"#002204",
+          "inverse-surface":"#2d3133","on-primary-fixed":"#001c3a","on-primary-fixed-variant":"#004786",
+          "on-tertiary-fixed":"#0f1d25","on-primary-container":"#fffdff","on-secondary":"#ffffff",
+          "inverse-on-surface":"#eff1f3","background":"#f7f9fb","error-container":"#ffdad6"
+        },
+        borderRadius:{ DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem","2xl":"1rem","3xl":"1.5rem",full:"9999px" },
+        spacing:{ gutter:"24px","margin-desktop":"32px","sidebar-width":"280px","margin-mobile":"16px",base:"8px","container-max":"1440px" },
+        fontFamily:{ "headline-md":["Lexend"],"body-sm":["Inter"],"headline-xl":["Lexend"],"headline-lg":["Lexend"],"body-md":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"label-sm":["Inter"] },
+        fontSize:{
+          "headline-md":["24px",{lineHeight:"32px",fontWeight:"500"}],
+          "body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],
+          "headline-xl":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"600"}],
+          "headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.01em",fontWeight:"600"}],
+          "body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],
+          "body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],
+          "label-md":["14px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"600"}],
+          "label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="font-body-md text-on-surface">
+
+<!-- ─────────── SIDEBAR ─────────── -->
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-sidebar-width flex flex-col py-6 bg-surface border-r border-outline-variant/30 shadow-md z-50">
+  <div class="px-6 mb-8">
+    <h1 class="font-headline-md text-headline-md font-bold text-primary">Health Seva</h1>
+    <p class="font-label-sm text-label-sm text-on-surface-variant">ASHA Portal</p>
+  </div>
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <div id="nav-dashboard" class="nav-item active" onclick="switchPanel('dashboard')">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+      <span class="font-label-md text-label-md">Dashboard</span>
+    </div>
+    <div id="nav-patients" class="nav-item" onclick="switchPanel('patients')">
+      <span class="material-symbols-outlined">group</span>
+      <span class="font-label-md text-label-md">Patients</span>
+      <span id="sidebarPatientCount" class="ml-auto bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full hidden">0</span>
+    </div>
+    <div id="nav-settings" class="nav-item" onclick="switchPanel('settings')">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="font-label-md text-label-md">Settings</span>
+    </div>
+  </nav>
+  <div class="px-4 mt-auto">
+    
+    <div class="border-t border-outline-variant/30 pt-3 space-y-1">
+      <a class="text-on-surface-variant hover:bg-surface-container-high rounded-full px-4 py-2 flex items-center gap-3 transition-colors cursor-pointer">
+        <span class="material-symbols-outlined">help</span>
+        <span class="font-label-sm text-label-sm">Help</span>
+      </a>
+      <a id="logoutBtn" class="text-on-surface-variant hover:bg-surface-container-high rounded-full px-4 py-2 flex items-center gap-3 transition-colors cursor-pointer">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="font-label-sm text-label-sm">Logout</span>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<!-- ─────────── MAIN CONTENT ─────────── -->
+<main class="ml-sidebar-width min-h-screen">
+
+  <!-- TOP BAR -->
+  <header class="sticky top-0 z-40 flex justify-between items-center w-full px-margin-desktop h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
+    <div class="flex items-center gap-4 flex-1">
+      <div class="relative w-full max-w-md">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+        <input id="globalSearch" class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary text-body-sm" placeholder="Search families or patients..." type="text" oninput="handleGlobalSearch(this.value)"/>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <button onclick="document.documentElement.classList.toggle('dark')" class="hover:bg-surface-container-highest rounded-full p-2 transition-all">
+        <span class="material-symbols-outlined">dark_mode</span>
+      </button>
+
+      <!-- Profile Button -->
+      <div class="relative">
+        <button id="profileBtn" onclick="toggleProfileDropdown()" class="flex items-center gap-3 hover:bg-surface-container-low px-3 py-1.5 rounded-full transition-all">
+          <div class="text-right">
+            <p id="ashaProfileName" class="font-label-md text-label-md text-on-surface">ASHA Worker</p>
+            <p id="ashaProfileRole" class="text-xs text-on-surface-variant">ASHA Worker</p>
+          </div>
+          <div id="profileAvatarWrap" class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden bg-primary-fixed flex items-center justify-center flex-shrink-0">
+            <span id="profileInitials" class="text-on-primary-fixed font-bold text-sm">AW</span>
+            <img id="profileAvatarImg" class="w-full h-full object-cover hidden" alt="Profile"/>
+          </div>
+          <span class="material-symbols-outlined text-on-surface-variant text-sm">expand_more</span>
+        </button>
+
+        <!-- Profile Dropdown -->
+        <div id="profileDropdown" class="profile-dropdown hidden absolute right-0 top-14 w-80 bg-surface rounded-2xl shadow-2xl border border-outline-variant/30 p-4 z-50">
+          <div class="flex flex-col items-center gap-3 mb-4 pb-4 border-b border-outline-variant/20">
+            <div id="dropAvatarWrap" onclick="document.getElementById('photoUploadInput').click()" class="w-20 h-20 rounded-full border-4 border-primary/20 overflow-hidden bg-primary-fixed flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity relative group">
+              <span id="dropInitials" class="text-on-primary-fixed font-bold text-2xl">AW</span>
+              <img id="dropAvatarImg" class="w-full h-full object-cover hidden absolute inset-0" alt="Profile"/>
+              <div class="absolute inset-0 bg-black/30 rounded-full hidden group-hover:flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-xl">photo_camera</span>
+              </div>
+            </div>
+            <input type="file" id="photoUploadInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)"/>
+            <p class="text-xs text-on-surface-variant">Click avatar to change photo</p>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">Display Name</label>
+              <input id="dropEditName" type="text" class="w-full px-3 py-2 bg-surface-container-low border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" placeholder="Your full name"/>
+            </div>
+            <button onclick="saveProfileName()" class="w-full bg-primary text-on-primary py-2 rounded-full font-label-md text-label-md hover:opacity-90 transition-opacity">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ DASHBOARD PANEL ═══════════════ -->
+  <div id="panel-dashboard" class="panel p-margin-desktop space-y-8">
+    <!-- Greeting -->
+    <div class="mt-2">
+      <h2 id="ashaGreeting" class="font-headline-lg text-headline-lg text-on-surface">Hello, ASHA</h2>
+      <p id="ashaSubGreeting" class="text-on-surface-variant mt-1">Loading your dashboard...</p>
+    </div>
+
+    <!-- Stats Bento Grid -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+      <!-- Total Patients -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+        <div class="flex justify-between items-start">
+          <div class="bg-primary-fixed p-3 rounded-xl">
+            <span class="material-symbols-outlined text-on-primary-fixed" style="font-variation-settings:'FILL' 1;">groups</span>
+          </div>
+          <span id="statNewThisWeek" class="text-secondary font-label-sm text-label-sm">+0 this week</span>
+        </div>
+        <div class="mt-4">
+          <p class="text-on-surface-variant font-label-md text-label-md">Total Patients</p>
+          <h3 id="statTotalPatients" class="font-headline-xl text-headline-xl text-on-surface">0</h3>
+        </div>
+      </div>
+
+      <!-- Completed Visits -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+        <div class="flex justify-between items-start">
+          <div class="bg-secondary-fixed p-3 rounded-xl">
+            <span class="material-symbols-outlined text-on-secondary-fixed" style="font-variation-settings:'FILL' 1;">assignment_turned_in</span>
+          </div>
+          <span id="statFamilyCount" class="text-secondary font-label-sm text-label-sm">0 families</span>
+        </div>
+        <div class="mt-4">
+          <p class="text-on-surface-variant font-label-md text-label-md">Completed Visits</p>
+          <h3 id="statCompletedVisits" class="font-headline-xl text-headline-xl text-on-surface">0</h3>
+        </div>
+      </div>
+
+      <!-- Weekly Bar Chart -->
+      <div class="glass-card p-6 rounded-2xl col-span-1">
+        <p class="text-on-surface-variant font-label-md text-label-md mb-4">Patients Visited This Week</p>
+        <div id="weeklyBarChart" class="flex items-end justify-between h-24 gap-2">
+          <!-- Bars rendered by JS -->
+        </div>
+        <div class="flex justify-between mt-2 text-[10px] font-label-sm text-on-surface-variant">
+          <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- High-Risk Patient Management -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+      <section class="lg:col-span-2 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-headline-md text-headline-md text-on-surface">Patient Management</h3>
+          <span class="bg-error-container text-on-error-container text-[10px] font-bold px-2 py-0.5 rounded-full">HIGH RISK PRIORITY</span>
+        </div>
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low border-b border-outline-variant/20">
+                <th class="px-6 py-4 font-label-md text-on-surface-variant">Patient Name</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant">Family</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant">Risk Status</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant">BMI</th>
+                <th class="px-6 py-4"></th>
+              </tr>
+            </thead>
+            <tbody id="dashboardPatientTable" class="divide-y divide-outline-variant/10">
+              <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant text-body-sm">No patients added yet. Go to <strong>Patients</strong> to add families.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section class="space-y-4">
+        <h3 class="font-headline-md text-headline-md text-on-surface">Quick Actions</h3>
+        <div class="space-y-3">
+          <div class="glass-card p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:shadow-lg transition-all" onclick="switchPanel('patients'); setTimeout(()=>openAddPatientModal(),200)">
+            <div class="w-12 h-12 bg-primary-fixed rounded-xl flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-primary-fixed">person_add</span>
+            </div>
+            <div>
+              <p class="font-label-md text-label-md">Add New Patient</p>
+              <p class="text-xs text-on-surface-variant">Register a new family</p>
+            </div>
+          </div>
+          <div class="glass-card p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:shadow-lg transition-all" onclick="switchPanel('patients')">
+            <div class="w-12 h-12 bg-secondary-fixed rounded-xl flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-secondary-fixed">family_restroom</span>
+            </div>
+            <div>
+              <p class="font-label-md text-label-md">View All Families</p>
+              <p class="text-xs text-on-surface-variant">Manage family records</p>
+            </div>
+          </div>
+          <div class="glass-card p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:shadow-lg transition-all" onclick="switchPanel('settings')">
+            <div class="w-12 h-12 bg-tertiary-fixed rounded-xl flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-tertiary-fixed">manage_accounts</span>
+            </div>
+            <div>
+              <p class="font-label-md text-label-md">Settings</p>
+              <p class="text-xs text-on-surface-variant">Update profile & hours</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PATIENTS PANEL ═══════════════ -->
+  <div id="panel-patients" class="panel hidden p-margin-desktop">
+    <!-- Family List View -->
+    <div id="view-families">
+      <div class="flex items-center justify-between mb-6 mt-2">
+        <div>
+          <h2 class="font-headline-lg text-headline-lg text-on-surface">Patients</h2>
+          <p class="text-on-surface-variant text-body-sm">Manage your patients by family groups</p>
+        </div>
+        <button onclick="openAddPatientModal()" id="addPatientBtn" class="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-full font-label-md shadow-lg shadow-primary/20 hover:opacity-90 transition-all hover:scale-105 active:scale-95">
+          <span class="material-symbols-outlined text-sm">add</span> Add Patient
+        </button>
+      </div>
+
+      <!-- Search within patients -->
+      <div class="mb-6 relative max-w-sm">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+        <input id="familySearch" type="text" class="w-full pl-9 pr-4 py-2 bg-surface rounded-full border border-outline-variant/40 text-body-sm focus:ring-2 focus:ring-primary" placeholder="Search families..." oninput="renderFamilyCards(this.value)"/>
+      </div>
+
+      <!-- Family Cards Grid -->
+      <div id="familyCardsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+        <!-- Rendered by JS -->
+      </div>
+      <div id="noFamiliesMsg" class="hidden text-center py-20">
+        <div class="w-24 h-24 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="material-symbols-outlined text-4xl text-on-surface-variant">family_restroom</span>
+        </div>
+        <h3 class="font-headline-md text-on-surface mb-2">No families yet</h3>
+        <p class="text-on-surface-variant text-body-sm mb-6">Add your first patient to create a family record</p>
+        <button onclick="openAddPatientModal()" class="bg-primary text-on-primary px-6 py-3 rounded-full font-label-md shadow-md hover:opacity-90 transition-opacity">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">add</span>Add First Patient
+        </button>
+      </div>
+    </div>
+
+    <!-- Family Detail View -->
+    <div id="view-family-detail" class="hidden">
+      <div class="flex items-center gap-3 mb-6 mt-2">
+        <button onclick="closeFamilyDetail()" class="p-2 hover:bg-surface-container rounded-full transition-colors">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <div class="flex-1">
+          <h2 id="familyDetailTitle" class="font-headline-lg text-headline-lg text-on-surface">Family Name</h2>
+          <p id="familyDetailSubtitle" class="text-on-surface-variant text-body-sm">Family profile</p>
+        </div>
+        <button id="addMemberBtn" onclick="openAddMemberModal()" class="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-full font-label-md shadow-md hover:opacity-90 transition-all">
+          <span class="material-symbols-outlined text-sm">person_add</span> Add Member
+        </button>
+        <button onclick="openAddChildModal()" class="flex items-center gap-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-full font-label-md shadow-md hover:opacity-90 transition-all">
+          <span class="material-symbols-outlined text-sm">child_care</span> Add Child
+        </button>
+      </div>
+
+      <!-- Family Stats Bar -->
+      <div id="familyStatsBar" class="grid grid-cols-4 gap-4 mb-8">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Family Tree -->
+      <div class="glass-card rounded-2xl p-6 overflow-auto mb-8">
+        <h3 class="font-label-md text-label-md text-on-surface-variant mb-6 text-center uppercase tracking-widest">Family Tree</h3>
+        <div id="familyTreeContainer" class="min-w-max mx-auto py-4">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Members List -->
+      <div class="glass-card rounded-2xl overflow-hidden">
+        <div class="px-6 py-4 border-b border-outline-variant/20 flex items-center justify-between">
+          <h3 class="font-headline-md text-headline-md text-on-surface">All Members</h3>
+        </div>
+        <div id="familyMembersList" class="divide-y divide-outline-variant/10">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SETTINGS PANEL ═══════════════ -->
+  <div id="panel-settings" class="panel hidden p-margin-desktop max-w-2xl">
+    <div class="mt-2 mb-8">
+      <h2 class="font-headline-lg text-headline-lg text-on-surface">Settings</h2>
+      <p class="text-on-surface-variant text-body-sm">Manage your account and preferences</p>
+    </div>
+
+    <div class="space-y-6">
+      <!-- Profile Settings -->
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="font-headline-md text-headline-md mb-5 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">person</span>Profile Information
+        </h3>
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">Full Name</label>
+              <input id="settingsName" type="text" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary" placeholder="Your full name"/>
+            </div>
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">Username</label>
+              <input id="settingsUsername" type="text" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary" placeholder="@username"/>
+            </div>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Village / Area</label>
+            <input id="settingsVillage" type="text" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary" placeholder="e.g. Kalyanpur Village"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Working Hours -->
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="font-headline-md text-headline-md mb-5 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">schedule</span>Working Hours
+        </h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Available From</label>
+            <input id="settingsHoursFrom" type="time" value="08:00" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Available Until</label>
+            <input id="settingsHoursTo" type="time" value="17:00" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+        </div>
+        <p id="settingsHoursPreview" class="mt-3 text-xs text-on-surface-variant">Available 08:00 AM – 05:00 PM</p>
+      </div>
+
+      <!-- Change Password -->
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="font-headline-md text-headline-md mb-5 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">lock</span>Change Password
+        </h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Current Password</label>
+            <input id="settingsOldPw" type="password" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary" placeholder="••••••••"/>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">New Password</label>
+              <input id="settingsNewPw" type="password" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary" placeholder="••••••••"/>
+            </div>
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">Confirm New Password</label>
+              <input id="settingsConfirmPw" type="password" class="w-full px-3 py-2.5 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:ring-2 focus:ring-primary" placeholder="••••••••"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="saveSettings()" class="w-full bg-primary text-on-primary py-3 rounded-full font-label-md text-label-md shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-sm">save</span>Save All Settings
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- ═══════════════ ADD PATIENT MODAL ═══════════════ -->
+<div id="addPatientModal" class="modal-backdrop hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onclick="handleModalBackdropClick(event,'addPatientModal')">
+  <div class="modal-content bg-surface rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-outline-variant/30" onclick="event.stopPropagation()">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Add New Patient</h2>
+        <p class="text-xs text-on-surface-variant mt-0.5">This will create a new family record</p>
+      </div>
+      <button onclick="closeModal('addPatientModal')" class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
+    <form id="addPatientForm" onsubmit="submitAddPatient(event)" class="space-y-5">
+      <!-- Basic Info -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Patient Information</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Full Name *</label>
+            <input type="text" id="ap_name" required class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">Age *</label>
+              <input type="number" id="ap_age" required min="0" max="120" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+            </div>
+            <div>
+              <label class="block font-label-sm text-on-surface-variant mb-1">Gender *</label>
+              <select id="ap_gender" required class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Measurements -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Body Measurements</p>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Height (cm)</label>
+            <input type="number" id="ap_height" step="0.1" min="0" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" oninput="calcBMI('ap')"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Weight (kg)</label>
+            <input type="number" id="ap_weight" step="0.1" min="0" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" oninput="calcBMI('ap')"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">BMI (auto)</label>
+            <input type="text" id="ap_bmi" readonly class="w-full px-3 py-2 bg-surface-container-highest border border-outline-variant/30 rounded-lg text-body-sm text-on-surface-variant cursor-not-allowed" placeholder="Auto"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Vitals -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Health Vitals</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">BP Systolic</label>
+            <input type="number" id="ap_bp_sys" placeholder="e.g. 120" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">BP Diastolic</label>
+            <input type="number" id="ap_bp_dia" placeholder="e.g. 80" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Blood Group</label>
+            <select id="ap_blood_group" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="">Unknown</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Family History -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Family History</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Father's Name</label>
+            <input type="text" id="ap_father_name" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Father has Diabetes?</label>
+            <select id="ap_father_diabetes" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Mother's Name</label>
+            <input type="text" id="ap_mother_name" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Mother has Diabetes?</label>
+            <select id="ap_mother_diabetes" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button" onclick="closeModal('addPatientModal')" class="px-6 py-2.5 rounded-full font-label-md text-on-surface hover:bg-surface-container-highest transition-colors">Cancel</button>
+        <button type="submit" class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">family_restroom</span>Create Family
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════ ADD MEMBER MODAL ═══════════════ -->
+<div id="addMemberModal" class="modal-backdrop hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onclick="handleModalBackdropClick(event,'addMemberModal')">
+  <div class="modal-content bg-surface rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-outline-variant/30" onclick="event.stopPropagation()">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Add Family Member</h2>
+        <p id="addMemberFamilyLabel" class="text-xs text-on-surface-variant mt-0.5">Adding to family</p>
+      </div>
+      <button onclick="closeModal('addMemberModal')" class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
+    <form id="addMemberForm" onsubmit="submitAddMember(event)" class="space-y-5">
+      <!-- Basic Info -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Member Information</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Full Name *</label>
+            <input type="text" id="am_name" required class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <label class="block font-label-sm text-on-surface-variant mb-1">Relationship to Patient *</label>
+            <select id="am_relationship" required class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" onchange="handleRelationshipChange()">
+              <option value="">Select...</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Father">Father</option>
+              <option value="Mother">Mother</option>
+              <option value="Grandfather">Grandfather</option>
+              <option value="Grandmother">Grandmother</option>
+              <option value="Son">Son</option>
+              <option value="Daughter">Daughter</option>
+              <option value="Brother">Brother</option>
+              <option value="Sister">Sister</option>
+              <option value="Uncle">Uncle</option>
+              <option value="Aunt">Aunt</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Age *</label>
+            <input type="number" id="am_age" required min="0" max="120" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Gender *</label>
+            <select id="am_gender" required class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Phone Number</label>
+            <input type="tel" id="am_phone" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" placeholder="+91 xxxxx xxxxx"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Measurements -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Body Measurements</p>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Height (cm)</label>
+            <input type="number" id="am_height" step="0.1" min="0" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" oninput="calcBMI('am')"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Weight (kg)</label>
+            <input type="number" id="am_weight" step="0.1" min="0" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" oninput="calcBMI('am')"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">BMI (auto)</label>
+            <input type="text" id="am_bmi" readonly class="w-full px-3 py-2 bg-surface-container-highest border border-outline-variant/30 rounded-lg text-body-sm text-on-surface-variant cursor-not-allowed" placeholder="Auto"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Vitals -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Health Vitals</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">BP Systolic</label>
+            <input type="number" id="am_bp_sys" placeholder="e.g. 120" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">BP Diastolic</label>
+            <input type="number" id="am_bp_dia" placeholder="e.g. 80" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Blood Group</label>
+            <select id="am_blood_group" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="">Unknown</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+            </select>
+          </div>
+          <div class="col-span-2 md:col-span-3">
+            <label class="block font-label-sm text-on-surface-variant mb-1">Has Diabetes?</label>
+            <select id="am_has_diabetes" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Family History -->
+      <div class="bg-surface-container-low rounded-xl p-4">
+        <p class="font-label-md text-label-md text-on-surface mb-3">Family Connections</p>
+        
+        <!-- Family Connections: Dynamic based on relationship -->
+        <div id="am_spouse_container" class="hidden mb-4">
+          <label class="block font-label-sm text-on-surface-variant mb-1">Spouse's Name</label>
+          <input type="text" id="am_spouse_name" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" placeholder="Leave blank if unknown"/>
+        </div>
+
+        <div id="am_parents_container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Father's Name</label>
+            <input type="text" id="am_father_name" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" placeholder="Leave blank if unknown"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Father has Diabetes?</label>
+            <select id="am_father_diabetes" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Mother's Name</label>
+            <input type="text" id="am_mother_name" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary" placeholder="Leave blank if unknown"/>
+          </div>
+          <div>
+            <label class="block font-label-sm text-on-surface-variant mb-1">Mother has Diabetes?</label>
+            <select id="am_mother_diabetes" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="am_link_container" class="hidden mb-4">
+          <label id="am_link_label" class="block font-label-sm text-on-surface-variant mb-1">Link to existing member</label>
+          <select id="am_linked_child" class="w-full px-3 py-2 bg-surface border border-outline-variant/50 rounded-lg text-body-sm focus:ring-2 focus:ring-primary">
+            <option value="">Select member...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button" onclick="closeModal('addMemberModal')" class="px-6 py-2.5 rounded-full font-label-md text-on-surface hover:bg-surface-container-highest transition-colors">Cancel</button>
+        <button type="submit" class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">person_add</span>Add Member
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════ MEMBER DETAIL MODAL ═══════════════ -->
+<div id="memberDetailModal" class="modal-backdrop hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onclick="handleModalBackdropClick(event,'memberDetailModal')">
+  <div class="modal-content bg-surface rounded-2xl p-6 w-full max-w-lg shadow-2xl border border-outline-variant/30" onclick="event.stopPropagation()">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-headline-md text-headline-md text-on-surface">Member Details</h2>
+      <button onclick="closeModal('memberDetailModal')" class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
+    <div id="memberDetailContent"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ TOAST ═══════════════ -->
+<div id="toastContainer" class="fixed bottom-6 right-6 z-[100] space-y-2 pointer-events-none"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+// ─────────── STATE ───────────
+let currentPanel = 'dashboard';
+let currentFamilyId = null;
+let profileDropdownOpen = false;
+
+const STORAGE_KEYS = {
+  families: 'asha_families',
+  weeklyVisits: 'asha_weekly_visits',
+  profile: 'asha_profile_data',
+  settings: 'asha_settings'
+};
+
+// ─────────── STORAGE HELPERS ───────────
+function getFamilies() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEYS.families) || '[]');
+}
+function saveFamilies(families) {
+  localStorage.setItem(STORAGE_KEYS.families, JSON.stringify(families));
+}
+function getProfile() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEYS.profile) || '{}');
+}
+function saveProfile(data) {
+  const existing = getProfile();
+  localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify({ ...existing, ...data }));
+}
+function getSettings() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEYS.settings) || '{}');
+}
+function saveSettingsData(data) {
+  localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(data));
+}
+function getWeeklyVisits() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEYS.weeklyVisits) || '{}');
+}
+function recordVisitToday() {
+  const visits = getWeeklyVisits();
+  const today = new Date().toISOString().slice(0,10);
+  visits[today] = (visits[today] || 0) + 1;
+  localStorage.setItem(STORAGE_KEYS.weeklyVisits, JSON.stringify(visits));
+}
+
+// ─────────── RISK CALCULATION ───────────
+function calcRiskScore(member, familyMembers) {
+  let score = 0;
+  const bmi = parseFloat(member.bmi) || 0;
+  const age = parseInt(member.age) || 0;
+  const bpSys = parseInt(member.bp_sys) || 0;
+
+  if (bmi > 30) score += 15;
+  else if (bmi > 25) score += 8;
+
+  if (bpSys > 130) score += 20;
+  else if (bpSys > 120) score += 10;
+
+  if (age > 45) score += 10;
+  else if (age > 35) score += 5;
+
+  if (member.father_diabetes === 'true') score += 20;
+  if (member.mother_diabetes === 'true') score += 20;
+  if (member.father_diabetes === 'true' && member.mother_diabetes === 'true') score += 10;
+
+  if (member.has_diabetes === 'true') score += 30;
+
+  // Propagate from family: if a parent member in the same family has diabetes
+  if (familyMembers) {
+    const rel = member.relationship?.toLowerCase() || '';
+    const isChild = ['son','daughter','brother','sister'].includes(rel);
+    if (isChild) {
+      const parentHasDiabetes = familyMembers.some(m =>
+        ['father','mother'].includes((m.relationship||'').toLowerCase()) &&
+        m.has_diabetes === 'true'
+      );
+      if (parentHasDiabetes) score += 15;
+    }
+  }
+
+  return score;
+}
+
+function getRiskLevel(score) {
+  if (score > 50) return 'High Risk';
+  if (score > 25) return 'Medium Risk';
+  return 'Low Risk';
+}
+
+function getRiskClass(level) {
+  if (level === 'High Risk') return 'risk-high';
+  if (level === 'Medium Risk') return 'risk-medium';
+  return 'risk-low';
+}
+
+function getRiskBadgeClass(level) {
+  if (level === 'High Risk') return 'bg-error-container text-on-error-container';
+  if (level === 'Medium Risk') return 'bg-[#fff3cd] text-[#856404]';
+  return 'bg-secondary-container text-on-secondary-container';
+}
+
+function getDotColor(level) {
+  if (level === 'High Risk') return 'background:#ba1a1a';
+  if (level === 'Medium Risk') return 'background:#e6a817';
+  return 'background:#1b6d24';
+}
+
+// ─────────── BMI CALCULATOR ───────────
+function calcBMI(prefix) {
+  const h = parseFloat(document.getElementById(`${prefix}_height`)?.value) || 0;
+  const w = parseFloat(document.getElementById(`${prefix}_weight`)?.value) || 0;
+  const bmiEl = document.getElementById(`${prefix}_bmi`);
+  if (!bmiEl) return;
+  if (h > 0 && w > 0) {
+    const bmi = (w / ((h/100)**2)).toFixed(1);
+    bmiEl.value = bmi;
+  } else {
+    bmiEl.value = '';
+  }
+}
+
+// ─────────── PANEL NAVIGATION ───────────
+function switchPanel(panel) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`panel-${panel}`)?.classList.remove('hidden');
+  document.getElementById(`nav-${panel}`)?.classList.add('active');
+  currentPanel = panel;
+  if (panel === 'dashboard') renderDashboard();
+  if (panel === 'patients') { renderFamilyCards(); closeFamilyDetail(); }
+  if (panel === 'settings') loadSettingsForm();
+  closeProfileDropdown();
+}
+
+// ─────────── DASHBOARD RENDERING ───────────
+function renderDashboard() {
+  const families = getFamilies();
+  const allMembers = families.flatMap(f => f.members.map(m => ({ ...m, familyName: f.familyName, familyId: f.id })));
+  const total = allMembers.length;
+  const visits = total; // each member = 1 visit
+  const highRisk = allMembers.filter(m => m.riskLevel === 'High Risk');
+
+  document.getElementById('statTotalPatients').textContent = total;
+  document.getElementById('statCompletedVisits').textContent = visits;
+  document.getElementById('statFamilyCount').textContent = `${families.length} famil${families.length===1?'y':'ies'}`;
+
+  // New this week
+  const weeklyVisits = getWeeklyVisits();
+  const weeklyTotal = Object.entries(weeklyVisits)
+    .filter(([d]) => {
+      const diff = (new Date() - new Date(d)) / 86400000;
+      return diff <= 7;
+    })
+    .reduce((acc, [,v]) => acc + v, 0);
+  document.getElementById('statNewThisWeek').textContent = `+${weeklyTotal} this week`;
+
+  // Sidebar badge
+  const badge = document.getElementById('sidebarPatientCount');
+  if (total > 0) { badge.textContent = total; badge.classList.remove('hidden'); }
+  else badge.classList.add('hidden');
+
+  // Weekly Bar Chart
+  renderWeeklyChart();
+
+  // High-risk patient table
+  const tbody = document.getElementById('dashboardPatientTable');
+  if (allMembers.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant text-body-sm">No patients added yet. Go to <strong>Patients</strong> to add families.</td></tr>`;
+    return;
+  }
+
+  // Sort: High Risk first
+  const sorted = [...allMembers].sort((a,b) => {
+    const order = { 'High Risk': 0, 'Medium Risk': 1, 'Low Risk': 2 };
+    return (order[a.riskLevel]??3) - (order[b.riskLevel]??3);
+  });
+
+  tbody.innerHTML = sorted.map(m => {
+    const initials = getInitials(m.name);
+    const badge = getRiskBadgeClass(m.riskLevel);
+    return `<tr class="hover:bg-surface-container-lowest transition-colors">
+      <td class="px-6 py-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">${initials}</div>
+          <div>
+            <span class="font-label-md block">${m.name}</span>
+            <span class="text-xs text-on-surface-variant">${m.relationship || 'Patient'}</span>
+          </div>
+        </div>
+      </td>
+      <td class="px-6 py-4 text-body-sm">${m.familyName}</td>
+      <td class="px-6 py-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${badge}">${m.riskLevel||'Low Risk'}</span></td>
+      <td class="px-6 py-4 text-body-sm">${m.bmi||'—'}</td>
+      <td class="px-6 py-4 text-right">
+        <button onclick="switchPanel('patients');setTimeout(()=>openFamilyDetail('${m.familyId}'),200)" class="text-primary text-xs font-label-md hover:underline">View Family</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderWeeklyChart() {
+  const container = document.getElementById('weeklyBarChart');
+  if (!container) return;
+  const weeklyVisits = getWeeklyVisits();
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    days.push(weeklyVisits[key] || 0);
+  }
+  const max = Math.max(...days, 1);
+  const colors = ['bg-primary-container','bg-primary-container','bg-primary-container','bg-primary-container','bg-primary','bg-outline-variant/30','bg-outline-variant/30'];
+  container.innerHTML = days.map((val, i) => {
+    const pct = Math.max(4, Math.round((val / max) * 100));
+    return `<div class="flex-1 flex flex-col items-center justify-end h-24">
+      <span class="text-[9px] text-on-surface-variant mb-1">${val||''}</span>
+      <div class="w-full ${colors[i]} rounded-t-lg bar-chart-bar" style="height:${pct}%"></div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────── FAMILY CARDS ───────────
+function renderFamilyCards(search = '') {
+  const families = getFamilies();
+  const grid = document.getElementById('familyCardsGrid');
+  const noMsg = document.getElementById('noFamiliesMsg');
+
+  let filtered = families;
+  if (search) {
+    const q = search.toLowerCase();
+    filtered = families.filter(f =>
+      f.familyName.toLowerCase().includes(q) ||
+      f.members.some(m => m.name.toLowerCase().includes(q))
+    );
+  }
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noMsg.classList.remove('hidden');
+    return;
+  }
+  noMsg.classList.add('hidden');
+
+  grid.innerHTML = filtered.map(family => {
+    const total = family.members.length;
+    const highRisk = family.members.filter(m => m.riskLevel === 'High Risk').length;
+    const medRisk = family.members.filter(m => m.riskLevel === 'Medium Risk').length;
+    const lowRisk = family.members.filter(m => m.riskLevel === 'Low Risk' || !m.riskLevel).length;
+    const createdAt = family.createdAt ? new Date(family.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '';
+
+    return `<div class="glass-card rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer hover:-translate-y-1 group" onclick="openFamilyDetail('${family.id}')">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary-fixed" style="font-variation-settings:'FILL' 1;">family_restroom</span>
+          </div>
+          <div>
+            <h4 class="font-label-md text-label-md text-on-surface">${family.familyName}</h4>
+            <p class="text-xs text-on-surface-variant">${createdAt}</p>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">arrow_forward_ios</span>
+      </div>
+
+      <!-- Risk summary pills -->
+      <div class="flex gap-2 mb-4">
+        ${highRisk > 0 ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-error-container text-on-error-container">🔴 ${highRisk} High</span>` : ''}
+        ${medRisk > 0 ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#fff3cd] text-[#856404]">🟡 ${medRisk} Medium</span>` : ''}
+        ${lowRisk > 0 ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container">🟢 ${lowRisk} Low</span>` : ''}
+      </div>
+
+      <!-- Stats row -->
+      <div class="flex items-center justify-between pt-3 border-t border-outline-variant/20">
+        <div class="text-center">
+          <p class="font-headline-md text-headline-md text-on-surface font-bold">${total}</p>
+          <p class="text-[10px] text-on-surface-variant">Members</p>
+        </div>
+        <div class="text-center">
+          <p class="font-headline-md text-headline-md text-error font-bold">${highRisk}</p>
+          <p class="text-[10px] text-on-surface-variant">High Risk</p>
+        </div>
+        <div>
+          <span class="bg-primary text-on-primary px-3 py-1.5 rounded-full text-[11px] font-bold hover:opacity-90 transition-opacity">View Family →</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────── FAMILY DETAIL ───────────
+function openFamilyDetail(familyId) {
+  const families = getFamilies();
+  const family = families.find(f => f.id === familyId);
+  if (!family) return;
+  currentFamilyId = familyId;
+
+  document.getElementById('view-families').classList.add('hidden');
+  document.getElementById('view-family-detail').classList.remove('hidden');
+  document.getElementById('familyDetailTitle').textContent = family.familyName;
+  document.getElementById('familyDetailSubtitle').textContent = `${family.members.length} member${family.members.length===1?'':'s'} · Created ${new Date(family.createdAt).toLocaleDateString('en-IN')}`;
+  document.getElementById('addMemberFamilyLabel').textContent = `Adding to: ${family.familyName}`;
+
+  renderFamilyStats(family);
+  renderFamilyTree(family);
+  renderMembersList(family);
+}
+
+function closeFamilyDetail() {
+  currentFamilyId = null;
+  document.getElementById('view-families').classList.remove('hidden');
+  document.getElementById('view-family-detail').classList.add('hidden');
+  renderFamilyCards(document.getElementById('familySearch')?.value || '');
+}
+
+function renderFamilyStats(family) {
+  const total = family.members.length;
+  const high = family.members.filter(m => m.riskLevel === 'High Risk').length;
+  const med = family.members.filter(m => m.riskLevel === 'Medium Risk').length;
+  const low = family.members.filter(m => !m.riskLevel || m.riskLevel === 'Low Risk').length;
+
+  document.getElementById('familyStatsBar').innerHTML = `
+    <div class="glass-card rounded-2xl p-4 text-center">
+      <p class="font-headline-xl text-headline-xl text-on-surface font-bold">${total}</p>
+      <p class="text-xs text-on-surface-variant">Total Members</p>
+    </div>
+    <div class="glass-card rounded-2xl p-4 text-center border-l-4 border-error">
+      <p class="font-headline-xl text-headline-xl text-error font-bold">${high}</p>
+      <p class="text-xs text-on-surface-variant">High Risk</p>
+    </div>
+    <div class="glass-card rounded-2xl p-4 text-center border-l-4 border-[#e6a817]">
+      <p class="font-headline-xl text-headline-xl text-[#e6a817] font-bold">${med}</p>
+      <p class="text-xs text-on-surface-variant">Medium Risk</p>
+    </div>
+    <div class="glass-card rounded-2xl p-4 text-center border-l-4 border-secondary">
+      <p class="font-headline-xl text-headline-xl text-secondary font-bold">${low}</p>
+      <p class="text-xs text-on-surface-variant">Low Risk</p>
+    </div>`;
+}
+
+// ─────────── FAMILY TREE (TOP-DOWN) ───────────
+const REL_GEN = {
+  'Grandfather': 0, 'Grandmother': 0,
+  'Father': 1, 'Mother': 1, 'Uncle': 1, 'Aunt': 1,
+  'Spouse': 2,
+  'Son': 3, 'Daughter': 3, 'Brother': 3, 'Sister': 3
+};
+
+function renderFamilyTree(family) {
+  const container = document.getElementById('familyTreeContainer');
+  const members = family.members;
+
+  if (members.length === 0) {
+    container.innerHTML = '<p class="text-center text-on-surface-variant text-body-sm py-8">No members yet</p>';
+    return;
+  }
+
+  const renderedIds = new Set();
+
+  // ── Find the partner (spouse) of a member by looking at shared children ──
+  function getPartner(m) {
+    // First, check if any child lists BOTH parents and this member is one of them
+    for (const c of members) {
+      if (c.id === m.id) continue;
+      const fn = (c.father_name || '').toLowerCase();
+      const mn = (c.mother_name || '').toLowerCase();
+      if (fn === m.name.toLowerCase() && mn) {
+        const p = members.find(x => x.name.toLowerCase() === mn && x.id !== m.id);
+        if (p) return p;
+      }
+      if (mn === m.name.toLowerCase() && fn) {
+        const p = members.find(x => x.name.toLowerCase() === fn && x.id !== m.id);
+        if (p) return p;
+      }
+    }
+    // Fallback: look for a member explicitly marked as "Spouse" or opposite gender parent at same gen level
+    // For Grandfather, find Grandmother in family
+    const rel = (m.relationship || '').toLowerCase();
+    if (rel === 'grandfather') {
+      return members.find(x => (x.relationship || '').toLowerCase() === 'grandmother' && x.id !== m.id) || null;
+    }
+    if (rel === 'grandmother') {
+      return members.find(x => (x.relationship || '').toLowerCase() === 'grandfather' && x.id !== m.id) || null;
+    }
+    if (rel === 'father') {
+      return members.find(x => (x.relationship || '').toLowerCase() === 'mother' && x.id !== m.id) || null;
+    }
+    if (rel === 'mother') {
+      return members.find(x => (x.relationship || '').toLowerCase() === 'father' && x.id !== m.id) || null;
+    }
+    return null;
+  }
+
+  // ── Find children of a parent (or parent couple) ──
+  function getChildren(p1, p2) {
+    return members.filter(c => {
+      // Don't include the parents themselves as children
+      if (c.id === p1.id || (p2 && c.id === p2.id)) return false;
+      const fn = (c.father_name || '').toLowerCase();
+      const mn = (c.mother_name || '').toLowerCase();
+      // Match if EITHER parent appears in the child's father_name or mother_name
+      const names = [p1.name.toLowerCase()];
+      if (p2) names.push(p2.name.toLowerCase());
+      return names.includes(fn) || names.includes(mn);
+    });
+  }
+
+  // ── Render a single member card ──
+  function renderNodeCard(m) {
+    if (!m) return '';
+    renderedIds.add(m.id);
+    const score = calcRiskScore(m, members);
+    const riskLevel = getRiskLevel(score);
+    const rc = getRiskClass(riskLevel);
+    const initials = getInitials(m.name);
+    const dotColor = getDotColor(riskLevel);
+    const diabetesNote = m.has_diabetes === 'true' ? '🩸' : '';
+    const nameParts = m.name.split(' ');
+    const shortName = nameParts[0] + (nameParts.length > 1 ? ' ' + nameParts[1][0] + '.' : '');
+
+    return `
+      <div class="tree-node z-10 bg-surface relative" onclick="showMemberDetail('${family.id}','${m.id}')" title="${m.name} • ${m.relationship} • ${riskLevel}">
+        <div class="node-card ${rc}">
+          <div class="node-avatar ${rc === 'risk-high' ? 'bg-error/20 text-on-error-container' : rc === 'risk-medium' ? 'bg-[#fff3cd] text-[#856404]' : 'bg-secondary-container text-on-secondary-container'}">
+            ${initials}
+          </div>
+          <div class="node-name">${shortName} ${diabetesNote}</div>
+          <div class="node-rel">${m.relationship || 'Member'}</div>
+          <div class="node-rel" style="font-size:9px;margin-top:2px;">${riskLevel.replace(' Risk','')}</div>
+          <div class="node-risk-dot" style="${dotColor};"></div>
+        </div>
+      </div>`;
+  }
+
+  // ── Render a tree group recursively: parent(s) at top, children below ──
+  function renderTreeGroup(m) {
+    if (!m || renderedIds.has(m.id)) return '';
+    
+    const partner = getPartner(m);
+    const p = (partner && !renderedIds.has(partner.id)) ? partner : null;
+    const children = getChildren(m, p);
+
+    let html = `<li>`;
+    
+    if (p) {
+      // Render couple side-by-side with connecting line
+      html += `<div style="display:flex; gap:8px; justify-content:center; align-items:flex-start; position:relative;">
+                 ${renderNodeCard(m)}
+                 <div style="align-self:center; width:20px; height:2px; background:#c1c6d4; flex-shrink:0;"></div>
+                 ${renderNodeCard(p)}
+               </div>`;
+    } else {
+      html += renderNodeCard(m);
+    }
+    
+    if (children.length > 0) {
+      html += `<ul>${children.map(c => renderTreeGroup(c)).join('')}</ul>`;
+    }
+    
+    html += `</li>`;
+    return html;
+  }
+
+  // ── ROOT DETECTION ──
+  // A member is a root if NONE of their parents are in the family member list
+  const memberNamesLower = members.map(m => m.name.toLowerCase());
+  
+  let roots = members.filter(m => {
+    const fn = (m.father_name || '').toLowerCase();
+    const mn = (m.mother_name || '').toLowerCase();
+    const hasParentInFamily = (fn && memberNamesLower.includes(fn)) || (mn && memberNamesLower.includes(mn));
+    return !hasParentInFamily;
+  });
+
+  // De-duplicate: if a root's partner is also in roots, skip the partner (they'll be rendered together)
+  const rootIds = new Set(roots.map(r => r.id));
+  const filteredRoots = [];
+  const skipIds = new Set();
+  for (const r of roots) {
+    if (skipIds.has(r.id)) continue;
+    filteredRoots.push(r);
+    const partner = getPartner(r);
+    if (partner && rootIds.has(partner.id)) {
+      skipIds.add(partner.id); // Skip the partner, they'll render alongside r
+    }
+  }
+  roots = filteredRoots;
+  
+  if (roots.length === 0) roots = [members[0]];
+
+  let html = `<div class="css-tree" style="padding: 16px 0; overflow-x: auto;">
+    <ul style="border:none;">
+      ${roots.map(r => renderTreeGroup(r)).join('')}
+    </ul>
+  </div>`;
+
+  // Legend + Add Child button
+  html += `<div class="flex items-center justify-center gap-6 mt-6 text-xs text-on-surface-variant">
+    <span class="flex items-center gap-1.5"><span style="width:10px;height:10px;border-radius:50%;background:#ba1a1a;display:inline-block;"></span>High Risk</span>
+    <span class="flex items-center gap-1.5"><span style="width:10px;height:10px;border-radius:50%;background:#e6a817;display:inline-block;"></span>Medium Risk</span>
+    <span class="flex items-center gap-1.5"><span style="width:10px;height:10px;border-radius:50%;background:#1b6d24;display:inline-block;"></span>Low Risk</span>
+    <span class="flex items-center gap-1.5">🩸 Has Diabetes</span>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+// ─────────── MEMBERS LIST ───────────
+function renderMembersList(family) {
+  const container = document.getElementById('familyMembersList');
+  if (family.members.length === 0) {
+    container.innerHTML = `<div class="px-6 py-8 text-center text-on-surface-variant text-body-sm">No members yet. Click "Add Member" to add family members.</div>`;
+    return;
+  }
+
+  container.innerHTML = family.members.map(m => {
+    const score = calcRiskScore(m, family.members);
+    const riskLevel = getRiskLevel(score);
+    const badge = getRiskBadgeClass(riskLevel);
+    const initials = getInitials(m.name);
+
+    return `<div class="flex items-center gap-4 px-6 py-4 hover:bg-surface-container-lowest transition-colors">
+      <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-sm flex-shrink-0">${initials}</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-label-md text-on-surface">${m.name}</span>
+          <span class="text-xs text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full">${m.relationship || 'Member'}</span>
+          ${m.has_diabetes === 'true' ? '<span class="text-xs bg-error-container text-on-error-container px-2 py-0.5 rounded-full">🩸 Diabetic</span>' : ''}
+        </div>
+        <div class="flex gap-3 mt-1 text-xs text-on-surface-variant">
+          <span>Age: ${m.age}</span>
+          <span>BMI: ${m.bmi || '—'}</span>
+          <span>BP: ${m.bp_sys && m.bp_dia ? `${m.bp_sys}/${m.bp_dia}` : '—'}</span>
+          ${m.blood_group ? `<span>Blood: ${m.blood_group}</span>` : ''}
+        </div>
+      </div>
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <span class="px-3 py-1 rounded-full text-xs font-bold ${badge}">${riskLevel}</span>
+        <button onclick="showMemberDetail('${family.id}','${m.id}')" class="p-1.5 hover:bg-surface-container rounded-full transition-colors">
+          <span class="material-symbols-outlined text-on-surface-variant text-base">info</span>
+        </button>
+        <button onclick="deleteMember('${family.id}','${m.id}')" class="p-1.5 hover:bg-error-container rounded-full transition-colors">
+          <span class="material-symbols-outlined text-on-surface-variant hover:text-on-error-container text-base">delete</span>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────── MEMBER DETAIL ───────────
+function showMemberDetail(familyId, memberId) {
+  const families = getFamilies();
+  const family = families.find(f => f.id === familyId);
+  const member = family?.members.find(m => m.id === memberId);
+  if (!member) return;
+
+  const score = calcRiskScore(member, family.members);
+  const riskLevel = getRiskLevel(score);
+  const badge = getRiskBadgeClass(riskLevel);
+
+  const notes = [];
+  if (member.father_diabetes === 'true') notes.push('Father has diabetes — elevated risk');
+  if (member.mother_diabetes === 'true') notes.push('Mother has diabetes — elevated risk');
+  if (member.has_diabetes === 'true') notes.push('Patient is diabetic');
+  const rel = (member.relationship || '').toLowerCase();
+  if (['son','daughter'].includes(rel)) {
+    const parentDiabetes = family.members.some(m =>
+      ['father','mother'].includes((m.relationship||'').toLowerCase()) &&
+      m.has_diabetes === 'true'
+    );
+    if (parentDiabetes) notes.push('⚠️ Parent in family has diabetes — higher risk');
+  }
+
+  document.getElementById('memberDetailContent').innerHTML = `
+    <div class="flex items-center gap-4 mb-6 pb-4 border-b border-outline-variant/20">
+      <div class="w-16 h-16 rounded-2xl bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-2xl">${getInitials(member.name)}</div>
+      <div>
+        <h3 class="font-headline-md text-on-surface">${member.name}</h3>
+        <p class="text-body-sm text-on-surface-variant">${member.relationship || 'Family Member'} · Age ${member.age}</p>
+        ${member.phone ? `<p class="text-body-sm text-on-surface-variant flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-sm">phone</span> ${member.phone}</p>` : ''}
+        <span class="px-3 py-1 rounded-full text-xs font-bold ${badge} mt-1 inline-block">${riskLevel}</span>
+      </div>
+    </div>
+    
+    <div class="mb-5 p-4 bg-surface-container-low rounded-xl">
+      <h4 class="font-label-sm text-on-surface-variant mb-2 uppercase tracking-wide">Family Links</h4>
+      <div class="space-y-1 text-body-sm">
+        ${member.father_name ? `<p><span class="font-medium text-on-surface">Father:</span> ${member.father_name}</p>` : ''}
+        ${member.mother_name ? `<p><span class="font-medium text-on-surface">Mother:</span> ${member.mother_name}</p>` : ''}
+        ${(() => {
+          // Find Spouse
+          const childWithBoth = family.members.find(c => 
+            ((c.father_name || '').toLowerCase() === member.name.toLowerCase() && c.mother_name) ||
+            ((c.mother_name || '').toLowerCase() === member.name.toLowerCase() && c.father_name)
+          );
+          let spouseName = null;
+          if (childWithBoth) {
+            spouseName = ((childWithBoth.father_name || '').toLowerCase() === member.name.toLowerCase()) 
+              ? childWithBoth.mother_name 
+              : childWithBoth.father_name;
+          } else {
+            // Check direct spouse relationship (if someone added a spouse but they don't have children yet)
+            const manualSpouse = family.members.find(m => 
+              m.relationship === 'Spouse' && 
+              // Basic guess: if one is male and other female and no parents... this is tricky without direct links.
+              // We'll rely on the tree builder's logic or just omit if no shared children
+              false 
+            );
+          }
+          return spouseName ? `<p><span class="font-medium text-on-surface">Spouse:</span> ${spouseName}</p>` : '';
+        })()}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant">BMI</p><p class="font-label-md text-on-surface">${member.bmi || '—'}</p></div>
+      <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant">Blood Pressure</p><p class="font-label-md text-on-surface">${member.bp_sys && member.bp_dia ? `${member.bp_sys}/${member.bp_dia} mmHg` : '—'}</p></div>
+      <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant">Blood Group</p><p class="font-label-md text-on-surface">${member.blood_group || '—'}</p></div>
+      <div class="bg-surface-container-low rounded-xl p-3"><p class="text-xs text-on-surface-variant">Risk Score</p><p class="font-label-md text-on-surface">${score}/100</p></div>
+    </div>
+    ${notes.length > 0 ? `<div class="bg-error-container/20 rounded-xl p-4 space-y-2">
+      <p class="font-label-sm text-error flex items-center gap-1"><span class="material-symbols-outlined text-sm">warning</span> Risk Factors</p>
+      ${notes.map(n => `<p class="text-xs text-on-surface-variant">• ${n}</p>`).join('')}
+    </div>` : `<div class="bg-secondary-container/20 rounded-xl p-4"><p class="text-xs text-on-secondary-container">✓ No significant risk factors detected</p></div>`}`;
+
+  document.getElementById('memberDetailModal').classList.remove('hidden');
+}
+
+function deleteMember(familyId, memberId) {
+  if (!confirm('Remove this member from the family?')) return;
+  const families = getFamilies();
+  const family = families.find(f => f.id === familyId);
+  if (!family) return;
+  family.members = family.members.filter(m => m.id !== memberId);
+  saveFamilies(families);
+  openFamilyDetail(familyId);
+  showToast('Member removed', 'success');
+}
+
+// ─────────── ADD PATIENT MODAL ───────────
+function openAddPatientModal() {
+  document.getElementById('addPatientForm').reset();
+  document.getElementById('ap_bmi').value = '';
+  document.getElementById('addPatientModal').classList.remove('hidden');
+}
+
+function submitAddPatient(e) {
+  e.preventDefault();
+  const name = document.getElementById('ap_name').value.trim();
+  const fatherName = document.getElementById('ap_father_name').value.trim();
+  const motherName = document.getElementById('ap_mother_name').value.trim();
+  
+  const member = {
+    id: 'mem_' + Date.now(),
+    name,
+    age: document.getElementById('ap_age').value,
+    gender: document.getElementById('ap_gender').value,
+    relationship: 'Patient',
+    height: document.getElementById('ap_height').value,
+    weight: document.getElementById('ap_weight').value,
+    bmi: document.getElementById('ap_bmi').value,
+    bp_sys: document.getElementById('ap_bp_sys').value,
+    bp_dia: document.getElementById('ap_bp_dia').value,
+    blood_group: document.getElementById('ap_blood_group').value,
+    father_name: fatherName,
+    father_diabetes: document.getElementById('ap_father_diabetes').value,
+    mother_name: motherName,
+    mother_diabetes: document.getElementById('ap_mother_diabetes').value,
+    has_diabetes: 'false',
+    addedDate: new Date().toISOString().slice(0,10)
+  };
+
+  const families = getFamilies();
+  
+  // 1. Search for existing family containing these parents
+  let targetFamily = null;
+  if (fatherName || motherName) {
+    targetFamily = families.find(f => {
+      let hasFather = !fatherName || f.members.some(m => m.name.toLowerCase() === fatherName.toLowerCase());
+      let hasMother = !motherName || f.members.some(m => m.name.toLowerCase() === motherName.toLowerCase());
+      return hasFather && hasMother;
+    });
+  }
+
+  if (targetFamily) {
+    // Calculate risk
+    const score = calcRiskScore(member, targetFamily.members);
+    member.riskLevel = getRiskLevel(score);
+    
+    targetFamily.members.push(member);
+    // Recalculate all since new member might affect risk
+    targetFamily.members.forEach(m => m.riskLevel = getRiskLevel(calcRiskScore(m, targetFamily.members)));
+    
+    saveFamilies(families);
+    recordVisitToday();
+    closeModal('addPatientModal');
+    showToast(`${name} linked to existing ${targetFamily.familyName}!`, 'success');
+    renderFamilyCards();
+    renderDashboard();
+    return;
+  }
+
+  // 2. No matching family found, create a new one
+  const score = calcRiskScore(member, [member]);
+  member.riskLevel = getRiskLevel(score);
+
+  const familyName = fatherName ? `${fatherName}'s Family` : `${name}'s Family`;
+  const newFamily = {
+    id: 'fam_' + Date.now(),
+    familyName,
+    createdAt: new Date().toISOString(),
+    fatherName: fatherName,
+    motherName: motherName,
+    members: [member]
+  };
+
+  // Add father/mother as members too if provided
+  if (fatherName) {
+    const fatherMem = {
+      id: 'mem_' + (Date.now()+1),
+      name: fatherName,
+      age: '', gender: 'Male', relationship: 'Father',
+      height: '', weight: '', bmi: '', bp_sys: '', bp_dia: '', blood_group: '',
+      father_diabetes: 'unknown', mother_diabetes: 'unknown',
+      has_diabetes: document.getElementById('ap_father_diabetes').value,
+      addedDate: new Date().toISOString().slice(0,10)
+    };
+    fatherMem.riskLevel = getRiskLevel(calcRiskScore(fatherMem, [fatherMem]));
+    newFamily.members.push(fatherMem);
+  }
+
+  if (motherName) {
+    const motherMem = {
+      id: 'mem_' + (Date.now()+2),
+      name: motherName,
+      age: '', gender: 'Female', relationship: 'Mother',
+      height: '', weight: '', bmi: '', bp_sys: '', bp_dia: '', blood_group: '',
+      father_diabetes: 'unknown', mother_diabetes: 'unknown',
+      has_diabetes: document.getElementById('ap_mother_diabetes').value,
+      addedDate: new Date().toISOString().slice(0,10)
+    };
+    motherMem.riskLevel = getRiskLevel(calcRiskScore(motherMem, [motherMem]));
+    newFamily.members.push(motherMem);
+  }
+
+  families.unshift(newFamily);
+  saveFamilies(families);
+  recordVisitToday();
+  closeModal('addPatientModal');
+  showToast(`${familyName} created successfully!`, 'success');
+  renderFamilyCards();
+  renderDashboard();
+}
+
+// ─────────── ADD MEMBER MODAL ───────────
+function handleRelationshipChange() {
+  const rel = document.getElementById('am_relationship').value;
+  const parentsContainer = document.getElementById('am_parents_container');
+  const spouseContainer = document.getElementById('am_spouse_container');
+  const linkContainer = document.getElementById('am_link_container');
+  const linkLabel = document.getElementById('am_link_label');
+
+  if (['Son', 'Daughter', 'Brother', 'Sister'].includes(rel)) {
+    // Show Parents only
+    parentsContainer.classList.remove('hidden');
+    spouseContainer.classList.add('hidden');
+    linkContainer.classList.add('hidden');
+  } 
+  else if (['Father', 'Mother'].includes(rel)) {
+    // Show Spouse + Link Child
+    parentsContainer.classList.add('hidden');
+    spouseContainer.classList.remove('hidden');
+    linkContainer.classList.remove('hidden');
+    linkLabel.textContent = "Select their child (to link to family)";
+  }
+  else if (['Grandfather', 'Grandmother'].includes(rel)) {
+    // Show Spouse + Link Son/Daughter
+    parentsContainer.classList.add('hidden');
+    spouseContainer.classList.remove('hidden');
+    linkContainer.classList.remove('hidden');
+    linkLabel.textContent = "Select their child (to link down the tree)";
+  }
+  else if (['Uncle', 'Aunt'].includes(rel)) {
+    // Show Spouse + Parents (to link up)
+    parentsContainer.classList.remove('hidden');
+    spouseContainer.classList.remove('hidden');
+    linkContainer.classList.add('hidden');
+  }
+  else {
+    // Default fallback
+    parentsContainer.classList.remove('hidden');
+    spouseContainer.classList.add('hidden');
+    linkContainer.classList.add('hidden');
+  }
+}
+
+function openAddMemberModal() {
+  document.getElementById('addMemberForm').reset();
+  document.getElementById('am_bmi').value = '';
+  
+  // Populate the linked child dropdown
+  const childSelect = document.getElementById('am_linked_child');
+  childSelect.innerHTML = '<option value="">Select member...</option>';
+  
+  if (currentFamilyId) {
+    const family = getFamilies().find(f => f.id === currentFamilyId);
+    if (family) {
+      family.members.forEach(m => {
+        childSelect.innerHTML += `<option value="${m.id}">${m.name} (${m.relationship || 'Member'})</option>`;
+      });
+    }
+  }
+  
+  handleRelationshipChange(); // Reset fields view
+  document.getElementById('addMemberModal').classList.remove('hidden');
+}
+
+function openAddChildModal() {
+  // Open Add Member modal pre-configured for adding a child
+  openAddMemberModal();
+  
+  // Set relationship to Son (user can change to Daughter)
+  document.getElementById('am_relationship').value = 'Son';
+  handleRelationshipChange();
+  
+  // Auto-fill the father and mother names from the existing family
+  if (currentFamilyId) {
+    const family = getFamilies().find(f => f.id === currentFamilyId);
+    if (family) {
+      const father = family.members.find(m => ['Father', 'Grandfather'].includes(m.relationship) && m.gender !== 'Female') 
+                  || family.members.find(m => m.gender === 'Male' && ['Father'].includes(m.relationship));
+      const mother = family.members.find(m => ['Mother', 'Grandmother'].includes(m.relationship) && m.gender !== 'Male') 
+                  || family.members.find(m => m.gender === 'Female' && ['Mother'].includes(m.relationship));
+      
+      if (father) document.getElementById('am_father_name').value = father.name;
+      if (mother) document.getElementById('am_mother_name').value = mother.name;
+    }
+  }
+}
+
+function submitAddMember(e) {
+  e.preventDefault();
+  if (!currentFamilyId) return;
+
+  const families = getFamilies();
+  const family = families.find(f => f.id === currentFamilyId);
+  if (!family) return;
+
+  const rel = document.getElementById('am_relationship').value;
+  
+  // Which fields are active?
+  const showParents = ['Son', 'Daughter', 'Brother', 'Sister', 'Uncle', 'Aunt', 'Spouse', ''].includes(rel);
+  const showSpouse = ['Father', 'Mother', 'Grandfather', 'Grandmother', 'Uncle', 'Aunt'].includes(rel);
+  const isReverseLink = ['Father', 'Mother', 'Grandfather', 'Grandmother'].includes(rel);
+  
+  let fName = '';
+  let mName = '';
+  if (showParents) {
+    fName = document.getElementById('am_father_name').value.trim();
+    mName = document.getElementById('am_mother_name').value.trim();
+  }
+
+  const memberName = document.getElementById('am_name').value.trim();
+
+  const member = {
+    id: 'mem_' + Date.now(),
+    name: memberName,
+    phone: document.getElementById('am_phone').value,
+    age: document.getElementById('am_age').value,
+    gender: document.getElementById('am_gender').value,
+    relationship: rel,
+    height: document.getElementById('am_height').value,
+    weight: document.getElementById('am_weight').value,
+    bmi: document.getElementById('am_bmi').value,
+    bp_sys: document.getElementById('am_bp_sys').value,
+    bp_dia: document.getElementById('am_bp_dia').value,
+    blood_group: document.getElementById('am_blood_group').value,
+    has_diabetes: document.getElementById('am_has_diabetes').value,
+    father_name: fName,
+    father_diabetes: document.getElementById('am_father_diabetes').value,
+    mother_name: mName,
+    mother_diabetes: document.getElementById('am_mother_diabetes').value,
+    addedDate: new Date().toISOString().slice(0,10)
+  };
+
+  family.members.push(member);
+
+  // BUG 2 FIX: If they typed parents that don't exist, create them so the tree links correctly!
+  if (showParents) {
+    if (fName && !family.members.find(m => m.name.toLowerCase() === fName.toLowerCase())) {
+      const fMem = {
+        id: 'mem_' + (Date.now()+2), name: fName, age: '', gender: 'Male', relationship: 'Father',
+        height: '', weight: '', bmi: '', bp_sys: '', bp_dia: '', blood_group: '',
+        father_diabetes: 'unknown', mother_diabetes: 'unknown', has_diabetes: document.getElementById('am_father_diabetes').value,
+        addedDate: new Date().toISOString().slice(0,10)
+      };
+      fMem.riskLevel = getRiskLevel(calcRiskScore(fMem, family.members));
+      family.members.push(fMem);
+    }
+    if (mName && !family.members.find(m => m.name.toLowerCase() === mName.toLowerCase())) {
+      const mMem = {
+        id: 'mem_' + (Date.now()+3), name: mName, age: '', gender: 'Female', relationship: 'Mother',
+        height: '', weight: '', bmi: '', bp_sys: '', bp_dia: '', blood_group: '',
+        father_diabetes: 'unknown', mother_diabetes: 'unknown', has_diabetes: document.getElementById('am_mother_diabetes').value,
+        addedDate: new Date().toISOString().slice(0,10)
+      };
+      mMem.riskLevel = getRiskLevel(calcRiskScore(mMem, family.members));
+      family.members.push(mMem);
+    }
+  }
+
+  // Handle reverse linking (if this member is a Grandfather/Father, update the child's parent reference)
+  if (isReverseLink) {
+    const childId = document.getElementById('am_linked_child').value;
+    const spouseName = showSpouse ? document.getElementById('am_spouse_name').value.trim() : '';
+    
+    // Determine which parent role this member fills
+    const isMale = (['Grandfather', 'Father'].includes(rel)) || member.gender === 'Male';
+    
+    if (childId) {
+      const childMem = family.members.find(m => m.id === childId);
+      if (childMem) {
+        if (isMale) {
+          childMem.father_name = member.name;
+          if (spouseName) childMem.mother_name = spouseName;
+        } else {
+          childMem.mother_name = member.name;
+          if (spouseName) childMem.father_name = spouseName;
+        }
+      }
+    } else {
+      // No explicit link selected — try to auto-detect:
+      // If we're adding a Grandfather, find any Father/Mother in the family and link them
+      if (['Grandfather', 'Grandmother'].includes(rel)) {
+        const possibleChildren = family.members.filter(m => 
+          ['Father', 'Mother', 'Uncle', 'Aunt'].includes(m.relationship) && m.id !== member.id
+        );
+        possibleChildren.forEach(child => {
+          if (isMale && !child.father_name) child.father_name = member.name;
+          if (!isMale && !child.mother_name) child.mother_name = member.name;
+          if (spouseName) {
+            if (isMale && !child.mother_name) child.mother_name = spouseName;
+            if (!isMale && !child.father_name) child.father_name = spouseName;
+          }
+        });
+      }
+      if (['Father', 'Mother'].includes(rel)) {
+        const possibleChildren = family.members.filter(m => 
+          ['Son', 'Daughter', 'Brother', 'Sister', 'Patient'].includes(m.relationship) && m.id !== member.id
+        );
+        possibleChildren.forEach(child => {
+          if (isMale && !child.father_name) child.father_name = member.name;
+          if (!isMale && !child.mother_name) child.mother_name = member.name;
+          if (spouseName) {
+            if (isMale && !child.mother_name) child.mother_name = spouseName;
+            if (!isMale && !child.father_name) child.father_name = spouseName;
+          }
+        });
+      }
+    }
+    
+    // Check if spouse name was provided and add it as a new member if it doesn't exist
+    if (spouseName && !family.members.find(m => m.name.toLowerCase() === spouseName.toLowerCase())) {
+      const spouseRel = rel === 'Grandfather' ? 'Grandmother' : (rel === 'Father' ? 'Mother' : (rel === 'Grandmother' ? 'Grandfather' : 'Father'));
+      const spouseGender = isMale ? 'Female' : 'Male';
+      
+      const spouseMem = {
+        id: 'mem_' + (Date.now()+1),
+        name: spouseName,
+        age: '', gender: spouseGender, relationship: spouseRel,
+        height: '', weight: '', bmi: '', bp_sys: '', bp_dia: '', blood_group: '',
+        father_diabetes: 'unknown', mother_diabetes: 'unknown', has_diabetes: 'unknown',
+        addedDate: new Date().toISOString().slice(0,10)
+      };
+      
+      spouseMem.riskLevel = getRiskLevel(calcRiskScore(spouseMem, family.members));
+      family.members.push(spouseMem);
+    }
+  }
+
+  // Re-calculate risk for ALL members since a new one may affect others
+  family.members.forEach(m => {
+    m.riskLevel = getRiskLevel(calcRiskScore(m, family.members));
+  });
+
+  saveFamilies(families);
+  recordVisitToday();
+  closeModal('addMemberModal');
+  showToast(`${member.name} added to ${family.familyName}`, 'success');
+  openFamilyDetail(currentFamilyId);
+  renderDashboard();
+}
+
+// ─────────── PROFILE ───────────
+function toggleProfileDropdown() {
+  profileDropdownOpen = !profileDropdownOpen;
+  const dd = document.getElementById('profileDropdown');
+  dd.classList.toggle('hidden', !profileDropdownOpen);
+  if (profileDropdownOpen) {
+    const profile = getProfile();
+    document.getElementById('dropEditName').value = profile.name || localStorage.getItem('userName') || '';
+  }
+}
+
+function closeProfileDropdown() {
+  profileDropdownOpen = false;
+  document.getElementById('profileDropdown')?.classList.add('hidden');
+}
+
+function saveProfileName() {
+  const name = document.getElementById('dropEditName').value.trim();
+  if (!name) { showToast('Please enter a name', 'error'); return; }
+  saveProfile({ name });
+  localStorage.setItem('userName', name);
+  updateProfileUI(name);
+  closeProfileDropdown();
+  showToast('Name updated!', 'success');
+}
+
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    saveProfile({ photoUrl: dataUrl });
+    updateAvatarUI(dataUrl);
+    showToast('Profile photo updated!', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateProfileUI(name) {
+  document.getElementById('ashaProfileName').textContent = name;
+  const initials = getInitials(name);
+  document.getElementById('profileInitials').textContent = initials;
+  document.getElementById('dropInitials').textContent = initials;
+  const greet = document.getElementById('ashaGreeting');
+  if (greet) {
+    const first = name.split(' ')[0];
+    greet.textContent = `${greetingByTime()}, ${first}`;
+  }
+}
+
+function updateAvatarUI(photoUrl) {
+  const headerImg = document.getElementById('profileAvatarImg');
+  const dropImg = document.getElementById('dropAvatarImg');
+  if (photoUrl) {
+    headerImg.src = photoUrl; headerImg.classList.remove('hidden');
+    document.getElementById('profileInitials').classList.add('hidden');
+    dropImg.src = photoUrl; dropImg.classList.remove('hidden');
+    document.getElementById('dropInitials').classList.add('hidden');
+  } else {
+    headerImg.classList.add('hidden');
+    document.getElementById('profileInitials').classList.remove('hidden');
+    dropImg.classList.add('hidden');
+    document.getElementById('dropInitials').classList.remove('hidden');
+  }
+}
+
+// ─────────── SETTINGS ───────────
+function loadSettingsForm() {
+  const s = getSettings();
+  const profile = getProfile();
+  const name = profile.name || localStorage.getItem('userName') || '';
+  document.getElementById('settingsName').value = name;
+  document.getElementById('settingsUsername').value = s.username || '';
+  document.getElementById('settingsVillage').value = s.village || localStorage.getItem('userVillage') || '';
+  document.getElementById('settingsHoursFrom').value = s.hoursFrom || '08:00';
+  document.getElementById('settingsHoursTo').value = s.hoursTo || '17:00';
+  updateHoursPreview();
+}
+
+function updateHoursPreview() {
+  const from = document.getElementById('settingsHoursFrom')?.value || '08:00';
+  const to = document.getElementById('settingsHoursTo')?.value || '17:00';
+  const fmt = (t) => {
+    const [h, m] = t.split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hh = h % 12 || 12;
+    return `${hh}:${String(m).padStart(2,'0')} ${period}`;
+  };
+  const el = document.getElementById('settingsHoursPreview');
+  if (el) el.textContent = `Available ${fmt(from)} – ${fmt(to)}`;
+}
+
+document.addEventListener('change', e => {
+  if (e.target.id === 'settingsHoursFrom' || e.target.id === 'settingsHoursTo') updateHoursPreview();
+});
+
+function saveSettings() {
+  const name = document.getElementById('settingsName').value.trim();
+  const username = document.getElementById('settingsUsername').value.trim();
+  const village = document.getElementById('settingsVillage').value.trim();
+  const hoursFrom = document.getElementById('settingsHoursFrom').value;
+  const hoursTo = document.getElementById('settingsHoursTo').value;
+  const oldPw = document.getElementById('settingsOldPw').value;
+  const newPw = document.getElementById('settingsNewPw').value;
+  const confirmPw = document.getElementById('settingsConfirmPw').value;
+
+  if (newPw && newPw !== confirmPw) {
+    showToast('Passwords do not match', 'error'); return;
+  }
+
+  saveSettingsData({ username, village, hoursFrom, hoursTo });
+  if (name) {
+    saveProfile({ name });
+    localStorage.setItem('userName', name);
+    updateProfileUI(name);
+    document.getElementById('ashaProfileRole').textContent = village ? `ASHA • ${village}` : 'ASHA Worker';
+  }
+
+  document.getElementById('settingsOldPw').value = '';
+  document.getElementById('settingsNewPw').value = '';
+  document.getElementById('settingsConfirmPw').value = '';
+
+  showToast('Settings saved successfully!', 'success');
+}
+
+// ─────────── UTILITIES ───────────
+function getInitials(name) {
+  return (name || '?').trim().split(/\s+/).map(w => w[0]).join('').slice(0,2).toUpperCase();
+}
+function greetingByTime() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning'; if (h < 17) return 'Good afternoon'; return 'Good evening';
+}
+
+function closeModal(id) {
+  document.getElementById(id)?.classList.add('hidden');
+}
+function handleModalBackdropClick(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+function handleGlobalSearch(val) {
+  if (currentPanel === 'patients') {
+    document.getElementById('familySearch').value = val;
+    renderFamilyCards(val);
+  }
+}
+
+function showEmergencyAlert() {
+  showToast('🚨 Emergency Alert sent to nearest PHC!', 'error');
+}
+
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const id = 'toast_' + Date.now();
+  const colors = {
+    success: 'bg-secondary-container text-on-secondary-container border-secondary/30',
+    error: 'bg-error-container text-on-error-container border-error/30',
+    info: 'bg-primary-fixed text-on-primary-fixed border-primary/30'
+  };
+  const icons = { success: 'check_circle', error: 'error', info: 'info' };
+  const toast = document.createElement('div');
+  toast.id = id;
+  toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border shadow-lg ${colors[type] || colors.info} transition-all`;
+  toast.style.animation = 'slideUp 0.2s ease';
+  toast.innerHTML = `<span class="material-symbols-outlined text-sm">${icons[type]||'info'}</span><p class="text-sm font-medium">${message}</p>`;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3500);
+}
+
+// ─────────── INIT ───────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    if (!document.getElementById('profileBtn')?.contains(e.target) &&
+        !document.getElementById('profileDropdown')?.contains(e.target)) {
+      closeProfileDropdown();
+    }
+  });
+
+  // Load profile
+  const profile = getProfile();
+  const name = profile.name || localStorage.getItem('userName') || 'ASHA Worker';
+  updateProfileUI(name);
+  if (profile.photoUrl) updateAvatarUI(profile.photoUrl);
+
+  // Load settings for role display
+  const settings = getSettings();
+  const village = settings.village || localStorage.getItem('userVillage') || '';
+  document.getElementById('ashaProfileRole').textContent = village ? `ASHA • ${village}` : 'ASHA Worker';
+
+  // Greeting
+  const first = name.split(' ')[0];
+  const greetEl = document.getElementById('ashaGreeting');
+  if (greetEl) greetEl.textContent = `${greetingByTime()}, ${first}`;
+  const subGreetEl = document.getElementById('ashaSubGreeting');
+  if (subGreetEl) {
+    const families = getFamilies();
+    const total = families.reduce((a, f) => a + f.members.length, 0);
+    subGreetEl.textContent = `You have ${total} patient${total===1?'':'s'} across ${families.length} famil${families.length===1?'y':'ies'}.`;
+  }
+
+  renderDashboard();
+});
+</script>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+// Auth guard
+if (typeof requireAuth === 'function') {
+  if (!requireAuth(['ASHA'])) { /* redirected */ }
+}
+document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (typeof logout === 'function') logout();
+  else { localStorage.clear(); window.location.href = '/login.html'; }
+});
+if (typeof initThemeToggle === 'function') initThemeToggle();
+</script>
+<!-- Floating AI Bot -->
+<button class="fixed bottom-6 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center z-50 group" onclick="document.getElementById('aiModal').classList.remove('hidden')">
+  <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">smart_toy</span>
+</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4 backdrop-blur-sm" onclick="if(event.target===this) this.classList.add('hidden')">
+  <div class="bg-surface rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col border border-outline-variant/30">
+    <div class="flex justify-between items-center p-6 border-b border-outline-variant/20 bg-primary/5">
+      <h3 class="font-headline-md text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined">smart_toy</span> AI Assistant
+      </h3>
+      <button type="button" onclick="document.getElementById('aiModal').classList.add('hidden')" class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="flex border-b border-outline-variant/20 px-6">
+      <button id="aiTabDoc" class="py-3 px-4 border-b-2 border-primary font-label-md text-primary" onclick="switchAITab('doc')">Document Analysis</button>
+      <button id="aiTabAudio" class="py-3 px-4 border-b-2 border-transparent font-label-md text-on-surface-variant hover:text-primary transition-colors" onclick="switchAITab('audio')">Audio Translation</button>
+    </div>
+
+    <div class="p-6 overflow-y-auto flex-1 bg-surface">
+      <!-- Doc Tab -->
+      <div id="aiContentDoc" class="space-y-6">
+        <p class="text-body-sm text-on-surface-variant">Upload a DOCX conversation file. Our AI will analyze symptoms, detect hidden risks, and generate a medical report.</p>
+        <div class="flex items-center gap-3">
+          <input type="file" id="aiDocInput" accept=".docx" class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-fixed file:text-on-primary-fixed hover:file:bg-primary-fixed-dim transition-colors cursor-pointer"/>
+          <button onclick="analyzeDoc()" id="aiDocBtn" class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md shadow-md hover:opacity-90 flex items-center gap-2 whitespace-nowrap">
+            <span class="material-symbols-outlined text-sm">analytics</span> Analyze
+          </button>
+        </div>
+        <div id="aiDocLoading" class="hidden text-center py-8">
+          <span class="material-symbols-outlined animate-spin text-4xl text-primary mb-2">progress_activity</span>
+          <p class="text-body-sm text-primary animate-pulse">AI is reading the document and reasoning... (this may take up to 30 seconds)</p>
+        </div>
+        <div id="aiDocResult" class="hidden space-y-4">
+          <!-- Results rendered here -->
+        </div>
+      </div>
+
+      <!-- Audio Tab -->
+      <div id="aiContentAudio" class="hidden space-y-6">
+        <p class="text-body-sm text-on-surface-variant">Upload an Audio file (MP3/WAV). Our AI will transcribe the voice and translate it into a DOCX report (English, Hindi, Kannada).</p>
+        <div class="flex items-center gap-3">
+          <input type="file" id="aiAudioInput" accept="audio/*" class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-secondary-container file:text-on-secondary-container hover:file:opacity-90 transition-colors cursor-pointer"/>
+          <button onclick="translateAudio()" id="aiAudioBtn" class="bg-secondary text-on-secondary px-6 py-2 rounded-full font-label-md shadow-md hover:opacity-90 flex items-center gap-2 whitespace-nowrap">
+            <span class="material-symbols-outlined text-sm">translate</span> Translate
+          </button>
+        </div>
+        <div id="aiAudioLoading" class="hidden text-center py-8">
+          <span class="material-symbols-outlined animate-spin text-4xl text-secondary mb-2">progress_activity</span>
+          <p class="text-body-sm text-secondary animate-pulse">Whisper AI is transcribing and translating... (this may take a few minutes for the first run)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchAITab(tab) {
+  const docTab = document.getElementById('aiTabDoc');
+  const audioTab = document.getElementById('aiTabAudio');
+  const docContent = document.getElementById('aiContentDoc');
+  const audioContent = document.getElementById('aiContentAudio');
+  
+  if (tab === 'doc') {
+    docTab.className = "py-3 px-4 border-b-2 border-primary font-label-md text-primary";
+    audioTab.className = "py-3 px-4 border-b-2 border-transparent font-label-md text-on-surface-variant hover:text-primary transition-colors";
+    docContent.classList.remove('hidden');
+    audioContent.classList.add('hidden');
+  } else {
+    audioTab.className = "py-3 px-4 border-b-2 border-secondary font-label-md text-secondary";
+    docTab.className = "py-3 px-4 border-b-2 border-transparent font-label-md text-on-surface-variant hover:text-primary transition-colors";
+    audioContent.classList.remove('hidden');
+    docContent.classList.add('hidden');
+  }
+}
+
+async function analyzeDoc() {
+  const fileInput = document.getElementById('aiDocInput');
+  if (!fileInput.files.length) return alert('Please select a .docx file first.');
+  
+  const loading = document.getElementById('aiDocLoading');
+  const result = document.getElementById('aiDocResult');
+  const btn = document.getElementById('aiDocBtn');
+  
+  loading.classList.remove('hidden');
+  result.classList.add('hidden');
+  btn.disabled = true;
+  
+  const formData = new FormData();
+  formData.append('file', fileInput.files[0]);
+  
+  try {
+    const response = await fetch('/api/v1/ai/analyze-document', { method: 'POST', body: formData });
+    if (!response.ok) throw new Error(await response.text());
+    const data = await response.json();
+    
+    const analysis = data.analysis;
+    const summary = data.summary;
+    const ml = data.ml_prediction;
+    
+    let html = `
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="glass-card p-4 rounded-xl border border-primary/20 bg-primary/5 text-center shadow-sm">
+          <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">Overall Risk Score</p>
+          <p class="text-3xl font-bold text-primary">${analysis.overall_risk_score}/100</p>
+        </div>
+        <div class="glass-card p-4 rounded-xl border border-secondary/20 bg-secondary/5 text-center shadow-sm">
+          <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">ML Prediction</p>
+          <p class="text-3xl font-bold text-secondary">${ml}</p>
+        </div>
+      </div>
+      
+      <div class="glass-card p-5 rounded-xl border border-outline-variant/30 mb-4 bg-surface shadow-sm">
+        <h4 class="font-label-md text-primary mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">psychology</span> AI Medical Summary</h4>
+        <p class="text-body-sm text-on-surface mb-3"><strong>Explanation:</strong> ${summary.explanation}</p>
+        <p class="text-body-sm text-on-surface mb-3"><strong>Reasoning:</strong> ${summary.reasoning}</p>
+        <div class="text-body-sm text-on-surface">
+          <strong>Recommendations:</strong>
+          <ul class="list-disc pl-5 mt-1 space-y-1">
+            ${(summary.recommendations || []).map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <h4 class="font-label-md text-on-surface mb-2">Detected Symptoms & AI Reasoning</h4>
+      <div class="space-y-3">
+        ${(analysis.symptoms || []).map(s => `
+          <div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/20 shadow-sm">
+            <div class="flex justify-between items-start mb-1">
+              <span class="font-label-md">"${s.original_text}" <span class="text-on-surface-variant font-normal">→ ${s.normalized_symptom}</span></span>
+              <span class="text-xs px-2 py-0.5 rounded-full ${s.severity === 'high' ? 'bg-error/20 text-error' : (s.severity === 'moderate' ? 'bg-[#fff3cd] text-[#856404]' : 'bg-secondary-container text-on-secondary-container')}">${s.severity}</span>
+            </div>
+            <p class="text-xs text-on-surface-variant mb-2">${s.inferred_meaning}</p>
+            <div class="flex gap-4 text-[11px] text-on-surface-variant">
+              <span>Diabetes: <strong class="text-on-surface">${s.diabetes_association}%</strong></span>
+              <span>Hypertension: <strong class="text-on-surface">${s.hypertension_association}%</strong></span>
+              <span>Confidence: <strong class="text-on-surface">${s.confidence_score}%</strong></span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    result.innerHTML = html;
+    result.classList.remove('hidden');
+    
+  } catch (e) {
+    alert('Error analyzing document: ' + e.message);
+  } finally {
+    loading.classList.add('hidden');
+    btn.disabled = false;
+  }
+}
+
+async function translateAudio() {
+  const fileInput = document.getElementById('aiAudioInput');
+  if (!fileInput.files.length) return alert('Please select an audio file first.');
+  
+  const loading = document.getElementById('aiAudioLoading');
+  const btn = document.getElementById('aiAudioBtn');
+  
+  loading.classList.remove('hidden');
+  btn.disabled = true;
+  
+  const formData = new FormData();
+  formData.append('file', fileInput.files[0]);
+  
+  try {
+    const response = await fetch('/api/v1/ai/translate-audio', { method: 'POST', body: formData });
+    if (!response.ok) throw new Error(await response.text());
+    
+    // Download the file
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "Translated_Output.docx";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+    
+    alert('Translation complete! Document downloaded.');
+    
+  } catch (e) {
+    alert('Error translating audio: ' + e.message);
+  } finally {
+    loading.classList.add('hidden');
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

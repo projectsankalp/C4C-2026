@@ -1,0 +1,124 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-cream: var(--cream);
+  --color-terracotta: var(--terracotta);
+  --color-amber-warm: var(--amber-warm);
+  --color-artisan-green: var(--artisan-green);
+  --color-soft-highlight: var(--soft-highlight);
+
+  --shadow-craft: 0 10px 40px -12px color-mix(in oklab, var(--terracotta) 25%, transparent);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Original Terracotta & Cream Theme */
+  --background: #FFF8EF;          /* Warm cream / ivory */
+  --foreground: #1E1B18;          /* Rich charcoal */
+  --card: #FFFFFF;                /* Card background */
+  --card-foreground: #1E1B18;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E1B18;
+
+  --primary: #7C2D12;             /* Deep terracotta */
+  --primary-foreground: #FFF8EF;  /* Warm cream text */
+
+  --secondary: #B45309;           /* Warm amber */
+  --secondary-foreground: #FFF8EF;
+
+  --accent: #166534;              /* Artisan green */
+  --accent-foreground: #FFF8EF;
+
+  --muted: #F4ECE1;               /* Warm beige */
+  --muted-foreground: #706F6C;    /* Warm gray */
+
+  --destructive: #B91C1C;
+  --destructive-foreground: #FFF8EF;
+
+  --border: #E7D8C9;              /* Warm sand */
+  --input: #E7D8C9;
+  --ring: #7C2D12;                /* Terracotta ring */
+
+  --cream: #FFF8EF;
+  --terracotta: #7C2D12;
+  --amber-warm: #B45309;
+  --artisan-green: #166534;
+  --soft-highlight: #FEF3C7;      /* Soft cream yellow */
+
+  --shadow-craft: 0 10px 40px -12px rgba(124, 45, 18, 0.15);
+}
+
+.dark {
+  --background: #1E1B18;
+  --foreground: #FFF8EF;
+  --card: #2A2520;
+  --card-foreground: #FFF8EF;
+  --popover: #2A2520;
+  --popover-foreground: #FFF8EF;
+  --primary: #A04025;
+  --primary-foreground: #FFF8EF;
+  --secondary: #D97706;
+  --secondary-foreground: #1E1B18;
+  --muted: #2A2520;
+  --muted-foreground: #9C8F82;
+  --accent: #1F8B4D;
+  --accent-foreground: #FFF8EF;
+  --border: #3A342E;
+  --input: #3A342E;
+  --ring: #7C2D12;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Monitor Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login">
+
+    <div class="bg"></div>
+
+    <div class="login-card">
+
+        <h1>🌍 AIR MONITOR</h1>
+        <p>Real-Time Pollution Tracking</p>
+
+        <!-- SIGN IN -->
+        <div id="signinBox">
+
+            <input id="loginEmail" type="email" placeholder="Email">
+            <input id="loginPass" type="password" placeholder="Password">
+
+            <button onclick="login()">Sign In</button>
+
+            <p class="link" onclick="showSignup()">
+                Create New Account
+            </p>
+
+            <p class="link" onclick="showRecovery()">
+                Forgot Password?
+            </p>
+
+        </div>
+
+        <!-- SIGN UP -->
+        <div id="signupBox" style="display:none;">
+
+            <input id="signupName" type="text" placeholder="Full Name">
+            <input id="signupEmail" type="email" placeholder="Email">
+            <input id="signupPass" type="password" placeholder="Password">
+
+            <button onclick="signup()">Create Account</button>
+
+            <p class="link" onclick="showSignin()">
+                Already have account? Sign In
+            </p>
+
+        </div>
+
+        <!-- RECOVERY -->
+        <div id="recoveryBox" style="display:none;">
+
+            <input id="recoveryEmail" type="email" placeholder="Enter Email">
+
+            <button onclick="recoverPassword()">
+                Send Recovery Email
+            </button>
+
+            <p class="link" onclick="showSignin()">
+                Back to Sign In
+            </p>
+
+        </div>
+
+        <p id="msg"></p>
+
+    </div>
+
+    <script>
+
+        /* =========================
+           SWITCH SCREENS
+        ========================= */
+
+        function showSignup() {
+            document.getElementById("signinBox").style.display = "none";
+            document.getElementById("signupBox").style.display = "block";
+            document.getElementById("recoveryBox").style.display = "none";
+        }
+
+        function showSignin() {
+            document.getElementById("signinBox").style.display = "block";
+            document.getElementById("signupBox").style.display = "none";
+            document.getElementById("recoveryBox").style.display = "none";
+        }
+
+        function showRecovery() {
+            document.getElementById("signinBox").style.display = "none";
+            document.getElementById("signupBox").style.display = "none";
+            document.getElementById("recoveryBox").style.display = "block";
+        }
+
+        /* =========================
+           SIGN UP
+        ========================= */
+
+        function signup() {
+
+            const name = document.getElementById("signupName").value;
+            const email = document.getElementById("signupEmail").value;
+            const pass = document.getElementById("signupPass").value;
+
+            if (!name || !email || !pass) {
+                document.getElementById("msg").innerText =
+                    "⚠ Fill all fields";
+                return;
+            }
+
+            const user = {
+                name,
+                email,
+                pass
+            };
+
+            localStorage.setItem("airUser", JSON.stringify(user));
+
+            document.getElementById("msg").innerText =
+                "✅ Account Created Successfully";
+
+            showSignin();
+        }
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        function login() {
+
+            const email = document.getElementById("loginEmail").value;
+            const pass = document.getElementById("loginPass").value;
+
+            const savedUser =
+                JSON.parse(localStorage.getItem("airUser"));
+
+            if (!savedUser) {
+                document.getElementById("msg").innerText =
+                    "⚠ No account found";
+                return;
+            }
+
+            if (
+                email === savedUser.email &&
+                pass === savedUser.pass
+            ) {
+
+                localStorage.setItem("loggedIn", "true");
+
+                window.location.href = "dashboard.html";
+
+            } else {
+
+                document.getElementById("msg").innerText =
+                    "❌ Invalid Email or Password";
+            }
+        }
+
+        /* =========================
+           PASSWORD RECOVERY
+        ========================= */
+
+        function recoverPassword() {
+
+            const email =
+                document.getElementById("recoveryEmail").value;
+
+            const savedUser =
+                JSON.parse(localStorage.getItem("airUser"));
+
+            if (!savedUser) {
+                document.getElementById("msg").innerText =
+                    "⚠ No account found";
+                return;
+            }
+
+            if (email === savedUser.email) {
+
+                document.getElementById("msg").innerText =
+                    "📧 Recovery email sent successfully";
+
+            } else {
+
+                document.getElementById("msg").innerText =
+                    "❌ Email not registered";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

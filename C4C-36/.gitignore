@@ -1,0 +1,28 @@
+# ── Environment & Virtual Envs ──
+venv/
+.env
+backend/firebase-credentials.json
+
+# ── Python Generated ──
+__pycache__/
+*.pyc
+
+# ── Node.js ──
+node_modules/
+
+# ── Build Output ──
+dist/
+*.local
+.env.local
+.env.*.local
+
+# ── Database ──
+*.db
+
+# ── Logs ──
+*.log
+
+# ── Editor / OS ──
+.vscode/
+.DS_Store
+Thumbs.db

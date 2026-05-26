@@ -1,0 +1,14 @@
+{
+  "name": "swasthya-monorepo",
+  "version": "1.0.0",
+  "description": "Swasthya behavioral distress intelligence ecosystem",
+  "private": true,
+  "scripts": {
+    "dev:backend": "pnpm -F backend dev",
+    "dev:mobile": "pnpm -F mobile start",
+    "build:types": "pnpm -F shared-types build"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

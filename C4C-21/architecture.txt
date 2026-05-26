@@ -1,0 +1,72 @@
+groundwater-intelligence-ecosystem/
+├── README.md                           # System installation & orchestration overview
+├── docker-compose.yml                  # Local development cluster infrastructure
+├── .github/                            # Global CI/CD automation pipelines
+│   └── workflows/
+│       ├── backend-cd.yml
+│       ├── ai-pipeline-cd.yml
+│       └── frontend-cd.yml
+│
+├── hardware-firmware/                  # ESP32 & Edge Infrastructure
+│   ├── src/
+│   │   ├── main.cpp                    # Deep sleep & scheduling loop
+│   │   ├── sensor_handler.cpp          # JSN-SR04T driver & noise filters
+│   │   ├── gsm_driver.cpp              # SIM800L AT commands & GPRS stack
+│   │   └── storage_manager.cpp         # SPIFFS local failover database
+│   ├── include/                        # Component configuration headers
+│   └── platformio.ini                  # Build configurations & dependencies
+│
+├── backend-core/                       # FastAPI Monolith Gateway
+│   ├── Dockerfile
+│   ├── main.py                         # System entrypoint & middleware lifecycle
+│   ├── requirements.txt
+│   ├── celery_worker.py                # Distributed task queues
+│   ├── apps/
+│   │   ├── __init__.py
+│   │   ├── core/                       # Core system configurations
+│   │   │   ├── config.py               # Env schemas (Pydantic settings)
+│   │   │   ├── database.py             # Supabase Engine initialization
+│   │   │   └── security.py             # API Key validation & JWT handling
+│   │   ├── telemetry/                  # High-throughput IoT ingestion
+│   │   │   ├── router.py
+│   │   │   ├── schemas.py              # Pydantic data validators
+│   │   │   └── services.py             # Raw logs mapping to PostGIS coordinates
+│   │   ├── communications/             # Twilio SMS / IVR & I18n Engine
+│   │   │   ├── router.py
+│   │   │   ├── ivr_tree.py             # Dynamic TwiML voice responses
+│   │   │   └── localizations/          # Hindi, Kannada, etc. JSON blobs
+│   │   └── analytics/                  # GIS & Administrative queries
+│   │       ├── router.py
+│   │       └── queries.py              # Geospatial aggregation queries
+│   └── tests/                          # Pytest test suite
+│
+├── ai-pipeline/                        # MLOps, Pipelines & Feature Engineering
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── config.py                       # Hyperparameters and bucket links
+│   ├── src/
+│   │   ├── feature_store.py            # SPI calculations & lag generators
+│   │   ├── ingest_external.py          # Weather & Government API synchronizers
+│   │   ├── models/
+│   │   │   ├── predictor.py            # XGBoost Groundwater forecast module
+│   │   │   ├── classifier.py           # Random Forest Drought assessment
+│   │   │   └── anomaly_detector.py     # Isolation Forest system
+│   │   └── train.py                    # Training and serialization orchestration
+│   └── serving/
+│       └── inference_server.py         # Dedicated lightweight model serving API
+│
+└── frontend-ui/                        # Antigravity UI Applications
+    ├── package.json
+    ├── tailwind.config.js
+    └── src/
+        ├── index.ag                    # Application routing & state initializer
+        ├── components/
+        │   ├── Common/                 # Shared UI elements
+        │   ├── RuralLite/              # High-contrast 2G targeted dashboards
+        │   ├── SmartAnalytics/         # Charts, filters & tracking widgets
+        │   └── GISMap/                 # Leaflet.js map layer definitions
+        ├── state/
+        │   ├── store.ag                # Unified context store
+        │   └── sync_worker.js          # Service worker for offline-first syncing
+        └── localization/
+            └── i18n.ag                 # Dynamic interface localization script

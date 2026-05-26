@@ -1,0 +1,11 @@
+{
+  "name": "hastkala-vendor-ui",
+  "version": "1.0.0",
+  "description": "Admin UI for Women Enterprise Ecommerce",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}

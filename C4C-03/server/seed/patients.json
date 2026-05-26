@@ -1,0 +1,8 @@
+[
+  { "name": "Ravi Kumar", "age": 52, "gender": "male", "village": "Karkala", "phone": "9876511001" },
+  { "name": "Meena Bai", "age": 45, "gender": "female", "village": "Karkala", "phone": "9876511002" },
+  { "name": "Suresh Hegde", "age": 38, "gender": "male", "village": "Ullal", "phone": "9876511003" },
+  { "name": "Lakshmi Rao", "age": 60, "gender": "female", "village": "Ullal", "phone": "9876511004" },
+  { "name": "Manjunath Gowda", "age": 55, "gender": "male", "village": "Bantwal", "phone": "9876511005" },
+  { "name": "Savitha Nayak", "age": 42, "gender": "female", "village": "Puttur", "phone": "9876511006" }
+]

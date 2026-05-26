@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Vehicle Pollution Reports
+  </title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+
+      color: white;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      overflow-x: hidden;
+
+      position: relative;
+
+      background: #07120d;
+    }
+
+    /* BACKGROUND IMAGE */
+    body::before {
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.70),
+          rgba(0, 0, 0, 0.70)),
+
+        url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop");
+
+      background-size: cover;
+      background-position: center;
+
+      z-index: -2;
+    }
+
+    /* OVERLAY */
+    body::after {
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        linear-gradient(to bottom right,
+          rgba(255, 255, 180, 0.08),
+          rgba(0, 255, 120, 0.05));
+
+      z-index: -1;
+    }
+
+    /* NAVIGATION */
+    .nav {
+      width: 100%;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 15px;
+
+      padding: 20px;
+    }
+
+    .nav button {
+      padding: 12px 22px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background:
+        linear-gradient(90deg,
+          #22c55e,
+          #16a34a);
+
+      color: white;
+
+      font-size: 15px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: 0.3s;
+
+      box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav button:hover {
+      transform: scale(1.05);
+
+      background:
+        linear-gradient(90deg,
+          #16a34a,
+          #15803d);
+    }
+
+    /* TOPBAR */
+    .topbar {
+      width: 100%;
+
+      text-align: center;
+
+      padding: 25px;
+
+      backdrop-filter: blur(12px);
+
+      background:
+        rgba(255, 255, 255, 0.06);
+
+      box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .topbar h2 {
+      font-size: 36px;
+
+      color: #fff6b0;
+
+      margin-bottom: 10px;
+    }
+
+    .topbar p {
+      color: #e2ffe2;
+
+      font-size: 17px;
+    }
+
+    /* REPORT CONTAINER */
+    .report-container {
+      width: 92%;
+
+      max-width: 950px;
+
+      margin-top: 35px;
+    }
+
+    .report-card {
+      padding: 25px;
+
+      border-radius: 25px;
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(16px);
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    /* GRID */
+    .grid {
+      width: 92%;
+
+      max-width: 1300px;
+
+      margin-top: 35px;
+      margin-bottom: 50px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit,
+          minmax(220px, 1fr));
+
+      gap: 22px;
+    }
+
+    /* CARDS */
+    .card {
+      padding: 25px;
+
+      border-radius: 20px;
+
+      text-align: center;
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(14px);
+
+      border-left: 5px solid #22c55e;
+
+      transition: 0.4s;
+
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card:hover {
+      transform:
+        translateY(-10px) scale(1.04);
+
+      background:
+        rgba(255, 255, 255, 0.13);
+
+      box-shadow:
+        0 0 25px rgba(144, 238, 144, 0.3);
+    }
+
+    .card h3 {
+      color: #fef9c3;
+
+      margin-bottom: 12px;
+
+      font-size: 18px;
+    }
+
+    .card h1 {
+      color: lightgreen;
+
+      font-size: 30px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+
+      .topbar h2 {
+        font-size: 28px;
+      }
+
+      .card h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <div class="nav">
+
+    <button onclick="location.href='dashboard.html'">
+
+      🏠 Home
+
+    </button>
+
+    <button onclick="location.href='live.html'">
+
+      📡 Live Monitor
+
+    </button>
+
+    <button onclick="location.href='alerts.html'">
+
+      🚨 Alerts
+
+    </button>
+
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <h2>
+      📊 VEHICLE POLLUTION REPORTS
+    </h2>
+
+    <p>
+      Real-Time Vehicle Emission Analytics
+    </p>
+
+  </div>
+
+  <!-- CHART -->
+  <div class="report-container">
+
+    <div class="report-card">
+
+      <canvas id="pollutantChart"></canvas>
+
+    </div>
+
+  </div>
+
+  <!-- DATA CARDS -->
+  <div class="grid">
+
+    <div class="card">
+
+      <h3>CO₂</h3>
+
+      <h1 id="val-co2">
+        --
+      </h1>
+
+    </div>
+
+    <div class="card">
+
+      <h3>CO</h3>
+
+      <h1 id="val-co">
+        --
+      </h1>
+
+    </div>
+
+    <div class="card">
+
+      <h3>NOx</h3>
+
+      <h1 id="val-nox">
+        --
+      </h1>
+
+    </div>
+
+    <div class="card">
+
+      <h3>PM2.5</h3>
+
+      <h1 id="val-pm25">
+        --
+      </h1>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Speed</h3>
+
+      <h1 id="val-speed">
+        --
+      </h1>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Engine Load</h3>
+
+      <h1 id="val-engine">
+        --
+      </h1>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const ctx =
+      document.getElementById(
+        "pollutantChart"
+      ).getContext("2d");
+
+    /* INITIAL DATA */
+    const pollutantData = {
+
+      labels: [
+        "CO₂",
+        "CO",
+        "NOx",
+        "PM2.5"
+      ],
+
+      datasets: [{
+
+        label: "Vehicle Pollution",
+
+        data: [
+          0,
+          0,
+          0,
+          0
+        ],
+
+        backgroundColor: [
+
+          "rgba(248,113,113,0.8)",
+
+          "rgba(96,165,250,0.8)",
+
+          "rgba(251,191,36,0.8)",
+
+          "rgba(167,139,250,0.8)"
+
+        ],
+
+        borderRadius: 10
+      }]
+    };
+
+    /* CHART CONFIG */
+    const config = {
+
+      type: "bar",
+
+      data: pollutantData,
+
+      options: {
+
+        responsive: true,
+
+        animation: {
+          duration: 1000
+        },
+
+        scales: {
+
+          x: {
+
+            ticks: {
+              color: "white"
+            },
+
+            grid: {
+              display: false
+            }
+          },
+
+          y: {
+
+            beginAtZero: true,
+
+            max: 700,
+
+            ticks: {
+              color: "#cbd5e1"
+            },
+
+            grid: {
+              color:
+                "rgba(255,255,255,0.1)"
+            }
+          }
+        },
+
+        plugins: {
+
+          legend: {
+            display: false
+          }
+        }
+      }
+    };
+
+    const pollutantChart =
+      new Chart(ctx, config);
+
+    /* FETCH LIVE DATA */
+    async function updateChart() {
+
+      const response =
+        await fetch(
+          "http://localhost:5000/api/vehicle-pollution"
+        );
+
+      const data =
+        await response.json();
+
+      const newValues = [
+
+        data.co2,
+        data.co,
+        data.nox,
+        data.pm25
+      ];
+
+      /* UPDATE CHART */
+      pollutantChart
+        .data
+        .datasets[0]
+        .data = newValues;
+
+      pollutantChart.update();
+
+      /* UPDATE TEXT */
+      document
+        .getElementById("val-co2")
+        .innerText =
+        data.co2 + " ppm";
+
+      document
+        .getElementById("val-co")
+        .innerText =
+        data.co + " ppm";
+
+      document
+        .getElementById("val-nox")
+        .innerText =
+        data.nox + " ppm";
+
+      document
+        .getElementById("val-pm25")
+        .innerText =
+        data.pm25 + " µg/m³";
+
+      document
+        .getElementById("val-speed")
+        .innerText =
+        data.speed + " km/h";
+
+      document
+        .getElementById("val-engine")
+        .innerText =
+        data.engineLoad + " %";
+    }
+
+    /* AUTO UPDATE */
+    setInterval(
+      updateChart,
+      3000
+    );
+
+    updateChart();
+
+  </script>
+
+</body>
+
+</html>

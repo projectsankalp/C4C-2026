@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCircle ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Anonymous Mental Wellness Community</title>
+  <link rel="stylesheet" href="land.css">
+  <link rel="stylesheet" href="face.css">
+  <link rel="stylesheet" href="div-design.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+  <style>
+    /* Sleek, tiny 'New' indicator */
+    .new-tag {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background-color: rgba(255, 71, 87, 0.9);
+      backdrop-filter: blur(4px);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px 4px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .new-tag::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background-color: white;
+      border-radius: 50%;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    /* Notice Card Animations */
+    .notice-card {
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .expanded-card {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 50 !important;
+      border-radius: 50px !important;
+      cursor: pointer;
+    }
+
+    /* Back Button on Left */
+    .back-expand-btn {
+      display: none;
+      position: absolute;
+      top: 35px;
+      left: 35px;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .back-expand-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+      transform: scale(1.05);
+    }
+
+    .back-expand-btn .material-symbols-outlined {
+      margin-left: 6px;
+      font-size: 22px;
+    }
+
+    /* ============ CONNECT TO DOCTOR SECTION ============ */
+    #connectDoctorSection {
+      padding: 100px 5% 60px;
+      min-height: 100vh;
+      overflow-y: auto;
+      font-family: 'Outfit', sans-serif;
+      background: #f8f4e8;
+    }
+
+    .ctd-hero-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 6px;
+    }
+
+    .ctd-hero-sub {
+      color: rgba(0,0,0,0.5);
+      font-size: 15px;
+      margin-bottom: 30px;
+    }
+
+    /* Crisis Banner */
+    .crisis-banner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: #fff0f0;
+      border: 1.5px solid rgba(200,0,30,0.25);
+      border-radius: 30px;
+      padding: 16px 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(200,0,30,0.08);
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 4px 20px rgba(200,0,30,0.08); }
+      50%      { box-shadow: 0 8px 32px rgba(200,0,30,0.15); }
+    }
+
+    .crisis-banner-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #c0001e;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .crisis-banner-label::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: #c0001e;
+      border-radius: 50%;
+      animation: pulse-dot 1.4s infinite;
+    }
+
+    .crisis-numbers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .crisis-chip {
+      background: #fff;
+      border: 1.5px solid rgba(200,0,30,0.3);
+      color: #c0001e;
+      border-radius: 30px;
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(200,0,30,0.08);
+    }
+
+    .crisis-chip:hover {
+      background: #c0001e;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(200,0,30,0.25);
+    }
+
+    /* Two-column layout: form + AI panel */
+    .ctd-top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .ctd-top-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Glass card */
+    .ctd-glass-card {
+      background: #fff;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-radius: 36px;
+      padding: 28px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .ctd-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.2px;
+    }
+
+    .ctd-card-title .material-symbols-outlined {
+      font-size: 20px;
+      color: #333;
+    }
+
+    /* Form elements */
+    .ctd-form-group {
+      margin-bottom: 16px;
+    }
+
+    .ctd-form-group label {
+      display: block;
+      font-size: 12px;
+      color: rgba(0,0,0,0.5);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 7px;
+    }
+
+    .ctd-input, .ctd-select, .ctd-textarea {
+      width: 100%;
+      background: #f8f4e8;
+      border: 1.5px solid rgba(0,0,0,0.14);
+      border-radius: 18px;
+      color: #111;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      box-sizing: border-box;
+    }
+
+    .ctd-input:focus, .ctd-select:focus, .ctd-textarea:focus {
+      border-color: rgba(0,0,0,0.5);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.07);
+    }
+
+    .ctd-select option {
+      background: #fff;
+      color: #111;
+    }
+
+    .ctd-textarea {
+      resize: none;
+      min-height: 90px;
+    }
+
+    /* Severity slider */
+    .severity-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .severity-row input[type=range] {
+      flex: 1;
+      accent-color: #111;
+      cursor: pointer;
+    }
+
+    .severity-val {
+      color: #111;
+      font-weight: 800;
+      font-size: 18px;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    /* Emergency toggle */
+    .emergency-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .toggle-switch input { display: none; }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.15);
+      border-radius: 24px;
+      transition: background 0.3s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      left: 3px; top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: #c0001e;
+    }
+
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    /* Submit button */
+    .ctd-submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #111;
+      border: none;
+      border-radius: 30px;
+      color: #f8f4e8;
+      font-size: 15px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      letter-spacing: 0.3px;
+    }
+
+    .ctd-submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.28);
+      background: #222;
+    }
+
+    .ctd-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* AI Suggestions Panel */
+    #aiSuggestionPanel {
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ai-suggestion-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 160px;
+      color: rgba(0,0,0,0.3);
+      font-size: 14px;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .ai-suggestion-empty .material-symbols-outlined {
+      font-size: 40px;
+      opacity: 0.25;
+    }
+
+    .ai-suggestion-text {
+      font-size: 14px;
+      color: rgba(0,0,0,0.8);
+      line-height: 1.7;
+    }
+
+    .suggestion-helplines {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .helpline-tag {
+      background: #f8f4e8;
+      border: 1.5px solid rgba(0,0,0,0.2);
+      border-radius: 30px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #111;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .helpline-tag:hover {
+      background: #111;
+      color: #f8f4e8;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    /* Map + Doctor List row */
+    .ctd-bottom-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .ctd-bottom-grid { grid-template-columns: 1fr; }
+    }
+
+    #ctdMap {
+      width: 100%;
+      height: 420px;
+      border-radius: 34px;
+      border: 2px solid rgba(0,0,0,0.12);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    #ctdDoctorList {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    #ctdDoctorList::-webkit-scrollbar { width: 4px; }
+    #ctdDoctorList::-webkit-scrollbar-track { background: transparent; }
+    #ctdDoctorList::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+
+    .ctd-doc-card {
+      background: #fff;
+      border: 1.5px solid rgba(0,0,0,0.09);
+      border-radius: 28px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.25,0.8,0.25,1);
+      animation: slideUpFade 0.4s ease-out forwards;
+      opacity: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .ctd-doc-card:hover {
+      background: #f8f4e8;
+      border-color: rgba(0,0,0,0.22);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.14);
+    }
+
+    .ctd-doc-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 2px;
+    }
+
+    .ctd-doc-spec {
+      font-size: 12px;
+      color: rgba(0,0,0,0.5);
+      margin-bottom: 6px;
+    }
+
+    .ctd-doc-loc {
+      font-size: 12px;
+      color: rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .ctd-doc-loc .material-symbols-outlined { font-size: 14px; }
+
+    .ctd-doc-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ctd-btn-call, .ctd-btn-map {
+      flex: 1;
+      padding: 7px 10px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      border: 1.5px solid;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .ctd-btn-call {
+      background: #111;
+      border-color: #111;
+      color: #f8f4e8;
+    }
+
+    .ctd-btn-call:hover {
+      background: #333;
+      border-color: #333;
+      color: #fff;
+    }
+
+    .ctd-btn-map {
+      background: #f8f4e8;
+      border-color: rgba(0,0,0,0.22);
+      color: #111;
+    }
+
+    .ctd-btn-map:hover {
+      background: #111;
+      border-color: #111;
+      color: #f8f4e8;
+    }
+
+    .ctd-btn-call .material-symbols-outlined,
+    .ctd-btn-map .material-symbols-outlined {
+      font-size: 15px;
+    }
+
+    /* Section header bar */
+    .ctd-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .ctd-section-header h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #111;
+      margin: 0;
+      letter-spacing: 0.1px;
+    }
+
+    .ctd-badge {
+      background: #111;
+      border: 1px solid #111;
+      color: #f8f4e8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 30px;
+    }
+
+    /* Location detect button */
+    .ctd-locate-btn {
+      background: #f8f4e8;
+      border: 1.5px solid rgba(0,0,0,0.2);
+      border-radius: 24px;
+      color: #111;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s;
+      margin-left: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    }
+
+    .ctd-locate-btn:hover {
+      background: #111;
+      color: #f8f4e8;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    .ctd-locate-btn .material-symbols-outlined { font-size: 16px; }
+
+    /* ===== LOCATION PERMISSION OVERLAY ===== */
+    .loc-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(248,244,232,0.95);
+      backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .loc-card {
+      background: #fff;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-radius: 44px; padding: 52px 44px;
+      max-width: 460px; width: 100%; text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.1);
+    }
+    .loc-icon { font-size: 64px; display: block; margin-bottom: 22px; animation: locFloat 3s ease-in-out infinite; }
+    @keyframes locFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .loc-title { font-size: 26px; font-weight: 800; color: #111; margin-bottom: 12px; }
+    .loc-sub { font-size: 14px; color: rgba(0,0,0,0.5); line-height: 1.7; margin-bottom: 36px; }
+    .loc-allow-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+      background: #111;
+      border: none; border-radius: 30px; color: #f8f4e8;
+      font-size: 16px; font-weight: 800; padding: 15px 36px; cursor: pointer;
+      font-family: inherit; transition: all 0.25s; margin-bottom: 14px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+    }
+    .loc-allow-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,0.28); background: #333; }
+    .loc-allow-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .loc-skip-btn {
+      background: none; border: 1.5px solid rgba(0,0,0,0.18); border-radius: 30px;
+      color: rgba(0,0,0,0.45); font-size: 14px; font-family: inherit;
+      padding: 10px 24px; cursor: pointer; transition: all 0.2s; width: 100%;
+    }
+    .loc-skip-btn:hover { border-color: rgba(0,0,0,0.5); color: #111; }
+    .loc-searching { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .loc-searching p { color: rgba(0,0,0,0.5); font-size: 14px; margin: 0; }
+
+    /* ===== APPOINTMENT MODAL ===== */
+    .appt-modal {
+      display: none; position: fixed; inset: 0; z-index: 9998;
+      background: rgba(248,244,232,0.88); backdrop-filter: blur(16px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .appt-modal.show { display: flex; }
+    .appt-modal-card {
+      background: #fff;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-radius: 40px; padding: 36px;
+      max-width: 540px; width: 100%; max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.14); position: relative;
+    }
+    .appt-modal-card::-webkit-scrollbar { width: 4px; }
+    .appt-modal-card::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+    .appt-close {
+      position: absolute; top: 20px; right: 22px;
+      background: #f8f4e8; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 50%;
+      width: 38px; height: 38px; color: #111; font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .appt-close:hover { background: #111; color: #f8f4e8; border-color: #111; }
+    .appt-hosp-name { font-size: 22px; font-weight: 800; color: #111; margin-bottom: 8px; padding-right: 44px; }
+    .appt-tag {
+      display: inline-block;
+      background: #f8f4e8;
+      border: 1.5px solid rgba(0,0,0,0.14); border-radius: 20px;
+      color: #555; font-size: 11px; font-weight: 700;
+      padding: 4px 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 22px;
+    }
+    .appt-info-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .appt-info-row:last-of-type { border-bottom: none; }
+    .appt-info-icon { color: #555; font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .appt-info-label { font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .appt-info-value { font-size: 14px; color: #111; line-height: 1.55; word-break: break-word; }
+    .appt-info-value a { color: #111; text-decoration: underline; }
+    .appt-info-value a:hover { color: #555; }
+    .appt-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .appt-btn {
+      padding: 13px; border-radius: 22px; font-size: 13px; font-weight: 800;
+      font-family: inherit; cursor: pointer; border: none;
+      display: flex; align-items: center; justify-content: center;
+      gap: 7px; transition: all 0.25s; text-decoration: none;
+    }
+    .appt-btn-call {
+      background: #111; color: #f8f4e8;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18); grid-column: 1 / -1;
+    }
+    .appt-btn-call:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.26); color: #f8f4e8; background: #333; }
+    .appt-btn-dir {
+      background: #f8f4e8; color: #111;
+      border: 1.5px solid rgba(0,0,0,0.18) !important;
+    }
+    .appt-btn-dir:hover { background: #111; color: #f8f4e8; border-color: #111 !important; }
+    .appt-btn-web {
+      background: #f8f4e8; color: #555;
+      border: 1.5px solid rgba(0,0,0,0.14) !important;
+    }
+    .appt-btn-web:hover { background: #111; color: #f8f4e8; border-color: #111 !important; }
+    .appt-note {
+      margin-top: 20px; background: #fffbee;
+      border: 1px solid rgba(180,140,0,0.25); border-radius: 20px;
+      padding: 14px 18px; font-size: 13px; color: #7a6000;
+      line-height: 1.55; display: flex; gap: 10px; align-items: flex-start;
+    }
+    .appt-note .material-symbols-outlined { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Hospital card loading / empty states */
+    .ctd-status-msg {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 32px 20px; gap: 12px; color: rgba(0,0,0,0.35);
+      font-size: 14px; text-align: center;
+    }
+    .ctd-status-msg .material-symbols-outlined { font-size: 36px; opacity: 0.3; }
+
+  </style>
+
+</head>
+
+<body class="dark">
+
+  <!-- ===== LOCATION PERMISSION OVERLAY ===== -->
+  <div id="locPermissionOverlay" class="loc-overlay">
+    <div class="loc-card">
+      <span class="loc-icon">📍</span>
+      <div class="loc-title">Find Help Near You</div>
+      <p class="loc-sub">
+        To show real nearby mental health hospitals and clinics on the map, we need your location.
+        Your location is used only on this device and is never stored or shared.
+      </p>
+      <button class="loc-allow-btn" id="locAllowBtn" onclick="requestUserLocation()">
+        <span class="material-symbols-outlined">my_location</span>
+        Allow Location Access
+      </button>
+      <button class="loc-skip-btn" onclick="skipToDefaultLocation()">
+        Continue without location (use Delhi)
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== APPOINTMENT DETAILS MODAL ===== -->
+  <div id="apptModal" class="appt-modal" onclick="if(event.target===this)closeApptModal()">
+    <div class="appt-modal-card">
+      <button class="appt-close" onclick="closeApptModal()">&times;</button>
+      <div id="apptModalContent"><!-- filled by JS --></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav>
+    <!-- Logo (using class instead of id) -->
+
+    <!-- Toggle Button -->
+
+
+
+    <!-- <button class="toggle-btn" onclick="toggleDarkMode()">
+    <span class="material-symbols-outlined" id="theme-icon1">wb_sunny</span>
+  </button>
+
+  -->
+    <button id="leftNavBtn" class="logo-left-wrap" aria-label="Open Navigation" onclick="window.location.href='seeker.html';">
+      <img src="essentials/dark_logo.png" alt="main logo" class="logo-left theme-logo" data-dark="essentials/dark_logo.png"
+        data-light="essentials/light_logo.png">
+    </button>
+
+
+
+    <div class="pdd-header-wrap" id="headerWrap">
+      <div style="position:relative;">
+        <!-- Logo (acts as button) -->
+        <button id="logoBtn" aria-haspopup="true" aria-controls="logoDropdown" aria-expanded="false"
+          class="pdd-logo pdd-focus-ring" title="Open menu">
+          <!-- replace with <img> if you have a logo file -->
+          <img src="essentials/slogo-dark.png" alt="secondary logo" class="logo theme-logo"
+            data-dark="essentials/slogo-dark.png" data-light="essentials/slogo-light.png">
+
+        </button>
+
+        <!-- Dropdown -->
+        <div id="logoDropdown" class="pdd-dropdown " role="menu" aria-label="Logo menu">
+          <div class="pdd-panel " role="none">
+            <!-- Profile -->
+            <a href="auth.html" id="profileLink" class="pdd-row" role="menuitem" tabindex="0">
+              <img class="pdd-avatar" src="essentials/profile.png" alt="avatar">
+              <div class="pdd-meta">
+                <div class="pdd-name" id="profileName">Guest</div>
+                <div class="pdd-sub" id="profileSub">Click to Sign In</div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--muted)">chevron_right</span>
+            </a>
+
+            <hr class="pdd-sep">
+
+            <!-- Theme toggle row -->
+            <div id="theme-toggle-row" class="pdd-row" role="menuitem" tabindex="0" aria-label="Toggle theme">
+              <button class="pd-toggle-btn" onclick="toggleDarkMode()">
+                <span class="material-symbols-outlined" id="theme-icon">wb_sunny</span>
+
+                <div class="pdd-label">Dark / Light</div>
+
+              </button>
+
+              <!-- Toggle button (calls toggleThemeIcon) -->
+            </div>
+
+            <!-- Settings -->
+            <a href="#settings" class="pdd-row" role="menuitem" tabindex="0">
+              <span class="material-symbols-outlined" style="color:var(--muted)">settings</span>
+              <div class="pdd-label">Settings</div>
+              <div style="margin-left:auto" class="pdd-muted">Preferences</div>
+            </a>
+
+            <!-- About -->
+            <a href="#about" class="pdd-row" role="menuitem" tabindex="0">
+              <span class="material-symbols-outlined" style="color:var(--muted)">info</span>
+              <div class="pdd-label">About</div>
+              <div style="margin-left:auto" class="pdd-muted">v1.0</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </nav>
+
+  <!-- Old dashboard kept hidden for JS compat -->
+  <div id="doctorDashboard" style="display:none;"></div>
+  <div id="map" style="display:none;"></div>
+  <div id="doctorList" style="display:none;"></div>
+
+  <!-- ===== CONNECT TO DOCTOR SECTION ===== -->
+  <section id="connectDoctorSection">
+
+    <!-- Hero Header -->
+    <p class="ctd-hero-title">🏥 Connect to a Mental Health Professional</p>
+    <p class="ctd-hero-sub">You are not alone. Share your situation and we'll help you find the right support near you.</p>
+
+    <!-- Crisis Helpline Banner -->
+    <div class="crisis-banner">
+      <span class="crisis-banner-label">Emergency Helplines</span>
+      <div class="crisis-numbers">
+        <a class="crisis-chip" href="tel:9152987821">iCall · 9152987821</a>
+        <a class="crisis-chip" href="tel:18602662345">Vandrevala · 1860-266-2345</a>
+        <a class="crisis-chip" href="tel:08046110007">NIMHANS · 080-4611-0007</a>
+        <a class="crisis-chip" href="tel:14416">Snehi · 044-24640050</a>
+      </div>
+    </div>
+
+    <!-- Top Grid: Report Form + AI Panel -->
+    <div class="ctd-top-grid">
+
+      <!-- Report Form Card -->
+      <div class="ctd-glass-card">
+        <div class="ctd-card-title">
+          <span class="material-symbols-outlined">assignment</span>
+          Your Health Report
+        </div>
+
+        <form id="ctdReportForm" onsubmit="return false;">
+
+          <div class="ctd-form-group">
+            <label>Primary Concern</label>
+            <select id="ctdConcern" class="ctd-select">
+              <option value="">— Select your concern —</option>
+              <option>Anxiety</option>
+              <option>Depression</option>
+              <option>OCD</option>
+              <option>Trauma / PTSD</option>
+              <option>Bipolar Disorder</option>
+              <option>Schizophrenia</option>
+              <option>Stress &amp; Burnout</option>
+              <option>Sleep Issues</option>
+              <option>General Mental Health</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="ctd-form-group">
+            <label>Describe your situation</label>
+            <textarea id="ctdDescription" class="ctd-textarea" placeholder="Tell us what you're going through — the more detail, the better we can help..."></textarea>
+          </div>
+
+          <div class="ctd-form-group">
+            <label>How long have you felt this way?</label>
+            <select id="ctdDuration" class="ctd-select">
+              <option value="">— Select duration —</option>
+              <option>Just today</option>
+              <option>A few days</option>
+              <option>A few weeks</option>
+              <option>Several months</option>
+              <option>Over a year</option>
+            </select>
+          </div>
+
+          <div class="ctd-form-group">
+            <label>Severity (1 = mild, 10 = severe)</label>
+            <div class="severity-row">
+              <input type="range" id="ctdSeverity" min="1" max="10" value="5"
+                oninput="document.getElementById('ctdSevVal').textContent=this.value">
+              <span class="severity-val" id="ctdSevVal">5</span>
+            </div>
+          </div>
+
+          <div class="ctd-form-group">
+            <label>Is this an emergency?</label>
+            <div class="emergency-toggle">
+              <label class="toggle-switch">
+                <input type="checkbox" id="ctdEmergency">
+                <span class="toggle-slider"></span>
+              </label>
+              <span id="emergencyLabel" style="color:rgba(255,255,255,0.6);font-size:14px;">No</span>
+            </div>
+          </div>
+
+          <button class="ctd-submit-btn" id="ctdSubmitBtn" onclick="submitHealthReport()">
+            <span class="material-symbols-outlined" style="font-size:18px;">send</span>
+            Analyse &amp; Find Doctors
+          </button>
+
+        </form>
+      </div>
+
+      <!-- AI Suggestion Panel -->
+      <div class="ctd-glass-card">
+        <div class="ctd-card-title">
+          <span class="material-symbols-outlined">psychology</span>
+          AI Analysis &amp; Suggestions
+        </div>
+        <div id="aiSuggestionPanel">
+          <div class="ai-suggestion-empty">
+            <span class="material-symbols-outlined">smart_toy</span>
+            Fill in your report and submit — the AI will analyze your situation and suggest nearby help.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /ctd-top-grid -->
+
+    <!-- Bottom Grid: Map + Doctor List -->
+    <div class="ctd-section-header">
+      <h3>Nearby Mental Health Facilities</h3>
+      <span class="ctd-badge" id="ctdDocCount">Loading…</span>
+      <button class="ctd-locate-btn" onclick="detectUserLocation()">
+        <span class="material-symbols-outlined">my_location</span>
+        Detect My Location
+      </button>
+    </div>
+
+    <div class="ctd-bottom-grid">
+      <div id="ctdMap"></div>
+      <div id="ctdDoctorList">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+  </section>
+  <!-- ===== END CONNECT TO DOCTOR SECTION ===== -->
+
+  <div class="inputbar">
+        <div class="popup-menu" id="popupMenu">
+      <ul>
+        <li class="upload"><span class="material-symbols-outlined mso">attach_file</span> Add Attachment</li>
+        <li><span class="material-symbols-outlined mso">image</span> AI Generate Image</li>
+        <li><span class="material-symbols-outlined mso">mic</span> Hands-free Mode</li>
+      </ul>
+      <input type="file" id="fileUpload" style="display: none;" multiple />
+
+    </div>
+    <span class="material-symbols-outlined mso plus-icon">add</span>
+    <!--<input type="file" id="fileUpload" style="display:none;" multiple />-->
+
+    <div id="previewContainer" class="preview-container"></div>
+    <textarea class="chatbox" id="chatbox" placeholder="Ask anything"></textarea>
+
+
+    <!-- Mic button -->
+    <span class="material-symbols-outlined mso mic-icon" id="micBtn">mic</span>
+
+    <!-- Loader (hidden initially) -->
+    <div class="loader" id="loader" style="display:none;">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+
+    <!-- Send button (hidden initially) -->
+    <span class="material-symbols-outlined mso send-icon" id="sendBtn" style="display:none;">send</span>
+  </div>
+
+  <!-- HTML -->
+
+
+
+
+
+  <script>
+    /* ===========================
+       Input icon toggle & send flow
+       Replace your existing mic/send and sending script with this
+       =========================== */
+
+    /* DOM refs */
+    const chatInput = document.querySelector('.chatbox');
+    const micIcon = document.querySelector('.mic-icon');
+    const sendIcon = document.querySelector('.send-icon');
+    const sendBtn = document.getElementById('sendBtn');
+
+    /* Show/hide icons while typing */
+    if (chatInput) {
+      chatInput.addEventListener('input', () => {
+        const hasText = chatInput.value.trim().length > 0;
+        if (micIcon) micIcon.style.display = hasText ? 'none' : 'inline-block';
+        if (sendIcon) sendIcon.style.display = hasText ? 'inline-block' : 'none';
+      });
+    }
+
+    /* Helper to restore icons after sending (when input is empty) */
+    function resetIconsAfterSend() {
+      if (!chatInput) return;
+      const empty = chatInput.value.trim().length === 0;
+      if (empty) {
+        if (micIcon) micIcon.style.display = 'inline-block';
+        if (sendIcon) sendIcon.style.display = 'none';
+      } else {
+        if (micIcon) micIcon.style.display = 'none';
+        if (sendIcon) sendIcon.style.display = 'inline-block';
+      }
+    }
+
+    /* ====== GROQ + formatting + popup code (kept from your script) ====== */
+    /* CONFIG: Use PROXY_ENDPOINT for production to avoid exposing API key client-side */
+    const PROXY_ENDPOINT = null;              // e.g. '/api/groq'
+    const GROQ_API_KEY = 'YOUR_GROQ_API_KEY_HERE'; // Loaded from env.local
+    const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
+    const GROQ_MODEL = 'llama-3.3-70b-versatile';
+    const GROQ_VISION_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct';
+
+    async function callGroqVision(imageBase64, prompt = 'Analyze this medical document.') {
+      const resp = await fetch(GROQ_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: GROQ_VISION_MODEL,
+          messages: [
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: prompt },
+                { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${imageBase64}` } }
+              ]
+            }
+          ],
+          max_tokens: 1024
+        })
+      });
+      if (!resp.ok) {
+        const errText = await resp.text().catch(() => null);
+        throw new Error(`Vision HTTP ${resp.status}${errText ? ': ' + errText : ''}`);
+      }
+      return resp.json();
+    }
+
+    /* safe escape */
+    function escapeHtml(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    /* formatting helper (simple) */
+    function formatAIText(raw) {
+      if (!raw) return '';
+      raw = raw.replace(/\/n/g, '\n'); // support /n
+      let txt = escapeHtml(raw);
+      txt = convertTables(txt);
+      txt = txt.replace(/^###\s*(.+)$/gim, '<div class="ai-h3">$1</div>');
+      txt = txt.replace(/^##\s*(.+)$/gim, '<div class="ai-h3">$1</div>');
+      txt = txt.replace(/^#\s*(.+)$/gim, '<div class="ai-h2">$1</div>');
+      txt = txt.replace(/\*\*(.+?)\*\*/g, '<span class="ai-strong">$1</span>');
+      txt = txt.replace(/`(.+?)`/g, '<span class="ai-code">$1</span>');
+      txt = convertLists(txt);
+      txt = txt.replace(/\n/g, '<br>');
+      return txt;
+    }
+
+    function convertTables(text) {
+      const lines = text.split('\n');
+      let out = [], i = 0;
+      while (i < lines.length) {
+        const line = lines[i], next = lines[i + 1] || '';
+        if (line.includes('|') && (/^\s*[:\-\s|]+\s*$/.test(next))) {
+          const headers = line.split('|').map(s => s.trim()).filter(Boolean);
+          i += 2;
+          const rows = [];
+          while (i < lines.length && lines[i].includes('|')) {
+            rows.push(lines[i].split('|').map(s => s.trim()).filter(Boolean));
+            i++;
+          }
+          let tbl = '<table class="ai-table"><thead><tr>';
+          headers.forEach(h => tbl += `<th>${h}</th>`);
+          tbl += '</tr></thead><tbody>';
+          rows.forEach(r => {
+            tbl += '<tr>';
+            headers.forEach((_, idx) => tbl += `<td>${escapeHtml(r[idx] || '')}</td>`);
+            tbl += '</tr>';
+          });
+          tbl += '</tbody></table>';
+          out.push(tbl);
+        } else {
+          out.push(line);
+          i++;
+        }
+      }
+      return out.join('\n');
+    }
+
+    function convertLists(text) {
+      const lines = text.split('\n');
+      let out = [], inList = false, buf = [];
+      for (const ln of lines) {
+        const m = ln.match(/^\s*[-*]\s+(.+)$/);
+        if (m) { inList = true; buf.push(`<li>${m[1]}</li>`); }
+        else {
+          if (inList) { out.push('<ul class="ai-list">' + buf.join('') + '</ul>'); buf = []; inList = false; }
+          out.push(ln);
+        }
+      }
+      if (inList) out.push('<ul class="ai-list">' + buf.join('') + '</ul>');
+      return out.join('\n');
+    }
+
+    /* Robust recursive extractor: skip objects/fields that look like "reasoning" */
+    function extractBestText(node) {
+      if (!node && node !== 0) return '';
+      if (typeof node === 'string') return node.trim();
+      if (typeof node === 'number' || typeof node === 'boolean') return String(node);
+
+      if (Array.isArray(node)) {
+        // prefer first element that yields non-empty text
+        for (const el of node) {
+          const res = extractBestText(el);
+          if (res) return res;
+        }
+        return '';
+      }
+
+      if (typeof node === 'object') {
+        if (node.type && /reason/i.test(String(node.type))) return '';
+        if (node.role && /reason/i.test(String(node.role))) return '';
+        if (typeof node.output_text === 'string' && node.output_text.trim()) return node.output_text.trim();
+        if (typeof node.text === 'string' && node.text.trim()) return node.text.trim();
+        if (typeof node.content === 'string' && node.content.trim()) return node.content.trim();
+        if (typeof node.message === 'string' && node.message.trim()) return node.message.trim();
+        if (typeof node.answer === 'string' && node.answer.trim()) return node.answer.trim();
+
+        if (node.content && typeof node.content === 'object') {
+          const c = extractBestText(node.content);
+          if (c) return c;
+        }
+
+        if (Array.isArray(node.output) && node.output.length) {
+          for (const el of node.output) {
+            if (el && typeof el === 'object' && /reason/i.test(String(el.type || el.role || ''))) continue;
+            const r = extractBestText(el);
+            if (r) return r;
+          }
+        }
+
+        for (const k of Object.keys(node)) {
+          if (/reason/i.test(k)) continue;
+          const r = extractBestText(node[k]);
+          if (r) return r;
+        }
+      }
+      return '';
+    }
+
+    /* Create or return popup container */
+    function createOrGetPopup() {
+      let popup = document.querySelector('.ai-response-popup');
+      if (popup) return popup;
+
+      const inputbar = document.querySelector('.inputbar');
+      popup = document.createElement('div');
+      popup.className = 'ai-response-popup show';
+      popup.innerHTML = `
+    <div class="ai-response-header">
+      <span class="ai-badge">
+        <img src="essentials/slogo-dark.png" alt="secondary logo" class="logo-cb" data-dark="essentials/slogo-dark.png" data-light="essentials/slogo-light.png">
+      </span>
+      <div class="ai-response-model"><small style="opacity:.3;font-weight:400; margin-left: 0;">waiting</small></div>
+      <button class="ai-response-close" title="Close">&times;</button>
+    </div>
+    <div class="ai-response-messages">
+      <div class="ai-response-placeholder" style="color:var(--muted,#bdbdbd);font-size:13px">No messages yet</div>
+    </div>
+  `;
+      inputbar.parentNode.insertBefore(popup, inputbar);
+      popup.querySelector('.ai-response-close').addEventListener('click', () => popup.remove());
+      return popup;
+    }
+
+    function setPopupLoading(popup, loading = true) {
+      const header = popup.querySelector('.ai-response-model');
+      if (loading) header.innerHTML = `<small style="opacity:.7;font-weight:400; padding-left:10px;">thinkingÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦</small><span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>`;
+      else header.innerHTML = '     ';
+    }
+
+    function appendUserBubble(container, userText) {
+      const user = document.createElement('div');
+      user.className = 'ai-user';
+      user.textContent = userText;  // only show typed text
+      container.appendChild(user);
+      container.scrollTop = container.scrollHeight;
+      return user;
+    }
+
+    function appendAssistantPlaceholder(container) {
+      const a = document.createElement('div');
+      a.className = 'ai-assistant';
+      a.innerHTML = `<em>ThinkingÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦</em> <span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>`;
+      container.appendChild(a);
+      container.scrollTop = container.scrollHeight;
+      return a;
+    }
+
+    /* call Groq */
+    async function callGroqResponses(inputText) {
+      const body = { model: GROQ_MODEL, input: inputText, max_output_tokens: 1024 };
+
+      if (PROXY_ENDPOINT) {
+        const resp = await fetch(PROXY_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: inputText }) });
+        if (!resp.ok) throw new Error(`Proxy error ${resp.status}`);
+        return resp.json();
+      }
+
+      const resp = await fetch(GROQ_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+        body: JSON.stringify(body)
+      });
+      if (!resp.ok) {
+        const text = await resp.text().catch(() => null);
+        throw new Error(`HTTP ${resp.status} ${resp.statusText}${text ? ': ' + text : ''}`);
+      }
+      return resp.json();
+    }
+
+    /* Main flow: show user bubble, placeholder, then replace placeholder with extracted assistant text (no reasoning) */
+    /* Main flow with Intelligent Routing & Pre-prompting */
+    let attachedImages = [];
+    let sending = false;
+    async function sendChatInput(text) {
+      if (!text || !text.trim()) {
+        resetIconsAfterSend();
+        return;
+      }
+      if (sending) return;
+      sending = true;
+
+      const popup = createOrGetPopup();
+      setPopupLoading(popup, true);
+
+      const messagesContainer = popup.querySelector('.ai-response-messages');
+      messagesContainer.querySelectorAll('.ai-response-placeholder').forEach(n => n.remove());
+
+      const userBubble = appendUserBubble(messagesContainer, text);
+      const assistantPlaceholder = appendAssistantPlaceholder(messagesContainer);
+
+      // --- THE PRE-PROMPT (System Instructions) ---
+      const routingPrompt = `You are "Mentai Coordinator", a highly skilled Medical AI Assistant. Your job is to help users analyze their health conditions, review uploaded medical documents (prescriptions/reports), and guide them to find specialized doctors.
+  
+  CRITICAL RULES:
+  1. Ask Questions: If the user provides vague symptoms, ask follow-up questions to understand the severity, duration, and specific location of their pain or distress.
+  2. Analyze Documents: If the user uploads an image, analyze it carefully as a medical report or prescription and explain it in simple terms.
+  3. Find Doctors: If the user specifically asks to find a doctor, or if their symptoms indicate they need urgent professional help, recommend they see a specialist AND append this EXACT tag at the very end of your response: [NAV:FIND_DOCTOR]
+  4. Keep your tone highly professional, empathetic, and medically accurate. Always advise them to consult a real human doctor for final diagnosis.
+
+  User Input: ${text}`;
+
+      try {
+        let json;
+        if (attachedImages.length > 0) {
+          const base64Data = attachedImages[0].base64;
+          json = await callGroqVision(base64Data, routingPrompt);
+          
+          // Reset attached files
+          attachedImages = [];
+          const previewContainer = document.getElementById('previewContainer');
+          if (previewContainer) previewContainer.innerHTML = '';
+        } else {
+          json = await callGroqResponses(routingPrompt);
+        }
+
+        let extracted = extractBestText(json);
+        if (!extracted) {
+          extracted = (json && (json.output_text || json.text)) || "Hello! How can I assist with your medical needs today?";
+        }
+
+        // --- ROUTING LOGIC (Look for the secret tags) ---
+        if (extracted.includes('[NAV:FIND_DOCTOR]')) {
+          extracted = extracted.replace('[NAV:FIND_DOCTOR]', '');
+          const doctorDashboard = document.getElementById('doctorDashboard');
+          if (doctorDashboard) {
+            doctorDashboard.style.display = 'block';
+            doctorDashboard.scrollIntoView({ behavior: 'smooth' });
+            if (typeof initializeDoctorMap === 'function' && !window.mapInitialized) {
+              initializeDoctorMap();
+            }
+          }
+        }
+
+        // Clean up any accidental blank lines left by removing tags
+        extracted = extracted.trim();
+
+        // Render assistant content (formatted)
+        assistantPlaceholder.innerHTML = formatAIText(extracted);
+        setPopupLoading(popup, false);
+      } catch (err) {
+        assistantPlaceholder.innerHTML = `<div class="ai-response-error">Request failed: ${escapeHtml(err.message)}</div>`;
+        setPopupLoading(popup, false);
+        console.error('Groq call error', err);
+      } finally {
+        sending = false;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        resetIconsAfterSend();
+      }
+    }
+
+    /* Hook Enter (no Shift) and Send button ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ensures mic returns after clearing input */
+    (function attachEnterToSend() {
+      const ta = document.getElementById('chatbox');
+      if (!ta) { console.warn('chatbox missing'); return; }
+
+      ta.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' && !ev.shiftKey) {
+          ev.preventDefault();
+          const text = ta.value.trim();
+          if (!text) {
+            // nothing to send ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ensure mic visible
+            resetIconsAfterSend();
+            return;
+          }
+          // clear textarea BEFORE sending (you already did this pattern)
+          ta.value = '';
+          ta.style.height = '20px';
+          // restore icons immediately (input is empty now)
+          resetIconsAfterSend();
+          // then send using saved text
+          sendChatInput(text);
+        }
+      });
+
+      if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+          const text = ta.value.trim();
+          if (!text) {
+            resetIconsAfterSend();
+            return;
+          }
+          ta.value = '';
+          ta.style.height = '20px';
+          resetIconsAfterSend();
+          sendChatInput(text);
+        });
+      }
+    })();
+  </script>
+
+
+
+
+  <script>
+    ///mic disappear when typing
+    //const chatInput = document.querySelector('.chatbox');
+    //const micIcon = document.querySelector('.mic-icon');
+    //const sendIcon = document.querySelector('.send-icon');
+
+    //chatInput.addEventListener('input', () => {
+    //if (chatInput.value.trim().length > 0) {
+    //micIcon.style.display = 'none';
+    //     sendIcon.style.display = 'inline-block';
+    //} else {
+    //    micIcon.style.display = 'inline-block';
+    //    sendIcon.style.display = 'none';
+    //   }
+    //});
+  </script>
+
+  <script>
+    const upload = document.querySelector(".upload");
+    const fileUpload = document.getElementById("fileUpload");
+
+    // Open file dialog on click
+    upload.addEventListener("click", () => {
+      fileUpload.click();
+    });
+
+    // Handle selected files
+    fileUpload.addEventListener("change", () => {
+      if (fileUpload.files.length > 0) {
+        console.log("Selected files:", fileUpload.files);
+
+        // Example: show file names
+        [...fileUpload.files].forEach(file => {
+          console.log("File:", file.name);
+        });
+      }
+    });
+  </script>
+
+  <!-- Dark/Light Mode Script -->
+  <script>
+    // Apply saved theme on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      const body = document.body;
+      const icon = document.getElementById("theme-icon");
+      const logos = document.querySelectorAll(".theme-logo");
+
+      function updateLogos(theme) {
+        logos.forEach(logo => {
+          const darkSrc = logo.getAttribute("data-dark");
+          const lightSrc = logo.getAttribute("data-light");
+          logo.src = theme === "light" ? lightSrc : darkSrc;
+        });
+      }
+
+      if (savedTheme === "light") {
+        body.classList.remove("dark");
+        if (icon) icon.textContent = "dark_mode";
+        updateLogos("light");
+      } else {
+        body.classList.add("dark");
+        if (icon) icon.textContent = "wb_sunny";
+        updateLogos("dark");
+      }
+    });
+
+    // Toggle and save theme
+    function toggleDarkMode() {
+      const body = document.body;
+      const icon = document.getElementById("theme-icon");
+
+      if (body.classList.contains("dark")) {
+        body.classList.remove("dark");
+        if (icon) icon.textContent = "dark_mode";
+        localStorage.setItem("theme", "light");
+        updateLogos("light");
+      } else {
+        body.classList.add("dark");
+        if (icon) icon.textContent = "wb_sunny";
+        localStorage.setItem("theme", "dark");
+        updateLogos("dark");
+      }
+    }
+
+    // Shared function to update logos
+    function updateLogos(theme) {
+      document.querySelectorAll(".theme-logo").forEach(logo => {
+        const darkSrc = logo.getAttribute("data-dark");
+        const lightSrc = logo.getAttribute("data-light");
+        logo.src = theme === "light" ? lightSrc : darkSrc;
+      });
+    }
+  </script>
+
+
+
+
+  <script>
+    // --- Doctor Map & Directory Logic ---
+    window.mapInitialized = false;
+
+    function initializeDoctorMap() {
+      if (window.mapInitialized) return;
+      window.mapInitialized = true;
+
+      // Ensure the map container is visible before initializing Leaflet
+      const mapContainer = document.getElementById('map');
+      if (!mapContainer) return;
+
+      // Initialize map centered on a general Indian location (e.g., Delhi)
+      const map = L.map('map').setView([28.6139, 77.2090], 12);
+
+      // Add a sleek dark-themed map tile layer (CartoDB Dark Matter)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(map);
+
+      // Custom icon for doctors
+      const doctorIcon = L.divIcon({
+        className: 'custom-doctor-marker',
+        html: `<div style="background: rgba(0, 240, 255, 0.9); width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,240,255,0.8);"></div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+
+      // Mock Data: Scraped Local Doctors
+      const doctors = [
+        { name: "Dr. Sharma", spec: "Clinical Psychologist", phone: "+91 98765 43210", lat: 28.62, lng: 77.21, hospital: "Apollo Spectra" },
+        { name: "Dr. Ananya Reddy", spec: "Psychiatrist", phone: "+91 91234 56789", lat: 28.61, lng: 77.22, hospital: "Fortis Escorts" },
+        { name: "Dr. Vikram Singh", spec: "Therapist & Counselor", phone: "+91 99887 76655", lat: 28.63, lng: 77.20, hospital: "Max Super Speciality" },
+        { name: "Dr. Neha Gupta", spec: "Child Psychologist", phone: "+91 98711 22334", lat: 28.60, lng: 77.19, hospital: "AIIMS Wellness Clinic" }
+      ];
+
+      const listContainer = document.getElementById('doctorList');
+      listContainer.innerHTML = ''; // Clear empty state
+
+      doctors.forEach((doc, i) => {
+        // Add Marker to Map
+        const marker = L.marker([doc.lat, doc.lng], { icon: doctorIcon }).addTo(map);
+        marker.bindPopup(`<b>${doc.name}</b><br>${doc.spec}<br>${doc.hospital}`);
+
+        // Add Card to List
+        const card = document.createElement('div');
+        card.style.background = 'rgba(0, 240, 255, 0.05)';
+        card.style.border = '1px solid rgba(0, 240, 255, 0.2)';
+        card.style.borderRadius = '15px';
+        card.style.padding = '15px';
+        card.style.display = 'flex';
+        card.style.flexDirection = 'column';
+        card.style.gap = '8px';
+        card.style.animation = `slideUpSuggestion 0.4s ease-out ${i * 0.1}s forwards`;
+        card.style.opacity = '0'; // For animation
+        card.style.transform = 'translateY(10px)';
+
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h4 style="color: white; margin: 0; font-size: 16px;">${doc.name}</h4>
+              <p style="color: rgba(255,255,255,0.6); margin: 0; font-size: 12px;">${doc.spec}</p>
+              <p style="color: rgba(0,240,255,0.8); margin: 4px 0 0 0; font-size: 11px;"><span class="material-symbols-outlined" style="font-size:12px; vertical-align:middle;">location_on</span> ${doc.hospital}</p>
+            </div>
+            <button onclick="window.location.href='tel:${doc.phone.replace(/\s/g, '')}'" style="background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.5); color: #00f0ff; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+            </button>
+          </div>
+          <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; font-family: monospace; color: #bdbdbd; font-size: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <span>${doc.phone}</span>
+            <span style="font-size: 10px; color: rgba(255,255,255,0.4);">Verified</span>
+          </div>
+        `;
+
+        // Interactive hover
+        card.addEventListener('mouseenter', () => {
+          card.style.background = 'rgba(0, 240, 255, 0.1)';
+          card.style.borderColor = 'rgba(0, 240, 255, 0.5)';
+          map.setView([doc.lat, doc.lng], 14, { animate: true });
+          marker.openPopup();
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.background = 'rgba(0, 240, 255, 0.05)';
+          card.style.borderColor = 'rgba(0, 240, 255, 0.2)';
+        });
+
+        listContainer.appendChild(card);
+      });
+
+      // Force Leaflet to recalculate size after rendering
+      setTimeout(() => map.invalidateSize(), 300);
+    }
+  </script>
+
+  <script>
+    // --- Job Details Popup Logic ---
+    const jobDetailsModal = document.getElementById('jobDetailsModal');
+
+    function openJobModal(job) {
+      // Fill in the text details
+      document.getElementById('jobModalTitle').innerText = job.title || "Guideline";
+      document.getElementById('jobModalCompany').innerText = job.company || "Category";
+      document.getElementById('jobModalLocation').innerText = job.location || "Frequency";
+      document.getElementById('jobModalType').innerText = job.type || "Type";
+      document.getElementById('jobModalSalary').innerText = job.salary || "Impact";
+      document.getElementById('jobModalTag').innerText = job.tag || "Precaution";
+      if (document.getElementById('jobModalDesc')) {
+        document.getElementById('jobModalDesc').innerText = job.description || "More details...";
+      }
+      document.getElementById('jobModalApplyLink').href = job.apply_link || "#";
+
+      // Handle the image inside the modal
+      const posterDiv = document.getElementById('jobModalPoster');
+      if (job.poster_url && job.poster_url !== "null") {
+        posterDiv.style.backgroundImage = `url('${job.poster_url}')`;
+        posterDiv.style.display = "block";
+      } else {
+        posterDiv.style.display = "none";
+      }
+
+      // Show the modal
+      jobDetailsModal.style.display = 'flex';
+    }
+
+    function closeJobModal() {
+      jobDetailsModal.style.display = 'none';
+    }
+
+    // Close when clicking outside the popup box
+    jobDetailsModal.addEventListener('click', (e) => {
+      if (e.target === jobDetailsModal) {
+        closeJobModal();
+      }
+    });
+  </script>
+  <script>
+    const profileModal = document.getElementById('profileModal');
+    const profileLink = document.getElementById('profileLink');
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const userString = localStorage.getItem('mentalHealth_currentUser');
+      const profileName = document.getElementById('profileName');
+      const profileSub = document.getElementById('profileSub');
+
+      // 1. Kick out unauthorized users immediately
+      if (!userString) {
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      const localUser = JSON.parse(userString);
+
+      // 2. Set profile details in header
+      profileName.innerText = localUser.nickname || "Anonymous";
+      profileSub.innerText = "Community Member";
+
+      // 2b. Dynamic Profile Picture Replacement
+      const userPic = localUser.profilePic || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80";
+      document.querySelectorAll('img').forEach(img => {
+        const src = img.getAttribute('src') || '';
+        if (src.includes('slogo-dark.png') || src.includes('slogo-light.png') || src.includes('profile.png')) {
+          img.src = userPic;
+          if (img.hasAttribute('data-dark')) img.setAttribute('data-dark', userPic);
+          if (img.hasAttribute('data-light')) img.setAttribute('data-light', userPic);
+        }
+      });
+
+      // 3. Bind profile click to open modal
+      profileLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openProfileModal(localUser);
+      });
+
+      // 4. Dynamic Age Card Logic
+      const ageStr = (localUser.age || "").toLowerCase();
+      const dynImg = document.getElementById('dynamicAgeCardImg');
+      const dynIcon = document.getElementById('dynamicAgeCardIcon');
+      const dynSub = document.getElementById('dynamicAgeCardSub');
+      const dynTitle = document.getElementById('dynamicAgeCardTitle');
+
+      if (dynImg && dynIcon && dynSub && dynTitle) {
+        if (ageStr === 'kid') {
+          dynImg.style.background = "url('essentials/game.png') no-repeat center center/cover";
+          dynIcon.textContent = "sports_esports";
+          dynSub.textContent = "Play interactive games";
+          dynTitle.textContent = "Stress Relief Games";
+        } else {
+          // adult, youth, or mature
+          dynImg.style.background = "url('essentials/busters.png') no-repeat center center/cover";
+          dynIcon.textContent = "bolt";
+          dynSub.textContent = "Quick relief techniques";
+          dynTitle.textContent = "Stress Busters";
+        }
+      }
+    });
+
+    // --- Modal Functions ---
+    function openProfileModal(user) {
+      document.getElementById('modalProfileName').innerText = user.nickname || 'Anonymous';
+      document.getElementById('modalProfileRole').innerText = 'Community Member';
+      document.getElementById('modalProfileEmail').innerText = user.email || 'Anonymous';
+      document.getElementById('modalProfileLang').innerText = user.language || 'N/A';
+      document.getElementById('modalProfileAge').innerText = user.age || 'N/A';
+
+      profileModal.style.display = 'flex';
+    }
+
+    function closeProfileModal() {
+      profileModal.style.display = 'none';
+    }
+
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) closeProfileModal();
+    });
+
+    function logoutUser() {
+      localStorage.removeItem('mentalHealth_currentUser');
+      window.location.href = 'auth.html';
+    }
+  </script>
+  <script>
+    const micBtn = document.getElementById("micBtn");
+    const loader = document.getElementById("loader");
+    const chatbox = document.querySelector(".chatbox");
+    const sendBtn1 = document.getElementById("sendBtn");
+
+    let recognition;
+    let isRecording = false;
+
+    // --- Show send button only if input has text ---
+    chatbox.addEventListener("input", () => {
+      if (chatbox.value.trim() !== "") {
+        sendBtn1.style.display = "inline-block";
+        micBtn.style.display = "none"; // hide mic when typing
+      } else {
+        sendBtn1.style.display = "none";
+        micBtn.style.display = "inline-block"; // show mic if empty
+      }
+    });
+
+    // --- Speech recognition setup ---
+    if ("webkitSpeechRecognition" in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        chatbox.value = transcript;
+        sendBtn1.style.display = transcript.trim() ? "inline-block" : "none";
+      };
+    } else {
+      alert("Speech Recognition not supported in this browser.");
+    }
+
+    // --- Start recording ---
+    micBtn.addEventListener("click", () => {
+      micBtn.style.display = "none";
+      loader.style.display = "flex";
+      recognition.start();
+      isRecording = true;
+    });
+
+    // --- Stop recording ---
+    loader.addEventListener("click", () => {
+      loader.style.display = "none";
+      recognition.stop();
+      isRecording = false;
+      // if input is empty ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ show mic back, else keep send button
+      if (chatbox.value.trim() === "") {
+        micBtn.style.display = "inline-block";
+      }
+    });
+  </script>
+
+  <script>
+    // JS
+    const plusIcon = document.querySelector(".plus-icon");
+    const popupMenu = document.getElementById("popupMenu");
+
+    let isOpen = false;
+
+    plusIcon.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent bubbling
+      isOpen = !isOpen;
+      popupMenu.style.display = isOpen ? "block" : "none";
+      plusIcon.textContent = isOpen ? "close" : "add"; // Toggle icon
+    });
+
+    // Close popup if clicked outside
+    document.addEventListener("click", (e) => {
+      if (isOpen && !popupMenu.contains(e.target) && !plusIcon.contains(e.target)) {
+        popupMenu.style.display = "none";
+        plusIcon.textContent = "add";
+        isOpen = false;
+      }
+    });
+
+  </script>
+
+
+  <script>
+    const chatboxEl = document.getElementById("chatbox");
+
+    chatboxEl.addEventListener("input", () => {
+      chatboxEl.style.height = "20px"; // reset to base
+      chatboxEl.style.height = Math.min(chatboxEl.scrollHeight, 120) + "px"; // expand up to 5 lines
+    });
+
+  </script>
+
+  <script>
+    const chatboxInput = document.getElementById("chatbox");
+
+    chatboxInput.addEventListener("input", () => {
+      chatboxInput.style.height = "20px"; // reset to base
+      chatboxInput.style.height = chatboxInput.scrollHeight + "px";
+
+      // if more than 5 lines ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ allow scroll
+      if (chatboxInput.scrollHeight > 120) {
+        chatboxInput.style.overflowY = "auto";
+        chatboxInput.style.height = "120px";
+      } else {
+        chatboxInput.style.overflowY = "hidden";
+      }
+    });
+
+  </script>
+  <script>
+    // --- UI Elements ---
+    const aiAssistantModal = document.getElementById('aiAssistantModal');
+    const aiChatHistory = document.getElementById('aiChatHistory');
+    const aiModalInput = document.getElementById('aiModalInput');
+    const aiModalSendBtn = document.getElementById('aiModalSendBtn');
+    const aiModalTitle = document.getElementById('aiModalTitle');
+
+    // --- Open/Close Logic ---
+    function openAiModal(titleText) {
+      aiModalTitle.textContent = titleText;
+      aiAssistantModal.style.display = 'flex';
+      aiModalInput.focus();
+    }
+
+    function closeAiModal() {
+      aiAssistantModal.style.display = 'none';
+    }
+
+    // Close modal when clicking on the dark background overlay
+    aiAssistantModal.addEventListener('click', (e) => {
+      if (e.target === aiAssistantModal) closeAiModal();
+    });
+
+    // Attach click events to the specific carousel items
+    document.querySelectorAll('.trigger-study-ai').forEach(item => {
+      item.addEventListener('click', () => {
+        // Only open the AI modal if the selected item is actually in the center
+        if (!item.classList.contains('large')) return;
+
+        // Grab the H1 text from the clicked item to personalize the modal title
+        const titleEl = item.querySelector('h1');
+        const title = titleEl ? titleEl.innerText + " Guide" : "Study Assistant";
+        openAiModal(title);
+      });
+    });
+
+    // --- AI Chat Logic ---
+    let isAiModalSending = false;
+
+    async function sendAiModalMessage() {
+      const text = aiModalInput.value.trim();
+      if (!text || isAiModalSending) return;
+
+      isAiModalSending = true;
+      aiModalInput.value = ''; // Clear input
+      aiModalInput.style.height = '24px'; // Reset height
+
+      // 1. Append User Message
+      const userBubble = document.createElement('div');
+      userBubble.className = 'ai-user';
+      userBubble.textContent = text;
+      aiChatHistory.appendChild(userBubble);
+      aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+
+      // 2. Append Loading Placeholder
+      const loaderBubble = document.createElement('div');
+      loaderBubble.className = 'ai-assistant';
+      loaderBubble.innerHTML = `<em>Reviewing...</em> <span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>`;
+      aiChatHistory.appendChild(loaderBubble);
+      aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+
+      // 3. Inject Study Assistant Persona into the Prompt
+      // This tells the AI *how* to answer without the user seeing the instructions
+      const systemPrompt = `You are a highly intelligent medical assistant guiding clinicians on knee osteoarthritis grading. Break down complex imaging analysis simply, provide accurate diagnostic guidance, and use formatting like bolding and bullet points for readability. \n\nUser Question: ${text}`;
+
+      try {
+        // Uses your existing Groq function
+        const json = await callGroqResponses(systemPrompt);
+
+        // Uses your existing extractor and formatter functions
+        let extracted = extractBestText(json);
+        if (!extracted) {
+          extracted = (json && (json.output_text || json.text)) || "I'm having trouble processing that topic right now. Could you rephrase?";
+        }
+
+        // Replace loader with actual formatted text
+        loaderBubble.innerHTML = formatAIText(extracted);
+      } catch (err) {
+        loaderBubble.innerHTML = `<div class="ai-response-error">Connection Error: ${escapeHtml(err.message)}</div>`;
+        console.error('Study Assistant API Error:', err);
+      } finally {
+        isAiModalSending = false;
+        aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+      }
+    }
+
+    // --- Input Handlers ---
+    aiModalSendBtn.addEventListener('click', sendAiModalMessage);
+
+    aiModalInput.addEventListener('keydown', (e) => {
+      // Send on Enter (but allow Shift+Enter for new lines)
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendAiModalMessage();
+      }
+    });
+
+    // Auto-resize the modal input bar just like your main chatbox
+    aiModalInput.addEventListener('input', () => {
+      aiModalInput.style.height = '24px';
+      aiModalInput.style.height = Math.min(aiModalInput.scrollHeight, 100) + 'px';
+    });
+  </script>
+  <script>
+    const carousel = document.getElementById('carousel');
+    const items = Array.from(document.querySelectorAll('.item'));
+    let centerIndex = 3; // default: 4th div is center (index 3)
+
+    const cardWrap = document.getElementById('cardWrap');
+    const cardParent = cardWrap ? cardWrap.closest('.item') : null;
+
+    let cardActive = false;
+
+    function updateLayout() {
+      items.forEach((item, i) => {
+        item.className = 'item'; // reset
+        if (i === centerIndex) {
+          item.classList.add('large');
+        } else if (i === centerIndex - 1 || i === centerIndex + 1) {
+          item.classList.add('medium');
+        } else if (i === centerIndex - 2 || i === centerIndex + 2) {
+          item.classList.add('small');
+        } else {
+          item.classList.add('x-small');
+        }
+      });
+
+      // If the card exists, toggle its visibility depending on whether its parent .item has .large
+      if (cardWrap && cardParent) {
+        const isLarge = cardParent.classList.contains('large');
+        setCardActive(isLarge);
+      }
+    }
+
+    function setCardActive(active) {
+      cardActive = !!active;
+      if (cardWrap) {
+        if (cardActive) {
+          cardWrap.classList.remove('card-hidden');
+        } else {
+          // hide and reset visuals/targets handled in head-area script
+          cardWrap.classList.add('card-hidden');
+        }
+      }
+    }
+
+    // init
+    updateLayout();
+
+    items.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        if (centerIndex === i) {
+          // If the item is already centered, trigger its navigation link
+          const url = item.getAttribute('data-url');
+          if (url) {
+            window.location.href = url;
+          }
+        } else {
+          // Otherwise merely rotate the carousel to make it the center
+          centerIndex = i;
+          updateLayout();
+        }
+      });
+    });
+  </script>
+
+
+
+
+  <script>
+    (function () {
+      const headArea = document.getElementById('headArea');   // large interactive zone
+      const cardWrap = document.getElementById('cardWrap');   // the visible head (happy eyes)
+      const card = document.getElementById('card');
+      const eyes = document.getElementById('eyesNormal');
+
+      // Config (tweak as needed)
+      const MAX_ROT_X = 14;    // degrees
+      const MAX_ROT_Y = 18;    // degrees
+      const LERP = 0.14;       // smoothing (0..1)
+      const EYE_MOVE_X = 9;    // px
+      const EYE_MOVE_Y = 6;    // px
+      let translateZ = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--translateY')) || 45;
+
+      // State
+      let targetRotX = 0, targetRotY = 0;
+      let currentRotX = 0, currentRotY = 0;
+      let targetEyeX = 0, targetEyeY = 0;
+      let currentEyeX = 0, currentEyeY = 0;
+
+      // This flag is toggled from the carousel updateLayout via the element class (card-hidden)
+      function isCardActive() {
+        return !(cardWrap && cardWrap.classList.contains('card-hidden'));
+      }
+
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      // Map pointer pos inside headArea to rotations & eye offsets
+      function handlePointerMove(clientX, clientY) {
+        if (!isCardActive()) return; // freeze when card inactive
+
+        const rect = headArea.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+
+        const nx = (clientX - cx) / (rect.width / 2);  // -1..1
+        const ny = (clientY - cy) / (rect.height / 2); // -1..1
+
+        const sx = clamp(nx, -1, 1);
+        const sy = clamp(ny, -1, 1);
+
+        // rotate toward pointer: right => positive Y rotation; down => negative X rotation
+        targetRotY = sx * MAX_ROT_Y;
+        targetRotX = -sy * MAX_ROT_X;
+
+        // eyes move toward pointer
+        targetEyeX = sx * EYE_MOVE_X;
+        targetEyeY = sy * EYE_MOVE_Y;
+      }
+
+      // HEAD AREA handlers: control tilt + eye-parallax only
+      function onHeadMove(e) {
+        if (e.touches && e.touches[0]) handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+        else handlePointerMove(e.clientX, e.clientY);
+      }
+      function onHeadLeave() {
+        // reset targets when pointer leaves the head area
+        targetRotX = 0; targetRotY = 0;
+        targetEyeX = 0; targetEyeY = 0;
+      }
+
+      // CARD handlers: control happy eyes + pause balls/glow (only when pointer actually on the head)
+      function onCardEnter() { if (!isCardActive()) return; cardWrap.classList.add('is-hovered'); }
+      function onCardLeave() { if (!isCardActive()) return; cardWrap.classList.remove('is-hovered'); }
+
+      // Animation loop: smooth rotation + eyes parallax
+      function animate() {
+        // If card not active, smoothly lerp rotation/eye targets to zero (freeze)
+        if (!isCardActive()) {
+          targetRotX = 0; targetRotY = 0;
+          targetEyeX = 0; targetEyeY = 0;
+        }
+
+        currentRotX = lerp(currentRotX, targetRotX, LERP);
+        currentRotY = lerp(currentRotY, targetRotY, LERP);
+
+        const perspectiveVal = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--perspective')) || 1000;
+        if (card) {
+          card.style.transform = `perspective(${perspectiveVal}px) rotateX(${currentRotX.toFixed(3)}deg) rotateY(${currentRotY.toFixed(3)}deg) translateZ(${translateZ}px)`;
+        }
+
+        currentEyeX = lerp(currentEyeX, targetEyeX, LERP * 1.2);
+        currentEyeY = lerp(currentEyeY, targetEyeY, LERP * 1.2);
+        if (eyes) {
+          eyes.style.transform = `translateX(calc(-50% + ${currentEyeX.toFixed(2)}px)) translateY(${currentEyeY.toFixed(2)}px)`;
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      // Attach listeners to the single headArea:
+      headArea.addEventListener('mousemove', onHeadMove, { passive: true });
+      headArea.addEventListener('touchmove', onHeadMove, { passive: true });
+      headArea.addEventListener('mouseleave', onHeadLeave, { passive: true });
+      headArea.addEventListener('touchend', onHeadLeave, { passive: true });
+
+      // Card only toggles the happy eyes / paused balls ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â handlers check active flag
+      cardWrap.addEventListener('mouseenter', onCardEnter, { passive: true });
+      cardWrap.addEventListener('mouseleave', onCardLeave, { passive: true });
+      cardWrap.addEventListener('touchstart', function (e) { onCardEnter(); onHeadMove(e); }, { passive: true });
+      cardWrap.addEventListener('touchend', onCardLeave, { passive: true });
+
+      // Responsive depth tweak
+      function updateResponsive() {
+        if (window.innerWidth < 520) translateZ = 35;
+        else translateZ = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--translateY')) || 45;
+      }
+      window.addEventListener('resize', updateResponsive);
+      updateResponsive();
+
+      requestAnimationFrame(animate);
+    })();
+  </script>
+
+  <script>
+    const leftNavBtn = document.getElementById('leftNavBtn');
+    const topNavMenu = document.getElementById('topNavMenu');
+
+    // Toggle the menu when the logo is clicked
+    leftNavBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevents the click from immediately closing it
+      topNavMenu.classList.toggle('show');
+    });
+
+    // Close the menu if the user clicks anywhere outside of it
+    document.addEventListener('click', (e) => {
+      if (topNavMenu.classList.contains('show')) {
+        // Check if the click happened outside the menu and outside the button
+        if (!topNavMenu.contains(e.target) && !leftNavBtn.contains(e.target)) {
+          topNavMenu.classList.remove('show');
+        }
+      }
+    });
+  </script>
+
+  <script>
+    (function () {
+      const logoBtn = document.getElementById('logoBtn');
+      const dropdown = document.getElementById('logoDropdown');
+      const themeBtn = document.getElementById('themeBtn');
+      const themeIcon = document.getElementById('themeIcon');
+
+      // Open
+      function openDropdown() {
+        dropdown.classList.add('pdd-visible');
+        logoBtn.setAttribute('aria-expanded', 'true');
+        // Move focus to first interactive item for keyboard users
+        const first = dropdown.querySelector('[role="menuitem"]');
+        if (first) first.focus();
+      }
+
+      // Close
+      function closeDropdown() {
+        dropdown.classList.remove('pdd-visible');
+        logoBtn.setAttribute('aria-expanded', 'false');
+        logoBtn.focus();
+      }
+
+      // Toggle
+      function toggleDropdown() {
+        if (dropdown.classList.contains('pdd-visible')) closeDropdown(); else openDropdown();
+      }
+
+      // Click on logo toggles dropdown
+      logoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+      // Keyboard: open via Enter/Space when focused on logo
+      logoBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          logoBtn.click();
+        }
+      });
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!dropdown.classList.contains('pdd-visible')) return;
+        if (!dropdown.contains(e.target) && e.target !== logoBtn) closeDropdown();
+      });
+
+      // Close on Escape and support keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (dropdown.classList.contains('pdd-visible')) closeDropdown();
+        } else if (e.key === 'Tab' && dropdown.classList.contains('pdd-visible')) {
+          // If Tabbed out of the menu (focus not inside dropdown nor logo), close it
+          // Use a small timeout to allow focus to change
+          setTimeout(() => {
+            const active = document.activeElement;
+            if (!dropdown.contains(active) && active !== logoBtn) closeDropdown();
+          }, 10);
+        }
+      });
+
+      // Allow clicking/pressing any row to close the dropdown (common UX)
+      dropdown.addEventListener('click', (e) => {
+        const row = e.target.closest('[role="menuitem"]');
+        if (row && row.tagName.toLowerCase() === 'a') {
+          // for anchor links, allow default navigation but close the menu
+          closeDropdown();
+        }
+      });
+
+      // Simple theme icon toggle (no global theme changes)
+      function toggleThemeIcon() {
+        const isSun = themeIcon.textContent.trim() === 'wb_sunny';
+        themeIcon.textContent = isSun ? 'dark_mode' : 'wb_sunny';
+        themeBtn.setAttribute('aria-pressed', String(!isSun));
+      }
+      themeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleThemeIcon();
+      });
+
+      // Accessibility: allow Enter/Space to activate any menuitem (div/button/a with role=menuitem)
+      dropdown.addEventListener('keydown', (e) => {
+        const target = e.target;
+        if ((e.key === 'Enter' || e.key === ' ') && target.getAttribute('role') === 'menuitem') {
+          e.preventDefault();
+          // if it's an anchor, follow it; if button-like, trigger click
+          if (target.tagName.toLowerCase() === 'a') {
+            target.click();
+          } else {
+            target.querySelector('button')?.click();
+          }
+        }
+      });
+
+      // Ensure dropdown closes on window blur (optional, helps mobile)
+      window.addEventListener('blur', () => {
+        if (dropdown.classList.contains('pdd-visible')) closeDropdown();
+      });
+
+      // Expose for debugging if needed
+      window._logoDropdown = { open: openDropdown, close: closeDropdown, toggle: toggleDropdown };
+    })();
+  </script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const previewContainer = document.getElementById('previewContainer');
+    if (!previewContainer) return;
+
+    // Handle File Upload Previews
+    const fileUpload = document.getElementById("fileUpload");
+    if (fileUpload) {
+      fileUpload.addEventListener("change", (e) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+        
+        Array.from(files).forEach(file => {
+          const item = document.createElement('div');
+          item.className = 'preview-item';
+          
+          const removeBtn = document.createElement('div');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '&times;';
+          
+          if (file.type.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            item.appendChild(img);
+            
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              const base64String = ev.target.result.split(',')[1];
+              const imgObj = { file, base64: base64String };
+              if (typeof attachedImages !== 'undefined') attachedImages.push(imgObj);
+              
+              removeBtn.onclick = () => {
+                item.remove();
+                if (typeof attachedImages !== 'undefined') {
+                  attachedImages = attachedImages.filter(i => i !== imgObj);
+                }
+              };
+            };
+            reader.readAsDataURL(file);
+          } else {
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined';
+            icon.textContent = 'description';
+            item.appendChild(icon);
+            removeBtn.onclick = () => item.remove();
+          }
+          
+          item.appendChild(removeBtn);
+          previewContainer.appendChild(item);
+        });
+      });
+    }
+
+    // Handle AI Generate Image
+    const popupMenu = document.getElementById('popupMenu');
+    const aiGenBtn = Array.from(document.querySelectorAll('.popup-menu li')).find(li => li.textContent.includes('AI Generate Image'));
+    
+    if (aiGenBtn) {
+      aiGenBtn.addEventListener('click', () => {
+        // Clear previous UI if any
+        const existingUI = previewContainer.querySelector('.ai-gen-ui');
+        if (existingUI) existingUI.remove();
+
+        const ui = document.createElement('div');
+        ui.className = 'ai-gen-ui';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Describe the image you want...';
+        
+        const controls = document.createElement('div');
+        controls.className = 'ai-gen-controls';
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">close</span> Cancel';
+        closeBtn.style.background = 'rgba(255, 71, 87, 0.9)';
+        closeBtn.onclick = () => ui.remove();
+
+        const genBtn = document.createElement('button');
+        genBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">auto_awesome</span> Generate';
+        genBtn.onclick = () => {
+          if (!input.value.trim()) return;
+          genBtn.innerHTML = 'Generating...';
+          genBtn.disabled = true;
+          
+          // Show preview item after generation mock delay
+          setTimeout(() => {
+            ui.remove();
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            const img = document.createElement('img');
+            img.src = 'https://images.unsplash.com/photo-1698047976856-d7c71ba76e3c?auto=format&fit=crop&w=150&q=80';
+            
+            const removeBtn = document.createElement('div');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.onclick = () => item.remove();
+            
+            item.appendChild(img);
+            item.appendChild(removeBtn);
+            previewContainer.appendChild(item);
+          }, 1500);
+        };
+
+        controls.appendChild(closeBtn);
+        controls.appendChild(genBtn);
+        ui.appendChild(input);
+        ui.appendChild(controls);
+        
+        previewContainer.appendChild(ui);
+        
+        // Focus the input
+        setTimeout(() => input.focus(), 100);
+        
+        // Close menu
+        if (popupMenu) popupMenu.style.display = 'none';
+      });
+    }
+  });
+  </script>
+  <script>
+    /* ============================================================
+       CONNECT TO DOCTOR — Real Implementation
+       Uses Geolocation API + OpenStreetMap Overpass API
+       ============================================================ */
+
+    let ctdMap = null, ctdMapInitialized = false;
+    let ctdMarkers = [], ctdHospitals = [];
+    let userLat = 28.6139, userLng = 77.2090; // Delhi fallback
+
+    // ── Emergency toggle label ──────────────────────────────────
+    const ctdEmergencyToggle = document.getElementById('ctdEmergency');
+    const emergencyLabelEl   = document.getElementById('emergencyLabel');
+    if (ctdEmergencyToggle) {
+      ctdEmergencyToggle.addEventListener('change', () => {
+        const on = ctdEmergencyToggle.checked;
+        emergencyLabelEl.textContent = on ? 'Yes — emergency services shown' : 'No';
+        emergencyLabelEl.style.color = on ? '#ff4757' : 'rgba(255,255,255,0.6)';
+      });
+    }
+
+    // ── Show location overlay on load ───────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('locPermissionOverlay');
+      if (overlay) overlay.style.display = 'flex';
+    });
+
+    // ── User clicks "Allow Location" ────────────────────────────
+    function requestUserLocation() {
+      const btn = document.getElementById('locAllowBtn');
+      const card = document.querySelector('.loc-card');
+      btn.disabled = true;
+      card.innerHTML = `
+        <div class="loc-searching">
+          <span class="loc-icon" style="animation:locFloat 1.2s ease-in-out infinite;">📡</span>
+          <div class="loc-title">Getting your location…</div>
+          <span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>
+          <p>Please allow location access in your browser prompt.</p>
+        </div>`;
+
+      if (!navigator.geolocation) {
+        card.innerHTML = `<div class="loc-title" style="color:#ff4757;">⚠️ Not Supported</div>
+          <p class="loc-sub">Your browser doesn't support geolocation. Using Delhi as default.</p>
+          <button class="loc-allow-btn" onclick="skipToDefaultLocation()">Continue with Delhi</button>`;
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          userLat = pos.coords.latitude;
+          userLng = pos.coords.longitude;
+          dismissOverlayAndLoad(userLat, userLng);
+        },
+        (err) => {
+          card.innerHTML = `<div class="loc-title" style="color:#ff4757;">📍 Permission Denied</div>
+            <p class="loc-sub">Couldn't get your location. Showing hospitals near Delhi instead.</p>
+            <button class="loc-allow-btn" onclick="skipToDefaultLocation()">Continue with Delhi</button>`;
+        },
+        { timeout: 10000, enableHighAccuracy: true }
+      );
+    }
+
+    function skipToDefaultLocation() {
+      dismissOverlayAndLoad(userLat, userLng);
+    }
+
+    function dismissOverlayAndLoad(lat, lng) {
+      const overlay = document.getElementById('locPermissionOverlay');
+      if (overlay) {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.5s';
+        setTimeout(() => overlay.style.display = 'none', 500);
+      }
+      initCtdMap(lat, lng);
+      fetchNearbyHospitals(lat, lng);
+    }
+
+    // ── Init Leaflet Map ─────────────────────────────────────────
+    function initCtdMap(lat, lng) {
+      if (ctdMapInitialized) { ctdMap.setView([lat, lng], 13, { animate: true }); return; }
+      ctdMapInitialized = true;
+
+      ctdMap = L.map('ctdMap').setView([lat, lng], 13);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+      }).addTo(ctdMap);
+
+      // User pin
+      L.marker([lat, lng], {
+        icon: L.divIcon({
+          className: '',
+          html: `<div style="width:18px;height:18px;background:#00f0ff;border-radius:50%;border:3px solid white;box-shadow:0 0 14px rgba(0,240,255,0.9);"></div>`,
+          iconSize: [18, 18], iconAnchor: [9, 9]
+        })
+      }).addTo(ctdMap).bindPopup('<b>📍 You are here</b>');
+
+      setTimeout(() => ctdMap.invalidateSize(), 400);
+    }
+
+    // ── Fetch real hospitals via Overpass API ────────────────────
+    async function fetchNearbyHospitals(lat, lng) {
+      setDoctorListStatus('loading');
+
+      // Query: mental health / psychiatry facilities first, then all hospitals
+      const query = `
+[out:json][timeout:30];
+(
+  node["amenity"="hospital"](around:25000,${lat},${lng});
+  way["amenity"="hospital"](around:25000,${lat},${lng});
+  node["healthcare"="psychiatry"](around:30000,${lat},${lng});
+  node["healthcare"="psychotherapist"](around:30000,${lat},${lng});
+  node["healthcare"="centre"]["healthcare:speciality"~"mental|psychiatry|psychology",i](around:30000,${lat},${lng});
+  node["amenity"="clinic"]["healthcare:speciality"~"mental|psychiatry|psychology",i](around:30000,${lat},${lng});
+);
+out center 40;`;
+
+      try {
+        const resp = await fetch('https://overpass-api.de/api/interpreter', {
+          method: 'POST',
+          body: query
+        });
+        if (!resp.ok) throw new Error('Overpass API error ' + resp.status);
+        const data = await resp.json();
+        processOSMResults(data.elements, lat, lng);
+      } catch (err) {
+        console.error('Overpass fetch failed:', err);
+        setDoctorListStatus('error');
+      }
+    }
+
+    // ── Process & rank OSM results ───────────────────────────────
+    function processOSMResults(elements, userLat, userLng) {
+      // Deduplicate by name, build hospital objects
+      const seen = new Set();
+      ctdHospitals = [];
+
+      elements.forEach(el => {
+        const tags = el.tags || {};
+        const name = tags.name || tags['name:en'];
+        if (!name || seen.has(name)) return;
+
+        const lat = el.lat || el.center?.lat;
+        const lng = el.lon || el.center?.lon;
+        if (!lat || !lng) return;
+
+        seen.add(name);
+
+        const isMentalHealth = (
+          (tags['healthcare:speciality'] || '').toLowerCase().match(/mental|psychiatry|psychology/) ||
+          (tags.healthcare || '').match(/psychiatry|psychotherapist/) ||
+          (tags.description || '').toLowerCase().includes('mental')
+        );
+
+        ctdHospitals.push({
+          name,
+          lat, lng,
+          phone:    tags.phone || tags['contact:phone'] || tags['contact:mobile'] || null,
+          website:  tags.website || tags['contact:website'] || null,
+          hours:    tags.opening_hours || null,
+          address:  buildAddress(tags),
+          type:     isMentalHealth ? 'Mental Health' : (tags.amenity === 'hospital' ? 'Hospital' : 'Clinic'),
+          isMH:     !!isMentalHealth,
+          distance: haversine(userLat, userLng, lat, lng)
+        });
+      });
+
+      // Sort: mental health first, then by distance
+      ctdHospitals.sort((a, b) => {
+        if (a.isMH !== b.isMH) return a.isMH ? -1 : 1;
+        return a.distance - b.distance;
+      });
+
+      if (ctdHospitals.length === 0) {
+        setDoctorListStatus('empty');
+        return;
+      }
+
+      renderRealHospitalCards();
+      plotHospitalMarkers();
+    }
+
+    function buildAddress(tags) {
+      const parts = [
+        tags['addr:housenumber'], tags['addr:street'],
+        tags['addr:suburb'], tags['addr:city'] || tags['addr:district']
+      ].filter(Boolean);
+      return parts.length ? parts.join(', ') : null;
+    }
+
+    function haversine(lat1, lng1, lat2, lng2) {
+      const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    // ── Render real hospital cards ───────────────────────────────
+    function renderRealHospitalCards() {
+      const list = document.getElementById('ctdDoctorList');
+      if (!list) return;
+      list.innerHTML = '';
+      document.getElementById('ctdDocCount').textContent = ctdHospitals.length + ' nearby';
+
+      ctdHospitals.forEach((h, i) => {
+        const card = document.createElement('div');
+        card.className = 'ctd-doc-card';
+        card.style.animationDelay = (i * 0.06) + 's';
+        const distStr = h.distance < 1 ? (h.distance * 1000).toFixed(0) + ' m' : h.distance.toFixed(1) + ' km';
+        const tagColor = h.isMH ? 'rgba(178,117,255,0.25)' : 'rgba(255,255,255,0.1)';
+        const tagTxt   = h.isMH ? '#b275ff' : 'rgba(255,255,255,0.5)';
+
+        card.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div class="ctd-doc-name" style="flex:1;padding-right:8px;">${h.name}</div>
+            <span style="font-size:11px;font-weight:700;background:${tagColor};color:${tagTxt};border-radius:20px;padding:3px 10px;white-space:nowrap;">${h.type}</span>
+          </div>
+          <div class="ctd-doc-loc">
+            <span class="material-symbols-outlined">location_on</span>
+            ${h.address || 'See on map'} &nbsp;·&nbsp; <strong>${distStr}</strong>
+          </div>
+          <div class="ctd-doc-actions">
+            <button class="ctd-btn-call" onclick="openApptModal(${i})">
+              <span class="material-symbols-outlined">calendar_month</span> Appointment
+            </button>
+            <a class="ctd-btn-map" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}" target="_blank" rel="noopener">
+              <span class="material-symbols-outlined">map</span> Directions
+            </a>
+          </div>`;
+
+        card.addEventListener('mouseenter', () => {
+          if (ctdMap && ctdMarkers[i]) {
+            ctdMap.setView([h.lat, h.lng], 15, { animate: true });
+            ctdMarkers[i].openPopup();
+          }
+        });
+        list.appendChild(card);
+      });
+    }
+
+    // ── Plot markers for real hospitals ─────────────────────────
+    function plotHospitalMarkers() {
+      ctdMarkers = [];
+      const mhIcon = L.divIcon({
+        className: '',
+        html: `<div style="width:26px;height:26px;background:linear-gradient(135deg,#6a11cb,#ff007f);border-radius:50%;border:2px solid white;box-shadow:0 0 12px rgba(178,117,255,0.8);display:flex;align-items:center;justify-content:center;font-size:12px;">🧠</div>`,
+        iconSize: [26, 26], iconAnchor: [13, 13]
+      });
+      const hospIcon = L.divIcon({
+        className: '',
+        html: `<div style="width:24px;height:24px;background:rgba(106,17,203,0.85);border-radius:50%;border:2px solid white;box-shadow:0 0 10px rgba(106,17,203,0.6);display:flex;align-items:center;justify-content:center;font-size:11px;">🏥</div>`,
+        iconSize: [24, 24], iconAnchor: [12, 12]
+      });
+
+      ctdHospitals.forEach((h, i) => {
+        const icon = h.isMH ? mhIcon : hospIcon;
+        const marker = L.marker([h.lat, h.lng], { icon }).addTo(ctdMap);
+        marker.bindPopup(`<b>${h.name}</b><br><small>${h.type}</small>${h.phone ? '<br>📞 ' + h.phone : ''}`);
+        marker.on('click', () => openApptModal(i));
+        ctdMarkers.push(marker);
+      });
+    }
+
+    // ── Loading / Error States ───────────────────────────────────
+    function setDoctorListStatus(state) {
+      const list = document.getElementById('ctdDoctorList');
+      const count = document.getElementById('ctdDocCount');
+      if (!list) return;
+      if (state === 'loading') {
+        count.textContent = 'Searching…';
+        list.innerHTML = `<div class="ctd-status-msg">
+          <span class="ai-loader" aria-hidden="true"><span></span><span></span><span></span></span>
+          Searching for mental health facilities near you…
+        </div>`;
+      } else if (state === 'empty') {
+        count.textContent = '0 found';
+        list.innerHTML = `<div class="ctd-status-msg">
+          <span class="material-symbols-outlined">search_off</span>
+          No hospitals found in this area. Try the "Detect My Location" button or call the helplines above.
+        </div>`;
+      } else if (state === 'error') {
+        count.textContent = 'Error';
+        list.innerHTML = `<div class="ctd-status-msg">
+          <span class="material-symbols-outlined">wifi_off</span>
+          Could not load hospitals. Please check your internet connection and try again.
+          <button class="ctd-locate-btn" style="margin:0 auto;" onclick="fetchNearbyHospitals(userLat,userLng)">
+            <span class="material-symbols-outlined">refresh</span> Retry
+          </button>
+        </div>`;
+      }
+    }
+
+    // ── Appointment Modal ────────────────────────────────────────
+    function openApptModal(index) {
+      const h = ctdHospitals[index];
+      if (!h) return;
+      const modal = document.getElementById('apptModal');
+      const content = document.getElementById('apptModalContent');
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}`;
+
+      let rows = '';
+      if (h.address) rows += infoRow('location_on', 'Address', h.address);
+      if (h.phone)   rows += infoRow('call', 'Phone', `<a href="tel:${h.phone.replace(/\s/g,'')}">${h.phone}</a>`);
+      if (h.hours)   rows += infoRow('schedule', 'Opening Hours', h.hours.replace(/;/g,'<br>'));
+      if (h.website) rows += infoRow('language', 'Website', `<a href="${h.website}" target="_blank" rel="noopener">${h.website}</a>`);
+      if (!rows)     rows += infoRow('info', 'Note', 'Contact details not listed in public database. Use the directions button to find this facility.');
+
+      const phoneHref = h.phone ? `href="tel:${h.phone.replace(/\s/g,'')}"` : `href="#" onclick="alert('Phone number not available. Search for this hospital online.')"`;
+
+      content.innerHTML = `
+        <div class="appt-hosp-name">${h.name}</div>
+        <span class="appt-tag">${h.type}</span>
+        ${rows}
+        <div class="appt-actions">
+          <a class="appt-btn appt-btn-call" ${phoneHref}>
+            <span class="material-symbols-outlined">call</span> Call to Book Appointment
+          </a>
+          <a class="appt-btn appt-btn-dir" href="${mapsUrl}" target="_blank" rel="noopener">
+            <span class="material-symbols-outlined">map</span> Directions
+          </a>
+          ${h.website ? `<a class="appt-btn appt-btn-web" href="${h.website}" target="_blank" rel="noopener"><span class="material-symbols-outlined">language</span> Website</a>` : ''}
+        </div>
+        <div class="appt-note">
+          <span class="material-symbols-outlined">info</span>
+          Call the hospital directly to schedule a mental health or psychiatry appointment. Ask for the psychiatry or mental wellness department.
+        </div>`;
+
+      modal.classList.add('show');
+    }
+
+    function infoRow(icon, label, value) {
+      return `<div class="appt-info-row">
+        <span class="material-symbols-outlined appt-info-icon">${icon}</span>
+        <div>
+          <div class="appt-info-label">${label}</div>
+          <div class="appt-info-value">${value}</div>
+        </div>
+      </div>`;
+    }
+
+    function closeApptModal() {
+      document.getElementById('apptModal').classList.remove('show');
+    }
+
+    // ── Re-detect location from the button in section header ────
+    function detectUserLocation() {
+      const btn = document.querySelector('.ctd-locate-btn');
+      if (btn) { btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Detecting…'; btn.disabled = true; }
+      if (!navigator.geolocation) { alert('Geolocation not supported.'); return; }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+          if (!ctdMapInitialized) initCtdMap(userLat, userLng);
+          else ctdMap.setView([userLat, userLng], 13, { animate: true });
+          fetchNearbyHospitals(userLat, userLng);
+          if (btn) { btn.innerHTML = '<span class="material-symbols-outlined">my_location</span> Updated ✓'; btn.disabled = false; }
+        },
+        () => {
+          if (btn) { btn.innerHTML = '<span class="material-symbols-outlined">my_location</span> Detect My Location'; btn.disabled = false; }
+        }
+      );
+    }
+
+    // ── Submit Health Report → AI ────────────────────────────────
+    async function submitHealthReport() {
+      const concern    = document.getElementById('ctdConcern').value;
+      const description= document.getElementById('ctdDescription').value.trim();
+      const duration   = document.getElementById('ctdDuration').value;
+      const severity   = document.getElementById('ctdSeverity').value;
+      const emergency  = document.getElementById('ctdEmergency').checked;
+
+      if (!description) {
+        const ta = document.getElementById('ctdDescription');
+        ta.focus(); ta.style.borderColor = 'rgba(255,71,87,0.8)';
+        setTimeout(() => ta.style.borderColor = '', 2000); return;
+      }
+
+      const btn = document.getElementById('ctdSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite;">sync</span> Analysing…';
+
+      const prompt = `You are "Mentai Health Coordinator", a compassionate medical AI for mental health support in India.
+User report: Concern: ${concern||'Not specified'}, Duration: ${duration||'Not specified'}, Severity: ${severity}/10, Emergency: ${emergency?'YES':'No'}.
+Description: "${description}"
+Tasks: 1) Acknowledge feelings warmly (2-3 sentences). 2) State which specialist type they need. 3) List 3 Indian helplines with numbers. 4) Give 2 immediate self-care tips. 5) Encouraging closing. Format with bold headings and bullets. No medical jargon.`;
+
+      const panel = document.getElementById('aiSuggestionPanel');
+      panel.innerHTML = `<div class="ai-suggestion-text" style="opacity:0.6;display:flex;align-items:center;gap:8px;">
+        <span class="ai-loader"><span></span><span></span><span></span></span> Analysing your report…</div>`;
+
+      try {
+        const resp = await fetch(GROQ_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+          body: JSON.stringify({ model: GROQ_MODEL, messages: [{ role: 'user', content: prompt }], max_tokens: 900 })
+        });
+        if (!resp.ok) throw new Error('API error ' + resp.status);
+        const json = await resp.json();
+        const text = json.choices?.[0]?.message?.content || extractBestText(json);
+
+        panel.innerHTML = `
+          <div class="ai-suggestion-text">${formatAIText(text)}</div>
+          <div class="suggestion-helplines">
+            <a class="helpline-tag" href="tel:9152987821">iCall · 9152987821</a>
+            <a class="helpline-tag" href="tel:18602662345">Vandrevala · 1860-266-2345</a>
+            <a class="helpline-tag" href="tel:08046110007">NIMHANS · 080-4611-0007</a>
+          </div>`;
+
+        document.querySelector('.ctd-bottom-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        panel.innerHTML = `<div class="ai-response-error">AI unavailable: ${escapeHtml(err.message)}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">send</span> Analyse &amp; Find Doctors';
+      }
+    }
+
+    // Spin keyframe
+    const _ss = document.createElement('style');
+    _ss.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(_ss);
+  </script>
+</body>
+
+</html>

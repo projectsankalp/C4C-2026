@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GraamSehat | Standalone Offline IVR & Call Center Simulator</title>
+  
+  <!-- Premium Modern Typography & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Share+Tech+Mono&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ----------------------------------------------------
+       PREMIUM DESIGN SYSTEM & GLOBAL STYLES
+       ---------------------------------------------------- */
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16, 185, 129, 0.35);
+      --accent-blue: #0ea5e9;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      /* Nokia LCD Color Palette */
+      --nokia-lcd-bg: #8ba888;
+      --nokia-lcd-text: #1b2e1b;
+      --nokia-lcd-glow: #a4c4a1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.95) 0px, var(--bg-dark) 100%);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-card);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px var(--accent-green-glow);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-badge {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .main-container {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ----------------------------------------------------
+       NOKIA RETRO FEATURE PHONE MOCKUP (3D CSS)
+       ---------------------------------------------------- */
+    .phone-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nokia-wrapper {
+      background: linear-gradient(145deg, #2e3b4e, #131923);
+      width: 340px;
+      height: 640px;
+      border-radius: 40px;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.7),
+        inset 0 4px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -4px 0 rgba(0, 0, 0, 0.6),
+        0 0 0 10px #475569;
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Speaker Bezel */
+    .nokia-speaker {
+      width: 80px;
+      height: 8px;
+      background: #0f172a;
+      border-radius: 999px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 2px rgba(0,0,0,0.8);
+    }
+
+    .nokia-brand {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      color: #94a3b8;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+    }
+
+    /* LCD Screen Frame */
+    .nokia-screen-bezel {
+      width: 100%;
+      height: 190px;
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 
+        inset 0 4px 6px rgba(0,0,0,0.6),
+        0 1px 1px rgba(255,255,255,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 24px;
+    }
+
+    /* LCD Monochrome Screen */
+    .nokia-screen {
+      width: 100%;
+      height: 100%;
+      background-color: var(--nokia-lcd-bg);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      padding: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--nokia-lcd-text);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s;
+    }
+
+    .nokia-screen.backlight-on {
+      background-color: var(--nokia-lcd-glow);
+      box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.15),
+        0 0 10px rgba(164, 196, 161, 0.4);
+    }
+
+    /* Screen Status Bars */
+    .screen-status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(27, 46, 27, 0.2);
+      padding-bottom: 2px;
+      font-weight: bold;
+    }
+
+    .screen-signal {
+      letter-spacing: -1px;
+    }
+
+    /* Screen Dynamic Content */
+    .screen-body {
+      flex: 1;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.25;
+      font-weight: bold;
+      letter-spacing: -0.2px;
+    }
+
+    .screen-body.scrollable {
+      justify-content: flex-start;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 0.8rem;
+      align-items: flex-start;
+      padding: 4px;
+    }
+
+    .screen-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      border-top: 1px solid rgba(27, 46, 27, 0.2);
+      padding-top: 2px;
+      font-weight: bold;
+    }
+
+    /* Nokia Navigation Bar */
+    .nokia-navigation {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr 1fr;
+      width: 100%;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .nav-btn {
+      background: linear-gradient(135deg, #475569, #334155);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 
+        0 3px 5px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      transition: transform 0.05s, box-shadow 0.05s;
+    }
+
+    .nav-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 1px rgba(0,0,0,0.7);
+    }
+
+    .nav-btn.call-btn {
+      background: linear-gradient(135deg, #0f766e, #115e59);
+      color: #4f4;
+    }
+
+    .nav-btn.hang-btn {
+      background: linear-gradient(135deg, #991b1b, #7f1d1d);
+      color: #faa;
+    }
+
+    .nav-btn-label {
+      font-size: 0.6rem;
+      font-weight: bold;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Bezel Dial / Hangup physical keys */
+    .phone-control-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 0 12px;
+    }
+
+    /* Tactile Grid Numeric Keypad */
+    .nokia-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      padding: 0 12px;
+    }
+
+    .phone-key {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 
+        0 4px 6px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      border-radius: 16px;
+      height: 52px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.05s, box-shadow 0.05s, background 0.05s;
+      position: relative;
+    }
+
+    .phone-key:hover {
+      background: linear-gradient(145deg, #334155, #1e293b);
+    }
+
+    .phone-key:active, .phone-key.key-pressed {
+      transform: translateY(3px) scale(0.97);
+      background: linear-gradient(145deg, #0ea5e9, #0284c7);
+      box-shadow: 
+        0 1px 2px rgba(0,0,0,0.8),
+        0 0 10px rgba(14, 165, 233, 0.4);
+    }
+
+    .key-number {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #f8fafc;
+      line-height: 1;
+    }
+
+    .key-letters {
+      font-size: 0.55rem;
+      color: #94a3b8;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .phone-key:active .key-letters, 
+    .phone-key.key-pressed .key-letters,
+    .phone-key:active .key-number, 
+    .phone-key.key-pressed .key-number {
+      color: #ffffff;
+    }
+
+    /* Helper notification text below phone */
+    .keyboard-binding-helper {
+      margin-top: 1.5rem;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      width: 340px;
+      line-height: 1.4;
+    }
+
+    .keyboard-binding-helper kbd {
+      background: #475569;
+      color: #fff;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      font-family: inherit;
+      box-shadow: 0 2px 0 #1e293b;
+      font-size: 0.75rem;
+    }
+
+    /* ----------------------------------------------------
+       DASHBOARD RIGHT COLUMN PANELS
+       ---------------------------------------------------- */
+    .dashboard-panels {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .dashboard-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-card);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ffffff;
+    }
+
+    .card-title i {
+      color: var(--accent-green);
+    }
+
+    /* ----------------------------------------------------
+       SIMULATED SMS / CALL LOGS
+       ---------------------------------------------------- */
+    .log-feed {
+      height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-right: 0.5rem;
+    }
+
+    .log-entry {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .log-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .log-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .log-badge.sms_otp {
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+    }
+
+    .log-badge.sms_report {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .log-badge.ivr_call {
+      background: rgba(168, 85, 247, 0.15);
+      color: #a855f7;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .log-badge.ivr_fail {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .log-timestamp {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'Fira Code', monospace;
+    }
+
+    .log-message {
+      line-height: 1.4;
+      color: #e2e8f0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .log-details {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .log-details span b {
+      color: #cbd5e1;
+    }
+
+    .log-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      gap: 0.5rem;
+    }
+
+    /* ----------------------------------------------------
+       PATIENT LIST & DATABASE VIEWER
+       ---------------------------------------------------- */
+    .database-viewer {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .patients-table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+    }
+
+    table.patients-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    table.patients-table th {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    table.patients-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-card);
+      color: #cbd5e1;
+    }
+
+    table.patients-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .patient-risk-pill {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    .patient-risk-pill.low { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .patient-risk-pill.moderate { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .patient-risk-pill.high { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .patient-risk-pill.very_high { background: rgba(220, 38, 38, 0.25); color: #dc2626; border: 1px dashed rgba(220,38,38,0.5); }
+
+    .action-btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .panel-btn {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.2s;
+    }
+
+    .panel-btn:hover {
+      background: var(--accent-green);
+      color: #000;
+      border-color: var(--accent-green);
+    }
+
+    .panel-btn.accent-blue-btn:hover {
+      background: var(--accent-blue);
+      color: #fff;
+      border-color: var(--accent-blue);
+    }
+
+    /* ----------------------------------------------------
+       CREATING NEW MOCK PATIENTS (FORM)
+       ---------------------------------------------------- */
+    .create-patient-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      background: rgba(15, 23, 42, 0.3);
+      padding: 1.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-card);
+    }
+
+    @media (max-width: 768px) {
+      .create-patient-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group select {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green-glow);
+    }
+
+    /* ----------------------------------------------------
+       API INTERACTIVE SANDBOX
+       ---------------------------------------------------- */
+    .sandbox-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-card);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .sandbox-body {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .sandbox-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sandbox-tester {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sandbox-code-preview {
+      background: #090d16;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      overflow-x: auto;
+      max-height: 250px;
+      color: #e2e8f0;
+    }
+
+    .sandbox-code-title {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">
+        <i data-lucide="phone-call" style="color: #000; width: 22px; height: 22px;"></i>
+      </div>
+      <div class="brand-title">GraamSehat</div>
+      <div class="brand-badge">Offline Comm Layer</div>
+    </div>
+    
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <span style="font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem;">
+        <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+        Offline Sandbox Connected (127.0.0.1:5000)
+      </span>
+    </div>
+  </header>
+
+  <div class="main-container">
+    
+    <!-- LEFT COLUMN: NOKIA RETRO FEATURE PHONE -->
+    <div class="phone-column">
+      <div class="nokia-wrapper">
+        <div class="nokia-speaker"></div>
+        <div class="nokia-brand">NOKIA</div>
+        
+        <!-- Screen Bezel -->
+        <div class="nokia-screen-bezel">
+          <!-- The Retro LCD -->
+          <div id="lcd-screen" class="nokia-screen">
+            
+            <div class="screen-status-bar">
+              <span class="screen-signal">📶 GraamSehat</span>
+              <span id="screen-time">13:30</span>
+              <span>🔋 100%</span>
+            </div>
+            
+            <div id="screen-display" class="screen-body">
+              <div style="font-size: 1.15rem; font-weight: bold; letter-spacing: -0.5px;">GRAAM SEHAT</div>
+              <div style="font-size: 0.65rem; margin-top: 4px; text-transform: uppercase;">Press Call button to start IVR</div>
+            </div>
+            
+            <div class="screen-footer">
+              <span id="screen-footer-left">Menu</span>
+              <span id="screen-footer-right">Contacts</span>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Bezel / Navigation keys -->
+        <div class="nokia-navigation">
+          <button id="phone-btn-left-softkey" class="nav-btn" onclick="phoneSoftkeyLeft()">
+            <i data-lucide="minus" style="width: 16px; height: 16px;"></i>
+            <span class="nav-btn-label" id="phone-btn-left-label">Select</span>
+          </button>
+          
+          <button id="phone-btn-nav" class="nav-btn">
+            <i data-lucide="chevrons-up-down" style="width: 16px; height: 16px;"></i>
+            <span class="nav-btn-label">Scroll</span>
+          </button>
+          
+          <button id="phone-btn-right-softkey" class="nav-btn" onclick="phoneSoftkeyRight()">
+            <i data-lucide="minus" style="width: 16px; height: 16px;"></i>
+            <span class="nav-btn-label" id="phone-btn-right-label">Exit</span>
+          </button>
+        </div>
+
+        <!-- Bezel Dial / Hangup physical keys -->
+        <div class="phone-control-row">
+          <button id="phone-btn-call" class="nav-btn call-btn" onclick="phoneTriggerCall()" style="height: 44px; border-radius: 12px;">
+            <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+            <span class="nav-btn-label">Call / Dial</span>
+          </button>
+          
+          <button id="phone-btn-hang" class="nav-btn hang-btn" onclick="phoneHangUp()" style="height: 44px; border-radius: 12px;">
+            <i data-lucide="phone-off" style="width: 16px; height: 16px;"></i>
+            <span class="nav-btn-label">Hang Up</span>
+          </button>
+        </div>
+
+        <!-- Numeric/DTMF Keypad -->
+        <div class="nokia-keypad">
+          <div class="phone-key" data-key="1" onclick="phoneKeyPress('1')">
+            <span class="key-number">1</span>
+            <span class="key-letters">o_o</span>
+          </div>
+          <div class="phone-key" data-key="2" onclick="phoneKeyPress('2')">
+            <span class="key-number">2</span>
+            <span class="key-letters">abc</span>
+          </div>
+          <div class="phone-key" data-key="3" onclick="phoneKeyPress('3')">
+            <span class="key-number">3</span>
+            <span class="key-letters">def</span>
+          </div>
+          
+          <div class="phone-key" data-key="4" onclick="phoneKeyPress('4')">
+            <span class="key-number">4</span>
+            <span class="key-letters">ghi</span>
+          </div>
+          <div class="phone-key" data-key="5" onclick="phoneKeyPress('5')">
+            <span class="key-number">5</span>
+            <span class="key-letters">jkl</span>
+          </div>
+          <div class="phone-key" data-key="6" onclick="phoneKeyPress('6')">
+            <span class="key-number">6</span>
+            <span class="key-letters">mno</span>
+          </div>
+          
+          <div class="phone-key" data-key="7" onclick="phoneKeyPress('7')">
+            <span class="key-number">7</span>
+            <span class="key-letters">pqrs</span>
+          </div>
+          <div class="phone-key" data-key="8" onclick="phoneKeyPress('8')">
+            <span class="key-number">8</span>
+            <span class="key-letters">tuv</span>
+          </div>
+          <div class="phone-key" data-key="9" onclick="phoneKeyPress('9')">
+            <span class="key-number">9</span>
+            <span class="key-letters">wxyz</span>
+          </div>
+          
+          <div class="phone-key" data-key="*" onclick="phoneKeyPress('*')">
+            <span class="key-number">*</span>
+            <span class="key-letters">+</span>
+          </div>
+          <div class="phone-key" data-key="0" onclick="phoneKeyPress('0')">
+            <span class="key-number">0</span>
+            <span class="key-letters">space</span>
+          </div>
+          <div class="phone-key" data-key="#" onclick="phoneKeyPress('#')">
+            <span class="key-number">#</span>
+            <span class="key-letters">⌕</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laptop/Desktop Keyboard binding helper card -->
+      <div class="keyboard-binding-helper">
+        <i data-lucide="keyboard" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px; color: var(--accent-green);"></i>
+        <b>Call Center Keyboard Binding:</b><br>
+        When in call, press your computer's numeric keys <kbd>0</kbd>-<kbd>9</kbd>, <kbd>*</kbd>, and <kbd>#</kbd> (or <kbd>Enter</kbd> for hash) to play real DTMF tones and dial!
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: CHAT SIMULATOR & DATABASE PANELS -->
+    <div class="dashboard-panels">
+      
+      <!-- Panel 1: Simulated SMS Logs & Call logs -->
+      <div class="dashboard-card" style="flex: 1;">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="message-square-text"></i>
+            Simulated Outbox & Logs
+          </div>
+          <button class="panel-btn" onclick="loadLogsFeed()">
+            <i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i>
+            Refresh Logs
+          </button>
+        </div>
+        
+        <div id="logs-feed" class="log-feed">
+          <div class="log-empty">
+            <i data-lucide="inbox" style="width: 32px; height: 32px; opacity: 0.5;"></i>
+            <span>No SMS outbox logs triggered yet.</span>
+            <span style="font-size: 0.75rem;">Dial the IVR call center from the retro phone to begin!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Offline Patient Database Manager -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="database"></i>
+            Offline Patient Database (patients.json)
+          </div>
+          <button class="panel-btn accent-blue-btn" onclick="toggleAddPatientForm()">
+            <i data-lucide="user-plus" style="width: 12px; height: 12px;"></i>
+            Add Patient
+          </button>
+        </div>
+
+        <div class="database-viewer">
+          <!-- Dynamic Adding Form -->
+          <div id="add-patient-form-container" style="display: none; margin-bottom: 1rem; animation: slideIn 0.2s ease;">
+            <form id="add-patient-form" onsubmit="createNewPatient(event)">
+              <div class="create-patient-form-grid">
+                <div class="form-group">
+                  <label>Full Name *</label>
+                  <input type="text" id="form-name" required placeholder="e.g. Anand Gowda">
+                </div>
+                <div class="form-group">
+                  <label>Age *</label>
+                  <input type="number" id="form-age" required placeholder="42">
+                </div>
+                <div class="form-group">
+                  <label>Gender *</label>
+                  <select id="form-gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Village *</label>
+                  <input type="text" id="form-village" required placeholder="Kalladka">
+                </div>
+                <div class="form-group">
+                  <label>Phone Number *</label>
+                  <input type="text" id="form-phone" required placeholder="9845000000" maxlength="10">
+                </div>
+                <div class="form-group">
+                  <label>Risk Level *</label>
+                  <select id="form-risk">
+                    <option value="LOW">LOW</option>
+                    <option value="MODERATE">MODERATE</option>
+                    <option value="HIGH">HIGH</option>
+                    <option value="VERY_HIGH">VERY_HIGH</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Systolic BP (mmHg) *</label>
+                  <input type="number" id="form-sys" required placeholder="120">
+                </div>
+                <div class="form-group">
+                  <label>Diastolic BP (mmHg) *</label>
+                  <input type="number" id="form-dia" required placeholder="80">
+                </div>
+                <div class="form-group">
+                  <label>BP Classification</label>
+                  <select id="form-bp-class">
+                    <option value="Normal">Normal</option>
+                    <option value="Elevated Blood Pressure">Elevated Blood Pressure</option>
+                    <option value="Stage 1 Hypertension">Stage 1 Hypertension</option>
+                    <option value="Stage 2 Hypertension">Stage 2 Hypertension</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Blood Sugar (mg/dL) *</label>
+                  <input type="number" id="form-sugar" required placeholder="90">
+                </div>
+                <div class="form-group">
+                  <label>Sugar Classification</label>
+                  <select id="form-sugar-class">
+                    <option value="Normal range">Normal range</option>
+                    <option value="Prediabetes range">Prediabetes range</option>
+                    <option value="Diabetic range">Diabetic range</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>PHC Recommendation *</label>
+                  <input type="text" id="form-rec" required placeholder="Visit Bantwal PHC. Restrict sugars.">
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                <button type="button" class="panel-btn" onclick="toggleAddPatientForm()">Cancel</button>
+                <button type="submit" class="panel-btn" style="background: var(--accent-green); color: #000; font-weight: 700; border: none;">Save Patient</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Dynamic Patients Data Table -->
+          <div class="patients-table-container">
+            <table class="patients-table">
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>Name</th>
+                  <th>Age/Sex</th>
+                  <th>Village</th>
+                  <th>Phone</th>
+                  <th>Risk Level</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="patients-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Interactive REST Sandbox -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="terminal"></i>
+            API Sandbox / Integration Tester
+          </div>
+        </div>
+        
+        <div class="sandbox-tabs">
+          <button class="tab-btn active" onclick="switchSandboxTab('send-otp')">POST /send-otp</button>
+          <button class="tab-btn" onclick="switchSandboxTab('verify-otp')">POST /verify-otp</button>
+          <button class="tab-btn" onclick="switchSandboxTab('ivr-access')">POST /ivr-access</button>
+          <button class="tab-btn" onclick="switchSandboxTab('send-report')">POST /send-report</button>
+        </div>
+
+        <div class="sandbox-body">
+          <div class="sandbox-tester">
+            <div id="sandbox-form-inputs">
+              <!-- Rendered Dynamically based on switch tab -->
+            </div>
+            <button class="panel-btn" style="background: var(--accent-green); color: #000; font-weight: bold; width: fit-content; border: none;" onclick="triggerSandboxApi()">
+              <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+              Execute Request
+            </button>
+          </div>
+          
+          <div>
+            <div class="sandbox-code-title">Curl command</div>
+            <pre id="sandbox-curl" class="sandbox-code-preview">curl ...</pre>
+            
+            <div class="sandbox-code-title" style="margin-top: 1rem;">Server Response</div>
+            <pre id="sandbox-response" class="sandbox-code-preview">Run API to see output...</pre>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div id="toast-wrapper" class="toast-container"></div>
+
+  <!-- JS Logic -->
+  <script>
+    // ----------------------------------------------------
+    // STATE VARIABLES
+    // ----------------------------------------------------
+    let callState = 'IDLE'; // IDLE, DIALING, LANG_SELECTION, UID_ENTRY, AUDIO_PLAYBACK, HELD, MUTE, CALL_COMPLETE
+    let patientList = [];
+    let currentInputBuffer = '';
+    let resolvedPatient = null;
+    let selectedLanguageCode = '';
+    let speechVoice = null;
+    let audioContext = null;
+    let activeTab = 'send-otp';
+    
+    // Call timer variables
+    let callTimerInterval = null;
+    let callSeconds = 0;
+    let lastSMSReceived = '';
+
+    // Language lookup tables
+    const langCodes = { '1': 'en', '2': 'hi', '3': 'kn', '4': 'ta', '5': 'te' };
+    const langNames = { '1': 'English', '2': 'Hindi', '3': 'Kannada', '4': 'Tamil', '5': 'Telugu' };
+
+    // ----------------------------------------------------
+    // WEB AUDIO API - DTMF TONE SYNTHESIZER
+    // ----------------------------------------------------
+    const dtmfFrequencies = {
+      '1': { row: 697, col: 1209 },
+      '2': { row: 697, col: 1336 },
+      '3': { row: 697, col: 1477 },
+      '4': { row: 770, col: 1209 },
+      '5': { row: 770, col: 1336 },
+      '6': { row: 770, col: 1477 },
+      '7': { row: 852, col: 1209 },
+      '8': { row: 852, col: 1336 },
+      '9': { row: 852, col: 1477 },
+      '*': { row: 941, col: 1209 },
+      '0': { row: 941, col: 1336 },
+      '#': { row: 941, col: 1477 }
+    };
+
+    function playDtmfTone(key) {
+      const freqs = dtmfFrequencies[key];
+      if (!freqs) return;
+
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      const osc1 = audioContext.createOscillator();
+      const osc2 = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      osc1.frequency.value = freqs.row;
+      osc2.frequency.value = freqs.col;
+      
+      osc1.type = 'sine';
+      osc2.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.25);
+      
+      osc1.connect(gainNode);
+      osc2.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      osc1.start();
+      osc2.start();
+      
+      osc1.stop(audioContext.currentTime + 0.25);
+      osc2.stop(audioContext.currentTime + 0.25);
+    }
+
+    // ----------------------------------------------------
+    // INITIALIZATION & DYNAMIC LOADING
+    // ----------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      fetchPatients();
+      loadLogsFeed();
+      switchSandboxTab('send-otp');
+      
+      // LCD real clock
+      setInterval(() => {
+        const d = new Date();
+        const hrs = String(d.getHours()).padStart(2, '0');
+        const mins = String(d.getMinutes()).padStart(2, '0');
+        document.getElementById('screen-time').textContent = `${hrs}:${mins}`;
+      }, 1000);
+
+      // Pre-load speech synthesis voices (critical for browsers like Chrome/Edge)
+      if (window.speechSynthesis) {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = () => {
+          console.log("Speech voices updated: loaded " + window.speechSynthesis.getVoices().length + " voices.");
+        };
+      }
+
+      // GLOBAL PHYSICAL KEYBOARD EVENT LISTENER
+      window.addEventListener('keydown', (e) => {
+        const target = e.target.tagName.toLowerCase();
+        if (target === 'input' || target === 'select' || target === 'textarea') {
+          return;
+        }
+
+        let key = e.key;
+        if (key === 'Enter') key = '#';
+
+        if (['1','2','3','4','5','6','7','8','9','0','*','#'].includes(key)) {
+          const phoneKeyElement = document.querySelector(`.phone-key[data-key="${key}"]`);
+          if (phoneKeyElement) {
+            phoneKeyElement.classList.add('key-pressed');
+            setTimeout(() => phoneKeyElement.classList.remove('key-pressed'), 180);
+          }
+          phoneKeyPress(key);
+        }
+      });
+    });
+
+    function showToast(message) {
+      const container = document.getElementById('toast-wrapper');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<i data-lucide="check-circle" style="color:var(--accent-green); width:18px; height:18px;"></i> <span>${message}</span>`;
+      container.appendChild(toast);
+      lucide.createIcons({attrs: {class: 'toast-icon'}});
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function fetchPatients() {
+      fetch('/api/patients')
+        .then(res => res.json())
+        .then(data => {
+          patientList = data;
+          renderPatientsTable();
+        });
+    }
+
+    function renderPatientsTable() {
+      const tbody = document.getElementById('patients-table-body');
+      tbody.innerHTML = '';
+      
+      patientList.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><b>${p.id}</b></td>
+          <td>${p.name}</td>
+          <td>${p.age} / ${p.gender.charAt(0)}</td>
+          <td>${p.village}</td>
+          <td>${p.phone}</td>
+          <td><span class="patient-risk-pill ${p.riskLevel.toLowerCase()}">${p.riskLevel}</span></td>
+          <td>
+            <div class="action-btn-group">
+              <button class="panel-btn" onclick="autoFillPhoneCall('${p.numericId}')">
+                <i data-lucide="phone" style="width:10px; height:10px;"></i> Dial
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      lucide.createIcons();
+    }
+
+    function loadLogsFeed() {
+      fetch('/api/logs')
+        .then(res => res.json())
+        .then(logs => {
+          const feed = document.getElementById('logs-feed');
+          if (logs.length === 0) {
+            feed.innerHTML = `
+              <div class="log-empty">
+                <i data-lucide="inbox" style="width: 32px; height: 32px; opacity: 0.5;"></i>
+                <span>No simulated SMS logs triggered yet.</span>
+                <span style="font-size: 0.75rem;">Dial the IVR call center from the retro phone to begin!</span>
+              </div>
+            `;
+            lucide.createIcons();
+            return;
+          }
+          
+          feed.innerHTML = '';
+          logs.forEach(l => {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            let label = l.type;
+            let badgeClass = l.type.toLowerCase();
+            if (l.type === 'SMS_OTP') label = 'SMS OTP';
+            if (l.type === 'SMS_REPORT') label = 'Simulated SMS';
+            if (l.type === 'IVR_CALL') label = 'IVR Access Call';
+            if (l.type === 'IVR_FAIL') label = 'Call Failed';
+
+            const timeStr = new Date(l.timestamp).toLocaleTimeString();
+            
+            entry.innerHTML = `
+              <div class="log-meta">
+                <span class="log-badge ${badgeClass}">${label}</span>
+                <span class="log-timestamp">${timeStr}</span>
+              </div>
+              <div class="log-message"><b>To ${l.phone} ${l.patientName ? `(${l.patientName})` : ''}:</b> ${l.message}</div>
+              ${l.language ? `
+              <div class="log-details">
+                <span>Language: <b>${l.language}</b></span>
+                <span>Carrier: <b>Offline Simulated</b></span>
+              </div>` : ''}
+            `;
+            feed.appendChild(entry);
+          });
+        });
+    }
+
+    // ----------------------------------------------------
+    // NOKIA RETRO CALL SIMULATION ENGINE
+    // ----------------------------------------------------
+    function getSpeechVoiceForLanguage(langCode) {
+      if (!window.speechSynthesis) return null;
+      const voices = window.speechSynthesis.getVoices();
+      
+      // Prioritize Indian regional locales for authentic native pronunciation
+      const langMapping = {
+        'en': ['en-IN', 'en-GB', 'en-US', 'en'],
+        'hi': ['hi-IN', 'hi'],
+        'kn': ['kn-IN', 'kn'],
+        'ta': ['ta-IN', 'ta'],
+        'te': ['te-IN', 'te']
+      };
+      
+      const targets = langMapping[langCode] || ['en-IN'];
+      
+      // Pass 1: exact locale string match
+      for (let target of targets) {
+        const found = voices.find(v => v.lang.toLowerCase() === target.toLowerCase());
+        if (found) return found;
+      }
+      
+      // Pass 2: partial locale match (e.g. contains "kn-in")
+      for (let target of targets) {
+        const found = voices.find(v => v.lang.toLowerCase().includes(target.toLowerCase()));
+        if (found) return found;
+      }
+      
+      // Pass 3: general language prefix match
+      const prefixFound = voices.find(v => v.lang.toLowerCase().startsWith(langCode));
+      if (prefixFound) return prefixFound;
+      
+      return null;
+    }
+
+    function playSpeech(text, langCode, callback = null) {
+      if (!window.speechSynthesis) {
+        if (callback) callback();
+        return;
+      }
+      
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voice = getSpeechVoiceForLanguage(langCode);
+      if (voice) {
+        utterance.voice = voice;
+        console.log(`Using accent-matched voice: ${voice.name} (${voice.lang})`);
+      } else {
+        console.warn(`No native voice found for language ${langCode}, using system fallback.`);
+      }
+      
+      // Set to 0.78 (slowed down noticeably so rural patients can clearly absorb diagnostic numbers)
+      utterance.rate = 0.78; 
+      utterance.pitch = 1.0;
+      utterance.lang = langCode;
+
+      utterance.onend = () => {
+        if (callback) callback();
+      };
+      utterance.onerror = (e) => {
+        console.error('Speech synthesis error:', e);
+        if (callback) callback();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function updateLcdDisplay(html, footerLeft = 'Hold', footerRight = 'End') {
+      const lcd = document.getElementById('lcd-screen');
+      lcd.classList.add('backlight-on');
+      
+      document.getElementById('screen-display').innerHTML = html;
+      document.getElementById('screen-footer-left').textContent = footerLeft;
+      document.getElementById('screen-footer-right').textContent = footerRight;
+    }
+
+    function startCallTimer() {
+      callSeconds = 0;
+      if (callTimerInterval) clearInterval(callTimerInterval);
+      
+      callTimerInterval = setInterval(() => {
+        callSeconds++;
+        const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+        const secs = String(callSeconds % 60).padStart(2, '0');
+        const timerElement = document.getElementById('call-duration-timer');
+        if (timerElement) {
+          timerElement.textContent = `${mins}:${secs}`;
+        }
+      }, 1000);
+    }
+
+    function stopCallTimer() {
+      if (callTimerInterval) {
+        clearInterval(callTimerInterval);
+        callTimerInterval = null;
+      }
+      callSeconds = 0;
+    }
+
+    function autoFillPhoneCall(numericId) {
+      phoneTriggerCall();
+      // First select Kannada (3) when call connects
+      setTimeout(() => {
+        phoneKeyPress('3');
+        // Then dial ID and hash
+        setTimeout(() => {
+          for (let char of numericId) {
+            phoneKeyPress(char);
+          }
+          phoneKeyPress('#');
+        }, 1200);
+      }, 2200);
+    }
+
+    function phoneTriggerCall() {
+      if (callState !== 'IDLE' && callState !== 'CALL_COMPLETE') return;
+      
+      playDtmfTone('1');
+      callState = 'DIALING';
+      currentInputBuffer = '';
+      resolvedPatient = null;
+      selectedLanguageCode = '';
+      lastSMSReceived = '';
+      
+      updateLcdDisplay(`
+        <div style="font-size: 0.9rem; font-weight: bold; color: var(--nokia-lcd-text); margin-top: 10px;">☎ CALLING...</div>
+        <div style="font-size: 0.8rem; font-weight: bold; margin-top: 8px;">GraamSehat Hotline</div>
+        <div style="font-size: 0.65rem; margin-top: 4px;">+91 80 4721</div>
+      `, '', 'End');
+
+      document.getElementById('phone-btn-left-label').textContent = '';
+      document.getElementById('phone-btn-right-label').textContent = 'End';
+      
+      setTimeout(() => {
+        if (callState !== 'DIALING') return;
+        callState = 'LANG_SELECTION';
+        startCallTimer();
+        
+        // LCD screens strictly display call status, zero text menus on Nokia screen!
+        updateLcdDisplay(`
+          <div style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.5px;">📞 ACTIVE CALL</div>
+          <div style="font-size: 1.15rem; font-weight: bold; margin-top: 8px;">GraamSehat IVR</div>
+          <div style="font-size: 1.25rem; font-family: 'Share Tech Mono', monospace; font-weight: bold; margin-top: 4px; color: #1b2e1b;" id="call-duration-timer">00:00</div>
+          <div style="font-size: 0.55rem; color: #1b2e1b; margin-top: 6px; letter-spacing: 0.2px;">[SELECT LANGUAGE]</div>
+        `, 'Hold', 'End');
+
+        document.getElementById('phone-btn-left-label').textContent = 'Hold';
+        document.getElementById('phone-btn-right-label').textContent = 'End';
+
+        // Greet user and prompt language selection immediately
+        playSpeech(
+          "Welcome to Graam Sehat. Press 1 for English. २ हिन्दी के लिए दबाएं. ಕನ್ನಡಕ್ಕಾಗಿ ೩ ಒತ್ತಿ. தமிழுக்கு ೪ அழுத்தவும். తెలుగు కొరకు ೫ నొక్కండి.",
+          "en"
+        );
+      }, 1500);
+    }
+
+    function phoneKeyPress(key) {
+      playDtmfTone(key);
+      
+      if (callState === 'LANG_SELECTION') {
+        const validKeys = ['1', '2', '3', '4', '5'];
+        if (validKeys.includes(key)) {
+          processLanguageSelection(key);
+        }
+      }
+      else if (callState === 'UID_ENTRY') {
+        if (key === '#') {
+          if (currentInputBuffer.length === 0) return;
+          processPatientLookup(currentInputBuffer);
+        } else if (key === '*') {
+          // No action
+        } else {
+          currentInputBuffer += key;
+          console.log(`Entering patient ID: ${currentInputBuffer}`);
+        }
+      }
+    }
+
+    function phoneHangUp() {
+      if (callState === 'IDLE') return;
+      
+      window.speechSynthesis.cancel();
+      stopCallTimer();
+      
+      if (lastSMSReceived) {
+        callState = 'CALL_COMPLETE';
+        updateLcdDisplay(`
+          <div style="font-size: 0.75rem; font-weight: bold; color: var(--nokia-lcd-text); margin-bottom: 2px;">✉️ 1 MSG RECEIVED</div>
+          <div style="font-size: 0.6rem; text-align: left; background: rgba(0,0,0,0.06); padding: 4px; border-radius: 4px; line-height: 1.25; height: 52px; overflow-y: auto;">
+            ${lastSMSReceived}
+          </div>
+          <div style="font-size: 0.55rem; font-weight: bold; margin-top: 4px; color: #1b2e1b;">FROM: GRAAMSEHAT</div>
+        `, 'Read', 'Exit');
+        
+        document.getElementById('phone-btn-left-label').textContent = 'Read';
+        document.getElementById('phone-btn-right-label').textContent = 'Exit';
+      } else {
+        callState = 'IDLE';
+        currentInputBuffer = '';
+        resolvedPatient = null;
+        
+        updateLcdDisplay(`
+          <div style="font-size: 0.9rem; font-weight: bold; color: var(--nokia-lcd-text); margin-top: 15px;">🔴 CALL ENDED</div>
+          <div style="font-size: 0.6rem; margin-top: 4px;">Simulated offline session logged.</div>
+        `, 'Menu', 'Contacts');
+        
+        document.getElementById('phone-btn-left-label').textContent = 'Menu';
+        document.getElementById('phone-btn-right-label').textContent = 'Contacts';
+        
+        setTimeout(() => {
+          if (callState === 'IDLE') {
+            document.getElementById('lcd-screen').classList.remove('backlight-on');
+            document.getElementById('screen-display').innerHTML = `
+              <div style="font-size: 1.15rem; font-weight: bold; letter-spacing: -0.5px;">GRAAM SEHAT</div>
+              <div style="font-size: 0.65rem; margin-top: 4px; text-transform: uppercase;">Press Call button to start IVR</div>
+            `;
+          }
+        }, 3000);
+      }
+      
+      loadLogsFeed();
+    }
+
+    function processLanguageSelection(digit) {
+      selectedLanguageCode = langCodes[digit];
+      const langName = langNames[digit];
+      
+      callState = 'UID_ENTRY';
+      currentInputBuffer = '';
+      
+      showToast(`Selected language: ${langName}. Prompting ID entry.`);
+
+      updateLcdDisplay(`
+        <div style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.5px;">📞 ACTIVE CALL</div>
+        <div style="font-size: 1.15rem; font-weight: bold; margin-top: 8px;">GraamSehat IVR</div>
+        <div style="font-size: 1.25rem; font-family: 'Share Tech Mono', monospace; font-weight: bold; margin-top: 4px; color: #1b2e1b;" id="call-duration-timer">00:00</div>
+        <div style="font-size: 0.55rem; color: #1b2e1b; margin-top: 6px; letter-spacing: 0.2px;">[ENTER PATIENT ID]</div>
+      `, 'Hold', 'End');
+      
+      // Native language prompt asking patient for their numeric ID
+      const idPrompts = {
+        en: "Please enter your 6-digit patient ID on your keypad, followed by the hash key.",
+        hi: "कृपया अपने कीपैड पर 6 अंकों की मरीज आईडी दर्ज करें, उसके बाद हैश दबाएं।",
+        kn: "ನಿಮ್ಮ ಕೀಪ్యాಡ್‌ನಲ್ಲಿ 6-ಅಂಕಿಯ ರೋಗಿಯ ಗುರುತಿನ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ, ನಂತರ ಹ್ಯಾಶ್ ಒತ್ತಿ.",
+        ta: "தயவுசெய்து உங்கள் விசைப்பலகையில் 6 இலக்க நோயாளி ஐடியை உள்ளிட்டு, பின்னர் ஹேஷ்டேக் அழுத்தவும்.",
+        te: "దయచేసి మీ కీప్యాడ్‌లో 6-అంకెల రోగి ఐడిని నమోదు చేసి, ఆపై హ్యాష్ నొక్కండి."
+      };
+      
+      playSpeech(idPrompts[selectedLanguageCode], selectedLanguageCode);
+    }
+
+    function processPatientLookup(uid) {
+      window.speechSynthesis.cancel();
+      
+      const digitStr = Object.keys(langCodes).find(key => langCodes[key] === selectedLanguageCode);
+      
+      fetch('/ivr-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          uid, 
+          dtmfDigit: digitStr
+        })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Patient not found');
+        return res.json();
+      })
+      .then(data => {
+        resolvedPatient = data.patient;
+        callState = 'AUDIO_PLAYBACK';
+        
+        updateLcdDisplay(`
+          <div style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.5px;">📞 ACTIVE CALL</div>
+          <div style="font-size: 1.15rem; font-weight: bold; margin-top: 8px;">GraamSehat IVR</div>
+          <div style="font-size: 1.25rem; font-family: 'Share Tech Mono', monospace; font-weight: bold; margin-top: 4px; color: #1b2e1b;" id="call-duration-timer">00:00</div>
+          <div style="font-size: 0.55rem; color: #1b2e1b; margin-top: 6px; letter-spacing: 0.2px;">[PLAYING HEALTH REPORT]</div>
+        `, 'Hold', 'End');
+
+        const textToSpeak = data.activeText;
+        lastSMSReceived = data.smsSimulated.text;
+        
+        showToast(`Patient resolved: ${resolvedPatient.name}. Speaking report in ${langNames[digitStr]}.`);
+        
+        playSpeech(textToSpeak, selectedLanguageCode, () => {
+          phoneHangUp();
+        });
+      })
+      .catch(err => {
+        updateLcdDisplay(`
+          <div style="font-size: 0.8rem; font-weight: bold; color: #7f1d1d; margin-top: 10px;">❌ CALL FAILED</div>
+          <div style="font-size: 0.6rem; margin-top: 4px;">Invalid patient identifier.</div>
+          <div style="font-size: 0.55rem; margin-top: 6px;">[LINE DISCONNECTED]</div>
+        `, 'Retry', 'Exit');
+        
+        document.getElementById('phone-btn-left-label').textContent = 'Retry';
+        document.getElementById('phone-btn-right-label').textContent = 'Exit';
+        
+        const failPrompts = {
+          en: "Patient record not found. Please hang up and try again.",
+          hi: "मरीज का रिकॉर्ड नहीं मिला। कृपया कॉल समाप्त करें और पुन: प्रयास करें।",
+          kn: "ರೋಗಿಯ ವಿವರಗಳು ಕಂಡುಬಂದಿಲ್ಲ. ದಯವಿಟ್ಟು ಫೋನ್ ಕಟ್ ಮಾಡಿ ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
+          ta: "நோயாளி பதிவு எதுவும் இல்லை. தயவுசெய்து துண்டித்து மீண்டும் முயற்சிக்கவும்.",
+          te: "రోగి రికార్డు కనుగొనబడలేదు. దయచేసి కాల్ ముగించి మళ్ళీ ప్రయత్నించండి."
+        };
+        
+        playSpeech(failPrompts[selectedLanguageCode] || failPrompts.en, selectedLanguageCode);
+        
+        stopCallTimer();
+        loadLogsFeed();
+      });
+    }
+
+    // ----------------------------------------------------
+    // NOKIA BUTTON ACTIONS (SOFTKEYS)
+    // ----------------------------------------------------
+    function phoneSoftkeyLeft() {
+      if (callState === 'UID_ENTRY' || callState === 'LANG_SELECTION' || callState === 'AUDIO_PLAYBACK') {
+        window.speechSynthesis.pause();
+        callState = 'HELD';
+        
+        if (callTimerInterval) {
+          clearInterval(callTimerInterval);
+          callTimerInterval = null;
+        }
+
+        updateLcdDisplay(`
+          <div style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.5px;">⏸️ CALL HELD</div>
+          <div style="font-size: 1.15rem; font-weight: bold; margin-top: 8px;">GraamSehat IVR</div>
+          <div style="font-size: 1.25rem; font-family: 'Share Tech Mono', monospace; font-weight: bold; margin-top: 4px; color: #1b2e1b;" id="call-duration-timer">${String(Math.floor(callSeconds / 60)).padStart(2, '0')}:${String(callSeconds % 60).padStart(2, '0')}</div>
+          <div style="font-size: 0.55rem; color: #7f1d1d; margin-top: 6px; font-weight: bold;">[LINE ON HOLD]</div>
+        `, 'Unhold', 'End');
+        
+        document.getElementById('phone-btn-left-label').textContent = 'Unhold';
+        
+        playDtmfTone('*');
+        showToast("Call held. Audio synthesis paused.");
+      } 
+      else if (callState === 'HELD') {
+        callState = 'UID_ENTRY';
+        window.speechSynthesis.resume();
+        startCallTimer();
+        
+        updateLcdDisplay(`
+          <div style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.5px;">📞 ACTIVE CALL</div>
+          <div style="font-size: 1.15rem; font-weight: bold; margin-top: 8px;">GraamSehat IVR</div>
+          <div style="font-size: 1.25rem; font-family: 'Share Tech Mono', monospace; font-weight: bold; margin-top: 4px; color: #1b2e1b;" id="call-duration-timer">00:00</div>
+          <div style="font-size: 0.55rem; color: #1b2e1b; margin-top: 6px; letter-spacing: 0.2px;">[ENTER PATIENT ID]</div>
+        `, 'Hold', 'End');
+        
+        document.getElementById('phone-btn-left-label').textContent = 'Hold';
+        
+        playDtmfTone('#');
+        showToast("Call unheld. Resuming audio synthesis.");
+      }
+      else if (callState === 'CALL_COMPLETE') {
+        showToast("Simulated text message details printed inside outbox sidebar.");
+      }
+    }
+
+    function phoneSoftkeyRight() {
+      if (callState === 'DIALING' || callState === 'UID_ENTRY' || callState === 'LANG_SELECTION' || callState === 'AUDIO_PLAYBACK' || callState === 'HELD') {
+        phoneHangUp();
+      } 
+      else if (callState === 'CALL_COMPLETE') {
+        callState = 'IDLE';
+        currentInputBuffer = '';
+        resolvedPatient = null;
+        lastSMSReceived = '';
+        
+        document.getElementById('lcd-screen').classList.remove('backlight-on');
+        document.getElementById('screen-display').innerHTML = `
+          <div style="font-size: 1.15rem; font-weight: bold; letter-spacing: -0.5px;">GRAAM SEHAT</div>
+          <div style="font-size: 0.65rem; margin-top: 4px; text-transform: uppercase;">Press Call button to start IVR</div>
+        `;
+        
+        document.getElementById('phone-btn-left-label').textContent = 'Menu';
+        document.getElementById('phone-btn-right-label').textContent = 'Contacts';
+      }
+    }
+
+    // ----------------------------------------------------
+    // OFFLINE DATABASE PATIENT MANAGER
+    // ----------------------------------------------------
+    function toggleAddPatientForm() {
+      const form = document.getElementById('add-patient-form-container');
+      if (form.style.display === 'none') {
+        form.style.display = 'block';
+      } else {
+        form.style.display = 'none';
+      }
+    }
+
+    function createNewPatient(e) {
+      e.preventDefault();
+      
+      const payload = {
+        name: document.getElementById('form-name').value,
+        age: document.getElementById('form-age').value,
+        gender: document.getElementById('form-gender').value,
+        village: document.getElementById('form-village').value,
+        phone: document.getElementById('form-phone').value,
+        riskLevel: document.getElementById('form-risk').value,
+        systolicBP: document.getElementById('form-sys').value,
+        diastolicBP: document.getElementById('form-dia').value,
+        bpClassification: document.getElementById('form-bp-class').value,
+        glucose: document.getElementById('form-sugar').value,
+        glucoseClassification: document.getElementById('form-sugar-class').value,
+        recommendation: document.getElementById('form-rec').value
+      };
+
+      fetch('/api/patients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          showToast(`Mock patient '${payload.name}' added successfully to local patients.json!`);
+          document.getElementById('add-patient-form').reset();
+          toggleAddPatientForm();
+          fetchPatients();
+        } else {
+          alert('Error adding patient: ' + data.error);
+        }
+      });
+    }
+
+    // ----------------------------------------------------
+    // API SANDBOX PANEL INTERACTIVE ENGINE
+    // ----------------------------------------------------
+    function switchSandboxTab(tab) {
+      activeTab = tab;
+      
+      const tabs = document.querySelectorAll('.sandbox-tabs .tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      const targetTabBtn = Array.from(tabs).find(t => t.textContent.includes(tab));
+      if (targetTabBtn) targetTabBtn.classList.add('active');
+
+      const inputs = document.getElementById('sandbox-form-inputs');
+      let html = '';
+      let curl = '';
+
+      if (tab === 'send-otp') {
+        html = `
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" id="sb-phone" value="9876543210" placeholder="10-digit number">
+          </div>
+        `;
+        curl = `curl -X POST http://127.0.0.1:5000/send-otp \\\n  -H "Content-Type: application/json" \\\n  -d '{"phone": "9876543210"}'`;
+      } 
+      else if (tab === 'verify-otp') {
+        html = `
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" id="sb-phone" value="9876543210" placeholder="10-digit number">
+          </div>
+          <div class="form-group" style="margin-top: 0.5rem;">
+            <label>OTP Code</label>
+            <input type="text" id="sb-otp" value="123456" placeholder="6-digit code">
+          </div>
+        `;
+        curl = `curl -X POST http://127.0.0.1:5000/verify-otp \\\n  -H "Content-Type: application/json" \\\n  -d '{"phone": "9876543210", "otp": "123456"}'`;
+      } 
+      else if (tab === 'ivr-access') {
+        html = `
+          <div class="form-group">
+            <label>Patient UID / numeric ID / Phone</label>
+            <input type="text" id="sb-uid" value="100001" placeholder="e.g. 100001">
+          </div>
+          <div class="form-group" style="margin-top: 0.5rem;">
+            <label>DTMF Dial Digit (Language choice)</label>
+            <select id="sb-dtmf">
+              <option value="">None (Resolves base metadata only)</option>
+              <option value="1">1 (English)</option>
+              <option value="2">2 (Hindi)</option>
+              <option value="3" selected>3 (Kannada)</option>
+              <option value="4">4 (Tamil)</option>
+              <option value="5">5 (Telugu)</option>
+            </select>
+          </div>
+        `;
+        curl = `curl -X POST http://127.0.0.1:5000/ivr-access \\\n  -H "Content-Type: application/json" \\\n  -d '{"uid": "100001", "dtmfDigit": 3}'`;
+      } 
+      else if (tab === 'send-report') {
+        html = `
+          <div class="form-group">
+            <label>Patient ID / Phone</label>
+            <input type="text" id="sb-uid" value="100001" placeholder="e.g. 100001">
+          </div>
+          <div class="form-group" style="margin-top: 0.5rem;">
+            <label>Report Language</label>
+            <select id="sb-lang">
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="kn" selected>Kannada</option>
+              <option value="ta">Tamil</option>
+              <option value="te">Telugu</option>
+            </select>
+          </div>
+        `;
+        curl = `curl -X POST http://127.0.0.1:5000/send-report \\\n  -H "Content-Type: application/json" \\\n  -d '{"uid": "100001", "language": "kn"}'`;
+      }
+
+      inputs.innerHTML = html;
+      document.getElementById('sandbox-curl').textContent = curl;
+      document.getElementById('sandbox-response').textContent = 'Run API to see output...';
+    }
+
+    function triggerSandboxApi() {
+      let url = '';
+      let body = {};
+
+      if (activeTab === 'send-otp') {
+        const phone = document.getElementById('sb-phone').value;
+        url = '/send-otp';
+        body = { phone };
+      } 
+      else if (activeTab === 'verify-otp') {
+        const phone = document.getElementById('sb-phone').value;
+        const otp = document.getElementById('sb-otp').value;
+        url = '/verify-otp';
+        body = { phone, otp };
+      } 
+      else if (activeTab === 'ivr-access') {
+        const uid = document.getElementById('sb-uid').value;
+        const dtmf = document.getElementById('sb-dtmf').value;
+        url = '/ivr-access';
+        body = { uid };
+        if (dtmf) body.dtmfDigit = dtmf;
+      } 
+      else if (activeTab === 'send-report') {
+        const uid = document.getElementById('sb-uid').value;
+        const lang = document.getElementById('sb-lang').value;
+        url = '/send-report';
+        body = { uid, language: lang };
+      }
+
+      document.getElementById('sandbox-response').textContent = 'Loading request...';
+
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('sandbox-response').textContent = JSON.stringify(data, null, 2);
+        showToast(`API '${url}' executed successfully!`);
+        loadLogsFeed();
+      })
+      .catch(err => {
+        document.getElementById('sandbox-response').textContent = 'Error executing request:\n' + err;
+      });
+    }
+  </script>
+</body>
+</html>

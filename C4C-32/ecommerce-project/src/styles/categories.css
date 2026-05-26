@@ -1,0 +1,206 @@
+/* KariGhar - Collections & Categories Page Styles */
+
+.collections-hero {
+  padding: 60px 0;
+  text-align: center;
+  background-color: var(--cream-card);
+  border-bottom: 1px solid var(--cream-border);
+}
+.collections-hero h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+.collections-hero p {
+  color: var(--warm-charcoal-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 15px;
+}
+
+.collections-layout {
+  display: flex;
+  gap: 40px;
+  padding: 60px 0;
+}
+
+/* LEFT SIDEBAR FILTERS */
+.filters-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background: var(--cream-card);
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-lg);
+  padding: 30px;
+  height: fit-content;
+  box-shadow: var(--shadow-card);
+}
+
+.filter-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary-terracotta);
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--cream-border);
+  padding-bottom: 6px;
+}
+
+.filter-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--warm-charcoal);
+  transition: var(--transition-fast);
+}
+.filter-checkbox-label:hover {
+  color: var(--primary-terracotta);
+}
+.filter-checkbox-label input {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--cream-border);
+  border-radius: 4px;
+  accent-color: var(--primary-terracotta);
+  cursor: pointer;
+}
+
+/* Price Range Slider */
+.price-slider-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  color: var(--warm-charcoal);
+}
+.price-slider-input {
+  width: 100%;
+  accent-color: var(--primary-terracotta);
+  cursor: pointer;
+}
+
+/* Custom Dropdown select */
+.district-select-custom {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--white-pure);
+  color: var(--warm-charcoal);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.district-select-custom:focus {
+  border-color: var(--primary-terracotta);
+}
+
+/* RIGHT PRODUCTS GRID */
+.products-grid-section {
+  flex: 1;
+}
+
+.grid-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 15px;
+  color: var(--warm-charcoal-muted);
+}
+
+.products-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* PAGINATION */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.pagination-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--cream-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cream-card);
+  color: var(--warm-charcoal-muted);
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+.pagination-btn:hover {
+  border-color: var(--primary-terracotta);
+  color: var(--primary-terracotta);
+  background-color: var(--primary-terracotta-light);
+}
+.pagination-btn.active {
+  background-color: var(--primary-terracotta);
+  color: var(--white-pure);
+  border-color: var(--primary-terracotta);
+}
+
+/* FLOATING CHAT BUBBLE TRIGGER */
+.floating-chat-trigger {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary-terracotta);
+  color: var(--white-pure);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 8px 30px rgba(168, 63, 27, 0.4);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  z-index: 999;
+  animation: pulseGold 3s infinite;
+}
+.floating-chat-trigger:hover {
+  transform: scale(1.1) translateY(-4px);
+  background-color: var(--primary-terracotta-hover);
+  box-shadow: 0 12px 40px rgba(168, 63, 27, 0.6);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 1024px) {
+  .collections-layout {
+    flex-direction: column;
+  }
+  .filters-sidebar {
+    width: 100%;
+  }
+  .products-listing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .products-listing-grid {
+    grid-template-columns: 1fr;
+  }
+}

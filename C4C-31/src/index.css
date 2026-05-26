@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-teal-50: #eef8fa;
+  --color-teal-600: #0D5C75;
+  --color-teal-700: #0a485c;
+  --color-teal-850: #062b37;
+  --color-teal-950: #03141a;
+
+  --color-gold-400: #ffd863;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #b59226;
+
+  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Light neon background — soft minty-green glow */
+@layer base {
+  body {
+    background-color: #e0fff4; /* light neon mint */
+    color: #334155;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+  }
+
+  input,
+  textarea,
+  select {
+    color: #1e293b;
+    background-color: #ffffff;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #94a3b8;
+  }
+}
+
+/* High Contrast mode helper rules */
+.high-contrast {
+  --color-teal-600: #000000;
+  --color-teal-700: #000000;
+  --color-teal-850: #000000;
+  --color-teal-950: #000000;
+  --color-gold-500: #ffff00;
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  button {
+    border: 2px solid #000000 !important;
+  }
+}
+
+/* Responsive app container */
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #e0fff4;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    flex-direction: row;
+    background-color: #e0fff4;
+  }
+}
+
+/* Custom micro-animations */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
+.pulsing-ring {
+  animation: pulse-ring 2s infinite ease-in-out;
+}

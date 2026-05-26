@@ -1,0 +1,278 @@
+/* KariGhar - Authentication & OTP Page Styles */
+
+.auth-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background: radial-gradient(circle at 50% 50%, rgba(245, 234, 224, 0.4) 0%, rgba(223, 203, 185, 0.4) 100%);
+}
+
+.auth-split-card {
+  width: 100%;
+  max-width: 960px;
+  background: var(--white-pure);
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-premium);
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr;
+  overflow: hidden;
+  min-height: 600px;
+}
+
+/* LEFT SIDE IMAGE PANEL */
+.auth-visual-panel {
+  background-color: var(--primary-terracotta);
+  /* Textured pattern matches dot textile grids */
+  background-image: radial-gradient(var(--gold-accent) 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+  padding: 60px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--white-pure);
+  position: relative;
+  border-right: 1px solid var(--cream-border);
+}
+
+.auth-visual-title {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  line-height: 1.2;
+}
+
+.auth-visual-quote {
+  font-size: 15px;
+  line-height: 1.7;
+  opacity: 0.9;
+  max-width: 320px;
+  margin-top: 16px;
+}
+
+.auth-visual-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-premium);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* RIGHT SIDE FORM PANEL */
+.auth-form-panel {
+  padding: 60px 50px;
+  background-color: var(--cream-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.auth-welcome-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  margin-bottom: 6px;
+  color: var(--primary-terracotta);
+}
+
+.auth-welcome-sub {
+  font-size: 14px;
+  color: var(--warm-charcoal-muted);
+  margin-bottom: 28px;
+}
+
+/* Customer / Seller slide toggle pill */
+.auth-role-toggle-pill {
+  display: flex;
+  width: 100%;
+  background-color: var(--secondary-cream);
+  border: 1px solid var(--cream-border);
+  padding: 4px;
+  border-radius: 40px;
+  margin-bottom: 24px;
+}
+
+.auth-role-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 30px;
+  transition: var(--transition-smooth);
+}
+.auth-role-btn.active {
+  background-color: var(--primary-terracotta);
+  color: var(--white-pure);
+  box-shadow: var(--shadow-card);
+}
+.auth-role-btn.inactive {
+  color: var(--warm-charcoal-muted);
+}
+.auth-role-btn.inactive:hover {
+  color: var(--primary-terracotta);
+}
+
+/* Profile Photo upload canvas placeholder */
+.auth-photo-uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.photo-upload-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px dashed var(--cream-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white-pure);
+  color: var(--warm-charcoal-muted);
+  transition: var(--transition-smooth);
+  overflow: hidden;
+  position: relative;
+}
+.photo-upload-circle:hover {
+  border-color: var(--primary-terracotta);
+  color: var(--primary-terracotta);
+}
+.photo-upload-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-upload-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--warm-charcoal-muted);
+  text-transform: uppercase;
+}
+
+/* Form input elements */
+.auth-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.auth-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--warm-charcoal);
+}
+
+.auth-input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--white-pure);
+  color: var(--warm-charcoal);
+  font-size: 14px;
+  transition: var(--transition-fast);
+}
+.auth-input-field:focus {
+  border-color: var(--primary-terracotta);
+  box-shadow: 0 0 0 3px var(--primary-terracotta-light);
+}
+
+/* Divider line OR CONNECT WITH */
+.auth-divider-line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--warm-charcoal-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 24px 0;
+}
+.auth-divider-line::before,
+.auth-divider-line::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--cream-border);
+}
+.auth-divider-line:not(:empty)::before { margin-right: 12px; }
+.auth-divider-line:not(:empty)::after { margin-left: 12px; }
+
+/* OTP grid panel */
+.otp-inputs-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.otp-box-item {
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--white-pure);
+  color: var(--warm-charcoal);
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  transition: var(--transition-fast);
+}
+.otp-box-item:focus {
+  border-color: var(--primary-terracotta);
+  box-shadow: 0 0 0 3px var(--primary-terracotta-light);
+}
+
+.otp-timer-lbl {
+  font-size: 13px;
+  color: var(--warm-charcoal-muted);
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Google Sign On Button */
+.btn-google-signon {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--cream-border);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--white-pure);
+  color: var(--warm-charcoal);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+}
+.btn-google-signon:hover {
+  background-color: var(--secondary-cream);
+  border-color: var(--primary-terracotta);
+}
+.google-brand-img {
+  width: 18px;
+  height: 18px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .auth-split-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .auth-visual-panel {
+    display: none; /* Hide visual on mobile */
+  }
+  .auth-form-panel {
+    padding: 40px 30px;
+  }
+}

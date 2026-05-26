@@ -1,0 +1,377 @@
+[
+  {
+    "label": "ಆಂಧ್ರಪ್ರದೇಶ",
+    "value": "andhra_pradesh",
+    "capital": "ಅಮರಾವತಿ",
+    "supportFocus": "ಕೃಷಿ, ಆಹಾರ ಸಂಸ್ಕರಣೆ, ಉತ್ಪಾದನೆ, MSMEಗಳು, ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್",
+    "description": "ಆಂಧ್ರಪ್ರದೇಶವು MSMEಗಳು, ಆಹಾರ ಸಂಸ್ಕರಣಾ ಘಟಕಗಳು, ಮಹಿಳಾ ಉದ್ಯಮಿಗಳು ಮತ್ತು ಉತ್ಪಾದನಾ ವ್ಯವಹಾರಗಳನ್ನು ಕೈಗಾರಿಕಾ ಪ್ರೋತ್ಸಾಹಗಳು, ಆರಂಭಿಕ ಕಾರ್ಯಕ್ರಮಗಳು ಮತ್ತು ಕೌಶಲ್ಯ ಅಭಿವೃದ್ಧಿ ಉಪಕ್ರಮಗಳ ಮೂಲಕ ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://www.apindustries.gov.in/",
+    "schemes": [
+      "YSR Cheyutha",
+      "AP MSME Development Policy",
+      "YSR Asara"
+    ]
+  },
+  {
+    "label": "ಅರುಣಾಚಲ ಪ್ರದೇಶ",
+    "value": "arunachal_pradesh",
+    "capital": "ಇಟಾನಗರ",
+    "supportFocus": "ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಕೃಷಿ, ಬುಡಕಟ್ಟು ಉದ್ಯಮಶೀಲತೆ",
+    "description": "ಅರುಣಾಚಲ ಪ್ರದೇಶವು ಸರ್ಕಾರದ ಬೆಂಬಲ ಮತ್ತು ಗ್ರಾಮೀಣ ಅಭಿವೃದ್ಧಿ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಬುಡಕಟ್ಟು ವ್ಯವಹಾರಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಪರಿಸರ ಪ್ರವಾಸೋದ್ಯಮ ಮತ್ತು ಕೃಷಿ ಆಧಾರಿತ ಉದ್ಯಮಗಳನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.arunachal.gov.in/",
+    "schemes": [
+      "Deen Dayal Upadhyaya Swavalamban Yojana",
+      "Arunachal Pradesh Startup Policy"
+    ]
+  },
+  {
+    "label": "ಅಸ್ಸಾಂ",
+    "value": "assam",
+    "capital": "ದಿಸ್ಪುರ್",
+    "supportFocus": "ಚಹಾ ಉದ್ಯಮ, ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಕೃಷಿ, MSMEಗಳು",
+    "description": "ಅಸ್ಸಾಂ ಚಹಾ ಉತ್ಪಾದನೆ, ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಕೃಷಿ ಮತ್ತು ಮಹಿಳಾ ನೇತೃತ್ವದ ಎಂಎಸ್‌ಎಂಇಗಳಿಗೆ ಹಣಕಾಸಿನ ನೆರವು ಮತ್ತು ಉದ್ಯಮಶೀಲತೆ ಯೋಜನೆಗಳ ಮೂಲಕ ಬೆಂಬಲವನ್ನು ನೀಡುತ್ತದೆ.",
+    "infoLink": "https://industries.assam.gov.in/",
+    "schemes": [
+      "Assam Startup Policy",
+      "SVAYEM Scheme"
+    ]
+  },
+  {
+    "label": "ಬಿಹಾರ",
+    "value": "bihar",
+    "capital": "ಪಾಟ್ನಾ",
+    "supportFocus": "ಗ್ರಾಮೀಣ ಉದ್ಯಮಶೀಲತೆ, ಕೃಷಿ, ಆಹಾರ ಸಂಸ್ಕರಣೆ, MSMEಗಳು",
+    "description": "ಬಿಹಾರವು ಗ್ರಾಮೀಣ ಉದ್ಯಮಗಳು, ಮಹಿಳಾ ಉದ್ಯಮಿಗಳು, ಆಹಾರ ಸಂಸ್ಕರಣಾ ವ್ಯವಹಾರಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳು, ಸಾಲಗಳು ಮತ್ತು ಉದ್ಯೋಗ-ಉತ್ಪಾದನೆಯ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.bihar.gov.in/",
+    "schemes": [
+      "Bihar Startup Policy",
+      "Mukhyamantri Udyami Yojana"
+    ]
+  },
+  {
+    "label": "ಛತ್ತೀಸ್‌ಗಢ",
+    "value": "chhattisgarh",
+    "capital": "ರಾಯಪುರ",
+    "supportFocus": "ಗಣಿಗಾರಿಕೆ, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಬುಡಕಟ್ಟು ವ್ಯವಹಾರಗಳು, ಆಹಾರ ಸಂಸ್ಕರಣೆ",
+    "description": "ಛತ್ತೀಸ್‌ಗಢವು MSMEಗಳು, ಬುಡಕಟ್ಟು ಉದ್ಯಮಶೀಲತೆ, ಅರಣ್ಯ-ಆಧಾರಿತ ಕೈಗಾರಿಕೆಗಳು ಮತ್ತು ಆಹಾರ ಸಂಸ್ಕರಣಾ ವ್ಯವಹಾರಗಳನ್ನು ಕೈಗಾರಿಕಾ ಪ್ರೋತ್ಸಾಹ ಮತ್ತು ತರಬೇತಿ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.cg.gov.in/",
+    "schemes": [
+      "CG Startup Policy",
+      "Mukhyamantri Yuva Swarozgar Yojana"
+    ]
+  },
+  {
+    "label": "ಗೋವಾ",
+    "value": "goa",
+    "capital": "ಪಣಜಿ",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, ಆತಿಥ್ಯ, ಸ್ಟಾರ್ಟಪ್‌ಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು",
+    "description": "ಆರಂಭಿಕ ಬೆಂಬಲ ಮತ್ತು ಪ್ರವಾಸೋದ್ಯಮ ಪ್ರೋತ್ಸಾಹದ ಮೂಲಕ ಗೋವಾ ಪ್ರವಾಸೋದ್ಯಮ ವ್ಯವಹಾರಗಳು, ಆತಿಥ್ಯ ಪ್ರಾರಂಭಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು ಮತ್ತು ಮಹಿಳಾ ನೇತೃತ್ವದ ಉದ್ಯಮಗಳನ್ನು ಪ್ರೋತ್ಸಾಹಿಸುತ್ತದೆ.",
+    "infoLink": "https://goa.gov.in/department/industries/",
+    "schemes": [
+      "Goa Startup Policy",
+      "Chief Minister Rojgar Yojana"
+    ]
+  },
+  {
+    "label": "ಗುಜರಾತ್",
+    "value": "gujarat",
+    "capital": "ಗಾಂಧಿನಗರ",
+    "supportFocus": "ಉತ್ಪಾದನೆ, ಜವಳಿ, ರಫ್ತು, ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, MSMEಗಳು",
+    "description": "ಉತ್ಪಾದನೆ, ರಫ್ತು, ಜವಳಿ ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆಗೆ ವ್ಯಾಪಕ ಬೆಂಬಲವನ್ನು ಹೊಂದಿರುವ ಗುಜರಾತ್ ಭಾರತದ ಪ್ರಬಲ ಕೈಗಾರಿಕಾ ರಾಜ್ಯಗಳಲ್ಲಿ ಒಂದಾಗಿದೆ.",
+    "infoLink": "https://industriescomm.gujarat.gov.in/",
+    "schemes": [
+      "Gujarat Industrial Policy",
+      "iCreate Startup Support"
+    ]
+  },
+  {
+    "label": "ಹರಿಯಾಣ",
+    "value": "haryana",
+    "capital": "ಚಂಡೀಗಢ",
+    "supportFocus": "ಆಟೋಮೊಬೈಲ್ ಉತ್ಪಾದನೆ, ಸ್ಟಾರ್ಟಪ್‌ಗಳು, ಕೃಷಿ, ಎಂಎಸ್‌ಎಂಇಗಳು",
+    "description": "ಹರ್ಯಾಣವು ನವೋದ್ಯಮ ಮತ್ತು MSME-ಕೇಂದ್ರಿತ ಉಪಕ್ರಮಗಳ ಮೂಲಕ ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, ಕೈಗಾರಿಕಾ ಉತ್ಪಾದನೆ, ಕೃಷಿ-ವ್ಯವಹಾರಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಿಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://industriesharyana.gov.in/",
+    "schemes": [
+      "Haryana Startup Policy",
+      "Padma Scheme"
+    ]
+  },
+  {
+    "label": "ಹಿಮಾಚಲ ಪ್ರದೇಶ",
+    "value": "himachal_pradesh",
+    "capital": "ಶಿಮ್ಲಾ",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, ಕರಕುಶಲ, ಆಹಾರ ಸಂಸ್ಕರಣೆ, ಕೃಷಿ",
+    "description": "ಹಿಮಾಚಲ ಪ್ರದೇಶವು MSME ಮತ್ತು ಪ್ರವಾಸೋದ್ಯಮ ಬೆಂಬಲ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಪರಿಸರ-ಪ್ರವಾಸೋದ್ಯಮ, ಕರಕುಶಲ, ಆಹಾರ ಸಂಸ್ಕರಣೆ ಮತ್ತು ಗ್ರಾಮೀಣ ಉದ್ಯಮಶೀಲತೆಯನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://emerginghimachal.hp.gov.in/",
+    "schemes": [
+      "Himachal Pradesh Startup Scheme",
+      "Mukhyamantri Swavalamban Yojana"
+    ]
+  },
+  {
+    "label": "ಜಾರ್ಖಂಡ್",
+    "value": "jharkhand",
+    "capital": "ರಾಂಚಿ",
+    "supportFocus": "ಗಣಿಗಾರಿಕೆ, ಬುಡಕಟ್ಟು ಉದ್ಯಮಶೀಲತೆ, MSMEಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು",
+    "description": "ಜಾರ್ಖಂಡ್ MSMEಗಳು, ಗಣಿಗಾರಿಕೆ-ಸಂಬಂಧಿತ ಕೈಗಾರಿಕೆಗಳು, ಬುಡಕಟ್ಟು ವ್ಯವಹಾರಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಿಗಳನ್ನು ಹಣಕಾಸಿನ ಬೆಂಬಲ ಮತ್ತು ಕೌಶಲ್ಯ ಅಭಿವೃದ್ಧಿಯ ಮೂಲಕ ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.jharkhand.gov.in/",
+    "schemes": [
+      "Jharkhand Startup Policy",
+      "Mukhyamantri Rojgar Srijan Yojana"
+    ]
+  },
+  {
+    "label": "ಕರ್ನಾಟಕ",
+    "value": "karnataka",
+    "capital": "ಬೆಂಗಳೂರು",
+    "supportFocus": "ಸ್ಟಾರ್ಟಪ್‌ಗಳು, ಜೈವಿಕ ತಂತ್ರಜ್ಞಾನ, ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆ, ಉತ್ಪಾದನೆ",
+    "description": "ಕರ್ನಾಟಕವು MSMEಗಳು, ಮಹಿಳಾ ನೇತೃತ್ವದ ಉದ್ಯಮಗಳು, ಆಹಾರ ಸಂಸ್ಕರಣೆ ಮತ್ತು ತಂತ್ರಜ್ಞಾನ ವ್ಯವಹಾರಗಳಿಗೆ ಬೆಂಬಲದೊಂದಿಗೆ ಭಾರತದ ಪ್ರಬಲ ಆರಂಭಿಕ ಮತ್ತು ನಾವೀನ್ಯತೆ ಪರಿಸರ ವ್ಯವಸ್ಥೆಗಳಲ್ಲಿ ಒಂದಾಗಿದೆ.",
+    "infoLink": "https://startup.karnataka.gov.in/",
+    "schemes": [
+      "Elevate Karnataka",
+      "Karnataka Startup Policy",
+      "MSME Subsidy Schemes"
+    ]
+  },
+  {
+    "label": "ಕೇರಳ",
+    "value": "kerala",
+    "capital": "ತಿರುವನಂತಪುರಂ",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆ, MSMEಗಳು",
+    "description": "ಕೇರಳವು ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, ಪ್ರವಾಸೋದ್ಯಮ ವ್ಯವಹಾರಗಳು, ತೆಂಗಿನಕಾಯಿ ಕೈಗಾರಿಕೆಗಳು ಮತ್ತು ಮಹಿಳಾ ನೇತೃತ್ವದ ಉದ್ಯಮಗಳನ್ನು ಕಾವು ಮತ್ತು ಆರ್ಥಿಕ ಸಹಾಯದ ಮೂಲಕ ಸಕ್ರಿಯವಾಗಿ ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://startupmission.kerala.gov.in/",
+    "schemes": [
+      "Kerala Startup Mission",
+      "WE Mission"
+    ]
+  },
+  {
+    "label": "ಮಧ್ಯಪ್ರದೇಶ",
+    "value": "madhya_pradesh",
+    "capital": "ಭೋಪಾಲ್",
+    "supportFocus": "ಉತ್ಪಾದನೆ, ಕೃಷಿ, ಆಹಾರ ಸಂಸ್ಕರಣೆ, MSMEಗಳು",
+    "description": "ಮಧ್ಯಪ್ರದೇಶವು ಕೈಗಾರಿಕಾ ಬೆಳವಣಿಗೆ, ಆಹಾರ ಸಂಸ್ಕರಣೆ, ಗ್ರಾಮೀಣ ವ್ಯವಹಾರಗಳು ಮತ್ತು MSMEಗಳನ್ನು ಸಬ್ಸಿಡಿಗಳು ಮತ್ತು ಉದ್ಯಮಶೀಲತೆ ಯೋಜನೆಗಳ ಮೂಲಕ ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://invest.mp.gov.in/",
+    "schemes": [
+      "Mukhyamantri Udyam Kranti Yojana",
+      "MP Startup Policy"
+    ]
+  },
+  {
+    "label": "ಮಹಾರಾಷ್ಟ್ರ",
+    "value": "maharashtra",
+    "capital": "ಮುಂಬೈ",
+    "supportFocus": "ಕೈಗಾರಿಕಾ ಬೆಳವಣಿಗೆ, ಸ್ಟಾರ್ಟಪ್‌ಗಳು, ಉತ್ಪಾದನೆ, ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆ",
+    "description": "ರಾಜ್ಯ ಬೆಂಬಲಿತ ಧನಸಹಾಯ ಮತ್ತು ಸಬ್ಸಿಡಿ ಉಪಕ್ರಮಗಳ ಮೂಲಕ ಮಹಾರಾಷ್ಟ್ರವು ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, ಎಂಎಸ್‌ಎಂಇಗಳು, ಕೈಗಾರಿಕಾ ವ್ಯವಹಾರಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಿಗಳಿಗೆ ವ್ಯಾಪಕ ಬೆಂಬಲವನ್ನು ನೀಡುತ್ತದೆ.",
+    "infoLink": "https://industry.maharashtra.gov.in/",
+    "schemes": [
+      "CMEGP",
+      "Maharashtra Startup Policy"
+    ]
+  },
+  {
+    "label": "ಮಣಿಪುರ",
+    "value": "manipur",
+    "capital": "ಇಂಫಾಲ್",
+    "supportFocus": "ಕರಕುಶಲ, ಕೈಮಗ್ಗ, ಪ್ರವಾಸೋದ್ಯಮ, ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆ",
+    "description": "ಮಣಿಪುರವು ಮಹಿಳಾ ನೇತೃತ್ವದ ಉದ್ಯಮಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಕೈಮಗ್ಗ ವ್ಯವಹಾರಗಳು ಮತ್ತು ಪ್ರವಾಸೋದ್ಯಮ-ಸಂಬಂಧಿತ ಉದ್ಯಮಶೀಲತೆಯನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://manipur.gov.in/",
+    "schemes": [
+      "Startup Manipur",
+      "Handloom Promotion Schemes"
+    ]
+  },
+  {
+    "label": "ಮೇಘಾಲಯ",
+    "value": "meghalaya",
+    "capital": "ಶಿಲ್ಲಾಂಗ್",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, ಕರಕುಶಲ, ಕೃಷಿ, ಸ್ಟಾರ್ಟಪ್‌ಗಳು",
+    "description": "ಮೇಘಾಲಯ ಪರಿಸರ-ಪ್ರವಾಸೋದ್ಯಮ, ಕೃಷಿ, ಕರಕುಶಲ, ಮತ್ತು ಉದ್ಯಮಶೀಲತೆ ಅಭಿವೃದ್ಧಿ ಉಪಕ್ರಮಗಳ ಮೂಲಕ ಸ್ಥಳೀಯ ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://megeducation.gov.in/",
+    "schemes": [
+      "Meghalaya Startup Policy"
+    ]
+  },
+  {
+    "label": "ಮಿಜೋರಾಂ",
+    "value": "mizoram",
+    "capital": "ಐಜ್ವಾಲ್",
+    "supportFocus": "ಬಿದಿರು ಕೈಗಾರಿಕೆ, ಕರಕುಶಲ, ಕೃಷಿ, MSMEಗಳು",
+    "description": "ಮಿಜೋರಾಂ ಬಿದಿರು ಆಧಾರಿತ ಕೈಗಾರಿಕೆಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಆಹಾರ ಸಂಸ್ಕರಣೆ ಮತ್ತು ಗ್ರಾಮೀಣ ಉದ್ಯಮಶೀಲತೆಯನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://mizoram.gov.in/",
+    "schemes": [
+      "Bamboo Development Programs"
+    ]
+  },
+  {
+    "label": "ನಾಗಾಲ್ಯಾಂಡ್",
+    "value": "nagaland",
+    "capital": "ಕೊಹಿಮಾ",
+    "supportFocus": "ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಬುಡಕಟ್ಟು ಉದ್ಯಮಶೀಲತೆ",
+    "description": "ನಾಗಾಲ್ಯಾಂಡ್ ಬುಡಕಟ್ಟು ಉದ್ಯಮಿಗಳು, ಪ್ರವಾಸೋದ್ಯಮ ವ್ಯವಹಾರಗಳು ಮತ್ತು ಕರಕುಶಲ ಉದ್ಯಮಗಳನ್ನು ಆರಂಭಿಕ ಮತ್ತು ಜೀವನೋಪಾಯ ಯೋಜನೆಗಳ ಮೂಲಕ ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://investmentdevelopmentauthority.com/",
+    "schemes": [
+      "Nagaland Startup Policy"
+    ]
+  },
+  {
+    "label": "ಒಡಿಶಾ",
+    "value": "odisha",
+    "capital": "ಭುವನೇಶ್ವರ್",
+    "supportFocus": "ಗಣಿಗಾರಿಕೆ, ಕರಕುಶಲ, ಜವಳಿ, MSMEಗಳು",
+    "description": "ಒಡಿಶಾವು MSMEಗಳು, ಜವಳಿ, ಕರಕುಶಲ, ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆ ಮತ್ತು ಕೈಗಾರಿಕಾ ಬೆಳವಣಿಗೆಯನ್ನು ಸ್ಟಾರ್ಟ್ಅಪ್ ಮತ್ತು ಸಬ್ಸಿಡಿ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://msme.odisha.gov.in/",
+    "schemes": [
+      "Odisha Startup Policy",
+      "Mission Shakti"
+    ]
+  },
+  {
+    "label": "ಪಂಜಾಬ್",
+    "value": "punjab",
+    "capital": "ಚಂಡೀಗಢ",
+    "supportFocus": "ಕೃಷಿ, ಆಹಾರ ಸಂಸ್ಕರಣೆ, ಉತ್ಪಾದನೆ, MSMEಗಳು",
+    "description": "ಕೈಗಾರಿಕಾ ಮತ್ತು MSME ಯೋಜನೆಗಳ ಮೂಲಕ ಆಹಾರ ಸಂಸ್ಕರಣೆ, ಕೃಷಿ ವ್ಯವಹಾರಗಳು, ಉತ್ಪಾದನೆ ಮತ್ತು ಮಹಿಳಾ ನೇತೃತ್ವದ ಉದ್ಯಮಗಳನ್ನು ಪಂಜಾಬ್ ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://pbindustries.gov.in/",
+    "schemes": [
+      "Punjab Startup Policy"
+    ]
+  },
+  {
+    "label": "ರಾಜಸ್ಥಾನ",
+    "value": "rajasthan",
+    "capital": "ಜೈಪುರ",
+    "supportFocus": "ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಜವಳಿ, MSMEಗಳು",
+    "description": "ರಾಜಸ್ಥಾನವು ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಜವಳಿ ಕೈಗಾರಿಕೆಗಳು ಮತ್ತು ಆರಂಭಿಕ ಮತ್ತು ಗ್ರಾಮೀಣ ಅಭಿವೃದ್ಧಿ ಉಪಕ್ರಮಗಳ ಮೂಲಕ ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆಯನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.rajasthan.gov.in/",
+    "schemes": [
+      "iStart Rajasthan",
+      "Rajasthan MSME Policy"
+    ]
+  },
+  {
+    "label": "ಸಿಕ್ಕಿಂ",
+    "value": "sikkim",
+    "capital": "ಗ್ಯಾಂಗ್ಟಾಕ್",
+    "supportFocus": "ಸಾವಯವ ಕೃಷಿ, ಪ್ರವಾಸೋದ್ಯಮ, ಕರಕುಶಲ",
+    "description": "ಸಿಕ್ಕಿಂ ಸಾವಯವ ಕೃಷಿ, ಪರಿಸರ ಪ್ರವಾಸೋದ್ಯಮ, ಕರಕುಶಲ ವಸ್ತುಗಳು ಮತ್ತು ಸುಸ್ಥಿರ ಉದ್ಯಮಶೀಲತೆಯ ಉಪಕ್ರಮಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://sikkim.gov.in/",
+    "schemes": [
+      "Organic Farming Support Programs"
+    ]
+  },
+  {
+    "label": "ತಮಿಳುನಾಡು",
+    "value": "tamil_nadu",
+    "capital": "ಚೆನ್ನೈ",
+    "supportFocus": "ಉತ್ಪಾದನೆ, ಜವಳಿ, ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್, ಮಹಿಳಾ ನೇತೃತ್ವದ ಉದ್ಯಮಗಳು",
+    "description": "ತಮಿಳುನಾಡು ಜವಳಿ, ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್, MSMEಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತಾ ಉಪಕ್ರಮಗಳಿಗೆ ಬಲವಾದ ಕೈಗಾರಿಕಾ ಮೂಲಸೌಕರ್ಯ ಮತ್ತು ಬೆಂಬಲವನ್ನು ಒದಗಿಸುತ್ತದೆ.",
+    "infoLink": "https://www.msmeonline.tn.gov.in/",
+    "schemes": [
+      "NEEDS Scheme",
+      "Tamil Nadu Startup Mission"
+    ]
+  },
+  {
+    "label": "ತೆಲಂಗಾಣ",
+    "value": "telangana",
+    "capital": "ಹೈದರಾಬಾದ್",
+    "supportFocus": "ತಂತ್ರಜ್ಞಾನ ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, ನಾವೀನ್ಯತೆ, MSMEಗಳು, ಮಹಿಳಾ ಉದ್ಯಮಿಗಳು",
+    "description": "ತೆಲಂಗಾಣವು ನಾವೀನ್ಯತೆ, ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆ ಮತ್ತು MSME ಅಭಿವೃದ್ಧಿಗೆ ಬೆಂಬಲದೊಂದಿಗೆ ವೇಗವಾಗಿ ಬೆಳೆಯುತ್ತಿರುವ ಆರಂಭಿಕ ಪರಿಸರ ವ್ಯವಸ್ಥೆಯನ್ನು ಹೊಂದಿದೆ.",
+    "infoLink": "https://t-hub.co/",
+    "schemes": [
+      "WE Hub",
+      "T-Hub"
+    ]
+  },
+  {
+    "label": "ತ್ರಿಪುರಾ",
+    "value": "tripura",
+    "capital": "ಅಗರ್ತಲಾ",
+    "supportFocus": "ಬಿದಿರು ಕೈಗಾರಿಕೆ, ಕರಕುಶಲ, ಕೃಷಿ",
+    "description": "ತ್ರಿಪುರಾ ಬಿದಿರು ಕೈಗಾರಿಕೆಗಳು, ಕೃಷಿ, ಆಹಾರ ಸಂಸ್ಕರಣೆ ಮತ್ತು MSME ಮತ್ತು ಜೀವನೋಪಾಯ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಗ್ರಾಮೀಣ ಉದ್ಯಮಶೀಲತೆಯನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.tripura.gov.in/",
+    "schemes": [
+      "Tripura Industrial Investment Policy"
+    ]
+  },
+  {
+    "label": "ಉತ್ತರ ಪ್ರದೇಶ",
+    "value": "uttar_pradesh",
+    "capital": "ಲಕ್ನೋ",
+    "supportFocus": "ಉತ್ಪಾದನೆ, ಎಂಎಸ್‌ಎಂಇಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು",
+    "description": "ಕರಕುಶಲ ವಸ್ತುಗಳು, ಉತ್ಪಾದನೆ, ODOP ವ್ಯವಹಾರಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆಯ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸುವ ಮೂಲಕ ಉತ್ತರ ಪ್ರದೇಶವು ವ್ಯಾಪಕವಾದ MSME ಬೆಂಬಲವನ್ನು ಹೊಂದಿದೆ.",
+    "infoLink": "https://upsdc.gov.in/",
+    "schemes": [
+      "ODOP",
+      "UP Startup Policy"
+    ]
+  },
+  {
+    "label": "ಉತ್ತರಾಖಂಡ",
+    "value": "uttarakhand",
+    "capital": "ಡೆಹ್ರಾಡೂನ್",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, ಗಿಡಮೂಲಿಕೆ ಉತ್ಪನ್ನಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು, MSMEಗಳು",
+    "description": "ಉತ್ತರಾಖಂಡವು ಉದ್ಯಮಶೀಲತೆ ಬೆಂಬಲ ಉಪಕ್ರಮಗಳ ಮೂಲಕ ಪ್ರವಾಸೋದ್ಯಮ, ಗಿಡಮೂಲಿಕೆಗಳ ಕೈಗಾರಿಕೆಗಳು, ಕರಕುಶಲ ಮತ್ತು ಮಹಿಳಾ ನೇತೃತ್ವದ MSMEಗಳನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://industries.uk.gov.in/",
+    "schemes": [
+      "Startup Uttarakhand"
+    ]
+  },
+  {
+    "label": "ಪಶ್ಚಿಮ ಬಂಗಾಳ",
+    "value": "west_bengal",
+    "capital": "ಕೋಲ್ಕತ್ತಾ",
+    "supportFocus": "ಕರಕುಶಲ, ಜವಳಿ, ಎಂಎಸ್‌ಎಂಇಗಳು, ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು",
+    "description": "ಪಶ್ಚಿಮ ಬಂಗಾಳವು MSMEಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಜವಳಿ ವ್ಯವಹಾರಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಿಗಳನ್ನು ಕೈಗಾರಿಕಾ ಮತ್ತು ಆರಂಭಿಕ ನೀತಿಗಳ ಮೂಲಕ ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://wbindustries.gov.in/",
+    "schemes": [
+      "Banglashree",
+      "Startup Bengal"
+    ]
+  },
+  {
+    "label": "ದೆಹಲಿ",
+    "value": "delhi",
+    "capital": "ನವದೆಹಲಿ",
+    "supportFocus": "ಪ್ರಾರಂಭಗಳು, ಸೇವೆಗಳು, ತಂತ್ರಜ್ಞಾನ, ಚಿಲ್ಲರೆ ವ್ಯಾಪಾರ",
+    "description": "ನವೀನ ಮತ್ತು MSME ಉಪಕ್ರಮಗಳ ಮೂಲಕ ದೆಹಲಿಯು ಸ್ಟಾರ್ಟ್‌ಅಪ್‌ಗಳು, ಸೇವಾ ಆಧಾರಿತ ವ್ಯವಹಾರಗಳು, ಚಿಲ್ಲರೆ ಉದ್ಯಮಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಿಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://dsiidc.org/",
+    "schemes": [
+      "Delhi Startup Policy"
+    ]
+  },
+  {
+    "label": "ಜಮ್ಮು ಮತ್ತು ಕಾಶ್ಮೀರ",
+    "value": "jammu_kashmir",
+    "capital": "ಶ್ರೀನಗರ / ಜಮ್ಮು",
+    "supportFocus": "ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ಕೃಷಿ, MSMEಗಳು",
+    "description": "ಜಮ್ಮು ಮತ್ತು ಕಾಶ್ಮೀರವು ಜೀವನೋಪಾಯ ಮತ್ತು MSME ಬೆಂಬಲ ಕಾರ್ಯಕ್ರಮಗಳ ಮೂಲಕ ಕರಕುಶಲ, ಪ್ರವಾಸೋದ್ಯಮ, ತೋಟಗಾರಿಕೆ ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಶೀಲತೆಯನ್ನು ಉತ್ತೇಜಿಸುತ್ತದೆ.",
+    "infoLink": "https://www.jkindustriescommerce.nic.in/",
+    "schemes": [
+      "JK Startup Policy"
+    ]
+  },
+  {
+    "label": "ಲಡಾಖ್",
+    "value": "ladakh",
+    "capital": "ಲೇಹ್",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, ಕರಕುಶಲ ವಸ್ತುಗಳು, ಪರಿಸರ ವ್ಯವಹಾರಗಳು",
+    "description": "ಲಡಾಖ್ ಪ್ರವಾಸೋದ್ಯಮ, ಪರಿಸರ ಸ್ನೇಹಿ ವ್ಯವಹಾರಗಳು, ಕರಕುಶಲ ವಸ್ತುಗಳು ಮತ್ತು ಸುಸ್ಥಿರ ವಾಣಿಜ್ಯೋದ್ಯಮ ಉಪಕ್ರಮಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://ladakh.nic.in/",
+    "schemes": [
+      "Tourism Entrepreneurship Support"
+    ]
+  },
+  {
+    "label": "ಪುದುಚೇರಿ",
+    "value": "puducherry",
+    "capital": "ಪುದುಚೇರಿ",
+    "supportFocus": "ಪ್ರವಾಸೋದ್ಯಮ, MSMEಗಳು, ಉತ್ಪಾದನೆ",
+    "description": "ಪುದುಚೇರಿಯು ಪ್ರವಾಸೋದ್ಯಮ ವ್ಯವಹಾರಗಳು, MSMEಗಳು, ಸಣ್ಣ ಉತ್ಪಾದನಾ ಘಟಕಗಳು ಮತ್ತು ಮಹಿಳಾ ಉದ್ಯಮಿಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ.",
+    "infoLink": "https://www.py.gov.in/",
+    "schemes": [
+      "Puducherry Startup Policy"
+    ]
+  }
+]

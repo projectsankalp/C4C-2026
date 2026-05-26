@@ -1,0 +1,78 @@
+# =====================================================
+# HastKala workspace .gitignore
+# =====================================================
+
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Dependencies & build output ---
+node_modules
+**/node_modules/
+dist
+dist-ssr
+**/dist/
+**/build/
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
+*.tsbuildinfo
+
+# --- Env files (NEVER commit secrets) ---
+# Each app has its own .env.example committed for reference.
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+**/.env.*.local
+
+# --- Wrangler / Cloudflare ---
+.wrangler/
+.dev.vars
+
+# --- WhatsApp session data (whatsapp-web.js LocalAuth) ---
+# Session tokens grant full WhatsApp access. NEVER commit.
+.wwebjs_auth/
+.wwebjs_cache/
+**/.wwebjs_auth/
+**/.wwebjs_cache/
+.tokens.json
+*.session.data.json
+HASTKALA_DEMO*
+**/_IGNORE_*
+
+# --- Open-WA legacy session data (left here in case anyone resurrects it) ---
+**.data.json
+**.node-persist**
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Editor ---
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- AWS / SSH artifacts ---
+userdata.yaml
+userdata.b64
+*.pem
+*.ppk
+*.7z
+.ssh/
+.deploy/
+.deploy-env/

@@ -1,0 +1,98 @@
+/* Custom styles for the app */
+
+/* Range slider styling */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-track {
+  background: rgba(255, 255, 255, 0.1);
+  height: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+input[type='range']::-moz-range-track {
+  background: rgba(255, 255, 255, 0.1);
+  height: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #10b981;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -0.625rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  background: #059669;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+}
+
+input[type='range']::-moz-range-thumb {
+  background: #10b981;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s;
+}
+
+input[type='range']::-moz-range-thumb:hover {
+  background: #059669;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(16, 185, 129, 0.3);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgba(16, 185, 129, 0.3);
+  color: white;
+}
+
+/* Custom scrollbar for dark backgrounds */
+.bg-\[#0E0E10\] ::-webkit-scrollbar-track {
+  background: #18181b;
+}
+
+.bg-\[#0E0E10\] ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+}
+
+.bg-\[#0E0E10\] ::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}

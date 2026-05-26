@@ -1,0 +1,155 @@
+﻿============================================================
+SWACHH VAYU DATABASE OVERVIEW
+============================================================
+
+────────────────────────────────────────────────────────────
+TABLE: alerts  (3 rows)
+────────────────────────────────────────────────────────────
+  id                        INTEGER         [PK]
+  node_id                   INTEGER        
+  user_id                   INTEGER         NOT NULL
+  alert_type                TEXT            NOT NULL
+  message                   TEXT            NOT NULL
+  language_id               INTEGER        
+  aqi_value                 INTEGER        
+  severity_level            TEXT            NOT NULL
+  delivery_status           TEXT            DEFAULT='Pending'
+  alert_time                TIMESTAMP       DEFAULT=CURRENT_TIMESTAMP
+
+  Sample data (3 of 3):
+  id                 | node_id            | user_id            | alert_type         | message            | language_id        | aqi_value          | severity_level     | delivery_status    | alert_time        
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  15                 | 1                  | 1                  | SMS                | Hazardous AQI dete | 1                  | 350                | emergency          | Delivered          | 2026-05-25 21:29:5
+  16                 | 4                  | 1                  | Voice              | AQI is poor due to | 1                  | 280                | warning            | Delivered          | 2026-05-24 21:29:5
+  17                 | 5                  | 1                  | SMS                | AQI is normal toda | 1                  | 45                 | info               | Delivered          | 2026-05-22 21:29:5
+
+────────────────────────────────────────────────────────────
+TABLE: aqi_readings  (930 rows)
+────────────────────────────────────────────────────────────
+  id                        INTEGER         [PK]
+  node_id                   INTEGER         NOT NULL
+  mq135_value               REAL            NOT NULL
+  calculated_aqi            INTEGER         NOT NULL
+  aqi_status                TEXT            NOT NULL
+  temperature               REAL           
+  humidity                  REAL           
+  battery_level             INTEGER        
+  lora_signal_strength      INTEGER        
+  reading_time              TIMESTAMP       DEFAULT=CURRENT_TIMESTAMP
+
+  Sample data (5 of 930):
+  id                 | node_id            | mq135_value        | calculated_aqi     | aqi_status         | temperature        | humidity           | battery_level      | lora_signal_streng | reading_time      
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  64                 | 1                  | 60.0               | 70                 | Satisfactory       | 27.582791963186764 | 44.18221135679341  | 94                 | -84                | 2026-04-25 21:29:5
+  65                 | 1                  | 56.0               | 60                 | Satisfactory       | 22.786121453571695 | 53.41775223486964  | 89                 | -79                | 2026-04-25 17:29:5
+  66                 | 1                  | 73.0               | 80                 | Satisfactory       | 27.688545437291094 | 56.98891231524041  | 84                 | -92                | 2026-04-25 13:29:5
+  67                 | 1                  | 84.0               | 83                 | Satisfactory       | 22.112705340951848 | 50.30964043582402  | 83                 | -100               | 2026-04-25 09:29:5
+  68                 | 1                  | 92.0               | 85                 | Satisfactory       | 24.06785286330728  | 46.27863292595128  | 99                 | -69                | 2026-04-25 05:29:5
+
+────────────────────────────────────────────────────────────
+TABLE: languages  (10 rows)
+────────────────────────────────────────────────────────────
+  id                        INTEGER         [PK]
+  code                      TEXT            NOT NULL
+  name                      TEXT            NOT NULL
+  native_name               TEXT            NOT NULL
+  is_active                 BOOLEAN         DEFAULT=1
+
+  Sample data (5 of 10):
+  id                 | code               | name               | native_name        | is_active         
+  ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  1                  | en                 | English            | English            | 1                 
+  2                  | hi                 | Hindi              | हिंदी              | 1                 
+  3                  | mr                 | Marathi            | मराठी              | 1                 
+  4                  | kn                 | Kannada            | ಕನ್ನಡ              | 1                 
+  5                  | ta                 | Tamil              | தமிழ்              | 1                 
+
+────────────────────────────────────────────────────────────
+TABLE: nodes  (7 rows)
+────────────────────────────────────────────────────────────
+  id                        INTEGER         [PK]
+  node_code                 TEXT            NOT NULL
+  node_name                 TEXT            NOT NULL
+  village                   TEXT            NOT NULL
+  area                      TEXT            NOT NULL
+  latitude                  REAL            NOT NULL
+  longitude                 REAL            NOT NULL
+  installation_date         TIMESTAMP       DEFAULT=CURRENT_TIMESTAMP
+  status                    TEXT            DEFAULT='active'
+  battery_level             INTEGER        
+  last_seen                 TIMESTAMP      
+  installed_by              INTEGER        
+
+  Sample data (5 of 7):
+  id                 | node_code          | node_name          | village            | area               | latitude           | longitude          | installation_date  | status             | battery_level      | last_seen          | installed_by      
+  ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  1                  | NODE_01            | Khedgaon Sensor Al | Khedgaon           | Panchayat Office   | 18.5204            | 73.8567            | 2026-05-25 09:09:0 | active             | 80                 | 2026-05-25 10:12:0 | 1                 
+  2                  | NODE_02            | City Center        | Pune               | Shivajinagar       | 18.5204            | 73.8567            | 2026-05-25 09:43:2 | active             | 80                 | 2026-05-25 09:50:1 | None              
+  3                  | NODE_001           | Khedgaon Main      | Khedgaon           | North Zone         | 19.987             | 73.789             | 2026-05-25 15:59:1 | active             | 100                | None               | None              
+  4                  | NODE_002           | Khedgaon School    | Khedgaon           | South Zone         | 19.985             | 73.791             | 2026-05-25 15:59:1 | active             | 100                | None               | None              
+  5                  | NODE_003           | Pimpalgaon Center  | Pimpalgaon         | East Zone          | 20.012             | 73.811             | 2026-05-25 15:59:1 | active             | 100                | None               | None              
+
+────────────────────────────────────────────────────────────
+TABLE: rankings  (4 rows)
+────────────────────────────────────────────────────────────
+  id                        INTEGER         [PK]
+  village_name              TEXT            NOT NULL
+  quarter                   TEXT            NOT NULL
+  year                      INTEGER         NOT NULL
+  average_aqi               INTEGER         NOT NULL
+  best_aqi                  INTEGER         NOT NULL
+  worst_aqi                 INTEGER         NOT NULL
+  reduction_percentage      REAL           
+  participation_score       INTEGER        
+  final_score               REAL           
+  rank_position             INTEGER        
+  reward_status             TEXT            DEFAULT='Pending Evaluation'
+
+  Sample data (4 of 4):
+  id                 | village_name       | quarter            | year               | average_aqi        | best_aqi           | worst_aqi          | reduction_percenta | participation_scor | final_score        | rank_position      | reward_status     
+  ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  11                 | Pimpalgaon         | Q2                 | 2026               | 45                 | 20                 | 80                 | 5.0                | 95                 | 90.0               | 1                  | Eligible          
+  12                 | Chandwad           | Q2                 | 2026               | 62                 | 30                 | 110                | 2.1                | 85                 | 80.0               | 2                  | Pending Evaluation
+  13                 | Khedgaon           | Q2                 | 2026               | 110                | 60                 | 210                | -4.5               | 70                 | 60.0               | 3                  | Not Eligible      
+  14                 | Ozar               | Q2                 | 2026               | 155                | 80                 | 280                | -12.0              | 60                 | 45.0               | 4                  | Not Eligible      
+
+────────────────────────────────────────────────────────────
+TABLE: sqlite_sequence  (6 rows)
+────────────────────────────────────────────────────────────
+  name                                     
+  seq                                      
+
+  Sample data (5 of 6):
+  name               | seq               
+  ───────────────────────────────────────
+  languages          | 10                
+  users              | 6                 
+  nodes              | 7                 
+  aqi_readings       | 993               
+  alerts             | 17                
+
+────────────────────────────────────────────────────────────
+TABLE: users  (6 rows)
+────────────────────────────────────────────────────────────
+  id                        INTEGER         [PK]
+  full_name                 TEXT            NOT NULL
+  email                     TEXT           
+  password_hash             TEXT            NOT NULL
+  mobile_number             TEXT            NOT NULL
+  village_name              TEXT            NOT NULL
+  area_name                 TEXT           
+  language_id               INTEGER        
+  alert_mode                TEXT            DEFAULT='SMS'
+  role                      TEXT            DEFAULT='user'
+  created_at                TIMESTAMP       DEFAULT=CURRENT_TIMESTAMP
+  latitude                  REAL           
+  longitude                 REAL           
+
+  Sample data (5 of 6):
+  id                 | full_name          | email              | password_hash      | mobile_number      | village_name       | area_name          | language_id        | alert_mode         | role               | created_at         | latitude           | longitude         
+  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  1                  | Test Admin         | admin@swachhvayu.c | scrypt:32768:8:1$F | 9999999999         | Admin HQ           | None               | 3                  | SMS                | admin              | 2026-05-25 08:59:1 | None               | None              
+  2                  | Khedgaon User      | user@khedgaon.com  | scrypt:32768:8:1$y | 8888888888         | Khedgaon           | Panchayat Office   | 3                  | sms                | user               | 2026-05-25 09:21:0 | None               | None              
+  3                  | Pune User          | pune@user.com      | scrypt:32768:8:1$R | 7777777777         | Pune               | Shivajinagar       | 1                  | sms                | user               | 2026-05-25 09:50:1 | None               | None              
+  4                  | shalin gonge       | None               | scrypt:32768:8:1$n | 07620199396        | kondhwa            | West zone          | 3                  | both               | user               | 2026-05-25 13:52:3 | None               | None              
+  5                  | Shalin             | None               | scrypt:32768:8:1$N | 7620199396         | Bramhawnada thadi  | east               | 1                  | both               | user               | 2026-05-25 14:27:3 | None               | None              
